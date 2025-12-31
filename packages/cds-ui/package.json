@@ -3,21 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    ".": "./src/components/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
+    "build": "vite build",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@clustar/typescript-config": "workspace:*",
     "@clustar/eslint-config": "workspace:*",
+    "@turbo/gen": "^1.12.4",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "^4.5.2",
     "eslint": "^9.39.1",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "vite": "^7.2.4"
   },
   "dependencies": {
     "react": "^19.2.0",
