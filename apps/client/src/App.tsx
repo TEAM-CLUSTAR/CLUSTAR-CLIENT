@@ -1,5 +1,11 @@
+import { Button } from '@cds/ui';
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Button />
+    </>
+  );
 }
 
 export default App;
