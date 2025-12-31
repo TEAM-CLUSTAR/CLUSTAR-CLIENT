@@ -1,5 +1,5 @@
 {
-  "name": "CLUSTAR-CLIENT",
+  "name": "clustar",
   "private": true,
   "scripts": {
     "build": "turbo run build",
