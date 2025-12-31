@@ -37,4 +37,7 @@ yarn-error.log*
 .DS_Store
 *.pem
 
+# TypeScript 증분 빌드 캐시 파일
+*.tsbuildinfo
+
 .vscode/
