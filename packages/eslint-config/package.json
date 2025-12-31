@@ -1,0 +1,10 @@
+{
+  "name": "@clustar/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./react-internal": "./react-internal.js"
+  }
+}
+

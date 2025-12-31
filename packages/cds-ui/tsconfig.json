@@ -1,5 +1,5 @@
 {
-  "extends": "@clustar/typescript/react-library.json",
+  "extends": "@clustar/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },
