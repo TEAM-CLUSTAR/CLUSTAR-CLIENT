@@ -1,0 +1,10 @@
+{
+  "name": "@clustar/eslint",
+  "private": true,
+  "files": [
+    ".eslint.config.mjs"
+  ],
+  "devDependencies": {
+    "eslint": "^9.39.1"
+  }
+}

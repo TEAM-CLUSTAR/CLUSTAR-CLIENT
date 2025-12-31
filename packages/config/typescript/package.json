@@ -1,0 +1,10 @@
+{
+  "name": "@clustar/typescript",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./react-library.json": "./react-library.json",
+    "./react.json": "./react.json"
+  }
+}
