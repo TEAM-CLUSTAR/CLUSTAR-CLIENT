@@ -1,0 +1,14 @@
+{
+  "extends": "@clustar/typescript-config/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "plugins": [{ "name": "react" }],
+    "paths": {
+      // @TODO 경로 별칭 설정 시 추가하기
+      // "@shared/*": ["src/shared/*"],
+      // "@pages/*": ["src/pages/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules"]
+}
