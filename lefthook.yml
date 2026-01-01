@@ -11,7 +11,7 @@ pre-commit:
 pre-push:
   commands:
     type-check:
-      run: pnpm run type-check
+      run: pnpm exec type-check
 
 commit-msg:
   commands:
