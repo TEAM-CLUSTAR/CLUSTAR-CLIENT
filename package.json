@@ -9,6 +9,8 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
     "lefthook": "^2.0.13",
     "prettier": "^3.7.4",
     "turbo": "^2.7.2",
