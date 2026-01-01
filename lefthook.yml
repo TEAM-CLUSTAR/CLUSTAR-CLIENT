@@ -11,9 +11,9 @@ pre-commit:
 pre-push:
   commands:
     type-check:
-      run: pnpm exec type-check
+      run: pnpm type-check
 
 commit-msg:
   commands:
     lint-commit-msg:
-      run: pnpm exec commitlint --edit {1}
+      run: pnpm commitlint --edit {1}
