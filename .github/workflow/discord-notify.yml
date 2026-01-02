@@ -1,0 +1,72 @@
+name: Notify Discord on PR Events
+
+on:
+  pull_request:
+    types:
+      - opened # PR 생성
+      - closed # PR 닫힘 (머지 포함)
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord Notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          PR_ACTION="${{ github.event.action }}"
+          PR_AUTHOR_NAME="${{ github.event.pull_request.user.login }}"
+          PR_AUTHOR_ICON="${{ github.event.pull_request.user.avatar_url }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_MERGED="${{ github.event.pull_request.merged }}"
+
+          # PR 생성 알림
+          if [[ "$PR_ACTION" == "opened" ]]; then
+            curl -X POST -H "Content-Type: application/json" \
+              -d '{
+              "username": "GitHub Bot",
+              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              "embeds": [{
+                "color": 12287,
+                "author": {
+                  "name": "'"$PR_AUTHOR_NAME"'",
+                  "icon_url": "'"$PR_AUTHOR_ICON"'",
+                  "url": "https://github.com/'"$PR_AUTHOR_NAME"'"
+                },
+                "title": "💥💥행성 충돌 직전💥💥",
+                "description": "으후루꾸꾸루후으리뷰해줘어어으후루꾸꾸루",
+                "fields": [
+                  {
+                    "name": "🔗 PR",
+                    "value": "['"$PR_TITLE"']('"$PR_URL"')",
+                    "inline": false
+                  }
+                ]
+              }]
+            }' $DISCORD_WEBHOOK_URL
+
+          # PR 머지 알림
+          elif [[ "$PR_ACTION" == "closed" && "$PR_MERGED" == "true" ]]; then
+            curl -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "color": 5855577,
+                "author": {
+                  "name": "'"$PR_AUTHOR_NAME"'",
+                  "icon_url": "'"$PR_AUTHOR_ICON"'",
+                  "url": "https://github.com/'"$PR_AUTHOR_NAME"'"
+                },
+                "title": "🌟🌟핵융합 성공🌟🌟",
+                "description": "오늘도 지구를 지켰다.🌏",
+                "fields": [
+                  {
+                    "name": "🔗 PR",
+                    "value": "['"$PR_TITLE"']('"$PR_URL"')",
+                    "inline": false
+                  }
+                ]
+              }]
+            }' $DISCORD_WEBHOOK_URL
+          fi
