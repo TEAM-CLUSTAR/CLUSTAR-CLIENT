@@ -26,8 +26,6 @@ jobs:
           if [[ "$PR_ACTION" == "opened" ]]; then
             curl -X POST -H "Content-Type: application/json" \
               -d '{
-              "username": "GitHub Bot",
-              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
               "embeds": [{
                 "color": 12287,
                 "author": {
