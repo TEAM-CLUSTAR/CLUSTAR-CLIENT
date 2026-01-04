@@ -20,6 +20,6 @@
     "typescript-eslint": "^8.46.4"
   },
   "peerDependencies": {
-    "eslint": "^9"
+    "eslint": "catalog:eslint-core"
   }
 }

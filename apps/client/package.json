@@ -12,18 +12,18 @@
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "catalog:react-core",
+    "react-dom": "catalog:react-core"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.2",
-    "eslint": "^9.39.1",
-    "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "@types/node": "catalog:typescript-core",
+    "@types/react": "catalog:react-core",
+    "@types/react-dom": "catalog:react-core",
+    "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "eslint": "catalog:eslint-core",
+    "typescript": "catalog:typescript-core",
+    "vite": "catalog:vite-core"
   }
 }
