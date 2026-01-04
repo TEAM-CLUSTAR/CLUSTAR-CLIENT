@@ -2,9 +2,9 @@ name: Labeler
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened]
   pull_request_target:
-    types: [opened, edited]
+    types: [opened]
 
 jobs:
   labeler:
