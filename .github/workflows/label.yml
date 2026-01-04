@@ -1,0 +1,60 @@
+name: Labeler
+
+on:
+  issues:
+    types: [opened, edited]
+  pull_request_target:
+    types: [opened, edited]
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Check Labels
+        id: labeler
+        uses: jimschubert/labeler-action@v1
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Add labels based on user
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const isPR = !!context.payload.pull_request;
+            const author = isPR 
+              ? context.payload.pull_request.user.login 
+              : context.payload.issue.user.login;
+            
+            const number = isPR
+              ? context.payload.pull_request.number
+              : context.payload.issue.number;
+
+            const userLabels = {
+              "twossu": "🦦 최윤하",
+              "jogpfls": "🐧 조혜린",
+              "jyeon03": "🐈‍⬛ 백지연",
+              "jm8468": "🦄 임서준",
+            };
+
+            const labelToAdd = userLabels[author];
+
+            if (labelToAdd) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: number,
+                  labels: [labelToAdd]
+                });
+                console.log(`Successfully added label "${labelToAdd}" for user ${author}`);
+              } catch (error) {
+                console.error(`Failed to add label: ${error.message}`);
+              }
+            } else {
+              console.log(`No label mapping found for user: ${author}`);
+            }
