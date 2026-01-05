@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { PATH } from './path';
 
-import { MemoPage } from '@pages/memo';
+import { MemoPage } from './lazy';
 import { LoginPage } from '@pages/login';
 import { SplashPage } from '@pages/splash';
 import { HomePage } from '@pages/home';
