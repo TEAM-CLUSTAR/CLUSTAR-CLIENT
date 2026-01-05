@@ -54,8 +54,8 @@ jobs:
           onlyChanged: true
           exitOnceUploaded: true
 
-      - name: Comment PR with Storybook URL
-        if: success()
+      - name: Comment PR with Storybook URL (Success)
+        if: success() && steps.chromatic.outcome == 'success'
         uses: thollander/actions-comment-pull-request@v2
         with:
           comment_tag: chromatic-storybook
@@ -65,3 +65,19 @@ jobs:
             **PR 작성자**: @${{ github.event.pull_request.user.login }}
 
             🔗 [배포된 Storybook 보기](${{ steps.chromatic.outputs.storybookUrl }})
+      - name: Comment PR with Storybook URL (Failure)
+        if: failure() && steps.chromatic.outcome == 'failure'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: chromatic-storybook
+          message: |
+            ## ❌ Storybook 배포 실패
+
+            **PR 작성자**: @${{ github.event.pull_request.user.login }}
+
+            Chromatic 배포 중 오류가 발생했습니다. 
+
+            ### 🔍 확인 사항
+            - [Actions 로그](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})에서 상세한 에러 메시지를 확인하세요
+            - Storybook 빌드가 성공했는지 확인하세요
+            - Chromatic 토큰이 올바르게 설정되어 있는지 확인하세요
