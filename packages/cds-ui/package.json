@@ -11,7 +11,8 @@
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "dotenv -e ../../.env -- npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
@@ -29,6 +30,7 @@
     "@types/react-dom": "catalog:react-core",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
     "eslint": "catalog:eslint-core",
+    "chromatic": "^13.3.4",
     "storybook": "^8.6.15",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core"

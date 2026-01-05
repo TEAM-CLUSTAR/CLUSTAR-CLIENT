@@ -1,0 +1,74 @@
+name: 'Chromatic Deployment'
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: pnpm --filter @cds/ui run build-storybook
+
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@v11
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/cds-ui
+          onlyChanged: true
+          exitOnceUploaded: true
+
+      - name: Comment PR with Storybook URL (Success)
+        if: success() && steps.chromatic.outcome == 'success'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: chromatic-storybook
+          message: |
+            ## 🎨 Storybook 배포 완료
+
+            **PR 작성자**: @${{ github.event.pull_request.user.login }}
+
+            🔗 [배포된 Storybook 보기](${{ steps.chromatic.outputs.storybookUrl }})
+      - name: Comment PR with Storybook URL (Failure)
+        if: failure() && steps.chromatic.outcome == 'failure'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: chromatic-storybook
+          message: |
+            ## ❌ Storybook 배포 실패
+
+            **PR 작성자**: @${{ github.event.pull_request.user.login }}
+
+            Chromatic 배포 중 오류가 발생했습니다. 
+
+            ### 🔍 확인 사항
+            - [Actions 로그](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})에서 상세한 에러 메시지를 확인하세요
+            - Storybook 빌드가 성공했는지 확인하세요
+            - Chromatic 토큰이 올바르게 설정되어 있는지 확인하세요

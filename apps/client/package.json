@@ -24,6 +24,7 @@
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
     "eslint": "catalog:eslint-core",
     "typescript": "catalog:typescript-core",
-    "vite": "catalog:vite-core"
+    "vite": "catalog:vite-core",
+    "vite-tsconfig-paths": "^6.0.3"
   }
 }
