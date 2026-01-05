@@ -47,7 +47,7 @@ jobs:
 
       - name: Publish to Chromatic
         id: chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@v11
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: packages/cds-ui
