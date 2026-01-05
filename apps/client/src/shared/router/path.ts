@@ -5,3 +5,5 @@ export const PATH = {
   HOME: '/home',
   AI_RESULTS: '/ai-results',
 } as const;
+
+export type Routes = (typeof PATH)[keyof typeof PATH];
