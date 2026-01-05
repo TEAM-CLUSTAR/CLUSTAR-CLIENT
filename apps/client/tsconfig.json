@@ -4,9 +4,11 @@
     "baseUrl": ".",
     "plugins": [{ "name": "react" }],
     "paths": {
-      // @TODO 경로 별칭 설정 시 추가하기
-      // "@shared/*": ["src/shared/*"],
-      // "@pages/*": ["src/pages/*"]
+      "@pages/*": ["src/pages/*"],
+      "@widgets/*": ["src/widgets/*"],
+      "@features/*": ["src/features/*"],
+      "@entities/*": ["src/entities/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
