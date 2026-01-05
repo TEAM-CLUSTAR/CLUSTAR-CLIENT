@@ -2,10 +2,10 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      glob: '*.{js,ts,jsx,tsx}'
-      run: pnpm exec eslint {staged_files}
+      glob: '{apps,packages}/**/*.{js,ts,jsx,tsx}'
+      run: pnpm turbo run lint --filter="...[HEAD]"
     prettier:
-      glob: '*.{js,ts,jsx,tsx,json,yaml,md,prettierrc}'
+      glob: '*.{js,ts,jsx,tsx,json,md,prettierrc}'
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
