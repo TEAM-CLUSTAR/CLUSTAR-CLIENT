@@ -20,12 +20,12 @@ importers:
 
   apps/client:
     dependencies:
-      '@cds/api':
-        specifier: workspace:*
-        version: link:../../packages/api
       '@cds/ui':
         specifier: workspace:*
         version: link:../../packages/cds-ui
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -75,25 +75,6 @@ importers:
       vite:
         specifier: ^7.2.4
         version: 7.3.0(@types/node@24.10.4)
-
-  packages/api:
-    dependencies:
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-    devDependencies:
-      '@clustar/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@clustar/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      eslint:
-        specifier: ^9.39.1
-        version: 9.39.1
-      typescript:
-        specifier: 5.9.2
-        version: 5.9.2
 
   packages/cds-ui:
     dependencies:
