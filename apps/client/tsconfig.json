@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [{ "name": "react" }],
+    "types": ["vitest/globals"],
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@widgets/*": ["src/widgets/*"],
