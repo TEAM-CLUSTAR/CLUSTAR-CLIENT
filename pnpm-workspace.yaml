@@ -21,3 +21,11 @@ catalogs:
 
   eslint-core:
     eslint: '^9.39.1'
+
+  vanilla-extract-core:
+    '@vanilla-extract/css': '^1.18.0'
+    '@vanilla-extract/recipes': '^0.5.7'
+
+  vanilla-extract-utils:
+    '@vanilla-extract/sprinkles': '^1.6.5'
+    '@vanilla-extract/vite-plugin': '^5.1.4'
