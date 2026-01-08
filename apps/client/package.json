@@ -24,20 +24,20 @@
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
-    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/jest-dom": "catalog:test-core",
+    "@testing-library/react": "catalog:test-core",
+    "@testing-library/user-event": "catalog:test-core",
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
-    "@vitest/ui": "^4.0.16",
+    "@vitest/ui": "catalog:test-core",
     "eslint": "catalog:eslint-core",
-    "jsdom": "^27.4.0",
+    "jsdom": "catalog:test-core",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core",
     "@tanstack/react-query-devtools": "^5.91.2",
     "vite-tsconfig-paths": "^6.0.3",
-    "vitest": "^4.0.16"
+    "vitest": "catalog:test-core"
   }
 }

@@ -21,3 +21,11 @@ catalogs:
 
   eslint-core:
     eslint: '^9.39.1'
+
+  test-core:
+    vitest: '^4.0.16'
+    '@vitest/ui': '^4.0.16'
+    '@testing-library/jest-dom': '^6.9.1'
+    '@testing-library/react': '^16.3.1'
+    '@testing-library/user-event': '^14.6.1'
+    jsdom: '^27.4.0'
