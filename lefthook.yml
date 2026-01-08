@@ -3,7 +3,7 @@ pre-commit:
   commands:
     lint:
       glob: '*.{js,ts,jsx,tsx}'
-      run: pnpm lint
+      run: pnpm exec eslint {staged_files}
     prettier:
       glob: '*.{js,ts,jsx,tsx,json,yaml,yml,md}'
       run: pnpm exec prettier --write {staged_files}
