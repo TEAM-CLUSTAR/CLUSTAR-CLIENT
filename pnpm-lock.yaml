@@ -26,12 +26,18 @@ importers:
       '@cds/ui':
         specifier: workspace:*
         version: link:../../packages/cds-ui
+      '@tanstack/react-query':
+        specifier: ^5.90.16
+        version: 5.90.16(react@19.2.0)
       react:
         specifier: ^19.2.0
         version: 19.2.0
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      react-error-boundary:
+        specifier: ^6.0.2
+        version: 6.0.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@clustar/eslint-config':
         specifier: workspace:*
@@ -42,9 +48,6 @@ importers:
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.1
-      '@tanstack/react-query':
-        specifier: ^5.90.16
-        version: 5.90.16(react@19.2.0)
       '@tanstack/react-query-devtools':
         specifier: ^5.91.2
         version: 5.91.2(@tanstack/react-query@5.90.16(react@19.2.0))(react@19.2.0)
@@ -72,9 +75,6 @@ importers:
       globals:
         specifier: ^16.5.0
         version: 16.5.0
-      react-error-boundary:
-        specifier: ^6.0.2
-        version: 6.0.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
