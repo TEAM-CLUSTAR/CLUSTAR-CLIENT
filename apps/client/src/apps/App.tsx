@@ -1,11 +1,8 @@
-import { Button } from '@cds/ui';
+import { router } from '@shared/router/router';
+import { RouterProvider } from 'react-router';
 
 function App() {
-  return (
-    <>
-      <Button />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
