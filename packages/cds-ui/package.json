@@ -2,6 +2,7 @@
   "name": "@cds/ui",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
     ".": "./src/components/index.ts"
   },
@@ -25,18 +26,18 @@
     "@storybook/react-vite": "^8.6.15",
     "@storybook/test": "^8.6.15",
     "@turbo/gen": "^1.12.4",
-    "@types/node": "^22.15.3",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
+    "@types/node": "catalog:typescript-core",
+    "@types/react": "catalog:react-core",
+    "@types/react-dom": "catalog:react-core",
+    "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "eslint": "catalog:eslint-core",
     "chromatic": "^13.3.4",
-    "eslint": "^9.39.1",
     "storybook": "^8.6.15",
-    "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "typescript": "catalog:typescript-core",
+    "vite": "catalog:vite-core"
   },
   "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "catalog:react-core",
+    "react-dom": "catalog:react-core"
   }
 }

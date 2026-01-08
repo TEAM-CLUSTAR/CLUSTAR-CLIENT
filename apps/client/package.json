@@ -6,29 +6,29 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "check-types": "tsc --noEmit",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "catalog:react-core",
+    "react-dom": "catalog:react-core",
+    "axios": "^1.13.2",
+    "@tanstack/react-query": "^5.90.16",
+    "react-router": "^7.11.0"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
-    "@eslint/js": "^9.39.1",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.2",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4",
+    "@types/node": "catalog:typescript-core",
+    "@types/react": "catalog:react-core",
+    "@types/react-dom": "catalog:react-core",
+    "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "eslint": "catalog:eslint-core",
+    "typescript": "catalog:typescript-core",
+    "vite": "catalog:vite-core",
+    "@tanstack/react-query-devtools": "^5.91.2",
     "vite-tsconfig-paths": "^6.0.3"
   }
 }

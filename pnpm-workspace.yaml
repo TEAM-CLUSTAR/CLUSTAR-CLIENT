@@ -1,3 +1,23 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
+
+catalogs:
+  vite-core:
+    'vite': '^7.0.0'
+
+  vite-plugins:
+    '@vitejs/plugin-react-swc': '^4.2.2'
+
+  react-core:
+    react: '^19.2.0'
+    react-dom: '^19.2.0'
+    '@types/react': '^19.2.5'
+    '@types/react-dom': '^19.2.3'
+
+  typescript-core:
+    typescript: '5.9.2'
+    '@types/node': '^24.10.1'
+
+  eslint-core:
+    eslint: '^9.39.1'

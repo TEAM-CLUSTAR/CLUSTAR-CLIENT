@@ -9,7 +9,8 @@
       "@features/*": ["src/features/*"],
       "@entities/*": ["src/entities/*"],
       "@shared/*": ["src/shared/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules"]

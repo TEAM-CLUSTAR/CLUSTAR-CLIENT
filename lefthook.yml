@@ -3,9 +3,9 @@ pre-commit:
   commands:
     lint:
       glob: '*.{js,ts,jsx,tsx}'
-      run: pnpm exec eslint {staged_files}
+      run: pnpm lint
     prettier:
-      glob: '*.{js,ts,jsx,tsx,json,yaml,md,prettierrc}'
+      glob: '*.{js,ts,jsx,tsx,json,yaml,yml,md}'
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
@@ -18,4 +18,4 @@ pre-push:
 commit-msg:
   commands:
     lint-commit-msg:
-      run: pnpm commitlint --edit {1}
+      run: node commitlint.config.cjs {1}
