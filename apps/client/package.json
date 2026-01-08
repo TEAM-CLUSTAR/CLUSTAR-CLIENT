@@ -12,15 +12,17 @@
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
+    "@tanstack/react-query": "^5.90.16",
+    "axios": "^1.13.2",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",
-    "axios": "^1.13.2",
-    "@tanstack/react-query": "^5.90.16",
     "react-router": "^7.11.0"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
+    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
+    "@tanstack/react-query-devtools": "^5.91.2",
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
@@ -28,7 +30,6 @@
     "eslint": "catalog:eslint-core",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core",
-    "@tanstack/react-query-devtools": "^5.91.2",
     "vite-tsconfig-paths": "^6.0.3"
   }
 }

@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/components/index.ts"
+    ".": "./src/components/index.ts",
+    "./icons": "./src/icons/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -13,11 +14,13 @@
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "dotenv -e ../../.env -- npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+    "chromatic": "dotenv -e ../../.env -- npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
+    "generate:icons": "tsx src/icons/scripts/generate-icon-list.ts"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
+    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
     "@storybook/addon-a11y": "^8.6.15",
     "@storybook/addon-essentials": "^8.6.15",
     "@storybook/addon-interactions": "^8.6.15",
@@ -30,9 +33,10 @@
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
-    "eslint": "catalog:eslint-core",
     "chromatic": "^13.3.4",
+    "eslint": "catalog:eslint-core",
     "storybook": "^8.6.15",
+    "tsx": "catalog:node-tools",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core"
   },
