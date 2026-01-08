@@ -5,7 +5,6 @@ export function createQueryClient() {
     defaultOptions: {
       queries: {
         retry: false,
-        refetchOnWindowFocus: false,
         staleTime: 60 * 1000,
         throwOnError: true,
       },
