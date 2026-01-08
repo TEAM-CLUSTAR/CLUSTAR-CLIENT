@@ -1,14 +1,13 @@
 import { QueryClient } from '@tanstack/react-query';
 
-const isDev = process.env.NODE_ENV === 'development';
-const isTest = process.env.NODE_ENV === 'test';
+const isProd = process.env.NODE_ENV === 'production';
 
 export function createQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        retry: isDev || isTest ? false : 2,
+        retry: isProd ? 2 : false,
         staleTime: 60 * 1000,
         throwOnError: true,
       },
