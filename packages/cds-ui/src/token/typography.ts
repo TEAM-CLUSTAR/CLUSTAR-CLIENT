@@ -18,6 +18,6 @@ export const typography = {
     normal: '150%',
   },
   letterSpacing: {
-    tight: '-0.024rem',
+    tight: '-0.024em',
   },
 } as const;
