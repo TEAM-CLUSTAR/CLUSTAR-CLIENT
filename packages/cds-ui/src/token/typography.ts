@@ -20,4 +20,4 @@ export const typography = {
   letterSpacing: {
     tight: '-0.024rem',
   },
-};
+} as const;
