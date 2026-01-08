@@ -18,4 +18,4 @@ pre-push:
 commit-msg:
   commands:
     lint-commit-msg:
-      run: node commitlint.config.cjs {1}
+      run: pnpm commitlint --edit {1}
