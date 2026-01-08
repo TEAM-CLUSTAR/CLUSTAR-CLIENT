@@ -6,18 +6,14 @@ import { RouterProvider } from 'react-router';
 import { createQueryClient } from '@shared/libs/query-client';
 import { router } from '@shared/router/router';
 
-import { GlobalErrorBoundary } from './providers/global-error-boundary';
-
 function App() {
   const [client] = useState(() => createQueryClient());
 
   return (
-    <GlobalErrorBoundary>
-      <QueryClientProvider client={client}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </GlobalErrorBoundary>
+    <QueryClientProvider client={client}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
