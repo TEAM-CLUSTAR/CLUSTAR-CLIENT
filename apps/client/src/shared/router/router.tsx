@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router';
-import { globalRoutes } from './routes/global-route';
+
 import { GlobalLayout } from '@widgets/global-layout';
+
+import { globalRoutes } from './routes/global-route';
 
 export const router = createBrowserRouter([
   {
