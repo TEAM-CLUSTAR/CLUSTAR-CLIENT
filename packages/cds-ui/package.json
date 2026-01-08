@@ -24,6 +24,9 @@
     "@storybook/react": "^8.6.15",
     "@storybook/react-vite": "^8.6.15",
     "@storybook/test": "^8.6.15",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "@turbo/gen": "^1.12.4",
     "@types/node": "^22.15.3",
     "@types/react": "^19.2.5",
@@ -31,9 +34,11 @@
     "@vitejs/plugin-react": "^5.1.1",
     "chromatic": "^13.3.4",
     "eslint": "^9.39.1",
+    "jsdom": "^27.4.0",
     "storybook": "^8.6.15",
     "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "react": "^19.2.0",
