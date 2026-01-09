@@ -658,6 +658,8 @@ FSD 폴더 구조
 └── pnpm-workspace.yaml        // 카탈로그 설정 파일
 ```
 
-## keunnnnnlobstar !!
+## keunnnnnlobstar
+
+우리들은 큰랍스터의 자랑
 
 <img src="https://github.com/user-attachments/assets/880892ab-4b80-4f81-a713-b62ff9198c3d" width='400'/>
