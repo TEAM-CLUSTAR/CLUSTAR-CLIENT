@@ -71,9 +71,6 @@ importers:
       '@sentry/react':
         specifier: ^10.32.1
         version: 10.32.1(react@19.2.0)
-      '@sentry/vite-plugin':
-        specifier: ^4.6.1
-        version: 4.6.1
       '@tanstack/react-query':
         specifier: ^5.90.16
         version: 5.90.16(react@19.2.0)
@@ -96,6 +93,9 @@ importers:
       '@clustar/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
+      '@sentry/vite-plugin':
+        specifier: ^4.6.1
+        version: 4.6.1
       '@tanstack/react-query-devtools':
         specifier: ^5.91.2
         version: 5.91.2(@tanstack/react-query@5.90.16(react@19.2.0))(react@19.2.0)
