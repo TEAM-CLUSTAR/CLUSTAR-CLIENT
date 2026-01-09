@@ -1,0 +1,42 @@
+name: Synchronize to forked repo
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: sync-fork-main
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    name: Sync forked repo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: main
+          persist-credentials: false
+
+      - name: Configure git
+        run: |
+          git config user.name "jogpfls"
+          git config user.email "${{ secrets.EMAIL }}"
+
+      - name: Add fork remote
+        env:
+          PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git remote add forked-repo https://x-access-token:${PAT}@github.com/jogpfls/CLUSTAR-CLIENT.git
+
+      - name: Push changes to forked-repo
+        run: |
+          git push --force-with-lease forked-repo main
+
+      - name: Clean up
+        if: always()
+        run: |
+          git remote remove forked-repo
