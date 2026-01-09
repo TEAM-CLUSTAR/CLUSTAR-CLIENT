@@ -1,8 +1,9 @@
 import type { RouteObject } from 'react-router';
-import { PATH } from '../path';
 
 import { SplashPage } from '@pages/splash';
-import { MemoPage, LoginPage, HomePage, AiResultsPage } from '../lazy';
+
+import { AiResultsPage, HomePage, LoginPage, MemoPage } from '../lazy';
+import { PATH } from '../path';
 
 export const globalRoutes: RouteObject[] = [
   {

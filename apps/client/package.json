@@ -5,14 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "check-types": "tsc --noEmit",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
     "@cds/icon": "workspace:*",
+    "@sentry/react": "^10.32.1",
     "@tanstack/react-query": "^5.90.16",
     "axios": "^1.13.2",
     "react": "catalog:react-core",
@@ -24,13 +28,24 @@
     "@clustar/typescript-config": "workspace:*",
     "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
     "@tanstack/react-query-devtools": "^5.91.2",
+    "@sentry/vite-plugin": "^4.6.1",
+    "@testing-library/jest-dom": "catalog:test-core",
+    "@testing-library/react": "catalog:test-core",
+    "@testing-library/user-event": "catalog:test-core",
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
+    "@vanilla-extract/css": "catalog:vanilla-extract-core",
+    "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
+    "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
+    "@vanilla-extract/vite-plugin": "catalog:vanilla-extract-utils",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "@vitest/ui": "catalog:test-core",
     "eslint": "catalog:eslint-core",
+    "jsdom": "catalog:test-core",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core",
-    "vite-tsconfig-paths": "^6.0.3"
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "catalog:test-core"
   }
 }
