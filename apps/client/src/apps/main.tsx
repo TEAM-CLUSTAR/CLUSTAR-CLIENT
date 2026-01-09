@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { initSentry } from '@shared/configs/sentry-init';
+import { initSentry } from '@shared/libs/sentry-init';
 
 import App from './App.tsx';
 
