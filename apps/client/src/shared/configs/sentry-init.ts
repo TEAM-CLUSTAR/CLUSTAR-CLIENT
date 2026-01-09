@@ -7,7 +7,6 @@ export function initSentry() {
   Sentry.init({
     dsn,
     environment: import.meta.env.MODE,
-    release: import.meta.env.VITE_SENTRY_RELEASE,
     sendDefaultPii: true,
     integrations: [
       Sentry.browserTracingIntegration(),
