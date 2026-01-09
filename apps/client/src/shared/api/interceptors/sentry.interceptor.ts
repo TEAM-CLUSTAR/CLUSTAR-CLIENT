@@ -13,15 +13,22 @@ const normalizePathParams = (path: string) =>
  * [401] GET /users/{id}
  */
 const buildErrorName = (err: AxiosError) => {
-  const base = err.config?.baseURL ?? '';
-  const path = err.config?.url ?? '';
-  const fullUrl = /^https?:\/\//.test(path) ? path : `${base}${path}`;
-
-  const url = new URL(fullUrl, window.location.origin);
   const method = (err.config?.method ?? 'UNKNOWN').toUpperCase();
   const status = err.response?.status ?? 'Network';
 
-  return `[${status}] ${method} ${normalizePathParams(url.pathname)}`;
+  let path = (err.config?.url ?? '').trim();
+  if (!path) path = '/unknown';
+
+  try {
+    const url = new URL(path, window.location.origin);
+    path = url.pathname;
+  } catch {
+    // URL 생성 실패 시 raw 그대로 사용
+  }
+
+  path = path.split('?')[0];
+
+  return `[${status}] ${method} ${normalizePathParams(path)}`;
 };
 
 export const SentryInterceptor = (http: AxiosInstance) => {
@@ -29,35 +36,43 @@ export const SentryInterceptor = (http: AxiosInstance) => {
     (res) => res,
     (err: AxiosError) => {
       const status = err.response?.status;
+      const normalizedName = buildErrorName(err);
 
-      // 1. 에러 이름 정규화
-      err.name = buildErrorName(err);
+      if (status != null && SENTRY_IGNORE_STATUSES.has(status)) {
+        return Promise.reject(err);
+      }
 
-      // 2. 네트워크 에러
+      // 1. 네트워크 에러
       if (!err.response) {
-        Sentry.captureException(err, {
-          level: 'fatal',
-          tags: {
-            error_type: 'network_error',
-          },
+        Sentry.withScope((scope) => {
+          scope.setLevel('fatal');
+          scope.setTag('error_type', 'network_error');
+
+          scope.setExtra('normalized_error_name', normalizedName);
+          scope.setFingerprint(['axios', normalizedName]);
+
+          Sentry.captureException(err);
         });
 
         return Promise.reject(err);
       }
 
-      // 3. API 에러 (ignore status 제외)
-      if (!SENTRY_IGNORE_STATUSES.has(status!)) {
-        Sentry.captureException(err, {
-          level: 'error',
-          tags: {
-            error_type: 'api_error',
-            status_code: status?.toString(),
-            method: err.config?.method,
-            url: err.config?.url,
-          },
-        });
-      }
+      // 2. API 에러 (ignore status 제외)
+      Sentry.withScope((scope) => {
+        scope.setLevel('error');
+        scope.setTag('error_type', 'api_error');
+        if (status != null) {
+          scope.setTag('status_code', String(status));
+        }
 
+        scope.setExtra('method', err.config?.method);
+        scope.setExtra('url', err.config?.url);
+
+        scope.setExtra('normalized_error_name', normalizedName);
+        scope.setFingerprint(['axios', normalizedName]);
+
+        Sentry.captureException(err);
+      });
       return Promise.reject(err);
     },
   );
