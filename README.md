@@ -318,7 +318,7 @@ Issue 제목은 작업 성격을 바로 알 수 있도록 prefix를 붙여요.
 - 폴더명은 kebab-case + 소문자 시작을 사용해요.
   - 예: user-profile, memo-list, error-boundary
 
-- 가능한 경우 **복수형(s)**을 사용해요. - 예: models, libs, styles, configs
+- 가능한 경우 복수형(s)을 사용해요. - 예: models, libs, styles, configs
 </details>
 
 <details>
@@ -438,7 +438,7 @@ Issue 제목은 작업 성격을 바로 알 수 있도록 prefix를 붙여요.
 
 - Storybook은 “보여주기”뿐 아니라 컴포넌트 사용법 문서화가 목적이에요.
 
-- 그래서 Story에 **Props 설명(특히 interface 기반)**을 포함해요.
+- 그래서 Story에 Props 설명(특히 interface 기반)을 포함해요.
 
 ### 규칙
 
@@ -611,7 +611,7 @@ FSD 폴더 구조
     │   ├── main.tsx
     │   └── App.tsx
     ├── pages/                  // pages 레이어: 라우트 단위 화면(진입점)
-    │   ├── home/               // pages 내부에서도 ui/model/api를 나눠 “화면
+    │   ├── home/               // pages 내부에서도 ui/model/api를 나눠 화면
     │   │   ├── ui
     │   │   │  └── memo-page.tsx
     │   │   └── index.ts
@@ -619,7 +619,7 @@ FSD 폴더 구조
     │   ├── login/
     │   ├── memo/
     │   └── splash/
-    ├── widgets/                // widgets 레이어: 여러 페이지에서 재사용되는 “큰 UI 블록
+    ├── widgets/                // widgets 레이어: 여러 페이지에서 재사용되는 큰 UI 블록
     │   ├── header/
     │   ├── sidebar/
     │   │   ├── api/
@@ -631,13 +631,13 @@ FSD 폴더 구조
     ├── entities/                // entities 레이어: 도메인 모델(메모, 사용자, AI결과물 등)
     └── shared/                  // shared 레이어: 전 레이어에서 쓰는 범용 공통(순수/재사용)
         ├── api/
+        │   ├── instance.ts
         │   └── configs/         // API 공통 설정(전역)
         │           ├── end-point.ts
         │           └── status.ts
         ├── configs/
         │   └── app-config.ts
         ├── libs/               // 공통 라이브러리 래퍼/설정(외부 라이브러리 초기화 등)
-        │   ├── instance.ts
         │   ├── query-client.ts // TanStack Query QueryClient 설정(전역 공통)
         │   └── sentry-init.ts  // Sentry init
         ├── router/             // 라우팅
@@ -654,9 +654,10 @@ FSD 폴더 구조
     │       └── ...
     ├── cds-icons/             // 아이콘 패키지(React 컴포넌트화된 SVG 등)
     ├── eslint-config/         // 공통 ESLint 설정 패키지
-    └── typescript-config//    // 공통 TS config 패키지
+    └── typescript-config/     // 공통 TS config 패키지
+└── pnpm-workspace.yaml        // 카탈로그 설정 파일
 ```
 
 ## keunnnnnlobstar !!
 
-<img src="https://github.com/user-attachments/assets/880892ab-4b80-4f81-a713-b62ff9198c3d" width="500" />
+<img src="https://github.com/user-attachments/assets/880892ab-4b80-4f81-a713-b62ff9198c3d" width='400'/>
