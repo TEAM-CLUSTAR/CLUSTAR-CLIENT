@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/components/index.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -35,6 +35,10 @@
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
+    "@vanilla-extract/css": "catalog:vanilla-extract-core",
+    "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
+    "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
+    "@vanilla-extract/vite-plugin": "catalog:vanilla-extract-utils",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
     "@vitest/ui": "catalog:test-core",
     "eslint": "catalog:eslint-core",

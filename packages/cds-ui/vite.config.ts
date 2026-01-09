@@ -1,8 +1,12 @@
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+
 import { defineConfig } from 'vitest/config';
+
 import react from '@vitejs/plugin-react-swc';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), vanillaExtractPlugin()],
+
   test: {
     globals: true,
     environment: 'jsdom',
@@ -11,7 +15,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/components/index.ts',
+      entry: 'src/index.ts',
       name: 'DesignSystem',
       fileName: (format) => `design-system.${format}.js`,
     },
