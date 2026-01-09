@@ -1,0 +1,31 @@
+enable:
+  issues: true
+  prs: true
+
+labels:
+  "✨ Feat":
+    include: ['\bFeat\b', '\bFEAT\b', '\bfeat\b']
+
+  "🌱 Init":
+    include: ['\bInit\b', '\bINIT\b', '\binit\b']
+
+  "🐛 Fix":
+    include: ['\bFix\b', '\bfix\b', '\bFIX\b', '\bBug\b', '\bbug\b', '\bBUG\b']
+
+  "📄 Docs":
+    include: ['\bDocs\b', '\bDOCS\b', '\bdocs\b']
+
+  "🔨 Refactor":
+    include: ['\bRefactor\b', '\bREFACTOR\b', '\brefactor\b']
+
+  "🚀 Perf":
+    include: ['\bPerf\b', '\bPERF\b', '\bperf\b']
+
+  "🚑 HOTFIX":
+    include: ['\bHOTFIX\b', '\bHotfix\b', '\bhotfix\b', '\bHotFix\b']
+
+  "🧪 Test":
+    include: ['\bTEST\b', '\bTest\b', '\btest\b']
+
+  "🧹 Chore":
+    include: ['\bCHORE\b', '\bChore\b', '\bchore\b']

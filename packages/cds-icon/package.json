@@ -1,0 +1,35 @@
+{
+  "name": "@cds/icon",
+  "version": "0.0.0",
+  "private": true,
+  "types": "module",
+  "exports": {
+    ".": "./src/components/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "pnpm generate:icons && vite build",
+    "check-types": "tsc --noEmit",
+    "generate:icons": "tsx src/scripts/generate-icon-list.ts"
+  },
+  "devDependencies": {
+    "@clustar/eslint-config": "workspace:*",
+    "@clustar/typescript-config": "workspace:*",
+    "@turbo/gen": "^1.12.4",
+    "@types/node": "catalog:typescript-core",
+    "@types/react": "catalog:react-core",
+    "@types/react-dom": "catalog:react-core",
+    "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "eslint": "catalog:eslint-core",
+    "tsx": "catalog:node-tools",
+    "@vanilla-extract/css": "*",
+    "@vanilla-extract/sprinkles": "*",
+    "@vanilla-extract/vite-plugin": "*",
+    "typescript": "catalog:typescript-core",
+    "vite": "catalog:vite-core"
+  },
+  "peerDependencies": {
+    "react": "catalog:react-core",
+    "react-dom": "catalog:react-core"
+  }
+}

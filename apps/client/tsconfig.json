@@ -1,0 +1,17 @@
+{
+  "extends": "@clustar/typescript-config/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "plugins": [{ "name": "react" }],
+    "types": ["vitest/globals", "vite/client"],
+    "paths": {
+      "@pages/*": ["src/pages/*"],
+      "@widgets/*": ["src/widgets/*"],
+      "@features/*": ["src/features/*"],
+      "@entities/*": ["src/entities/*"],
+      "@shared/*": ["src/shared/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules"]
+}

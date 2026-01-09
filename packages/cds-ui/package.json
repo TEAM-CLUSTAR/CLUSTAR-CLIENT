@@ -1,0 +1,58 @@
+{
+  "name": "@cds/ui",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "vite build",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run --passWithNoTests",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "dotenv -e ../../.env -- npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+  },
+  "devDependencies": {
+    "@clustar/eslint-config": "workspace:*",
+    "@clustar/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^8.6.15",
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/addon-interactions": "^8.6.15",
+    "@storybook/addon-onboarding": "^8.6.15",
+    "@storybook/react": "^8.6.15",
+    "@storybook/react-vite": "^8.6.15",
+    "@storybook/test": "^8.6.15",
+    "@testing-library/jest-dom": "catalog:test-core",
+    "@testing-library/react": "catalog:test-core",
+    "@testing-library/user-event": "catalog:test-core",
+    "@turbo/gen": "^1.12.4",
+    "@types/node": "catalog:typescript-core",
+    "@types/react": "catalog:react-core",
+    "@types/react-dom": "catalog:react-core",
+    "@vanilla-extract/css": "catalog:vanilla-extract-core",
+    "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
+    "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
+    "@vanilla-extract/vite-plugin": "catalog:vanilla-extract-utils",
+    "@vitejs/plugin-react-swc": "catalog:vite-plugins",
+    "@vitest/ui": "catalog:test-core",
+    "eslint": "catalog:eslint-core",
+    "jsdom": "catalog:test-core",
+    "chromatic": "^13.3.4",
+    "storybook": "^8.6.15",
+    "typescript": "catalog:typescript-core",
+    "vite": "catalog:vite-core",
+    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
+    "vitest": "catalog:test-core"
+  },
+  "dependencies": {
+    "@cds/icon": "workspace:*",
+    "react": "catalog:react-core",
+    "react-dom": "catalog:react-core"
+  }
+}
