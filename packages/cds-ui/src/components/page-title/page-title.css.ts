@@ -16,7 +16,7 @@ export const title = style({
 export const count = style({
   display: 'flex',
   height: '2.5rem',
-  padding: '0 0.8rem',
+  padding: '0.2rem 0.8rem',
   backgroundColor: themeVars.color.blue100,
   border: `1px solid ${themeVars.color.blue300}`,
   borderRadius: '10rem',
