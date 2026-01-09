@@ -47,5 +47,6 @@ export const color = {
   gradient02: 'linear-gradient(90deg, #96ACFF 0%, #C8BEFF 100%)',
   gradient03: 'linear-gradient(135deg, #EFF6FF 0%, #FAF5FF 100%)',
 
+  // Opacity Colors
   opacity35: 'var(--opaticy35, rgba(60, 60, 60, 0.35))',
 } as const;
