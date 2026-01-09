@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router';
 
 import { ThemeProvider } from '@cds/ui';
 
-import { createQueryClient } from '@shared/api/query-client';
+import { createQueryClient } from '@shared/libs/query-client';
 import { router } from '@shared/router/router';
 
 function App() {
