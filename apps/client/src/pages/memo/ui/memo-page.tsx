@@ -1,7 +1,11 @@
-import * as styles from './memo-page.css';
+import { Icon } from '@cds/icon';
 
 const MemoPage = () => {
-  return <div className={styles.container}>memo-page</div>;
+  return (
+    <div>
+      <Icon name="ic_ai_gra" />
+    </div>
+  );
 };
 
 export default MemoPage;

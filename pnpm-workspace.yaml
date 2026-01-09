@@ -8,6 +8,7 @@ catalogs:
 
   vite-plugins:
     '@vitejs/plugin-react-swc': '^4.2.2'
+    '@pivanov/vite-plugin-svg-sprite': '^3.1.5'
 
   react-core:
     react: '^19.2.0'
@@ -21,6 +22,9 @@ catalogs:
 
   eslint-core:
     eslint: '^9.39.1'
+
+  node-tools:
+    'tsx': '^4.21.0'
 
   vanilla-extract-core:
     '@vanilla-extract/css': '^1.18.0'

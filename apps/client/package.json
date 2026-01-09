@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
+    "@cds/icon": "workspace:*",
     "@sentry/react": "^10.32.1",
     "@tanstack/react-query": "^5.90.16",
     "axios": "^1.13.2",
@@ -25,8 +26,9 @@
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
-    "@sentry/vite-plugin": "^4.6.1",
+    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
     "@tanstack/react-query-devtools": "^5.91.2",
+    "@sentry/vite-plugin": "^4.6.1",
     "@testing-library/jest-dom": "catalog:test-core",
     "@testing-library/react": "catalog:test-core",
     "@testing-library/user-event": "catalog:test-core",

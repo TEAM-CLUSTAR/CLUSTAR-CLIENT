@@ -1,5 +1,5 @@
 const Button = () => {
-  return <button>버튼임!</button>;
+  return <button></button>;
 };
 
 export default Button;

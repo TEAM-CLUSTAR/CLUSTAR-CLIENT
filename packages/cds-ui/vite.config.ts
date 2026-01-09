@@ -4,9 +4,27 @@ import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react-swc';
 
-export default defineConfig({
-  plugins: [react(), vanillaExtractPlugin()],
+import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
+import { resolve } from 'path';
 
+export default defineConfig({
+  plugins: [
+    react(),
+    vanillaExtractPlugin(),
+    svgSpritePlugin({
+      iconDirs: [resolve(__dirname, '../cds-icon/src/assets')],
+      symbolId: 'icon-[name]',
+      inject: 'body-last',
+      svgoConfig: {
+        plugins: [
+          {
+            name: 'removeDimensions',
+            active: true,
+          },
+        ],
+      },
+    }),
+  ],
   test: {
     globals: true,
     environment: 'jsdom',
