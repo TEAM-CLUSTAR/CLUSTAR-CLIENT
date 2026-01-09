@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconName } from '../icon-list';
+import { IconName } from '../../icon-list';
 
 type IconProps = {
   name: IconName;
@@ -34,7 +34,7 @@ export const Icon = ({
           : computedHeight
       }
       className={className}
-      aria-hidden={ariaHidden}
+      aria-hidden={ariaHidden ?? true}
       {...rest}
     >
       <use href={`#icon-${name}`} />

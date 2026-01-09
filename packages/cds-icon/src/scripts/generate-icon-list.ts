@@ -1,6 +1,5 @@
 import { readdirSync, writeFileSync } from 'fs';
-import { basename, join } from 'path';
-import path from 'path';
+import path, { basename, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +14,7 @@ const iconNames = files.map((file) => basename(file, '.svg'));
 
 const content = `// 이 파일은 자동 생성 파일입니다. 직접 수정하지 마세요!
 export const iconNames = ${JSON.stringify(iconNames)} as const;
-export type IconName = typeof iconNames[number];
+export type IconName = (typeof iconNames)[number];
 `;
 
 writeFileSync(OUTPUT_PATH, content);
