@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@cds/ui": "workspace:*",
+    "@cds/icon": "workspace:*",
     "@tanstack/react-query": "^5.90.16",
     "axios": "^1.13.2",
     "react": "catalog:react-core",

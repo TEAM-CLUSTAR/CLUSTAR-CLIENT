@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     svgSpritePlugin({
-      iconDirs: [resolve(__dirname, '../../packages/cds-ui/src/icons')],
+      iconDirs: [resolve(__dirname, '../../packages/cds-icon/src/assets')],
       symbolId: 'icon-[name]',
       inject: 'body-last',
       svgoConfig: {
