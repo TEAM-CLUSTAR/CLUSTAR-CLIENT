@@ -16,6 +16,9 @@ const meta: Meta<typeof PageTitle> = {
       control: 'number',
     },
   },
+  parameters: {
+    layout: 'centered',
+  },
 };
 
 export default meta;
