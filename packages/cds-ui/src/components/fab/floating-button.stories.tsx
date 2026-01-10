@@ -14,8 +14,16 @@ const meta: Meta<typeof Fab> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    isActive: false,
+    handleClick: () => {},
+  },
+};
 
 export const Active: Story = {
-  render: () => <Fab isActive={true} handleClick={() => {}} />,
+  args: {
+    isActive: true,
+    handleClick: () => {},
+  },
 };

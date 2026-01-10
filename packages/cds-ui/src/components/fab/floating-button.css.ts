@@ -21,8 +21,8 @@ export const button = recipe({
   },
 
   variants: {
-    mode: {
-      default: {
+    isActive: {
+      false: {
         backgroundColor: themeVars.color.blue500,
         boxShadow:
           '0 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.10), 0 0.4rem 0.6rem -0.4rem rgba(0, 0, 0, 0.10)',
@@ -32,7 +32,7 @@ export const button = recipe({
           },
         },
       },
-      active: {
+      true: {
         backgroundColor: 'transparent',
         boxShadow: '0 0 1rem 0 rgba(34, 15, 93, 0.40)',
         selectors: {
@@ -62,6 +62,6 @@ export const button = recipe({
   },
 
   defaultVariants: {
-    mode: 'default',
+    isActive: false,
   },
 });

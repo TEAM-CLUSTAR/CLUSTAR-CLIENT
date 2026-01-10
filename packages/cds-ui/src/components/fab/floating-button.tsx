@@ -12,7 +12,7 @@ const Fab = ({ isActive, handleClick }: FabProps) => {
     <button
       type="button"
       onClick={handleClick}
-      className={styles.button({ mode: isActive ? 'active' : 'default' })}
+      className={styles.button({ isActive })}
     >
       <Icon name="ic_ai_white" size={36} />
       <span>{isActive ? '정리 진행하기' : 'AI로 정리하기'}</span>
