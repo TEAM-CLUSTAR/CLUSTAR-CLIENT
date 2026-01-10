@@ -1,6 +1,6 @@
 import { Icon } from '@cds/icon';
 
-import * as styles from './fab.css';
+import * as styles from './floating-button.css';
 
 interface FabProps {
   isActive: boolean;
