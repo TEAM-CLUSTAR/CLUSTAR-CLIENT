@@ -14,8 +14,6 @@ export const button = recipe({
     gap: '0.2rem',
     border: '2px solid transparent',
     borderRadius: '100px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
     color: themeVars.color.white,
     ...themeVars.fontStyles.title_sb_18,
   },
@@ -33,7 +31,6 @@ export const button = recipe({
         },
       },
       true: {
-        backgroundColor: 'transparent',
         boxShadow: '0 0 1rem 0 rgba(34, 15, 93, 0.40)',
         selectors: {
           '&::before': {
