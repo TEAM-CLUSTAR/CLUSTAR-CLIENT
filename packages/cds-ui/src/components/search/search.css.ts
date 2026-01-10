@@ -15,7 +15,6 @@ export const searchContainer = style({
 export const input = style({
   ...themeVars.fontStyles.title_m_18,
   flex: 1,
-  width: '100%',
   color: themeVars.color.grey600,
   backgroundColor: 'transparent',
   outline: 'none',
