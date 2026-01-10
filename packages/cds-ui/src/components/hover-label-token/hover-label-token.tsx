@@ -5,7 +5,11 @@ interface HoverLabelTokenProps {
 }
 
 const HoverLabelToken = ({ labelName }: HoverLabelTokenProps) => {
-  return <button className={styles.container}>{labelName}</button>;
+  return (
+    <button type="button" className={styles.container}>
+      {labelName}
+    </button>
+  );
 };
 
 export default HoverLabelToken;
