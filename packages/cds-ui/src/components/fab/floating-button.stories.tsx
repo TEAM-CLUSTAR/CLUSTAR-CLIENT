@@ -18,6 +18,7 @@ export const Default: Story = {
   args: {
     isActive: false,
     handleClick: () => {},
+    children: 'AI로 정리하기',
   },
 };
 
@@ -25,5 +26,6 @@ export const Active: Story = {
   args: {
     isActive: true,
     handleClick: () => {},
+    children: '정리 진행하기',
   },
 };

@@ -3,11 +3,12 @@ import { Icon } from '@cds/icon';
 import * as styles from './floating-button.css';
 
 interface FabProps {
+  children: string;
   isActive: boolean;
   handleClick: () => void;
 }
 
-const Fab = ({ isActive, handleClick }: FabProps) => {
+const Fab = ({ isActive, handleClick, children }: FabProps) => {
   return (
     <button
       type="button"
@@ -15,7 +16,7 @@ const Fab = ({ isActive, handleClick }: FabProps) => {
       className={styles.button({ isActive })}
     >
       <Icon name="ic_ai_white" size={36} />
-      <span>{isActive ? '정리 진행하기' : 'AI로 정리하기'}</span>
+      <span>{children}</span>
     </button>
   );
 };
