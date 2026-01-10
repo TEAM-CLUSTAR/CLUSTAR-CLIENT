@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { themeVars } from '../../styles';
 
 export const container = style({
   display: 'inline-flex',
