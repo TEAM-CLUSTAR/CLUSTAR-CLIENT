@@ -8,4 +8,11 @@ export const container = style({
   backgroundColor: themeVars.color.grey200,
   border: `1px solid ${themeVars.color.white}`,
   borderRadius: '12px',
+  overflow: 'hidden',
+});
+
+export const img = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });

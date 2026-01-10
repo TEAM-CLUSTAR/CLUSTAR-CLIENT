@@ -8,7 +8,7 @@ interface ImgContainerProps {
 const ImgContainer = ({ src, alt }: ImgContainerProps) => {
   return (
     <div className={styles.container}>
-      <img src={src} alt={alt} />
+      <img src={src} alt={alt} className={styles.img} />
     </div>
   );
 };
