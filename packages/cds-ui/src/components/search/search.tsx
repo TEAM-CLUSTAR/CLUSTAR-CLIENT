@@ -18,6 +18,7 @@ const Search = ({ inputValue, handleChangeInput }: SearchProps) => {
         placeholder="메모를 검색하세요."
         value={inputValue}
         onChange={handleChangeInput}
+        aria-label="메모 검색"
       />
     </div>
   );
