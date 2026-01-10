@@ -19,7 +19,7 @@ export const count = style({
   padding: '0.2rem 0.8rem',
   backgroundColor: themeVars.color.blue100,
   border: `1px solid ${themeVars.color.blue300}`,
-  borderRadius: '10rem',
+  borderRadius: '100px',
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.blue500,
   alignItems: 'center',
