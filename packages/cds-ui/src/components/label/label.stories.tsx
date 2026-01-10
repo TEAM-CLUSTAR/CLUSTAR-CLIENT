@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Label from './label';
 
-const meta = {
+const meta: Meta<typeof Label> = {
   title: 'Components/Label',
   component: Label,
   parameters: { layout: 'centered' },
@@ -53,7 +53,6 @@ export const Blue: Story = {
   },
 };
 
-// @ts-expect-error - render 함수만 사용할 때는 args가 필요하지 않음
 export const BlueSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -63,7 +62,6 @@ export const BlueSizes: Story = {
   ),
 };
 
-// @ts-expect-error - render 함수만 사용할 때는 args가 필요하지 않음
 export const PurpleSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -73,7 +71,6 @@ export const PurpleSizes: Story = {
   ),
 };
 
-// @ts-expect-error - render 함수만 사용할 때는 args가 필요하지 않음
 export const GreenSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -83,7 +80,6 @@ export const GreenSizes: Story = {
   ),
 };
 
-// @ts-expect-error - render 함수만 사용할 때는 args가 필요하지 않음
 export const PinkSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -93,7 +89,6 @@ export const PinkSizes: Story = {
   ),
 };
 
-// @ts-expect-error - render 함수만 사용할 때는 args가 필요하지 않음
 export const GraySizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
