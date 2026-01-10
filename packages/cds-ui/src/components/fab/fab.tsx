@@ -4,14 +4,14 @@ import * as styles from './fab.css';
 
 interface FabProps {
   isActive: boolean;
-  onClick: () => void;
+  handleClick: () => void;
 }
 
-const Fab = ({ isActive, onClick }: FabProps) => {
+const Fab = ({ isActive, handleClick }: FabProps) => {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={handleClick}
       className={styles.button({ mode: isActive ? 'active' : 'default' })}
     >
       <Icon name="ic_ai_white" size={36} />

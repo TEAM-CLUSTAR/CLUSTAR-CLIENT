@@ -17,5 +17,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Active: Story = {
-  render: () => <Fab isActive={true} onClick={() => {}} />,
+  render: () => <Fab isActive={true} handleClick={() => {}} />,
 };
