@@ -1,0 +1,64 @@
+import { recipe } from '@vanilla-extract/recipes';
+
+import { themeVars } from '../../styles';
+
+export const button = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    isolation: 'isolate',
+    width: '17.2rem',
+    height: '5.6rem',
+    gap: '0.2rem',
+    border: '2px solid transparent',
+    borderRadius: '10rem',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    color: themeVars.color.white,
+    ...themeVars.fontStyles.title_sb_18,
+  },
+
+  variants: {
+    mode: {
+      default: {
+        backgroundColor: themeVars.color.blue500,
+        selectors: {
+          '&:hover': {
+            backgroundColor: themeVars.color.blue700,
+          },
+        },
+      },
+      active: {
+        backgroundColor: 'transparent',
+        selectors: {
+          '&::before': {
+            position: 'absolute',
+            inset: '-2px',
+            zIndex: -2,
+            borderRadius: '10rem',
+            background: themeVars.color.gradient02,
+            pointerEvents: 'none',
+            content: '""',
+          },
+          '&::after': {
+            position: 'absolute',
+            inset: '-2px',
+            zIndex: -1,
+            border: '2px solid transparent',
+            borderRadius: '10rem',
+            background: themeVars.color.gradient01,
+            backgroundClip: 'content-box',
+            pointerEvents: 'none',
+            content: '""',
+          },
+        },
+      },
+    },
+  },
+
+  defaultVariants: {
+    mode: 'default',
+  },
+});
