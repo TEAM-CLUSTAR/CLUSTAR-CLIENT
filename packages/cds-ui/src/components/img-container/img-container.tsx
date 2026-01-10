@@ -2,7 +2,7 @@ import * as styles from './img-container.css';
 
 interface ImgContainerProps {
   src: string;
-  alt?: string;
+  alt: string;
 }
 
 const ImgContainer = ({ src, alt }: ImgContainerProps) => {
