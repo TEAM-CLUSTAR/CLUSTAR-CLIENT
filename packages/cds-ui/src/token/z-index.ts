@@ -1,7 +1,7 @@
 export const zIndex = {
-  'z-deep': '-2',
-  'z-back': '-1',
-  'z-defalut': '0',
-  'z-button': '100',
-  'z-modal': '200',
+  deep: '-2',
+  back: '-1',
+  defalut: '0',
+  button: '100',
+  modal: '200',
 } as const;
