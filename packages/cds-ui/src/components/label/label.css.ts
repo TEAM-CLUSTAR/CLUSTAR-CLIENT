@@ -58,18 +58,17 @@ export const labelContainer = recipe({
 });
 
 export const labelIndicator = recipe({
-  base: {
-    borderRadius: '2px',
-  },
   variants: {
     labelSize: {
       lg: {
         width: '0.8rem',
         height: '0.8rem',
+        borderRadius: '2px',
       },
       sm: {
         width: '0.6rem',
         height: '0.6rem',
+        borderRadius: '1px',
       },
     },
     labelColor: LABEL_INDICATOR_COLORS,
