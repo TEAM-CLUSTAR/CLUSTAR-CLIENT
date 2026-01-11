@@ -5,20 +5,25 @@ import { themeVars } from '../../styles';
 export const container = recipe({
   base: {
     display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+
     width: '100%',
     height: '4rem',
-    gap: '0.8rem',
-    alignItems: 'center',
     padding: '0 0.4rem',
+
+    borderLeft: '2px solid transparent',
     borderRadius: '0 0.8rem 0.8rem 0',
-    ...themeVars.fontStyles.body_sb_16,
+    cursor: 'pointer',
+
     color: themeVars.color.grey700,
-    cursor: 'hover',
+    ...themeVars.fontStyles.body_sb_16,
+    transition: 'background-color 0.2s, color 0.2s, border-color 0.2s',
 
     selectors: {
-      '&:hover': {
+      '&:not([aria-selected="true"]):hover': {
         backgroundColor: themeVars.color.grey200,
-        borderLeft: `2px solid ${themeVars.color.grey400}`,
+        borderLeftColor: themeVars.color.grey400,
       },
     },
   },
@@ -26,15 +31,9 @@ export const container = recipe({
   variants: {
     state: {
       selected: {
-        color: themeVars.color.blue500,
         backgroundColor: themeVars.color.blue100,
-        borderLeft: `2px solid ${themeVars.color.blue500}`,
-        selectors: {
-          '&:hover': {
-            backgroundColor: themeVars.color.blue100,
-            borderLeft: `2px solid ${themeVars.color.blue500}`,
-          },
-        },
+        borderLeftColor: themeVars.color.blue500,
+        color: themeVars.color.blue500,
       },
     },
   },

@@ -9,7 +9,7 @@ import * as styles from './sidebar-pannel.css';
 interface SideBarPannelProps {
   children: ReactNode;
   isSelected: boolean;
-  iconName: string;
+  iconName: IconName;
   onClick: () => void;
 }
 
@@ -19,18 +19,18 @@ const SidebarPannel = ({
   iconName,
   onClick,
 }: SideBarPannelProps) => {
-  const currentState = isSelected ? 'selected' : undefined;
+  const currentState = (isSelected ? `${iconName}_blue` : iconName) as IconName;
 
   return (
     <button
-      className={styles.container({ state: currentState })}
+      type="button"
+      className={styles.container({
+        state: isSelected ? 'selected' : undefined,
+      })}
+      aria-selected={isSelected}
       onClick={onClick}
     >
-      <Icon
-        name={(isSelected ? `${iconName}_blue` : iconName) as IconName}
-        width={36}
-        height={36}
-      />
+      <Icon name={currentState} width={36} height={36} />
       {children}
     </button>
   );
