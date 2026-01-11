@@ -14,6 +14,7 @@ export const button = recipe({
     gap: '0.2rem',
     border: '2px solid transparent',
     borderRadius: '100px',
+    transition: 'all 0.2s ease',
     color: themeVars.color.white,
     ...themeVars.fontStyles.title_sb_18,
   },
