@@ -17,6 +17,7 @@ const meta: Meta<typeof Button> = {
   ],
   tags: ['autodocs'],
   argTypes: {
+    children: { description: '버튼 내부 내용', control: 'text' },
     onClick: { action: 'clicked' },
   },
 };
