@@ -36,7 +36,7 @@ export const button = recipe({
           '&::before': {
             position: 'absolute',
             inset: '-2px',
-            zIndex: -2,
+            zIndex: themeVars.zIndex['z-deep'],
             borderRadius: '100px',
             background: themeVars.color.gradient02,
             pointerEvents: 'none',
@@ -45,7 +45,7 @@ export const button = recipe({
           '&::after': {
             position: 'absolute',
             inset: '-2px',
-            zIndex: -1,
+            zIndex: themeVars.zIndex['z-back'],
             border: '2px solid transparent',
             borderRadius: '100px',
             background: themeVars.color.gradient01,
