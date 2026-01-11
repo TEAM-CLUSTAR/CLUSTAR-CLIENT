@@ -18,7 +18,7 @@ export const container = recipe({
 
     color: themeVars.color.grey700,
     ...themeVars.fontStyles.body_sb_16,
-    transition: 'background-color 0.2s, color 0.2s, border-color 0.2s',
+    transition: 'all 0.2s ease',
 
     selectors: {
       '&:not([aria-selected="true"]):hover': {
