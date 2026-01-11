@@ -5,7 +5,7 @@ const MemoPage = () => {
   return (
     <div>
       <Icon name="ic_ai_gra" />
-      <ImgContainer imageUrl="image.png" />
+      <ImgContainer imageUrl="image.png" imageAlt="설명" />
     </div>
   );
 };
