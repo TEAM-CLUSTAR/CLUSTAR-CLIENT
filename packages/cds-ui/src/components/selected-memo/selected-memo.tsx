@@ -8,14 +8,10 @@ interface SelectedMemoProps {
 
 const SelectedMemo = ({ memoName }: SelectedMemoProps) => {
   return (
-    <>
-      <div className={styles.container}>
-        <div className={styles.contentWrapper}>
-          <Icon name="ic_memo_blue" width={24} height={24} />
-          <p className={styles.name}>{memoName}</p>
-        </div>
-      </div>
-    </>
+    <div className={styles.container}>
+      <Icon name="ic_memo_blue" width={24} height={24} />
+      <span className={styles.name}>{memoName}</span>
+    </div>
   );
 };
 
