@@ -38,14 +38,21 @@ export const sidebarProfileContainer = style({
 export const userInfoTextContainer = style({
   display: 'flex',
   flexDirection: 'column',
+  minWidth: 0,
 });
 
 export const userId = style({
   ...themeVars.fontStyles.body_sb_16,
   color: themeVars.color.grey700,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 export const userEmail = style({
   ...themeVars.fontStyles.label_m_12,
   color: themeVars.color.grey500,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
