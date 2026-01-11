@@ -30,17 +30,17 @@ export const color = {
   grey900: '#141414',
 
   // Sub colors
-  sub01: '#8259FF',
-  sub02: '#E7DEFF',
+  label01: '#8259FF',
+  label02: '#E7DEFF',
 
-  sub03: '#2194FF',
-  sub04: '#D9ECFF',
+  label03: '#2194FF',
+  label04: '#D9ECFF',
 
-  sub05: '#02A9A9',
-  sub06: '#D0F5F5',
+  label05: '#02A9A9',
+  label06: '#D0F5F5',
 
-  sub07: '#FF4E89',
-  sub08: '#FFE3EC',
+  label07: '#FF4E89',
+  label08: '#FFE3EC',
 
   // Gradient Colors
   gradient01: 'linear-gradient(92deg, #5D6AFF 0%, #9679FF 93.32%)',
