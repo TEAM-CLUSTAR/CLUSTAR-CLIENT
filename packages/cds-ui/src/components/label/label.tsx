@@ -13,7 +13,7 @@ const Label = ({ labelSize, labelColor, labelText }: LabelProps) => {
   const showIndicator = labelColor !== 'gray';
 
   return (
-    <label className={styles.labelContainer({ labelSize, labelColor })}>
+    <div className={styles.labelContainer({ labelSize, labelColor })}>
       {showIndicator && (
         <div
           className={styles.labelIndicator({ labelSize, labelColor })}
@@ -21,7 +21,7 @@ const Label = ({ labelSize, labelColor, labelText }: LabelProps) => {
         />
       )}
       <p>{labelText}</p>
-    </label>
+    </div>
   );
 };
 
