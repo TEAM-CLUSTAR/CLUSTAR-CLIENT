@@ -7,15 +7,10 @@ export const container = style({
   alignItems: 'center',
   height: '4rem',
   padding: '0 1.2rem 0 0.8rem',
-  border: '1px solid',
+  border: `1px solid ${themeVars.color.blue300}`,
   borderColor: themeVars.color.blue300,
-  borderRadius: '1rem',
+  borderRadius: '8px',
   backgroundColor: themeVars.color.blue50,
-});
-
-export const contentWrapper = style({
-  display: 'flex',
-  alignItems: 'center',
 });
 
 export const name = style({
