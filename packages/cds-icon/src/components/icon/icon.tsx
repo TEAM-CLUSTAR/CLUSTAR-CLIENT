@@ -1,14 +1,14 @@
-import React from 'react';
+import { SVGProps } from 'react';
 
 import { IconName } from '../../icon-list';
 
-type IconProps = {
+interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   width?: number;
   height?: number;
   className?: string;
   ariaHidden?: boolean;
-} & React.SVGProps<SVGSVGElement>;
+}
 
 export const Icon = ({
   name,
