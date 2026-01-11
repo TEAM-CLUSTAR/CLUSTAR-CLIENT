@@ -15,7 +15,7 @@ const Fab = ({ isActive, handleClick, children }: FabProps) => {
       onClick={handleClick}
       className={styles.button({ isActive })}
     >
-      <Icon name="ic_ai_white" size={36} />
+      <Icon name="ic_ai_white" width={36} height={36} />
       <span>{children}</span>
     </button>
   );
