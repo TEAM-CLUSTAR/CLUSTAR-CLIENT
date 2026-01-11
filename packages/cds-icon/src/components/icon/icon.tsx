@@ -1,38 +1,32 @@
-import React from 'react';
+import { SVGProps } from 'react';
 
 import { IconName } from '../../icon-list';
 
-type IconProps = {
+interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
-  size?: number | string;
-  width?: number | string;
-  height?: number | string;
+  width?: number;
+  height?: number;
   className?: string;
   ariaHidden?: boolean;
-} & React.SVGProps<SVGSVGElement>;
+}
 
 export const Icon = ({
   name,
-  size,
   width,
   height,
   className,
   ariaHidden,
   ...rest
 }: IconProps) => {
-  const computedWidth = width ?? size ?? 24;
-  const computedHeight = height ?? size ?? 24;
+  const computedWidth = width ?? 24;
+  const computedHeight = height ?? 24;
+
+  const toRem = (px: number, base = 10) => `${Number(px / base)}rem`;
 
   return (
     <svg
-      width={
-        typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth
-      }
-      height={
-        typeof computedHeight === 'number'
-          ? `${computedHeight}px`
-          : computedHeight
-      }
+      width={toRem(computedWidth)}
+      height={toRem(computedHeight)}
       className={className}
       aria-hidden={ariaHidden ?? true}
       {...rest}
