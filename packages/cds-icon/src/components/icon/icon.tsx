@@ -1,8 +1,9 @@
 import React from 'react';
+import { SVGProps } from 'react';
 
 import { IconName } from '../../icon-list';
 
-interface IconProps extends React.SVGProps<SVGSVGElement> {
+interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   size?: number | string;
   width?: number | string;
