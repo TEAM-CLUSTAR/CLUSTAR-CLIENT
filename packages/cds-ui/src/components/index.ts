@@ -1,2 +1,2 @@
 export { default as Button } from './button/button';
-export { default as ImgContainer } from './img-container/img-container';
+export { default as ImgContainer } from './image-container/image-container';

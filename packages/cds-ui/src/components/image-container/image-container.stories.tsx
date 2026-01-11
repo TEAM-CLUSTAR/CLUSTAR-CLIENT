@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ImgContainer from './img-container';
+import ImgContainer from './image-container';
 
 const meta: Meta<typeof ImgContainer> = {
   title: 'Components/ImgContainer',
