@@ -1,5 +1,3 @@
-// src/components/SelectedMemo/SelectedMemo.stories.tsx
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import SelectedMemo from './selected-memo';
