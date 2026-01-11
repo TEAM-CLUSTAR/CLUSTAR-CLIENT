@@ -15,7 +15,7 @@ export const sidebarProfileContainer = style({
     '&::before': {
       position: 'absolute',
       inset: '-2px',
-      zIndex: -2,
+      zIndex: themeVars.zIndex.deep,
       background: themeVars.color.gradient02,
       borderRadius: '8px',
       pointerEvents: 'none',
@@ -24,7 +24,7 @@ export const sidebarProfileContainer = style({
     '&::after': {
       position: 'absolute',
       inset: '-2px',
-      zIndex: -1,
+      zIndex: themeVars.zIndex.back,
       border: '1px solid transparent',
       background: themeVars.color.gradient03,
       borderRadius: '8px',
