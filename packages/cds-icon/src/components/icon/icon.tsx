@@ -21,8 +21,7 @@ export const Icon = ({
   const computedWidth = width ?? 24;
   const computedHeight = height ?? 24;
 
-  const toRem = (px: number, base = 10, digits = 4) =>
-    `${Number((px / base).toFixed(digits))}rem`;
+  const toRem = (px: number, base = 10) => `${Number(px / base)}rem`;
 
   return (
     <svg
