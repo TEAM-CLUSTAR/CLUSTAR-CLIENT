@@ -1,14 +1,14 @@
-import * as styles from './img-container.css';
+import * as styles from './image-container.css';
 
 interface ImgContainerProps {
-  src: string;
-  alt: string;
+  imageUrl: string;
+  imageAlt: string;
 }
 
-const ImgContainer = ({ src, alt }: ImgContainerProps) => {
+const ImgContainer = ({ imageUrl, imageAlt }: ImgContainerProps) => {
   return (
     <div className={styles.container}>
-      <img src={src} alt={alt} className={styles.img} />
+      <img src={imageUrl} alt={imageAlt} className={styles.img} />
     </div>
   );
 };
