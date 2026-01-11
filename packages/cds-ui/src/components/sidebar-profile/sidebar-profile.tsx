@@ -10,7 +10,7 @@ interface SidebarProfileProps {
 const SidebarProfile = ({ userId, userEmail }: SidebarProfileProps) => {
   return (
     <div className={styles.sidebarProfileContainer}>
-      <Icon name="ic_profile" size={36} />
+      <Icon name="ic_profile" width={36} height={36} />
       <div className={styles.userInfoTextContainer}>
         <span className={styles.userId}>{userId}</span>
         <span className={styles.userEmail}>{userEmail}</span>
