@@ -12,7 +12,7 @@ interface SearchProps {
 const Search = ({ inputValue, handleChangeInput }: SearchProps) => {
   return (
     <div className={styles.searchContainer}>
-      <Icon name="ic_search" size={40} cursor="pointer" />
+      <Icon name="ic_search" width={40} height={40} />
       <input
         className={styles.input}
         placeholder="메모를 검색하세요."
