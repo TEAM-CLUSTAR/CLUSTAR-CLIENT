@@ -2,13 +2,17 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './floating-button.css';
 
-interface FabProps {
+interface FloatingButtonProps {
   children: string;
   isActive: boolean;
   handleClick: () => void;
 }
 
-const Fab = ({ isActive, handleClick, children }: FabProps) => {
+const FloatingButton = ({
+  isActive,
+  handleClick,
+  children,
+}: FloatingButtonProps) => {
   return (
     <button
       type="button"
@@ -21,4 +25,4 @@ const Fab = ({ isActive, handleClick, children }: FabProps) => {
   );
 };
 
-export default Fab;
+export default FloatingButton;

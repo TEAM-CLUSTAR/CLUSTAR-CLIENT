@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Fab from './floating-button.js';
+import FloatingButton from './floating-button.js';
 
-const meta: Meta<typeof Fab> = {
+const meta: Meta<typeof FloatingButton> = {
   title: 'Components/Fab',
-  component: Fab,
+  component: FloatingButton,
   parameters: {
     layout: 'centered',
   },
