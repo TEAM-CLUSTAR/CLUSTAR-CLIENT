@@ -2,20 +2,35 @@ import type { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import type { IconName } from '../../../../cds-icon/src/icon-list'; //@TODO 경로 수정하기
+import type { IconName } from '../../../../cds-icon/src/icon-list';
 
 import * as styles from './sidebar-pannel.css';
 
 interface SideBarPannelProps {
   children: ReactNode;
-  iconName: IconName;
+  isSelected: boolean;
+  iconName: string;
   onClick: () => void;
 }
 
-const SidebarPannel = ({ children, iconName, onClick }: SideBarPannelProps) => {
+const SidebarPannel = ({
+  children,
+  isSelected,
+  iconName,
+  onClick,
+}: SideBarPannelProps) => {
+  const currentState = isSelected ? 'selected' : undefined;
+
   return (
-    <button className={styles.container} onClick={onClick}>
-      <Icon name={iconName} width={36} height={36} />
+    <button
+      className={styles.container({ state: currentState })}
+      onClick={onClick}
+    >
+      <Icon
+        name={(isSelected ? `${iconName}_blue` : iconName) as IconName}
+        width={36}
+        height={36}
+      />
       {children}
     </button>
   );

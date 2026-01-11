@@ -7,10 +7,15 @@ const MemoPage = () => {
       <Icon name="ic_ai_gra" />
       <SidebarPannel
         iconName="ic_newmemo"
-        onClick={() => console.log('새 메모 클릭')}
+        isSelected={false}
+        onClick={() => {}}
       >
         새 메모
-      </SidebarPannel>{' '}
+      </SidebarPannel>
+
+      <SidebarPannel iconName="ic_newmemo" isSelected={true} onClick={() => {}}>
+        새 메모
+      </SidebarPannel>
     </div>
   );
 };
