@@ -39,6 +39,7 @@ export const userInfoTextContainer = style({
   display: 'flex',
   flexDirection: 'column',
   minWidth: 0,
+  flex: 1,
 });
 
 export const userId = style({
