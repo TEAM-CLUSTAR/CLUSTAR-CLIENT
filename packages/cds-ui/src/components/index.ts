@@ -8,3 +8,4 @@ export { default as Search } from './search/search';
 export { default as SelectedMemo } from './selected-memo/selected-memo';
 export { default as SideBarProfile } from './sidebar-profile/sidebar-profile';
 export { default as Title } from './title/title';
+export { default as Toggle } from './toggle';
