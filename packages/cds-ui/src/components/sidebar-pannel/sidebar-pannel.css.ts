@@ -14,7 +14,6 @@ export const container = recipe({
 
     borderLeft: '2px solid transparent',
     borderRadius: '0 8px 8px 0',
-    cursor: 'pointer',
 
     ...themeVars.fontStyles.body_sb_16,
     transition: `background-color 0.2s,
