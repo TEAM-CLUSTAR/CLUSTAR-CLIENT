@@ -11,7 +11,7 @@ type IconProps = {
   ariaHidden?: boolean;
 } & React.SVGProps<SVGSVGElement>;
 
-export const Icon = ({
+const Icon = ({
   name,
   size,
   width,
@@ -41,3 +41,5 @@ export const Icon = ({
     </svg>
   );
 };
+
+export default Icon;

@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
-
-import type { IconName } from '../../../../cds-icon/src/icon-list';
+import { IconName } from '@cds/icon';
 
 import * as styles from './sidebar-pannel.css';
 
@@ -24,9 +23,7 @@ const SidebarPannel = ({
   return (
     <button
       type="button"
-      className={styles.container({
-        state: isSelected ? 'selected' : undefined,
-      })}
+      className={styles.container({ isSelected })}
       aria-selected={isSelected}
       onClick={onClick}
     >
