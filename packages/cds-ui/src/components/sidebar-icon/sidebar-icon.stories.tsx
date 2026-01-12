@@ -45,9 +45,7 @@ export const List: Story = {
   render: (args) => (
     <div
       style={{
-        width: '240px',
         display: 'flex',
-        flexDirection: 'column',
         gap: '8px',
       }}
     >
