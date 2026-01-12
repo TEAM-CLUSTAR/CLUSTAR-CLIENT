@@ -18,6 +18,7 @@ interface LabelListProps {
 
 const LabelList = ({ type, dateText, items }: LabelListProps) => {
   const labelSize = type === 'dense' ? 'lg' : 'sm';
+
   return (
     <div className={styles.labelListContainer({ type })}>
       {dateText && <p className={styles.dateTextContainer}>{dateText}</p>}
