@@ -10,9 +10,12 @@ const meta: Meta<typeof HoverLabelToken> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    labelName: {
+    children: {
       control: 'text',
-      description: '버튼 내부에 표시될 텍스트 내용',
+      description: '토큰 내부에 들어갈 텍스트',
+      table: {
+        type: { summary: 'string' },
+      },
     },
   },
 } satisfies Meta<typeof HoverLabelToken>;
@@ -23,12 +26,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    labelName: 'Label',
+    children: 'Label',
   },
 };
 
 export const LongText: Story = {
   args: {
-    labelName: '텍스트가 길어질 경우의 테스트입니다',
+    children: '텍스트가 아주 길어졌을 때의 테스트입니다',
   },
 };
