@@ -28,6 +28,12 @@ export const button = recipe({
         ...themeVars.fontStyles.label_sb_12,
       },
       lg: {
+        width: '12.4rem',
+        height: '4rem',
+        borderRadius: '8px',
+        ...themeVars.fontStyles.title_sb_18,
+      },
+      xl: {
         width: '100%',
         height: '5.2rem',
         borderRadius: '12px',
@@ -107,7 +113,23 @@ export const button = recipe({
     },
 
     {
-      variants: { size: 'lg' },
+      variants: { size: 'lg', variant: 'solid' },
+      style: {
+        backgroundColor: themeVars.color.blue500,
+        color: themeVars.color.white,
+        ':hover': { backgroundColor: themeVars.color.blue700 },
+      },
+    },
+    {
+      variants: { size: 'lg', variant: 'outlined' },
+      style: {
+        backgroundColor: 'transparent',
+        color: themeVars.color.grey700,
+        border: `1px solid ${themeVars.color.grey700}`,
+      },
+    },
+    {
+      variants: { size: 'xl' },
       style: {
         backgroundColor: themeVars.color.blue500,
         color: themeVars.color.white,
