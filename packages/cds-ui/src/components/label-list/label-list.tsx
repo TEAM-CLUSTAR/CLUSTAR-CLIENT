@@ -3,7 +3,12 @@ import Label, { LabelColorType } from '../label/label';
 import * as styles from './label-list.css';
 
 type LabelListDensityType = 'dense' | 'regular';
-type LabelTextType = 'SOPT' | '학교' | '책' | '졸업프로젝트' | '태그없음'; //@TODO 실제 라벨 지정
+export type LabelTextType =
+  | 'SOPT'
+  | '학교'
+  | '책'
+  | '졸업프로젝트'
+  | '태그없음'; //@TODO 실제 라벨 지정
 
 type ItemsType = {
   id: number;

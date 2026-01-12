@@ -1,13 +1,11 @@
 // label-list.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { LabelColorType } from '../label/label';
-import LabelList from './label-list';
+import LabelList, { LabelTextType } from './label-list';
 
 type ItemsType = {
   id: number;
-  text: string;
-  color: LabelColorType;
+  text: LabelTextType;
 };
 
 const meta: Meta<typeof LabelList> = {
@@ -38,9 +36,9 @@ export default meta;
 type Story = StoryObj<typeof LabelList>;
 
 const sampleItems: ItemsType[] = [
-  { id: 1, text: '업무', color: 'blue' },
-  { id: 2, text: '회의', color: 'green' },
-  { id: 3, text: '중요', color: 'pink' },
+  { id: 1, text: '학교' },
+  { id: 2, text: '졸업프로젝트' },
+  { id: 3, text: '책' },
 ];
 
 export const DenseModal: Story = {
