@@ -6,6 +6,7 @@ export { default as Label } from './label/label';
 export { default as PageTitle } from './page-title/page-title';
 export { default as Search } from './search/search';
 export { default as SelectedMemo } from './selected-memo/selected-memo';
+export { default as SidebarIcon } from './sidebar-icon/sidebar-icon';
 export { default as SidebarPannel } from './sidebar-pannel/sidebar-pannel';
 export { default as SideBarProfile } from './sidebar-profile/sidebar-profile';
 export { default as Title } from './title/title';
