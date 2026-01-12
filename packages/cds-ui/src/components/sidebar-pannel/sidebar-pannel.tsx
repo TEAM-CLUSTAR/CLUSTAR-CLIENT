@@ -19,7 +19,6 @@ const SidebarPannel = ({
     <button
       type="button"
       className={styles.container({ isSelected })}
-      aria-selected={isSelected}
       onClick={onClick}
     >
       {icon}

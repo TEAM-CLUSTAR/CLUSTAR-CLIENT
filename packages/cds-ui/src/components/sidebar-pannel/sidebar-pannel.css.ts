@@ -19,25 +19,22 @@ export const container = recipe({
     ...themeVars.fontStyles.body_sb_16,
     transition: `background-color 0.2s,
       border-left-color 0.2s,
-      color 0.2s`,
-
-    selectors: {
-      '&:not([aria-selected="true"]):hover': {
-        backgroundColor: themeVars.color.grey200,
-        borderLeftColor: themeVars.color.grey400,
-      },
-    },
+      color 0.2s ease`,
   },
 
   variants: {
     isSelected: {
+      false: {
+        color: themeVars.color.grey700,
+        ':hover': {
+          backgroundColor: themeVars.color.grey200,
+          borderLeftColor: themeVars.color.grey400,
+        },
+      },
       true: {
         backgroundColor: themeVars.color.blue100,
         borderLeftColor: themeVars.color.blue500,
         color: themeVars.color.blue500,
-      },
-      false: {
-        color: themeVars.color.grey700,
       },
     },
   },
