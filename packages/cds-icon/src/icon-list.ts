@@ -24,6 +24,7 @@ export const iconNames = [
   'ic_pdf',
   'ic_profile',
   'ic_search',
+  'ic_send',
   'ic_trash',
   'ic_trash_blue',
   'ic_treeview_off',
