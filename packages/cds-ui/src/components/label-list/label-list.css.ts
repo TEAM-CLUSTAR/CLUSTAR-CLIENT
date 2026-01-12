@@ -13,7 +13,7 @@ export const labelListContainer = recipe({
     type: {
       dense: {
         borderLeft: `3px solid ${themeVars.color.label03}`,
-        paddingLeft: '1.6rem',
+        padding: '0.3rem 0 0.3rem 1.6rem',
       },
       regular: {},
     },
