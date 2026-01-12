@@ -1,4 +1,4 @@
-import Label, { labelColorType } from '../label/label';
+import Label, { LabelColorType } from '../label/label';
 
 import * as styles from './label-list.css';
 
@@ -7,7 +7,7 @@ type LabelListDensityType = 'dense' | 'regular';
 type ItemsType = {
   id: number;
   text: string;
-  color: labelColorType;
+  color: LabelColorType;
 };
 
 interface LabelListProps {

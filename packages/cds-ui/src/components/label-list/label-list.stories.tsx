@@ -1,13 +1,13 @@
 // label-list.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { labelColorType } from '../label/label';
+import { LabelColorType } from '../label/label';
 import LabelList from './label-list';
 
 type ItemsType = {
   id: number;
   text: string;
-  color: labelColorType;
+  color: LabelColorType;
 };
 
 const meta: Meta<typeof LabelList> = {
@@ -35,7 +35,6 @@ const meta: Meta<typeof LabelList> = {
 
 export default meta;
 
-// ✅ 여기 바뀐 부분
 type Story = StoryObj<typeof LabelList>;
 
 const sampleItems: ItemsType[] = [
@@ -56,9 +55,6 @@ export const DenseModal: Story = {
       style={{
         width: '32rem',
         padding: '2rem',
-        backgroundColor: '#fff',
-        borderRadius: '1.2rem',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
       }}
     >
       <LabelList {...args} />
@@ -77,9 +73,6 @@ export const RegularCardView: Story = {
       style={{
         width: '32rem',
         padding: '2rem',
-        backgroundColor: '#fff',
-        borderRadius: '1.2rem',
-        border: '1px solid rgba(0,0,0,0.08)',
       }}
     >
       <LabelList {...args} />
