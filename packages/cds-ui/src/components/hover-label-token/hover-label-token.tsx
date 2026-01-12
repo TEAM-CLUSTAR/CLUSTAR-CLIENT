@@ -1,13 +1,13 @@
 import * as styles from './hover-label-token.css';
 
 interface HoverLabelTokenProps {
-  labelName: string;
+  children: string;
 }
 
-const HoverLabelToken = ({ labelName }: HoverLabelTokenProps) => {
+const HoverLabelToken = ({ children }: HoverLabelTokenProps) => {
   return (
     <button type="button" className={styles.container}>
-      {labelName}
+      {children}
     </button>
   );
 };
