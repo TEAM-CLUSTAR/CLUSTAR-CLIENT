@@ -1,4 +1,5 @@
 export { default as Button } from './button/button';
+export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
 export { default as HoverLabelToken } from './hover-label-token/hover-label-token';
 export { default as ImgContainer } from './image-container/image-container';
@@ -6,5 +7,6 @@ export { default as Label } from './label/label';
 export { default as PageTitle } from './page-title/page-title';
 export { default as Search } from './search/search';
 export { default as SelectedMemo } from './selected-memo/selected-memo';
+export { default as SidebarPannel } from './sidebar-pannel/sidebar-pannel';
 export { default as SideBarProfile } from './sidebar-profile/sidebar-profile';
 export { default as Title } from './title/title';
