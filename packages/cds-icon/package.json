@@ -4,7 +4,7 @@
   "private": true,
   "types": "module",
   "exports": {
-    ".": "./src/components/index.ts"
+    ".": "./index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

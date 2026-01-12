@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: 'src/components/index.ts',
+      entry: './index.ts',
       name: 'DesignSystem',
       fileName: (format) => `design-system.${format}.js`,
     },
