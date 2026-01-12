@@ -23,8 +23,6 @@ export const fileContentContainer = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  flexGrow: '1',
-  minWidth: '0',
   overflow: 'hidden',
 });
 
