@@ -118,6 +118,9 @@ export const button = recipe({
         backgroundColor: themeVars.color.blue500,
         color: themeVars.color.white,
         ':hover': { backgroundColor: themeVars.color.blue700 },
+        ':disabled': {
+          backgroundColor: themeVars.color.grey500,
+        },
       },
     },
     {
