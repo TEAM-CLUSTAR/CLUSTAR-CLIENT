@@ -10,7 +10,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
   ariaHidden?: boolean;
 }
 
-export const Icon = ({
+const Icon = ({
   name,
   width,
   height,
@@ -35,3 +35,5 @@ export const Icon = ({
     </svg>
   );
 };
+
+export default Icon;
