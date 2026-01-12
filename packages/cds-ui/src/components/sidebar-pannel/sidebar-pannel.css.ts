@@ -13,12 +13,13 @@ export const container = recipe({
     padding: '0 0.4rem',
 
     borderLeft: '2px solid transparent',
-    borderRadius: '0 0.8rem 0.8rem 0',
+    borderRadius: '0 8px 8px 0',
     cursor: 'pointer',
 
-    color: themeVars.color.grey700,
     ...themeVars.fontStyles.body_sb_16,
-    transition: 'all 0.2s ease',
+    transition: `background-color 0.2s,
+      border-left-color 0.2s,
+      color 0.2s`,
 
     selectors: {
       '&:not([aria-selected="true"]):hover': {
@@ -34,6 +35,9 @@ export const container = recipe({
         backgroundColor: themeVars.color.blue100,
         borderLeftColor: themeVars.color.blue500,
         color: themeVars.color.blue500,
+      },
+      false: {
+        color: themeVars.color.grey700,
       },
     },
   },
