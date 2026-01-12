@@ -1,7 +1,7 @@
 import * as styles from './label.css';
 
 type labelSizeType = 'sm' | 'lg';
-type labelColorType = 'blue' | 'purple' | 'green' | 'pink' | 'gray';
+export type labelColorType = 'blue' | 'purple' | 'green' | 'pink' | 'gray';
 
 export interface LabelProps {
   labelSize: labelSizeType;
