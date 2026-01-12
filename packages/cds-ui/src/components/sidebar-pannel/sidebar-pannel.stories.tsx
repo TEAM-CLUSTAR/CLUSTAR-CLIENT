@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Icon } from '@cds/icon';
+
 import SidebarPannel from './sidebar-pannel';
 
 const meta: Meta<typeof SidebarPannel> = {
@@ -10,9 +12,8 @@ const meta: Meta<typeof SidebarPannel> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    iconName: {
-      description: '기본 상태의 아이콘 이름입니다.',
-      control: 'text',
+    icon: {
+      description: '렌더링할 아이콘 컴포넌트입니다.',
     },
     isSelected: {
       description: '활성화(선택) 상태 여부를 결정합니다.',
@@ -27,7 +28,7 @@ type Story = StoryObj<typeof SidebarPannel>;
 
 export const Default: Story = {
   args: {
-    iconName: 'ic_newmemo',
+    icon: <Icon name="ic_newmemo" width={36} height={36} />,
     isSelected: false,
     children: '새 메모',
   },
@@ -35,7 +36,7 @@ export const Default: Story = {
 
 export const Selected: Story = {
   args: {
-    iconName: 'ic_newmemo',
+    icon: <Icon name="ic_newmemo_blue" width={36} height={36} />,
     isSelected: true,
     children: '새 메모',
   },
@@ -52,15 +53,37 @@ export const List: Story = {
         gap: '8px',
       }}
     >
-      <SidebarPannel {...args} isSelected={false}>
-        기본 메뉴
+      <SidebarPannel
+        {...args}
+        isSelected={false}
+        icon={<Icon name="ic_newmemo" width={36} height={36} />}
+      >
+        새 메모
       </SidebarPannel>
-      <SidebarPannel {...args} isSelected={true}>
-        선택된 메뉴
+
+      <SidebarPannel
+        {...args}
+        isSelected={true}
+        icon={<Icon name="ic_allmemo_blue" width={36} height={36} />}
+      >
+        전체 메모
+      </SidebarPannel>
+
+      <SidebarPannel
+        {...args}
+        isSelected={false}
+        icon={<Icon name="ic_ai" width={36} height={36} />}
+      >
+        AI 기록
+      </SidebarPannel>
+
+      <SidebarPannel
+        {...args}
+        isSelected={false}
+        icon={<Icon name="ic_label" width={36} height={36} />}
+      >
+        Label
       </SidebarPannel>
     </div>
   ),
-  args: {
-    iconName: 'ic_newmemo',
-  },
 };
