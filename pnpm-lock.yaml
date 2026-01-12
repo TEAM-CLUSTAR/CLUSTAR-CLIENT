@@ -294,15 +294,6 @@ importers:
       '@storybook/test':
         specifier: ^8.6.15
         version: 8.6.15(storybook@8.6.15(prettier@3.7.4))
-      '@testing-library/jest-dom':
-        specifier: catalog:test-core
-        version: 6.9.1
-      '@testing-library/react':
-        specifier: catalog:test-core
-        version: 16.3.1(@testing-library/dom@10.4.0)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@testing-library/user-event':
-        specifier: catalog:test-core
-        version: 14.6.1(@testing-library/dom@10.4.0)
       '@turbo/gen':
         specifier: ^1.12.4
         version: 1.13.4(@swc/core@1.15.8)(@types/node@24.10.4)(typescript@5.9.2)
@@ -330,18 +321,12 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: catalog:vite-plugins
         version: 4.2.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0))
-      '@vitest/ui':
-        specifier: catalog:test-core
-        version: 4.0.16(vitest@4.0.16)
       chromatic:
         specifier: ^13.3.4
         version: 13.3.4
       eslint:
         specifier: catalog:eslint-core
         version: 9.39.1(jiti@2.6.1)
-      jsdom:
-        specifier: catalog:test-core
-        version: 27.4.0
       storybook:
         specifier: ^8.6.15
         version: 8.6.15(prettier@3.7.4)
@@ -351,9 +336,6 @@ importers:
       vite:
         specifier: catalog:vite-core
         version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0)
-      vitest:
-        specifier: catalog:test-core
-        version: 4.0.16(@types/node@24.10.4)(@vitest/ui@4.0.16)(jiti@2.6.1)(jsdom@27.4.0)(tsx@4.21.0)
 
   packages/eslint-config:
     devDependencies:
