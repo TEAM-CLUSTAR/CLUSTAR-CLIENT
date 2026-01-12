@@ -1,4 +1,5 @@
 export { default as Button } from './button/button';
+export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
 export { default as HoverLabelToken } from './hover-label-token/hover-label-token';
 export { default as ImgContainer } from './image-container/image-container';
