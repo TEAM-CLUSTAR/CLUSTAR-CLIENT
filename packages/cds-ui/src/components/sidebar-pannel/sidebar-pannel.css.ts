@@ -29,8 +29,8 @@ export const container = recipe({
   },
 
   variants: {
-    state: {
-      selected: {
+    isSelected: {
+      true: {
         backgroundColor: themeVars.color.blue100,
         borderLeftColor: themeVars.color.blue500,
         color: themeVars.color.blue500,
