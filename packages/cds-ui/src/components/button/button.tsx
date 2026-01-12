@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react';
 
-import { Icon } from '@cds/icon';
-
 import * as styles from './button.css';
 
 export type ButtonSizeType = 'sm' | 'md' | 'lg';
@@ -22,22 +20,21 @@ const Button = ({
   variant = 'solid',
   disabled = false,
 }: ButtonProps) => {
-  const renderContent = () => {
-    if (size === 'sm') return <Icon name="ic_send" />;
-    if (size === 'md' && variant === 'outlined') {
-      return <span className={styles.outlinedText}>{children}</span>;
-    }
-    return children;
-  };
+  const applyOutlinedText =
+    size === 'md' && variant === 'outlined' && typeof children === 'string';
 
   return (
     <button
       type="button"
       onClick={onClick}
-      disabled={size === 'sm' && disabled}
+      disabled={disabled}
       className={styles.button({ size, variant, disabled })}
     >
-      {renderContent()}
+      {applyOutlinedText ? (
+        <span className={styles.outlinedText}>{children}</span>
+      ) : (
+        children
+      )}
     </button>
   );
 };
