@@ -3,11 +3,11 @@ import Label, { LabelColorType } from '../label/label';
 import * as styles from './label-list.css';
 
 type LabelListDensityType = 'dense' | 'regular';
+type LabelTextType = 'SOPT' | '학교' | '책' | '졸업프로젝트' | '태그없음'; //@TODO 실제 라벨 지정
 
 type ItemsType = {
   id: number;
-  text: string;
-  color: LabelColorType;
+  text: LabelTextType;
 };
 
 interface LabelListProps {
@@ -16,6 +16,15 @@ interface LabelListProps {
   items: ItemsType[];
 }
 
+//@ TODO 실제 라벨-색상 매핑으로 교체
+const LABEL_COLOR_BY_TEXT: Record<LabelTextType, LabelColorType> = {
+  SOPT: 'blue',
+  학교: 'green',
+  책: 'purple',
+  졸업프로젝트: 'pink',
+  태그없음: 'gray',
+};
+
 const LabelList = ({ type, dateText, items }: LabelListProps) => {
   const labelSize = type === 'dense' ? 'lg' : 'sm';
 
@@ -23,11 +32,11 @@ const LabelList = ({ type, dateText, items }: LabelListProps) => {
     <div className={styles.labelListContainer({ type })}>
       {dateText && <p className={styles.dateTextContainer}>{dateText}</p>}
       <div className={styles.labelContainer}>
-        {items.map(({ id, text, color }) => (
+        {items.map(({ id, text }) => (
           <Label
             key={id}
             labelSize={labelSize}
-            labelColor={color}
+            labelColor={LABEL_COLOR_BY_TEXT[text]}
             labelText={text}
           />
         ))}
