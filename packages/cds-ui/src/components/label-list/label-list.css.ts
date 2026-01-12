@@ -10,12 +10,12 @@ export const labelListContainer = recipe({
     gap: '1.2rem',
   },
   variants: {
-    type: {
-      dense: {
+    listType: {
+      modal: {
         borderLeft: `3px solid ${themeVars.color.label03}`,
         padding: '0.3rem 0 0.3rem 1.6rem',
       },
-      regular: {},
+      card: {},
     },
   },
 });

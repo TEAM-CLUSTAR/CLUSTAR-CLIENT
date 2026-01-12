@@ -2,13 +2,9 @@ import Label, { LabelColorType } from '../label/label';
 
 import * as styles from './label-list.css';
 
-type LabelListDensityType = 'dense' | 'regular';
-export type LabelTextType =
-  | 'SOPT'
-  | '학교'
-  | '책'
-  | '졸업프로젝트'
-  | '태그없음'; //@TODO 실제 라벨 지정
+type LabelListType = 'modal' | 'card';
+
+export type LabelTextType = '졸업 프로젝트' | '교양' | 'SOPT' | '레퍼런스';
 
 type ItemsType = {
   id: number;
@@ -16,28 +12,27 @@ type ItemsType = {
 };
 
 interface LabelListProps {
-  type: LabelListDensityType;
+  listType: LabelListType;
   dateText?: string;
-  items: ItemsType[];
+  labelItems: ItemsType[];
 }
 
 //@ TODO 실제 라벨-색상 매핑으로 교체
 const LABEL_COLOR_BY_TEXT: Record<LabelTextType, LabelColorType> = {
-  SOPT: 'blue',
-  학교: 'green',
-  책: 'purple',
-  졸업프로젝트: 'pink',
-  태그없음: 'gray',
+  '졸업 프로젝트': 'blue',
+  교양: 'green',
+  SOPT: 'pink',
+  레퍼런스: 'purple',
 };
 
-const LabelList = ({ type, dateText, items }: LabelListProps) => {
-  const labelSize = type === 'dense' ? 'lg' : 'sm';
+const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
+  const labelSize = listType === 'modal' ? 'lg' : 'sm';
 
   return (
-    <div className={styles.labelListContainer({ type })}>
+    <div className={styles.labelListContainer({ listType })}>
       {dateText && <p className={styles.dateTextContainer}>{dateText}</p>}
       <div className={styles.labelContainer}>
-        {items.map(({ id, text }) => (
+        {labelItems.map(({ id, text }) => (
           <Label
             key={id}
             labelSize={labelSize}
