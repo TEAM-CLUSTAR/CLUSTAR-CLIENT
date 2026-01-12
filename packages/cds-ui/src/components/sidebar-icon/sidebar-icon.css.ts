@@ -11,16 +11,12 @@ export const container = recipe({
   variants: {
     isSelected: {
       false: {
-        color: themeVars.color.grey700,
         ':hover': {
           backgroundColor: themeVars.color.grey200,
-          borderLeftColor: themeVars.color.grey400,
         },
       },
       true: {
         backgroundColor: themeVars.color.blue100,
-        borderLeftColor: themeVars.color.blue500,
-        color: themeVars.color.blue500,
       },
     },
   },
