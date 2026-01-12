@@ -80,22 +80,24 @@ export const AllSizes: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
         <h3>Small</h3>
-        <Button size="sm" />
+        <Button size="sm" onClick={() => {}} />
       </div>
       <div>
         <h3>Medium</h3>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Button size="md" variant="solid">
+          <Button size="md" variant="solid" onClick={() => {}}>
             메모로 저장하기
           </Button>
-          <Button size="md" variant="outlined">
+          <Button size="md" variant="outlined" onClick={() => {}}>
             재생성하기
           </Button>
         </div>
       </div>
       <div>
         <h3>Large</h3>
-        <Button size="lg">AI 생성 하기</Button>
+        <Button size="lg" onClick={() => {}}>
+          AI 생성 하기
+        </Button>
       </div>
     </div>
   ),
