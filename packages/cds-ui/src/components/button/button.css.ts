@@ -8,7 +8,7 @@ export const button = recipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.2s ease',
+    transition: 'background-color 0.2s ease',
     boxSizing: 'border-box',
   },
 
@@ -100,6 +100,7 @@ export const button = recipe({
           },
           '&:hover::after': {
             borderWidth: '2px',
+            transition: 'border-width 0.1s ease',
           },
         },
       },

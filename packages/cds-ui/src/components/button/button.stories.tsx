@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Icon } from '@cds/icon';
+
 import Button from './button';
 
 const meta: Meta<typeof Button> = {
@@ -42,6 +44,7 @@ type Story = StoryObj<typeof meta>;
 export const Small: Story = {
   args: {
     size: 'sm',
+    children: <Icon name="ic_send" />,
   },
 };
 
@@ -71,6 +74,7 @@ export const Large: Story = {
 export const SmallDisabled: Story = {
   args: {
     size: 'sm',
+    children: <Icon name="ic_send" />,
     disabled: true,
   },
 };
@@ -80,7 +84,11 @@ export const AllSizes: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
         <h3>Small</h3>
-        <Button size="sm" onClick={() => {}} />
+        <Button
+          size="sm"
+          children={<Icon name="ic_send" />}
+          onClick={() => {}}
+        />
       </div>
       <div>
         <h3>Medium</h3>
