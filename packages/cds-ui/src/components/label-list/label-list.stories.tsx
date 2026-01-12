@@ -16,16 +16,16 @@ const meta: Meta<typeof LabelList> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    listType: {
       control: 'radio',
-      options: ['dense', 'regular'],
+      options: ['modal', 'card'],
       description:
         'UI 밀도 타입이에요. (사용처 의미를 직접 담진 않지만, 현재는 dense=모달, regular=카드뷰에서 주로 사용돼요.)',
     },
     dateText: {
       control: 'text',
     },
-    items: {
+    labelItems: {
       control: 'object',
     },
   },
@@ -36,17 +36,18 @@ export default meta;
 type Story = StoryObj<typeof LabelList>;
 
 const sampleItems: ItemsType[] = [
-  { id: 1, text: '학교' },
-  { id: 2, text: '졸업프로젝트' },
-  { id: 3, text: '책' },
+  { id: 1, text: 'SOPT' },
+  { id: 2, text: '졸업 프로젝트' },
+  { id: 3, text: '레퍼런스' },
+  { id: 3, text: '교양' },
 ];
 
 export const DenseModal: Story = {
   name: 'Dense (Modal)',
   args: {
-    type: 'dense',
+    listType: 'modal',
     dateText: 'YYYY.MM.DD HH:MM PM 생성됨',
-    items: sampleItems,
+    labelItems: sampleItems,
   },
   render: (args) => (
     <div
@@ -63,8 +64,8 @@ export const DenseModal: Story = {
 export const RegularCardView: Story = {
   name: 'Regular (CardView)',
   args: {
-    type: 'regular',
-    items: sampleItems,
+    listType: 'card',
+    labelItems: sampleItems,
   },
   render: (args) => (
     <div
