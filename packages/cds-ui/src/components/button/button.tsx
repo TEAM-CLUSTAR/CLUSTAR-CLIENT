@@ -4,14 +4,14 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './button.css';
 
-export type ButtonSize = 'sm' | 'md' | 'lg';
-export type ButtonVariant = 'solid' | 'outlined';
+export type ButtonSizeType = 'sm' | 'md' | 'lg';
+export type ButtonVariantType = 'solid' | 'outlined';
 
 export interface ButtonProps {
   children?: ReactNode;
   onClick?: () => void;
-  size: ButtonSize;
-  variant?: ButtonVariant;
+  size: ButtonSizeType;
+  variant?: ButtonVariantType;
   disabled?: boolean;
 }
 
