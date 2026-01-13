@@ -2,13 +2,13 @@ import type { ReactNode } from 'react';
 
 import * as styles from './sidebar-icon.css';
 
-interface SideBarPannelProps {
+interface SideIconProps {
   isSelected: boolean;
   onClick: () => void;
   icon: ReactNode;
 }
 
-const SidebarIcon = ({ isSelected, onClick, icon }: SideBarPannelProps) => {
+const SidebarIcon = ({ isSelected, onClick, icon }: SideIconProps) => {
   return (
     <button
       type="button"
