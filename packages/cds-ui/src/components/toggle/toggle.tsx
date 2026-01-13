@@ -1,6 +1,6 @@
 import { Children, ReactElement, ReactNode, useMemo } from 'react';
 
-import { ToggleContext } from './toggle.context';
+import { ToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 

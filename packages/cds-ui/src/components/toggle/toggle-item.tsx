@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
 
-import { ToggleContext } from './toggle.context';
+import { ToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 
