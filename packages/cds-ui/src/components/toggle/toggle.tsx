@@ -1,6 +1,6 @@
 import { Children, ReactElement, ReactNode, useMemo } from 'react';
 
-import { ToggleContext } from './toggle-context';
+import { ToggleContext, useToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 
@@ -49,5 +49,29 @@ const Toggle = ({
     </ToggleContext.Provider>
   );
 };
+
+interface ToggleItemProps {
+  itemValue: string;
+  children: ReactNode;
+}
+
+const ToggleItem = ({ itemValue, children }: ToggleItemProps) => {
+  const { selectedValue, handleValueChange } = useToggleContext();
+
+  const isActive = selectedValue === itemValue;
+
+  return (
+    <button
+      type="button"
+      onClick={() => handleValueChange(itemValue)}
+      className={styles.item({ active: isActive })}
+      aria-pressed={isActive}
+    >
+      {children}
+    </button>
+  );
+};
+
+Toggle.Item = ToggleItem;
 
 export default Toggle;

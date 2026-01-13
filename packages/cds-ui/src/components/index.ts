@@ -14,4 +14,4 @@ export { default as SidebarIcon } from './sidebar-icon/sidebar-icon';
 export { default as SidebarPannel } from './sidebar-pannel/sidebar-pannel';
 export { default as SideBarProfile } from './sidebar-profile/sidebar-profile';
 export { default as Title } from './title/title';
-export { default as Toggle } from './toggle';
+export { default as Toggle } from './toggle/toggle';
