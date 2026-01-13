@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Icon } from '@cds/icon';
 
-import Toggle from './index';
+import Toggle from './toggle';
 
 const meta: Meta = {
   title: 'Components/Toggle',
