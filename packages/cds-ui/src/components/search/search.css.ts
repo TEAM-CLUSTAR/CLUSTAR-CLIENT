@@ -8,7 +8,7 @@ export const searchContainer = style({
   padding: '0 1.2rem',
   width: '100%',
   minWidth: '65.4rem',
-  maxWidth: '75.6rem',
+  maxWidth: '66.8rem',
   border: `1px solid ${themeVars.color.grey400}`,
   borderRadius: '100px',
   backgroundColor: themeVars.color.grey100,
