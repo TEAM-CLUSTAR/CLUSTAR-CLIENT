@@ -7,48 +7,62 @@ import Search from '../search/search';
 import Toggle from '../toggle/toggle';
 
 import * as styles from './header.css';
-
-type ViewType = 'card' | 'tree';
-
 interface HeaderProps {
-  title: string;
-  count: number;
+  title?: string;
+  count?: number;
   inputValue: string;
   handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  viewMode: ViewType;
-  handleValueChange: (value: string) => void;
+  viewMode?: string;
+  handleValueChange?: (value: string) => void;
+  isTitleVisible: boolean;
+  isToggleVisible: boolean;
 }
 
-const header = ({
+const Header = ({
   title,
   count,
   inputValue,
   handleChangeInput,
   viewMode,
   handleValueChange,
+  isTitleVisible,
+  isToggleVisible,
 }: HeaderProps) => {
   return (
     <header className={styles.container}>
-      <PageTitle title={title} count={count} />
+      {isTitleVisible && title !== undefined && count !== undefined && (
+        <PageTitle title={title} count={count} />
+      )}
       <Search inputValue={inputValue} handleChangeInput={handleChangeInput} />
-      <Toggle selectedValue={viewMode} handleValueChange={handleValueChange}>
-        <Toggle.Item itemValue="card">
-          <Icon
-            name={viewMode === 'card' ? 'ic_cardview_on' : 'ic_cardview_off'}
-            width={28}
-            height={28}
-          />
-        </Toggle.Item>
-        <Toggle.Item itemValue="tree">
-          <Icon
-            name={viewMode === 'tree' ? 'ic_treeview_on' : 'ic_treeview_off'}
-            width={28}
-            height={28}
-          />
-        </Toggle.Item>
-      </Toggle>
+      {isToggleVisible &&
+        viewMode !== undefined &&
+        handleValueChange !== undefined && (
+          <Toggle
+            selectedValue={viewMode}
+            handleValueChange={handleValueChange}
+          >
+            <Toggle.Item itemValue="card">
+              <Icon
+                name={
+                  viewMode === 'card' ? 'ic_cardview_on' : 'ic_cardview_off'
+                }
+                width={28}
+                height={28}
+              />
+            </Toggle.Item>
+            <Toggle.Item itemValue="tree">
+              <Icon
+                name={
+                  viewMode === 'tree' ? 'ic_treeview_on' : 'ic_treeview_off'
+                }
+                width={28}
+                height={28}
+              />
+            </Toggle.Item>
+          </Toggle>
+        )}
     </header>
   );
 };
 
-export default header;
+export default Header;
