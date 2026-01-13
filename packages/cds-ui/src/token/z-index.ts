@@ -4,4 +4,6 @@ export const zIndex = {
   defalut: '0',
   button: '100',
   modal: '200',
+  modalOverlay: '201',
+  modalContent: '202',
 } as const;
