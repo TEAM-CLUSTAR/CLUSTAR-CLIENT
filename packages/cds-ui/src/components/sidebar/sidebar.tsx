@@ -60,7 +60,12 @@ const LABEL_ITEMS = [
   },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+  userId: string;
+  userEmail: string;
+}
+
+const Sidebar = ({ userId, userEmail }: SidebarProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [selectedId, setSelectedId] = useState('new');
 
@@ -170,7 +175,7 @@ const Sidebar = () => {
             >
               휴지통
             </SidebarPannel>
-            <SideBarProfile userId="큰랍스터" userEmail="hello@glks.dmk" />
+            <SideBarProfile userId={userId} userEmail={userEmail} />
           </>
         ) : (
           <>
