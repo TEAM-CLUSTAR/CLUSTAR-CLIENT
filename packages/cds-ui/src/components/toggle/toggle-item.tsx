@@ -1,6 +1,6 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 
-import { ToggleContext } from './toggle-context';
+import { useToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 
@@ -10,13 +10,7 @@ interface ToggleItemProps<T> {
 }
 
 const ToggleItem = <T,>({ itemValue, children }: ToggleItemProps<T>) => {
-  const context = useContext(ToggleContext);
-
-  if (!context) {
-    throw new Error('Toggle.Item은 Toggle 내부에서만 사용할 수 있습니다.');
-  }
-
-  const { selectedValue, handleValueChange } = context;
+  const { selectedValue, handleValueChange } = useToggleContext();
 
   const isActive = selectedValue === itemValue;
 
