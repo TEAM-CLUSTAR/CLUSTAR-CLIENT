@@ -42,6 +42,7 @@ export const logo = style({
 export const title = style({ paddingLeft: '1rem' });
 
 export const foldingBtn = style({
+  position: 'relative',
   borderRadius: '8px',
   marginLeft: 'auto',
   ':hover': { backgroundColor: themeVars.color.grey200 },
@@ -127,7 +128,7 @@ export const floatingMenu = style({
   transition: 'opacity 0.2s ease',
 
   selectors: {
-    [`${iconContainer}:hover &`]: {
+    [`${iconContainer}:hover &, ${foldingBtn}:hover &`]: {
       opacity: 1,
     },
   },

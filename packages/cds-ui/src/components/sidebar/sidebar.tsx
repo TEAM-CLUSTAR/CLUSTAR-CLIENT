@@ -72,6 +72,11 @@ const Sidebar = () => {
           className={styles.foldingBtn}
         >
           <Icon name="ic_folding" width={36} height={36} />
+          {!isExpanded && (
+            <div className={styles.floatingMenu}>
+              <FloatingMenu menuName="사이드바 열기" />
+            </div>
+          )}
         </button>
       </div>
 
