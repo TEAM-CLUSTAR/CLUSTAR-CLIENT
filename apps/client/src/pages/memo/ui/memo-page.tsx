@@ -1,9 +1,9 @@
-import { Icon } from '@cds/icon';
+import { Sidebar } from '@cds/ui';
 
 const MemoPage = () => {
   return (
     <div>
-      <Icon name="ic_ai_gra" />
+      <Sidebar />
     </div>
   );
 };
