@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
 export const ToggleContext = createContext<{
-  selectedValue: unknown;
-  handleValueChange: (value: unknown) => void;
+  selectedValue: string;
+  handleValueChange: (value: string) => void;
 } | null>(null);
 
 export const useToggleContext = () => {

@@ -4,21 +4,21 @@ import { ToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 
-interface ToggleProps<T> {
+interface ToggleProps {
   children: ReactNode;
-  selectedValue: T;
-  handleValueChange: (value: T) => void;
+  selectedValue: string;
+  handleValueChange: (value: string) => void;
 }
 
-const Toggle = <T,>({
+const Toggle = ({
   children,
   selectedValue,
   handleValueChange,
-}: ToggleProps<T>) => {
+}: ToggleProps) => {
   const activeIndex = useMemo(() => {
     const childrenArray = Children.toArray(children) as ReactElement[];
     return childrenArray.findIndex((child) => {
-      const props = child.props as { itemValue?: unknown } | null | undefined;
+      const props = child.props as { itemValue?: string } | null | undefined;
       return props && 'itemValue' in props && props.itemValue === selectedValue;
     });
   }, [children, selectedValue]);
@@ -27,18 +27,13 @@ const Toggle = <T,>({
     return Children.count(children);
   }, [children]);
 
+  const contextValue = {
+    selectedValue,
+    handleValueChange,
+  };
+
   return (
-    <ToggleContext.Provider
-      value={
-        {
-          selectedValue,
-          handleValueChange,
-        } as {
-          selectedValue: unknown;
-          handleValueChange: (value: unknown) => void;
-        }
-      }
-    >
+    <ToggleContext.Provider value={contextValue}>
       <div
         className={styles.container}
         style={

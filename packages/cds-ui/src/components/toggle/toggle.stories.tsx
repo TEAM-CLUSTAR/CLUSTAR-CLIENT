@@ -21,12 +21,12 @@ type ViewType = 'tree' | 'card';
 const DefaultToggle = () => {
   const [viewMode, setViewMode] = useState<ViewType>('tree');
 
-  const handleChange = (value: ViewType) => {
-    setViewMode(value);
+  const handleChange = (value: string) => {
+    setViewMode(value as ViewType);
   };
 
   return (
-    <Toggle<ViewType> selectedValue={viewMode} handleValueChange={handleChange}>
+    <Toggle selectedValue={viewMode} handleValueChange={handleChange}>
       <Toggle.Item itemValue="tree">
         <Icon
           name={viewMode === 'tree' ? 'ic_treeview_on' : 'ic_treeview_off'}
@@ -58,14 +58,14 @@ type ThemeType = 'light' | 'dark';
 const ThemeToggleComponent = () => {
   const [theme, setTheme] = useState<ThemeType>('light');
 
-  const handleChange = (value: ThemeType) => {
-    setTheme(value);
+  const handleChange = (value: string) => {
+    setTheme(value as ThemeType);
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>현재 테마: {theme}</div>
-      <Toggle<ThemeType> selectedValue={theme} handleValueChange={handleChange}>
+      <Toggle selectedValue={theme} handleValueChange={handleChange}>
         <Toggle.Item itemValue="light">
           <div
             style={{

@@ -4,12 +4,12 @@ import { useToggleContext } from './toggle-context';
 
 import * as styles from './toggle.css';
 
-interface ToggleItemProps<T> {
-  itemValue: T;
+interface ToggleItemProps {
+  itemValue: string;
   children: ReactNode;
 }
 
-const ToggleItem = <T,>({ itemValue, children }: ToggleItemProps<T>) => {
+const ToggleItem = ({ itemValue, children }: ToggleItemProps) => {
   const { selectedValue, handleValueChange } = useToggleContext();
 
   const isActive = selectedValue === itemValue;
