@@ -9,7 +9,7 @@ interface LabelTypes {
 }
 
 interface FloatingLabelProps {
-  labels: Array<LabelTypes>;
+  labels: LabelTypes[];
 }
 
 const FloatingLabel = ({ labels }: FloatingLabelProps) => {
