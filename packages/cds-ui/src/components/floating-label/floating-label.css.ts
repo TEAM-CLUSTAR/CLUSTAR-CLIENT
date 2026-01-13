@@ -13,4 +13,6 @@ export const container = style({
   backgroundColor: themeVars.color.grey50,
   ...themeVars.fontStyles.body_sb_14,
   color: themeVars.color.grey700,
+  whiteSpace: 'nowrap',
+  flexShrink: 0,
 });

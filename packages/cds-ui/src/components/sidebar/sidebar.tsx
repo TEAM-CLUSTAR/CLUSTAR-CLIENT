@@ -2,7 +2,13 @@ import { useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import { FloatingMenu, SidebarIcon, SidebarPannel, SideBarProfile } from '..';
+import {
+  FloatingLabel,
+  FloatingMenu,
+  SidebarIcon,
+  SidebarPannel,
+  SideBarProfile,
+} from '..';
 
 import * as styles from './sidebar.css';
 
@@ -112,28 +118,40 @@ const Sidebar = () => {
 
       {isExpanded && <span className={styles.label}>라벨</span>}
       <div className={styles.labelList({ expanded: isExpanded })}>
-        {LABEL_ITEMS.map((item) => {
-          const isActive = selectedId === item.id;
-          const iconName = isActive ? item.activeIcon : item.icon;
+        {isExpanded ? (
+          LABEL_ITEMS.map((item) => {
+            const isActive = selectedId === item.id;
+            const iconName = isActive ? item.activeIcon : item.icon;
 
-          return isExpanded ? (
-            <SidebarPannel
-              key={item.id}
-              isSelected={isActive}
-              onClick={() => setSelectedId(item.id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
-            >
-              {item.label}
-            </SidebarPannel>
-          ) : (
+            return (
+              <SidebarPannel
+                key={item.id}
+                isSelected={isActive}
+                onClick={() => setSelectedId(item.id)}
+                icon={<Icon name={iconName} width={36} height={36} />}
+              >
+                {item.label}
+              </SidebarPannel>
+            );
+          })
+        ) : (
+          <div className={styles.iconContainer}>
             <SidebarIcon
-              key={item.id}
-              isSelected={isActive}
-              onClick={() => setSelectedId(item.id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              isSelected={false}
+              onClick={() => setIsExpanded(true)}
+              icon={<Icon name="ic_label" width={36} height={36} />}
             />
-          );
-        })}
+
+            <div className={styles.floatingMenu}>
+              <FloatingLabel
+                labels={LABEL_ITEMS.map((item) => ({
+                  id: item.id,
+                  name: item.label,
+                }))}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.sidebarBottom({ expanded: isExpanded })}>

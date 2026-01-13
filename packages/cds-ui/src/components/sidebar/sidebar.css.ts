@@ -99,7 +99,6 @@ export const sidebarBottom = recipe({
     display: 'flex',
     flexDirection: 'column',
     marginTop: 'auto',
-    pointerEvents: 'none',
   },
   variants: {
     expanded: {
