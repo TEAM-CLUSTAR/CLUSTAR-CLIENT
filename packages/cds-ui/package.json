@@ -18,6 +18,7 @@
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
+    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins",
     "@storybook/addon-a11y": "^8.6.15",
     "@storybook/addon-essentials": "^8.6.15",
     "@storybook/addon-interactions": "^8.6.15",
@@ -34,15 +35,15 @@
     "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
     "@vanilla-extract/vite-plugin": "catalog:vanilla-extract-utils",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
-    "eslint": "catalog:eslint-core",
     "chromatic": "^13.3.4",
+    "eslint": "catalog:eslint-core",
     "storybook": "^8.6.15",
     "typescript": "catalog:typescript-core",
-    "vite": "catalog:vite-core",
-    "@pivanov/vite-plugin-svg-sprite": "catalog:vite-plugins"
+    "vite": "catalog:vite-core"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
+    "@radix-ui/react-dialog": "^1.1.15",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core"
   }
