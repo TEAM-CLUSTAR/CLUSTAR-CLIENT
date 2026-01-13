@@ -111,3 +111,24 @@ export const sidebarBottom = recipe({
     },
   },
 });
+
+export const iconContainer = style({
+  position: 'relative',
+});
+
+export const floatingMenu = style({
+  position: 'absolute',
+  left: 'calc(100% + 1.4rem)',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  marginLeft: '1.2rem',
+
+  opacity: 0,
+  transition: 'opacity 0.2s ease',
+
+  selectors: {
+    [`${iconContainer}:hover &`]: {
+      opacity: 1,
+    },
+  },
+});

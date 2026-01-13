@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import { SidebarIcon, SidebarPannel, SideBarProfile } from '..';
+import { FloatingMenu, SidebarIcon, SidebarPannel, SideBarProfile } from '..';
 
 import * as styles from './sidebar.css';
 
@@ -91,12 +91,16 @@ const Sidebar = () => {
               {item.label}
             </SidebarPannel>
           ) : (
-            <SidebarIcon
-              key={item.id}
-              isSelected={isActive}
-              onClick={() => setSelectedId(item.id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
-            />
+            <div key={item.id} className={styles.iconContainer}>
+              <SidebarIcon
+                isSelected={isActive}
+                onClick={() => setSelectedId(item.id)}
+                icon={<Icon name={iconName} width={36} height={36} />}
+              />
+              <div className={styles.floatingMenu}>
+                <FloatingMenu menuName={item.label} />
+              </div>
+            </div>
           );
         })}
       </div>
