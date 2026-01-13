@@ -27,7 +27,32 @@ const MENU_ITEMS = [
   },
 ];
 
-const LABEL_ITEMS = ['sopt', '집안일', '프로젝트', '학교'];
+const LABEL_ITEMS = [
+  {
+    id: 'sopt',
+    label: 'sopt',
+    icon: 'ic_label' as const,
+    activeIcon: 'ic_label_blue' as const,
+  },
+  {
+    id: 'home',
+    label: '집안일',
+    icon: 'ic_label' as const,
+    activeIcon: 'ic_label_blue' as const,
+  },
+  {
+    id: 'project',
+    label: '프로젝트',
+    icon: 'ic_label' as const,
+    activeIcon: 'ic_label_blue' as const,
+  },
+  {
+    id: 'school',
+    label: '학교',
+    icon: 'ic_label' as const,
+    activeIcon: 'ic_label_blue' as const,
+  },
+];
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -78,24 +103,28 @@ const Sidebar = () => {
 
       {isExpanded && <span className={styles.label}>라벨</span>}
       <div className={styles.labelList({ expanded: isExpanded })}>
-        {isExpanded ? (
-          LABEL_ITEMS.map((label, index) => (
+        {LABEL_ITEMS.map((item) => {
+          const isActive = selectedId === item.id;
+          const iconName = isActive ? item.activeIcon : item.icon;
+
+          return isExpanded ? (
             <SidebarPannel
-              key={index}
-              isSelected={selectedId === `label-${index}`}
-              onClick={() => setSelectedId(`label-${index}`)}
-              icon={<Icon name="ic_label" width={36} height={36} />}
+              key={item.id}
+              isSelected={isActive}
+              onClick={() => setSelectedId(item.id)}
+              icon={<Icon name={iconName} width={36} height={36} />}
             >
-              {label}
+              {item.label}
             </SidebarPannel>
-          ))
-        ) : (
-          <SidebarIcon
-            isSelected={selectedId?.startsWith('label')}
-            onClick={() => setSelectedId('label-0')}
-            icon={<Icon name="ic_label" width={36} height={36} />}
-          />
-        )}
+          ) : (
+            <SidebarIcon
+              key={item.id}
+              isSelected={isActive}
+              onClick={() => setSelectedId(item.id)}
+              icon={<Icon name={iconName} width={36} height={36} />}
+            />
+          );
+        })}
       </div>
 
       <div className={styles.sidebarBottom({ expanded: isExpanded })}>
