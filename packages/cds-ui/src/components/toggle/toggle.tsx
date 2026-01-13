@@ -4,17 +4,17 @@ import { ToggleContext } from './toggle.context';
 
 import * as styles from './toggle.css';
 
-interface ToggleProps<ToggleValue> {
+interface ToggleProps<T> {
   children: ReactNode;
-  selectedValue: ToggleValue;
-  handleValueChange: (value: ToggleValue) => void;
+  selectedValue: T;
+  handleValueChange: (value: T) => void;
 }
 
-const Toggle = <ToggleValue,>({
+const Toggle = <T,>({
   children,
   selectedValue,
   handleValueChange,
-}: ToggleProps<ToggleValue>) => {
+}: ToggleProps<T>) => {
   const activeIndex = useMemo(() => {
     const childrenArray = Children.toArray(children) as ReactElement[];
     return childrenArray.findIndex((child) => {

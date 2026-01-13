@@ -4,15 +4,12 @@ import { ToggleContext } from './toggle.context';
 
 import * as styles from './toggle.css';
 
-interface ToggleItemProps<ToggleValue> {
-  itemValue: ToggleValue;
+interface ToggleItemProps<T> {
+  itemValue: T;
   children: ReactNode;
 }
 
-const ToggleItem = <ToggleValue,>({
-  itemValue,
-  children,
-}: ToggleItemProps<ToggleValue>) => {
+const ToggleItem = <T,>({ itemValue, children }: ToggleItemProps<T>) => {
   const context = useContext(ToggleContext);
 
   if (!context) {
