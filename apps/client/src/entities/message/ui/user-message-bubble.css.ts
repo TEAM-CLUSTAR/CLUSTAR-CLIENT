@@ -6,7 +6,6 @@ export const bubbleBox = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  maxWidth: '47.8rem',
   padding: '1.6rem 2rem',
   borderRadius: '16px 4px 16px 16px',
   border: `1px solid ${themeVars.color.grey300}`,
