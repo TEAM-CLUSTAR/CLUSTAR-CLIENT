@@ -1,4 +1,10 @@
-import { Children, ReactElement, ReactNode, useMemo } from 'react';
+import {
+  Children,
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  useMemo,
+} from 'react';
 
 import { ToggleContext, useToggleContext } from './toggle-context';
 
@@ -40,7 +46,7 @@ const Toggle = ({
           {
             '--active-index': activeIndex,
             '--total-items': totalItems,
-          } as React.CSSProperties
+          } as CSSProperties
         }
       >
         <div className={styles.slider} />
