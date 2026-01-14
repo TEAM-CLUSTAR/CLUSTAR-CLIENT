@@ -41,7 +41,7 @@ export const cardContainer = recipe({
         position: 'absolute',
         left: 0,
         top: '50%',
-        width: '4px',
+        width: '0.4rem',
         height: '100%',
         backgroundColor: themeVars.color.grey400,
         pointerEvents: 'none',
@@ -95,7 +95,6 @@ export const cardContainer = recipe({
           '&::after': {
             opacity: 1,
 
-            // NEW일 때만 그라데이션 테두리로 바꾸기
             boxShadow: 'none',
             padding: '2px',
             background: themeVars.color.gradient02,
