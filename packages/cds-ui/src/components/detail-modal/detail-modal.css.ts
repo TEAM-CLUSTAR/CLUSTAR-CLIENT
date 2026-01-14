@@ -14,7 +14,7 @@ export const container = style({
 });
 
 export const headerContainer = style({
-  height: '100px',
+  height: '10rem',
   borderBottom: `1px solid ${themeVars.color.grey200}`,
   position: 'relative',
   padding: '2.8rem 0 1.7rem 4.4rem',
