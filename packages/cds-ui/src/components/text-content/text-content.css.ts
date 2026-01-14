@@ -10,18 +10,14 @@ export const container = recipe({
     flexDirection: 'column',
   },
   variants: {
-    size: {
-      lg: {
+    type: {
+      detail: {
         gap: '2.8rem',
       },
-      sm: {
+      prompt: {
         gap: '2rem',
       },
     },
-  },
-
-  defaultVariants: {
-    size: 'sm',
   },
 });
 
