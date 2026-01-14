@@ -2,7 +2,8 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './selected-memo.css';
 
-interface SelectedMemoProps {
+export interface SelectedMemoProps {
+  id?: number;
   memoName: string;
 }
 

@@ -1,6 +1,6 @@
 import * as styles from './image-container.css';
 
-interface ImgContainerProps {
+export interface ImgContainerProps {
   imageUrl: string;
   imageAlt: string;
 }
