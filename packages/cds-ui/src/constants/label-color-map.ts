@@ -16,7 +16,7 @@ export const PRIMARY_COLOR_VALUE_BY_LABEL_COLOR: Record<
   string
 > = {
   blue: themeVars.color.blue400,
-  green: themeVars.color.label05, // 프로젝트 토큰에 맞게
+  green: themeVars.color.label05,
   pink: themeVars.color.label07,
   purple: themeVars.color.label01,
   gray: themeVars.color.grey400,
