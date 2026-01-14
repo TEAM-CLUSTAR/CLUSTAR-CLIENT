@@ -32,7 +32,7 @@ export const imageContainer = style({
 
 export const imageInnerContainer = style({
   display: 'flex',
-  gap: '14px',
+  gap: '1.4rem',
   alignItems: 'center',
   overflowX: 'auto',
   maxWidth: themeVars.width.full,
@@ -67,7 +67,7 @@ export const textContentContainer = recipe({
 
 export const fileContainer = style({
   display: 'flex',
-  gap: '14px',
+  gap: '1.4rem',
   alignItems: 'center',
   padding: '3rem 4.4rem 0 4.4rem',
 });
