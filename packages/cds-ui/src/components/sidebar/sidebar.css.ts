@@ -125,6 +125,8 @@ export const menuList = recipe({
 
 export const iconContainer = style({
   position: 'relative',
+  width: '3.6rem',
+  height: '3.6rem',
 });
 
 export const floatingMenu = style({
@@ -133,13 +135,14 @@ export const floatingMenu = style({
   top: '50%',
   transform: 'translateY(-50%)',
   marginLeft: '1.2rem',
-  opacity: 0,
-  transition: 'opacity 0.2s ease',
   zIndex: 10,
+  opacity: 0,
+  visibility: 'hidden',
+
   selectors: {
     [`${iconContainer}:hover &, ${foldingBtn}:hover &`]: {
       opacity: 1,
-      pointerEvents: 'auto',
+      visibility: 'visible',
     },
   },
 });
