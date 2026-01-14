@@ -14,8 +14,6 @@ interface HeaderProps {
   handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
   viewMode?: string;
   handleValueChange?: (value: string) => void;
-  isTitleVisible: boolean;
-  isToggleVisible: boolean;
 }
 
 const Header = ({
@@ -25,24 +23,17 @@ const Header = ({
   handleChangeInput,
   viewMode,
   handleValueChange,
-  isTitleVisible,
-  isToggleVisible,
 }: HeaderProps) => {
-  const showTitle =
-    isTitleVisible && title !== undefined && count !== undefined;
-  const showToggle =
-    isToggleVisible &&
-    viewMode !== undefined &&
-    handleValueChange !== undefined;
-
   const isCard = viewMode === 'card';
   const isTree = viewMode === 'tree';
 
   return (
     <header className={styles.container}>
-      {showTitle && <PageTitle title={title} count={count} />}
+      {title && count !== undefined && (
+        <PageTitle title={title} count={count} />
+      )}
       <Search inputValue={inputValue} handleChangeInput={handleChangeInput} />
-      {showToggle && (
+      {handleValueChange && viewMode && (
         <Toggle selectedValue={viewMode} handleValueChange={handleValueChange}>
           <Toggle.Item itemValue="card">
             <Icon
