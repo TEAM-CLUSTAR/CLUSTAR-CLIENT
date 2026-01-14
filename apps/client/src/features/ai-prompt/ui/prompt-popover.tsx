@@ -8,7 +8,7 @@ interface PromptPopoverProps {
 const PromptPopover = ({ title, description }: PromptPopoverProps) => {
   return (
     <div className={styles.popoverContainer}>
-      <h2 className={styles.title}>{title}</h2>
+      <strong className={styles.title}>{title}</strong>
       <p className={styles.description}>{description}</p>
     </div>
   );
