@@ -2,12 +2,27 @@ import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '../../styles';
 
+import {
+  contentHide,
+  contentShow,
+  opacityHide,
+  opacityShow,
+} from '../../styles/animations.css';
+
 export const overlay = style({
   position: 'fixed',
   inset: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.35)',
 
   zIndex: themeVars.zIndex.modalOverlay,
+  selectors: {
+    '&[data-state="open"]': {
+      animation: `${opacityShow} 400ms ease-out`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${opacityHide} 400ms ease-in forwards`,
+    },
+  },
 });
 
 export const content = style({
@@ -22,4 +37,13 @@ export const content = style({
 
   zIndex: themeVars.zIndex.modalContent,
   outline: 'none',
+
+  selectors: {
+    '&[data-state="open"]': {
+      animation: `${contentShow} 400ms ease-out`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${contentHide} 400ms ease-in forwards`,
+    },
+  },
 });
