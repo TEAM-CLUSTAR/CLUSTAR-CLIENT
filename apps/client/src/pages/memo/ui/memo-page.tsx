@@ -3,7 +3,7 @@ import { Sidebar } from '@cds/ui';
 const MemoPage = () => {
   return (
     <div>
-      <Sidebar userId="dskdnl" userEmail="sdskl" />
+      <Sidebar userId="우주대마왕" userEmail="sdskl" />
     </div>
   );
 };

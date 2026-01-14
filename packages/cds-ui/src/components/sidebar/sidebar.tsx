@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from 'react';
+import { useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -11,8 +11,6 @@ import {
 } from '..';
 
 import * as styles from './sidebar.css';
-
-type IconNameType = ComponentProps<typeof Icon>['name'];
 
 const MENU_ITEMS = [
   {
@@ -61,52 +59,9 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [selectedId, setSelectedId] = useState('new');
 
-  const renderItem = (
-    id: string,
-    label: string,
-    iconName: IconNameType,
-    activeIconName: IconNameType,
-    mode?: 'panel' | 'icon',
-  ) => {
-    const isSelected = selectedId === id;
-    const currentIcon =
-      isSelected && activeIconName ? activeIconName : iconName;
-    const IconNode = <Icon name={currentIcon} width={36} height={36} />;
-
-    const showPanel = mode === 'panel' || (mode === undefined && isExpanded);
-
-    if (showPanel) {
-      return (
-        <SidebarPannel
-          key={id}
-          isSelected={isSelected}
-          onClick={() => setSelectedId(id)}
-          icon={IconNode}
-        >
-          {label}
-        </SidebarPannel>
-      );
-    }
-
-    return (
-      <div key={id} className={styles.iconContainer}>
-        <SidebarIcon
-          isSelected={isSelected}
-          onClick={() => setSelectedId(id)}
-          icon={IconNode}
-        />
-
-        <div className={styles.floatingMenu}>
-          <FloatingMenu menuName={label} />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
-        {/* 조건부 렌더링 제거 -> CSS로 부드럽게 제어 */}
         <div className={styles.logo({ expanded: isExpanded })} />
         <span className={styles.title({ expanded: isExpanded })}>큰랍스타</span>
 
@@ -126,61 +81,119 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
 
       <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
       <div className={styles.menuList({ expanded: isExpanded })}>
-        {MENU_ITEMS.map((item) =>
-          renderItem(item.id, item.label, item.icon, item.activeIcon),
-        )}
+        {MENU_ITEMS.map((item) => {
+          const isActive = selectedId === item.id;
+          const iconName = isActive ? item.activeIcon : item.icon;
+
+          return isExpanded ? (
+            <SidebarPannel
+              key={item.id}
+              isSelected={isActive}
+              onClick={() => setSelectedId(item.id)}
+              icon={<Icon name={iconName} width={36} height={36} />}
+            >
+              {item.label}
+            </SidebarPannel>
+          ) : (
+            <div key={item.id} className={styles.iconContainer}>
+              <SidebarIcon
+                isSelected={isActive}
+                onClick={() => setSelectedId(item.id)}
+                icon={<Icon name={iconName} width={36} height={36} />}
+              />
+              <div className={styles.floatingMenu}>
+                <FloatingMenu menuName={item.label} />
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <span className={styles.label({ expanded: isExpanded })}>라벨</span>
-
       <div className={styles.labelList({ expanded: isExpanded })}>
-        <div className={styles.expandedLabelGroup({ visible: isExpanded })}>
-          {LABEL_ITEMS.map((item) =>
-            renderItem(
-              item.id,
-              item.label,
-              item.icon,
-              item.activeIcon,
-              'panel',
-            ),
-          )}
-        </div>
+        {isExpanded ? (
+          LABEL_ITEMS.map((item) => {
+            const isActive = selectedId === item.id;
+            const iconName = isActive ? item.activeIcon : item.icon;
 
-        <div className={styles.collapsedLabelGroup({ visible: !isExpanded })}>
+            return (
+              <SidebarPannel
+                key={item.id}
+                isSelected={isActive}
+                onClick={() => setSelectedId(item.id)}
+                icon={<Icon name={iconName} width={36} height={36} />}
+              >
+                {item.label}
+              </SidebarPannel>
+            );
+          })
+        ) : (
           <div className={styles.iconContainer}>
             <SidebarIcon
               isSelected={false}
               onClick={() => setIsExpanded(true)}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
-            <div className={styles.floatingMenu}>
+
+            <div className={styles.floatingLabel}>
               <FloatingLabel
-                labels={LABEL_ITEMS.map(({ id, label }) => ({
-                  id,
-                  name: label,
+                labels={LABEL_ITEMS.map((item) => ({
+                  id: item.id,
+                  name: item.label,
                 }))}
               />
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={styles.sidebarBottom({ expanded: isExpanded })}>
-        {renderItem('trash', '휴지통', 'ic_trash', 'ic_trash_blue')}
-
         {isExpanded ? (
-          <SideBarProfile userId={userId} userEmail={userEmail} />
+          <>
+            <SidebarPannel
+              isSelected={selectedId === 'trash'}
+              onClick={() => setSelectedId('trash')}
+              icon={
+                selectedId === 'trash' ? (
+                  <Icon name="ic_trash_blue" width={36} height={36} />
+                ) : (
+                  <Icon name="ic_trash" width={36} height={36} />
+                )
+              }
+            >
+              휴지통
+            </SidebarPannel>
+            <SideBarProfile userId={userId} userEmail={userEmail} />
+          </>
         ) : (
-          <div className={styles.iconContainer}>
-            <SidebarIcon
-              isSelected={false}
-              onClick={() => {}}
-              icon={<Icon name="ic_profile" width={36} height={36} />}
-            />
-            <div className={styles.floatingMenu}>
-              <FloatingMenu menuName={userId} />
+          <>
+            <div className={styles.iconContainer}>
+              <SidebarIcon
+                isSelected={false}
+                onClick={() => setSelectedId('trash')}
+                icon={
+                  selectedId === 'trash' ? (
+                    <Icon name="ic_trash_blue" width={36} height={36} />
+                  ) : (
+                    <Icon name="ic_trash" width={36} height={36} />
+                  )
+                }
+              />
+              <div className={styles.floatingMenu}>
+                <FloatingMenu menuName="휴지통" />
+              </div>
             </div>
-          </div>
+            <div className={styles.iconContainer}>
+              <SidebarIcon
+                isSelected={false}
+                onClick={() => {}}
+                icon={<Icon name="ic_profile" width={36} height={36} />}
+              />
+              <div className={styles.floatingMenu}>
+                <FloatingMenu menuName={userId} />
+              </div>
+            </div>
+          </>
         )}
       </div>
     </nav>
