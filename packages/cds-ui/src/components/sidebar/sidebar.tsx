@@ -151,7 +151,7 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <>
             <SidebarPannel
               isSelected={selectedId === 'trash'}
-              onClick={() => setSelectedId('trash')}
+              onClick={() => {}}
               icon={
                 selectedId === 'trash' ? (
                   <Icon name="ic_trash_blue" width={36} height={36} />
