@@ -7,10 +7,10 @@ const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
 
 export const container = recipe({
   base: {
-    margin: '2rem 0 2rem 2rem',
+    // margin: '2rem 0 2rem 2rem',
     display: 'flex',
     flexDirection: 'column',
-    height: 'calc(100dvh - 4rem)',
+    height: '100dvh',
     backgroundColor: themeVars.color.grey50,
     borderRadius: '16px',
     transition: smoothTransition,
@@ -133,7 +133,6 @@ export const floatingMenu = style({
   top: '50%',
   transform: 'translateY(-50%)',
   marginLeft: '1.2rem',
-  zIndex: 10,
   opacity: 0,
   visibility: 'hidden',
 
@@ -214,7 +213,6 @@ export const floatingLabel = style({
 
   opacity: 0,
   transition: 'opacity 0.2s ease',
-  zIndex: 10,
   visibility: 'hidden',
   '::before': {
     content: '""',
