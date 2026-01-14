@@ -20,6 +20,6 @@ export const container = style({
     color: themeVars.color.grey500,
   },
   ':focus': {
-    border: `1px solid ${themeVars.color.blue400}`,
+    borderColor: themeVars.color.blue400,
   },
 });
