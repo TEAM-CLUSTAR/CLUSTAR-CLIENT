@@ -49,6 +49,11 @@ export const cardContainer = recipe({
         boxShadow: `inset 0 0 0 2px ${themeVars.color.grey400}`,
         opacity: 0,
         transition: 'opacity 180ms cubic-bezier(0.4, 0, 0.2, 1)',
+
+        transitionProperty: 'opacity, border-radius',
+        transitionDuration: '180ms, 220ms',
+        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1), ease-out',
+        transitionDelay: '0ms, 180ms', // 카드 radius랑 맞추기
       },
     },
   },
@@ -115,6 +120,24 @@ export const cardContainer = recipe({
         },
       },
 
+      false: {
+        selectors: {
+          '&::after': {
+            borderRadius: '12px',
+            transition: 'opacity 180ms cubic-bezier(0.4, 0, 0.2, 1)',
+          },
+        },
+      },
+    },
+    aiNewResultAndAiMode: {
+      true: {
+        borderRadius: '0 12px 12px 0',
+        selectors: {
+          '&::after': {
+            borderRadius: '0 12px 12px 0',
+          },
+        },
+      },
       false: {},
     },
     isSelectedCard: {

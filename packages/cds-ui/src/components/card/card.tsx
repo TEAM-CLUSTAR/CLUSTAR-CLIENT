@@ -4,10 +4,9 @@ import { Icon } from '@cds/icon';
 
 import {
   LABEL_COLOR_BY_TEXT,
-  LabelColorType,
   LabelTextType,
+  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
 } from '../../constants/label-color-map';
-import { themeVars } from '../../styles';
 import LabelList from '../label-list/label-list';
 import Title from '../title/title';
 
@@ -32,14 +31,6 @@ interface CardProps {
   aiNewResult?: boolean;
   onClick: () => void;
 }
-
-const PRIMARY_COLOR_VALUE_BY_LABEL_COLOR: Record<LabelColorType, string> = {
-  blue: themeVars.color.blue400,
-  green: themeVars.color.label05, // 프로젝트 토큰에 맞게
-  pink: themeVars.color.label07,
-  purple: themeVars.color.label01,
-  gray: themeVars.color.grey400,
-};
 
 const Card = ({
   item,
@@ -69,6 +60,7 @@ const Card = ({
         isDefault,
         aiNewResult,
         isAiMode,
+        aiNewResultAndAiMode: aiNewResult && isAiMode,
         isSelectedCard: isSelectedCard && isAiMode,
         imageUrl: !!imageUrl,
       })}
