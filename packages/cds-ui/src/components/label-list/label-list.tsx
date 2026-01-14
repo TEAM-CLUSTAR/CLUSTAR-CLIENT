@@ -6,7 +6,7 @@ type LabelListType = 'modal' | 'card';
 
 export type LabelTextType = '졸업 프로젝트' | '교양' | 'SOPT' | '레퍼런스';
 
-type ItemsType = {
+export type ItemsType = {
   id: number;
   text: LabelTextType;
 };
