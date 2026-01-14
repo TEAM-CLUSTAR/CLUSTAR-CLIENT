@@ -62,8 +62,12 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
-        <div className={styles.logo({ expanded: isExpanded })} />
-        <span className={styles.title({ expanded: isExpanded })}>큰랍스타</span>
+        <div className={styles.logo({ expanded: isExpanded })}>
+          <Icon name="ic_logo_symbol" width={36} height={36} />
+        </div>
+        <span className={styles.title({ expanded: isExpanded })}>
+          <Icon name="ic_logo_type" width={92.3} height={12} />
+        </span>
 
         <button
           type="button"

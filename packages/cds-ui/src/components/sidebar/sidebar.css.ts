@@ -49,15 +49,11 @@ export const header = style({
 
 export const logo = recipe({
   base: {
-    height: '3.6rem',
-    borderRadius: '4px',
-    backgroundColor: themeVars.color.grey200,
     transition: smoothTransition,
   },
   variants: {
     expanded: {
       true: {
-        width: '3.6rem',
         opacity: 1,
       },
       false: {
