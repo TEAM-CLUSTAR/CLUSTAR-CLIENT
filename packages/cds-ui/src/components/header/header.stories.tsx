@@ -36,8 +36,6 @@ const DefaultHeader = () => {
       handleChangeInput={handleChangeInput}
       viewMode={viewMode}
       handleValueChange={handleValueChange}
-      isTitleVisible={true}
-      isToggleVisible={true}
     />
   );
 };
@@ -70,8 +68,6 @@ const MemoListHeader = () => {
       handleChangeInput={handleChangeInput}
       viewMode={viewMode}
       handleValueChange={handleValueChange}
-      isTitleVisible={true}
-      isToggleVisible={true}
     />
   );
 };
@@ -97,8 +93,6 @@ const TitleOnlyHeader = () => {
       count={10}
       inputValue={inputValue}
       handleChangeInput={handleChangeInput}
-      isTitleVisible={true}
-      isToggleVisible={false}
     />
   );
 };
@@ -131,8 +125,6 @@ const ToggleOnlyHeader = () => {
       handleChangeInput={handleChangeInput}
       viewMode={viewMode}
       handleValueChange={handleValueChange}
-      isTitleVisible={false}
-      isToggleVisible={true}
     />
   );
 };
@@ -153,12 +145,7 @@ const SearchOnlyHeader = () => {
   };
 
   return (
-    <Header
-      inputValue={inputValue}
-      handleChangeInput={handleChangeInput}
-      isTitleVisible={false}
-      isToggleVisible={false}
-    />
+    <Header inputValue={inputValue} handleChangeInput={handleChangeInput} />
   );
 };
 
@@ -190,8 +177,6 @@ const EmptySearchHeader = () => {
       handleChangeInput={handleChangeInput}
       viewMode={viewMode}
       handleValueChange={handleValueChange}
-      isTitleVisible={true}
-      isToggleVisible={true}
     />
   );
 };
