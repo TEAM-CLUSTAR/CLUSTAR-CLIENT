@@ -131,7 +131,10 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <div className={styles.labelContainer}>
             <SidebarIcon
               isSelected={false}
-              onClick={() => {}}
+              onClick={() => {
+                setIsExpanded(true);
+                setSelectedId(LABEL_ITEMS[0].id);
+              }}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
