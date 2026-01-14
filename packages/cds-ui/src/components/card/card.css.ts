@@ -5,6 +5,13 @@ import { themeVars } from '../../styles';
 
 export const PRIMARY_COLOR_VAR = '--card-primary-color';
 
+const RADIUS_DEFAULT = '12px';
+const RADIUS_AI_MODE = '0 12px 12px 0';
+
+const EASE_STANDARD = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+const BAR_TRANSITION = `transform 520ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ${EASE_STANDARD}`;
+
 export const cardContainer = recipe({
   base: {
     vars: {
@@ -12,7 +19,7 @@ export const cardContainer = recipe({
     },
 
     width: '32rem',
-    borderRadius: '12px',
+    borderRadius: RADIUS_DEFAULT,
     boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.20)',
     cursor: 'pointer',
 
@@ -20,9 +27,15 @@ export const cardContainer = recipe({
     overflow: 'hidden',
 
     backgroundColor: themeVars.color.white,
-    transition: 'background-color 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+
+    // 카드: 배경 + radius만 애니메이션
+    transition: `background-color 300ms ${EASE_STANDARD}, border-radius 220ms ease-out`,
+
+    outline: '2px solid transparent',
+    outlineOffset: '-2px',
 
     selectors: {
+      // 왼쪽 bar
       '&::before': {
         content: '""',
         position: 'absolute',
@@ -36,78 +49,70 @@ export const cardContainer = recipe({
 
         transform: 'translateY(-50%) scaleY(0)',
         transformOrigin: 'center',
-        transition:
-          'transform 520ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: BAR_TRANSITION,
         transitionDelay: '40ms',
       },
+
+      // - 기본 outline(hover) + NEW 그라데이션 레이어는 ::after 하나로 관리
+      // - 기본 상태: boxShadow로 hover outline
+      // - NEW 상태: mask 그라데이션으로 전환(※ 여기서만 속성이 바뀜)
       '&::after': {
         content: '""',
         position: 'absolute',
         inset: 0,
-        borderRadius: '12px',
+        borderRadius: RADIUS_DEFAULT,
         pointerEvents: 'none',
+
         boxShadow: `inset 0 0 0 2px ${themeVars.color.grey400}`,
         opacity: 0,
-        transition: 'opacity 180ms cubic-bezier(0.4, 0, 0.2, 1)',
 
-        transitionProperty: 'opacity, border-radius',
-        transitionDuration: '180ms, 220ms',
-        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1), ease-out',
-        transitionDelay: '0ms, 180ms', // 카드 radius랑 맞추기
+        transition: `opacity 180ms ${EASE_STANDARD}, border-radius 220ms ease-out`,
       },
     },
   },
+
   variants: {
     imageUrl: {
-      true: {
-        height: '42.4rem',
-      },
-      false: {
-        height: '20rem',
-      },
+      true: { height: '42.4rem' },
+      false: { height: '20rem' },
     },
+
+    // 기본 카드 hover
     isDefault: {
       true: {
         selectors: {
-          '&:hover::after': {
-            opacity: 1,
-          },
+          '&:hover::after': { opacity: 1 },
         },
       },
       false: {},
     },
+
+    // NEW 결과 (그라데이션 테두리)
     aiNewResult: {
       true: {
         backgroundImage: themeVars.color.gradient03,
         selectors: {
           '&::after': {
             opacity: 1,
-            content: '""',
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '12px',
+
+            // NEW일 때만 그라데이션 테두리로 바꾸기
+            boxShadow: 'none',
             padding: '2px',
             background: themeVars.color.gradient02,
-            pointerEvents: 'none',
             WebkitMask:
               'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
             WebkitMaskComposite: 'xor',
             maskComposite: 'exclude',
-            boxShadow: 'none', // ← default hover shadow 제거
           },
         },
       },
       false: {},
     },
+
+    // AI 모드
     isAiMode: {
       true: {
-        borderRadius: '0 12px 12px 0',
-        transitionProperty:
-          'background-color, border-top-left-radius, border-bottom-left-radius',
-        transitionDuration: '200ms, 220ms, 220ms',
-        transitionTimingFunction:
-          'cubic-bezier(0.4, 0, 0.2, 1), ease-out, ease-out',
-        transitionDelay: '0ms, 180ms, 180ms',
+        borderRadius: RADIUS_AI_MODE,
 
         selectors: {
           '&::before': {
@@ -119,31 +124,26 @@ export const cardContainer = recipe({
           },
         },
       },
-
-      false: {
-        selectors: {
-          '&::after': {
-            borderRadius: '12px',
-            transition: 'opacity 180ms cubic-bezier(0.4, 0, 0.2, 1)',
-          },
-        },
-      },
+      false: {},
     },
+
+    // NEW + AI 모드 조합 (Card.tsx에서 이미 boolean으로 만들어서 넘김)
     aiNewResultAndAiMode: {
       true: {
-        borderRadius: '0 12px 12px 0',
+        borderRadius: RADIUS_AI_MODE,
         selectors: {
           '&::after': {
-            borderRadius: '0 12px 12px 0',
+            borderRadius: RADIUS_AI_MODE,
           },
         },
       },
       false: {},
     },
+
+    // 선택 상태 (Card.tsx에서 isAiMode일 때만 true로 넘김)
     isSelectedCard: {
       true: {
         backgroundColor: themeVars.color.blue50,
-        transition: 'background-color 350ms ease',
         selectors: {
           '&::before': {
             backgroundColor: `var(${PRIMARY_COLOR_VAR})`,
@@ -161,12 +161,13 @@ export const imageContainer = recipe({
     height: '22.4rem',
     borderRadius: '12px 12px 0 0',
     overflow: 'hidden',
+
+    // 카드 radius와 싱크
+    transition: 'border-top-left-radius 220ms ease-out',
   },
   variants: {
     isAiMode: {
-      true: {
-        borderRadius: '0 12px 0 0',
-      },
+      true: { borderRadius: '0 12px 0 0' },
       false: {},
     },
   },
