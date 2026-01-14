@@ -1,6 +1,9 @@
+import { CSSProperties } from 'react';
+
 import {
   LABEL_COLOR_BY_TEXT,
   LabelTextType,
+  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
 } from '../../constants/label-color-map';
 import Label from '../label/label';
 
@@ -18,13 +21,20 @@ interface LabelListProps {
   dateText?: string;
   labelItems: LabelItem[];
 }
-//@ TODO 실제 라벨-색상 매핑으로 교체
 
 const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
+  const primaryLabelColor = labelItems[0]
+    ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
+    : 'gray';
+  const primaryColorValue =
+    PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
   const labelSize = listType === 'modal' ? 'lg' : 'sm';
 
   return (
-    <div className={styles.labelListContainer({ listType })}>
+    <div
+      className={styles.labelListContainer({ listType })}
+      style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
+    >
       {dateText && <p className={styles.dateTextContainer}>{dateText}</p>}
       <div className={styles.labelContainer}>
         {labelItems.map(({ id, text }) => (
