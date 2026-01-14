@@ -220,6 +220,7 @@ export const aiNewResult = style({
 
 export const content = style({
   ...themeVars.fontStyles.body_m_14,
+  height: '4.2rem',
   color: themeVars.color.grey700,
   display: '-webkit-box',
   WebkitLineClamp: 2,
