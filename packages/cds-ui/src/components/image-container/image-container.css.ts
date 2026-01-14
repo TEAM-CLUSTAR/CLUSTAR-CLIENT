@@ -9,6 +9,7 @@ export const container = style({
   border: `1px solid ${themeVars.color.white}`,
   borderRadius: '12px',
   overflow: 'hidden',
+  flexShrink: '0',
 });
 
 export const img = style({
