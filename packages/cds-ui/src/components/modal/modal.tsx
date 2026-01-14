@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 
 import * as styles from './modal.css';
 
-interface ModalProps {
+interface ModalRootProps {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -19,12 +19,12 @@ interface ModalContentProps {
   children: ReactNode;
 }
 
-export const Modal = ({
+const ModalRoot = ({
   defaultOpen,
   open,
   onOpenChange,
   children,
-}: ModalProps) => {
+}: ModalRootProps) => {
   return (
     <Dialog.Root
       open={open}
@@ -36,15 +36,15 @@ export const Modal = ({
   );
 };
 
-export const ModalTrigger = ({ children }: ModalTriggerProps) => {
+const ModalTrigger = ({ children }: ModalTriggerProps) => {
   return <Dialog.Trigger asChild>{children}</Dialog.Trigger>;
 };
 
-export const ModalClose = ({ children }: ModalCloseProps) => {
+const ModalClose = ({ children }: ModalCloseProps) => {
   return <Dialog.Close asChild>{children}</Dialog.Close>;
 };
 
-export const ModalContent = ({ children }: ModalContentProps) => {
+const ModalContent = ({ children }: ModalContentProps) => {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className={styles.overlay} />
@@ -52,3 +52,11 @@ export const ModalContent = ({ children }: ModalContentProps) => {
     </Dialog.Portal>
   );
 };
+
+const Modal = Object.assign(ModalRoot, {
+  Trigger: ModalTrigger,
+  Close: ModalClose,
+  Content: ModalContent,
+});
+
+export default Modal;

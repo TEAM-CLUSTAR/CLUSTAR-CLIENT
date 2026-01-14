@@ -7,7 +7,7 @@ export { default as FloatingMenu } from './floating-menu/floating-menu';
 export { default as ImgContainer } from './image-container/image-container';
 export { default as Label } from './label/label';
 export { default as LabelList } from './label-list/label-list';
-export { Modal, ModalClose, ModalContent, ModalTrigger } from './modal/modal';
+export { default as Modal } from './modal/modal';
 export { default as PageTitle } from './page-title/page-title';
 export { default as Search } from './search/search';
 export { default as SelectedMemo } from './selected-memo/selected-memo';
