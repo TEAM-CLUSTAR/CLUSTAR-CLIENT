@@ -10,12 +10,16 @@ export const container = style({
   border: `1px solid ${themeVars.color.grey200}`,
   borderRadius: '8px',
   backgroundColor: themeVars.color.white,
+  outline: 'none',
   resize: 'none',
 
   ...themeVars.fontStyles.title_m_18,
-  color: themeVars.color.grey500,
+  color: themeVars.color.grey900,
 
   '::placeholder': {
     color: themeVars.color.grey500,
+  },
+  ':focus': {
+    border: `1px solid ${themeVars.color.blue400}`,
   },
 });
