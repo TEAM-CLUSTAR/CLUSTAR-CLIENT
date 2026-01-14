@@ -205,6 +205,7 @@ export const floatingLabel = style({
   opacity: 0,
   transition: 'opacity 0.2s ease',
   zIndex: 10,
+  visibility: 'hidden',
   '::before': {
     content: '""',
     position: 'absolute',
@@ -218,7 +219,7 @@ export const floatingLabel = style({
   selectors: {
     [`${iconContainer}:hover &`]: {
       opacity: 1,
-      pointerEvents: 'auto',
+      visibility: 'visible',
     },
   },
 });
