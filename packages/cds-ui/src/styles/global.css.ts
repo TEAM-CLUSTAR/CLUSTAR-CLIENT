@@ -25,7 +25,7 @@ globalStyle('::-webkit-scrollbar-track', {
 globalStyle('::-webkit-scrollbar-thumb', {
   backgroundColor: themeVars.color.grey300,
   backgroundClip: 'content-box',
-  border: '4px solid transparent',
+  border: '8px solid transparent',
   borderRadius: '100px',
 });
 
