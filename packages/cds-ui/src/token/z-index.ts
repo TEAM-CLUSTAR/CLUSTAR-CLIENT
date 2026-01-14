@@ -3,7 +3,6 @@ export const zIndex = {
   back: '-1',
   defalut: '0',
   button: '100',
-  modal: '200',
-  modalOverlay: '201',
-  modalContent: '202',
+  modalOverlay: '200',
+  modalContent: '300',
 } as const;
