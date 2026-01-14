@@ -1,13 +1,19 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
 
 const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
 
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+});
+
+const fadeInAnimation = `${fadeIn} 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
+
 export const container = recipe({
   base: {
-    // margin: '2rem 0 2rem 2rem',
     display: 'flex',
     flexDirection: 'column',
     height: '100dvh',
@@ -15,6 +21,7 @@ export const container = recipe({
     borderRadius: '16px',
     transition: smoothTransition,
     whiteSpace: 'nowrap',
+    overflow: 'hidden',
   },
   variants: {
     expanded: {
@@ -117,7 +124,7 @@ export const menuList = recipe({
   },
   variants: {
     expanded: {
-      true: { gap: '0.8rem' },
+      true: { gap: '0.8rem', animation: fadeInAnimation },
       false: { gap: '1.6rem' },
     },
   },
@@ -172,7 +179,7 @@ export const labelList = recipe({
   },
   variants: {
     expanded: {
-      true: { gap: '1.2rem' },
+      true: { gap: '1.2rem', animation: fadeInAnimation },
       false: { paddingTop: '1.6rem' },
     },
   },
@@ -198,7 +205,7 @@ export const sidebarBottom = recipe({
   },
   variants: {
     expanded: {
-      true: { gap: '3rem' },
+      true: { gap: '3rem', animation: fadeInAnimation },
       false: { gap: '0.8rem' },
     },
   },
