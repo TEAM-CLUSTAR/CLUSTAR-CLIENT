@@ -21,7 +21,6 @@ export const container = recipe({
     borderRadius: '16px',
     transition: smoothTransition,
     whiteSpace: 'nowrap',
-    overflow: 'hidden',
   },
   variants: {
     expanded: {
@@ -194,6 +193,10 @@ export const labelContainer = style({
   ':hover': {
     backgroundColor: themeVars.color.grey200,
   },
+});
+
+export const profileWrapper = style({
+  animation: fadeInAnimation,
 });
 
 export const sidebarBottom = recipe({

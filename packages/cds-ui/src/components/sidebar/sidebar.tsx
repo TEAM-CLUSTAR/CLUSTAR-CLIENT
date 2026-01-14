@@ -131,7 +131,7 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <div className={styles.labelContainer}>
             <SidebarIcon
               isSelected={false}
-              onClick={() => setIsExpanded(true)}
+              onClick={() => {}}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
@@ -162,14 +162,16 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
             >
               휴지통
             </SidebarPannel>
-            <SideBarProfile userId={userId} userEmail={userEmail} />
+            <div className={styles.profileWrapper}>
+              <SideBarProfile userId={userId} userEmail={userEmail} />
+            </div>
           </>
         ) : (
           <>
             <div className={styles.iconContainer}>
               <SidebarIcon
                 isSelected={false}
-                onClick={() => setSelectedId('trash')}
+                onClick={() => {}}
                 icon={
                   selectedId === 'trash' ? (
                     <Icon name="ic_trash_blue" width={36} height={36} />
