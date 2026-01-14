@@ -83,7 +83,7 @@ const Card = ({
           <div className={styles.textContent}>
             <div className={styles.titleContainer({ aiResult })}>
               {aiResult && <Icon name="ic_ai_gra" width={36} height={36} />}
-              <Title title={title} aiResult />
+              <Title title={title} />
             </div>
             <p className={styles.content}>{contents}</p>
           </div>
