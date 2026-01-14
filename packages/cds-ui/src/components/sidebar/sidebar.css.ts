@@ -16,21 +16,26 @@ export const container = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
+
     height: '100dvh',
-    backgroundColor: themeVars.color.grey50,
+
     borderRadius: '16px',
-    transition: smoothTransition,
+    backgroundColor: themeVars.color.grey50,
+
     whiteSpace: 'nowrap',
+    transition: smoothTransition,
   },
   variants: {
     expanded: {
       true: {
         width: '26rem',
         padding: '2.4rem 2rem',
+        overflow: 'hidden',
       },
       false: {
         width: '6.4rem',
         padding: '2.4rem 1.4rem',
+        overflow: 'visible',
       },
     },
   },
@@ -84,8 +89,8 @@ export const title = recipe({
 
 export const foldingBtn = style({
   position: 'relative',
-  borderRadius: '8px',
   marginLeft: 'auto',
+  borderRadius: '8px',
   ':hover': { backgroundColor: themeVars.color.grey200 },
 });
 
@@ -103,13 +108,13 @@ export const menu = recipe({
   variants: {
     expanded: {
       true: {
-        opacity: 1,
         height: 'auto',
+        opacity: 1,
       },
       false: {
         opacity: 0,
-        height: 0,
         paddingBottom: 0,
+        height: 0,
       },
     },
   },
@@ -134,18 +139,20 @@ export const iconContainer = style({
 });
 
 export const floatingMenu = style({
-  position: 'absolute',
-  left: 'calc(100% + 1.4rem)',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  marginLeft: '1.2rem',
-  opacity: 0,
   visibility: 'hidden',
+  position: 'absolute',
+  top: '45%',
+  left: 'calc(100% + 1.4rem)',
+
+  marginLeft: '1.2rem',
+
+  transform: 'translateY(-50%)',
+  opacity: 0,
 
   selectors: {
     [`${iconContainer}:hover &, ${foldingBtn}:hover &`]: {
-      opacity: 1,
       visibility: 'visible',
+      opacity: 1,
     },
   },
 });
@@ -158,14 +165,10 @@ export const label = recipe({
   variants: {
     expanded: {
       true: {
-        opacity: 1,
         height: 'auto',
+        opacity: 1,
       },
-      false: {
-        opacity: 0,
-        height: 0,
-        padding: 0,
-      },
+      false: { height: 0, padding: 0, opacity: 0 },
     },
   },
 });
@@ -215,15 +218,16 @@ export const sidebarBottom = recipe({
 });
 
 export const floatingLabel = style({
+  visibility: 'hidden',
   position: 'absolute',
-  left: 'calc(100% + 1.4rem)',
   top: '50%',
-  transform: 'translateY(-17%)',
+  left: 'calc(100% + 1.4rem)',
   marginLeft: '1.2rem',
 
+  transform: 'translateY(-17%)',
   opacity: 0,
   transition: 'opacity 0.2s ease',
-  visibility: 'hidden',
+
   '::before': {
     content: '""',
     position: 'absolute',
@@ -236,8 +240,8 @@ export const floatingLabel = style({
 
   selectors: {
     [`${labelContainer}:hover &`]: {
-      opacity: 1,
       visibility: 'visible',
+      opacity: 1,
     },
   },
 });
