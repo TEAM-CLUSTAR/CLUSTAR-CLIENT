@@ -30,7 +30,7 @@ const TextContent = ({
             className={styles.icon}
           ></Icon>
           <div>
-            <h3 className={styles.aiSummary}>AI 요약본</h3>
+            <p className={styles.aiSummary}>AI 요약본</p>
             <Title title={title} />
           </div>
         </div>
