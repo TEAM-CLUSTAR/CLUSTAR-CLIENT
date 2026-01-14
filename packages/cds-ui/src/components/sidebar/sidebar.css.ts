@@ -125,8 +125,6 @@ export const menuList = recipe({
 
 export const iconContainer = style({
   position: 'relative',
-  width: '3.6rem',
-  height: '3.6rem',
 });
 
 export const floatingMenu = style({
@@ -181,6 +179,17 @@ export const labelList = recipe({
   },
 });
 
+export const labelContainer = style({
+  position: 'relative',
+  width: '3.6rem',
+  height: '3.6rem',
+  borderRadius: '8px',
+
+  ':hover': {
+    backgroundColor: themeVars.color.grey200,
+  },
+});
+
 export const sidebarBottom = recipe({
   base: {
     display: 'flex',
@@ -202,6 +211,7 @@ export const floatingLabel = style({
   top: '50%',
   transform: 'translateY(-17%)',
   marginLeft: '1.2rem',
+
   opacity: 0,
   transition: 'opacity 0.2s ease',
   zIndex: 10,
@@ -217,7 +227,7 @@ export const floatingLabel = style({
   },
 
   selectors: {
-    [`${iconContainer}:hover &`]: {
+    [`${labelContainer}:hover &`]: {
       opacity: 1,
       visibility: 'visible',
     },
