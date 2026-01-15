@@ -1,11 +1,11 @@
 import * as styles from './image-container.css';
 
-interface ImgContainerProps {
+export interface ImageContainerProps {
   imageUrl: string;
   imageAlt: string;
 }
 
-const ImgContainer = ({ imageUrl, imageAlt }: ImgContainerProps) => {
+const ImageContainer = ({ imageUrl, imageAlt }: ImageContainerProps) => {
   return (
     <div className={styles.container}>
       <img src={imageUrl} alt={imageAlt} className={styles.img} />
@@ -13,4 +13,4 @@ const ImgContainer = ({ imageUrl, imageAlt }: ImgContainerProps) => {
   );
 };
 
-export default ImgContainer;
+export default ImageContainer;

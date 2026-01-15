@@ -11,6 +11,7 @@ export const container = style({
   borderColor: themeVars.color.blue300,
   borderRadius: '8px',
   backgroundColor: themeVars.color.blue50,
+  textWrap: 'nowrap',
 });
 
 export const name = style({
