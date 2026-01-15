@@ -4,7 +4,6 @@ import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react-swc';
 
-import tsconfigPaths from 'vite-tsconfig-paths';
 import svgSpritePlugin from '@pivanov/vite-plugin-svg-sprite';
 import { resolve } from 'path';
 
@@ -12,10 +11,20 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@pages': resolve(__dirname, 'src/pages'),
+      '@widgets': resolve(__dirname, 'src/widgets'),
+      '@features': resolve(__dirname, 'src/features'),
+      '@entities': resolve(__dirname, 'src/entities'),
+      '@shared': resolve(__dirname, 'src/shared'),
+    },
+  },
   plugins: [
+    vanillaExtractPlugin({
+      identifiers: process.env.NODE_ENV === 'development' ? 'debug' : 'short',
+    }),
     react(),
-    tsconfigPaths(),
-    vanillaExtractPlugin(),
     sentryVitePlugin({
       org: 'team-clustar',
       project: 'clustar',
@@ -36,6 +45,7 @@ export default defineConfig({
       },
     }),
   ],
+
   build: { sourcemap: true },
   test: {
     globals: true,

@@ -45,7 +45,6 @@
     "jsdom": "catalog:test-core",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core",
-    "vite-tsconfig-paths": "^6.0.3",
     "vitest": "catalog:test-core"
   }
 }

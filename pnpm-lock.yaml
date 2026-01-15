@@ -193,9 +193,6 @@ importers:
       vite:
         specifier: catalog:vite-core
         version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0)
-      vite-tsconfig-paths:
-        specifier: ^6.0.3
-        version: 6.0.3(typescript@5.9.2)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0))
       vitest:
         specifier: catalog:test-core
         version: 4.0.16(@types/node@24.10.4)(@vitest/ui@4.0.16)(jiti@2.6.1)(jsdom@27.4.0)(tsx@4.21.0)
@@ -4591,12 +4588,6 @@ packages:
       }
     engines: { node: '>=8' }
 
-  globrex@0.1.2:
-    resolution:
-      {
-        integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==,
-      }
-
   gopd@1.2.0:
     resolution:
       {
@@ -7043,19 +7034,6 @@ packages:
       '@swc/wasm':
         optional: true
 
-  tsconfck@3.1.6:
-    resolution:
-      {
-        integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==,
-      }
-    engines: { node: ^18 || >=20 }
-    hasBin: true
-    peerDependencies:
-      typescript: ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   tsconfig-paths@4.2.0:
     resolution:
       {
@@ -7365,17 +7343,6 @@ packages:
       }
     engines: { node: ^18.0.0 || ^20.0.0 || >=22.0.0 }
     hasBin: true
-
-  vite-tsconfig-paths@6.0.3:
-    resolution:
-      {
-        integrity: sha512-7bL7FPX/DSviaZGYUKowWF1AiDVWjMjxNbE8lyaVGDezkedWqfGhlnQ4BZXre0ZN5P4kAgIJfAlgFDVyjrCIyg==,
-      }
-    peerDependencies:
-      vite: '*'
-    peerDependenciesMeta:
-      vite:
-        optional: true
 
   vite@7.3.0:
     resolution:
@@ -10504,8 +10471,6 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
-  globrex@0.1.2: {}
-
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
@@ -11971,10 +11936,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.15.8
 
-  tsconfck@3.1.6(typescript@5.9.2):
-    optionalDependencies:
-      typescript: 5.9.2
-
   tsconfig-paths@4.2.0:
     dependencies:
       json5: 2.2.3
@@ -12177,17 +12138,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  vite-tsconfig-paths@6.0.3(typescript@5.9.2)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0)):
-    dependencies:
-      debug: 4.4.3
-      globrex: 0.1.2
-      tsconfck: 3.1.6(typescript@5.9.2)
-    optionalDependencies:
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0):
     dependencies:
