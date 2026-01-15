@@ -4,6 +4,7 @@ import { themeVars } from '../../styles';
 
 export const container = style({
   display: 'flex',
+  flexShrink: 0,
   gap: '1.1rem',
   alignItems: 'center',
 });

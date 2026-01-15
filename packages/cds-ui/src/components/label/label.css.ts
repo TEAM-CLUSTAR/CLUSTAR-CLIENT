@@ -30,6 +30,7 @@ const LABEL_INDICATOR_COLORS = {
   purple: { backgroundColor: themeVars.color.label01 },
   green: { backgroundColor: themeVars.color.label05 },
   pink: { backgroundColor: themeVars.color.label07 },
+  gray: { backgroundColor: themeVars.color.grey700 },
 } as const;
 
 export const labelContainer = recipe({

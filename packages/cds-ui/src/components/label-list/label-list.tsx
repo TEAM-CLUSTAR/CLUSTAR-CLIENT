@@ -1,35 +1,40 @@
-import Label, { LabelColorType } from '../label/label';
+import { CSSProperties } from 'react';
+
+import {
+  LABEL_COLOR_BY_TEXT,
+  LabelTextType,
+  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
+} from '../../constants/label-color-map';
+import Label from '../label/label';
 
 import * as styles from './label-list.css';
 
 type LabelListType = 'modal' | 'card';
 
-export type LabelTextType = '졸업 프로젝트' | '교양' | 'SOPT' | '레퍼런스';
-
-type ItemsType = {
-  id: number;
+interface LabelItem {
+  id: string;
   text: LabelTextType;
-};
+}
 
 interface LabelListProps {
   listType: LabelListType;
   dateText?: string;
-  labelItems: ItemsType[];
+  labelItems: LabelItem[];
 }
 
-//@ TODO 실제 라벨-색상 매핑으로 교체
-const LABEL_COLOR_BY_TEXT: Record<LabelTextType, LabelColorType> = {
-  '졸업 프로젝트': 'blue',
-  교양: 'green',
-  SOPT: 'pink',
-  레퍼런스: 'purple',
-};
-
 const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
+  const primaryLabelColor = labelItems[0]
+    ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
+    : 'gray';
+  const primaryColorValue =
+    PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
   const labelSize = listType === 'modal' ? 'lg' : 'sm';
 
   return (
-    <div className={styles.labelListContainer({ listType })}>
+    <div
+      className={styles.labelListContainer({ listType })}
+      style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
+    >
       {dateText && <p className={styles.dateTextContainer}>{dateText}</p>}
       <div className={styles.labelContainer}>
         {labelItems.map(({ id, text }) => (
