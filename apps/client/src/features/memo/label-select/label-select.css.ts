@@ -4,24 +4,38 @@ import { themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
-  width: '100%',
 });
 
 export const selectBox = style({
   display: 'flex',
-
   width: '100%',
   height: '5.2rem',
-  paddingLeft: '0.8rem',
+
+  padding: '0.8rem',
   alignItems: 'center',
   gap: '0.8rem',
 
   backgroundColor: 'transparent',
+  border: '1px solid transparent',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  transition:
+    'border 0.2s ease, background-color 0.2s ease, border-radius 0.2s ease',
 
   ':hover': {
-    borderRadius: '8px',
     backgroundColor: themeVars.color.grey200,
   },
+});
+
+export const selectBoxOpen = style({
+  backgroundColor: themeVars.color.grey50,
+  borderRadius: '8px 8px 0 0',
+  border: `1px solid ${themeVars.color.grey300}`,
+});
+
+export const chipContainer = style({
+  display: 'flex',
+  gap: '0.8rem',
 });
 
 export const placeholder = style({
@@ -29,14 +43,9 @@ export const placeholder = style({
   color: themeVars.color.grey700,
 });
 
-export const chipContainer = style({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '0.8rem',
-});
-
 export const dropdown = style({
   position: 'absolute',
+
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
@@ -45,11 +54,10 @@ export const dropdown = style({
   padding: '1.8rem 1.4rem',
   backgroundColor: themeVars.color.white,
   borderRadius: '0 0 0.8rem 0.8rem',
-  borderRight: `1px solid ${themeVars.color.grey300}`,
-  borderBottom: `1px solid ${themeVars.color.grey300}`,
-  borderLeft: `1px solid ${themeVars.color.grey300}`,
+  border: `1px solid ${themeVars.color.grey300}`,
+  borderTop: 'none',
 
-  //   boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', @TODO 전체 박스에 주입
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
 });
 
 export const labelText = style({
