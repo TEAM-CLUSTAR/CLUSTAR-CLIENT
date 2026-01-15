@@ -61,27 +61,29 @@ const DetailModal = ({
               </button>
             </Modal.Close>
           </div>
-          {imgs && (
-            <div className={styles.imageContainer}>
-              <div className={styles.imageInnerContainer}>
-                {imgs.map(({ imageUrl, imageAlt }) => (
-                  <ImgContainer
-                    key={imageUrl}
-                    imageUrl={imageUrl}
-                    imageAlt={imageAlt}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
 
-          <div className={styles.textContentContainer({ isImg: !!imgs })}>
-            <TextContent
-              isAiResult={isAiResult}
-              mode="detail"
-              title={title}
-              content={content}
-            />
+          <div className={styles.contentContainer}>
+            {imgs && (
+              <div className={styles.imageContainer}>
+                <div className={styles.imageInnerContainer}>
+                  {imgs.map(({ imageUrl, imageAlt }) => (
+                    <ImgContainer
+                      key={imageUrl}
+                      imageUrl={imageUrl}
+                      imageAlt={imageAlt}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className={styles.textContentContainer({ isImg: !!imgs })}>
+              <TextContent
+                isAiResult={isAiResult}
+                mode="detail"
+                title={title}
+                content={content}
+              />
+            </div>
           </div>
           {memos && (
             <div className={styles.selectedMemoContainer}>

@@ -14,7 +14,7 @@ export const container = style({
 
   selectors: {
     '&:hover': {
-      transform: 'scale(1.05)',
+      transform: 'scale(1.01)',
       zIndex: themeVars.zIndex.front,
       boxShadow: '0 0 20px 1px rgba(0, 0, 0, 0.15)',
     },
@@ -30,7 +30,7 @@ export const img = style({
 
   selectors: {
     [`${container}:hover &`]: {
-      transform: 'scale(1.1)',
+      transform: 'scale(1.05)',
     },
   },
 });

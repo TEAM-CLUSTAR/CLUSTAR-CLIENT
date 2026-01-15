@@ -40,10 +40,10 @@ export const content = style({
 
   selectors: {
     '&[data-state="open"]': {
-      animation: `${contentShow} 400ms ease-out`,
+      animation: `${contentShow} 100ms ease-out`,
     },
     '&[data-state="closed"]': {
-      animation: `${contentHide} 400ms ease-in forwards`,
+      animation: `${contentHide} 100ms ease-in forwards`,
     },
   },
 });

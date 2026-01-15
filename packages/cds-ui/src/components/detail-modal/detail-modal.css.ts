@@ -26,8 +26,17 @@ export const closeButtonContainer = style({
   right: '2.4rem',
 });
 
+export const contentContainer = style({
+  flex: '1',
+  overflowY: 'auto',
+  minHeight: '0',
+  scrollbarGutter: 'stable',
+});
+
 export const imageContainer = style({
-  padding: '1.9rem 0 1.9rem 4.4rem',
+  padding: '0.9rem 0 0.9rem 4.4rem',
+  position: 'relative',
+  overflowX: 'visible',
 });
 
 export const imageInnerContainer = style({
@@ -36,8 +45,8 @@ export const imageInnerContainer = style({
   gap: '1.4rem',
   overflowX: 'auto',
   maxWidth: themeVars.width.full,
-  margin: '-2rem',
-  padding: '2rem',
+  margin: '-0.5rem 0rem',
+  padding: '0.5rem 2rem 0.5rem 0.5rem',
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
 
@@ -49,19 +58,13 @@ export const imageInnerContainer = style({
 });
 
 export const textContentContainer = recipe({
-  base: {
-    flex: '1',
-    overflowY: 'auto',
-    minHeight: '0',
-  },
-
   variants: {
     isImg: {
       true: {
-        padding: '0.8rem 4.4rem 0 4.4rem',
+        padding: '0.8rem 2rem 0 4.4rem',
       },
       false: {
-        padding: '2.8rem 4.4rem 0 4.4rem',
+        padding: '2.8rem 2rem 0 4.4rem',
       },
     },
   },
@@ -109,5 +112,5 @@ export const selectedMemoContentInnerContainer = style({
 });
 
 export const aiGenerateButtonContainer = style({
-  padding: '2.4rem 4.4rem 4.6rem 4.4rem',
+  margin: '2.4rem 4.4rem 4.6rem 4.4rem',
 });
