@@ -9,18 +9,18 @@ interface PromptOptionItemProps {
   option: PromptOptionType;
   selected: boolean;
   hovered: boolean;
-  onSelect: () => void;
-  onHover: () => void;
-  onLeave: () => void;
+  handleSelect: () => void;
+  handleHover: () => void;
+  handleLeave: () => void;
 }
 
 const PromptOptionItem = ({
   option,
   selected,
   hovered,
-  onSelect,
-  onHover,
-  onLeave,
+  handleSelect,
+  handleHover,
+  handleLeave,
 }: PromptOptionItemProps) => {
   const isActive = selected || hovered;
 
@@ -29,9 +29,9 @@ const PromptOptionItem = ({
       <button
         type="button"
         className={styles.optionItem({ active: selected })}
-        onClick={onSelect}
-        onMouseEnter={onHover}
-        onMouseLeave={onLeave}
+        onClick={handleSelect}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleLeave}
         aria-pressed={selected}
         aria-label={option.title}
       >
