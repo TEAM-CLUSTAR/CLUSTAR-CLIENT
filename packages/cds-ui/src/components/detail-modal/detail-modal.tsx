@@ -4,8 +4,8 @@ import { Icon } from '@cds/icon';
 
 import Button, { type ButtonProps } from '../button/button';
 import File, { type FileProps } from '../file/file';
-import ImgContainer, {
-  type ImgContainerProps,
+import ImageContainer, {
+  type ImageContainerProps,
 } from '../image-container/image-container';
 import LabelList, { type LabelListProps } from '../label-list/label-list';
 import Modal from '../modal/modal';
@@ -24,7 +24,7 @@ interface DetailModalProps
     Omit<TextContentProps, 'mode'>,
     Omit<ButtonProps, 'size'> {
   trigger: ReactNode;
-  imgs?: ImgContainerProps[];
+  images?: ImageContainerProps[];
   files?: FileProps[];
   memos?: SelectedMemoProps[];
 }
@@ -33,7 +33,7 @@ const DetailModal = ({
   trigger,
   labelItems,
   dateText,
-  imgs,
+  images,
   isAiResult,
   title,
   content,
@@ -63,11 +63,11 @@ const DetailModal = ({
           </div>
 
           <div className={styles.contentContainer}>
-            {imgs && (
+            {images && (
               <div className={styles.imageContainer}>
                 <div className={styles.imageInnerContainer}>
-                  {imgs.map(({ imageUrl, imageAlt }) => (
-                    <ImgContainer
+                  {images.map(({ imageUrl, imageAlt }) => (
+                    <ImageContainer
                       key={imageUrl}
                       imageUrl={imageUrl}
                       imageAlt={imageAlt}
@@ -76,7 +76,7 @@ const DetailModal = ({
                 </div>
               </div>
             )}
-            <div className={styles.textContentContainer({ isImg: !!imgs })}>
+            <div className={styles.textContentContainer({ isImg: !!images })}>
               <TextContent
                 isAiResult={isAiResult}
                 mode="detail"

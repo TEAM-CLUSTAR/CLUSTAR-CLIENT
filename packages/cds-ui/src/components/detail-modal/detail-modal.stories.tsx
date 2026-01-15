@@ -33,7 +33,7 @@ export const Default: Story = {
 
     isAiResult: true,
 
-    imgs: [
+    images: [
       {
         imageUrl: 'https://picsum.photos/600/400?random=1',
         imageAlt: '참고 이미지 1',
@@ -98,7 +98,7 @@ export const Default: Story = {
 export const ManyImages: Story = {
   args: {
     ...Default.args,
-    imgs: Array.from({ length: 8 }).map((_, index) => ({
+    images: Array.from({ length: 8 }).map((_, index) => ({
       imageUrl: `https://picsum.photos/600/400?random=${index + 10}`,
       imageAlt: `이미지 ${index + 1}`,
     })),
@@ -108,7 +108,7 @@ export const ManyImages: Story = {
 export const LongArticleMemos: Story = {
   args: {
     ...Default.args,
-    imgs: undefined,
+    images: undefined,
     memos: [
       {
         id: 1,

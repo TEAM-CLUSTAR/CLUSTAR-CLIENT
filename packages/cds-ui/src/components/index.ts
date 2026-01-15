@@ -5,7 +5,7 @@ export { default as FloatingButton } from './floating-button/floating-button';
 export { default as FloatingLabel } from './floating-label/floating-label';
 export { default as FloatingLabelToken } from './floating-label-token/floating-label-token';
 export { default as FloatingMenu } from './floating-menu/floating-menu';
-export { default as ImgContainer } from './image-container/image-container';
+export { default as ImageContainer } from './image-container/image-container';
 export { default as Label } from './label/label';
 export { default as LabelList } from './label-list/label-list';
 export { default as Modal } from './modal/modal';

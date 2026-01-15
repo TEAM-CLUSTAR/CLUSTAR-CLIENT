@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ImgContainer from './image-container';
+import ImageContainer from './image-container';
 
-const meta: Meta<typeof ImgContainer> = {
-  title: 'Components/ImgContainer',
-  component: ImgContainer,
+const meta: Meta<typeof ImageContainer> = {
+  title: 'Components/ImageContainer',
+  component: ImageContainer,
   tags: ['autodocs'],
   argTypes: {
     imageUrl: {
@@ -20,7 +20,7 @@ const meta: Meta<typeof ImgContainer> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof ImgContainer>;
+type Story = StoryObj<typeof ImageContainer>;
 
 export const Default: Story = {
   name: '비율에 맞는 이미지',
