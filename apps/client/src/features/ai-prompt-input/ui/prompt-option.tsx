@@ -38,12 +38,20 @@ const OPTIONS: PromptOptionType[] = [
   },
 ] as const;
 
-const PromptOption = () => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+interface PromptOptionProps {
+  selectedOptionId: string | null;
+  handleOptionSelect: (optionId: string | null) => void;
+}
+
+const PromptOption = ({
+  selectedOptionId,
+  handleOptionSelect,
+}: PromptOptionProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
-    setSelectedId((prev) => (prev === id ? null : id));
+    const newSelectedId = selectedOptionId === id ? null : id;
+    handleOptionSelect(newSelectedId);
   };
 
   return (
@@ -52,7 +60,7 @@ const PromptOption = () => {
         <PromptOptionItem
           key={option.id}
           option={option}
-          selected={selectedId === option.id}
+          selected={selectedOptionId === option.id}
           hovered={hoveredId === option.id}
           handleSelect={() => handleSelect(option.id)}
           handleHover={() => setHoveredId(option.id)}
