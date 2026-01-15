@@ -16,7 +16,7 @@ export const tabContainer = recipe({
     gap: '0.4rem',
     height: '4.4rem',
     minWidth: '13rem',
-    maxWidth: '16rem',
+    maxWidth: '16.5rem',
     width: 'fit-content',
     cursor: 'pointer',
     borderRadius: '8px',
