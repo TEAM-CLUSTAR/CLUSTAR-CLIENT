@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { slideInUp, themeVars } from '@cds/ui';
 
 export const aiMessageBubble = style({
-  width: '53.2rem',
+  width: '100%',
   backgroundColor: themeVars.color.white,
   padding: '2.8rem',
   borderRadius: '0 8px 8px 0',
