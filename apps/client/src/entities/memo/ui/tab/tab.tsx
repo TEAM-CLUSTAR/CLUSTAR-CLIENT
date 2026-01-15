@@ -37,11 +37,18 @@ const Tab = ({
     <div
       className={styles.tabContainer({ isSelected })}
       style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
-      onClick={handleSelect}
     >
-      <span className={styles.titleContainer}>{title}</span>
-      <button type="button" onClick={handleDeleteClick}>
-        <Icon name="ic_close" width={28} height={28} />
+      <button className={styles.buttonTextContainer} onClick={handleSelect}>
+        {title}
+      </button>
+
+      <button>
+        <Icon
+          name="ic_close"
+          width={28}
+          height={28}
+          onClick={handleDeleteClick}
+        />
       </button>
     </div>
   );

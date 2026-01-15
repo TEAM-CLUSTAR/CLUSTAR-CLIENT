@@ -7,7 +7,6 @@ export const PRIMARY_COLOR_VAR = '--card-primary-color';
 
 export const tabContainer = recipe({
   base: {
-    ...themeVars.fontStyles.title_m_18,
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
@@ -79,9 +78,11 @@ export const tabContainer = recipe({
   },
 });
 
-export const titleContainer = style({
+export const buttonTextContainer = style({
+  ...themeVars.fontStyles.title_m_18,
+  flex: 1,
+  textAlign: 'left',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  flex: 1,
 });
