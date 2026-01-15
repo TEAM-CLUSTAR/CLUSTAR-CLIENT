@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
 import { Icon } from '@cds/icon';
+import { IconName } from '@cds/icon';
 
 import {
   FloatingLabel,
@@ -53,12 +52,34 @@ const LABEL_ITEMS = [
 interface SidebarProps {
   userId: string;
   userEmail: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  selectedId: string;
+  onSelect: (id: string) => void;
 }
 
-const Sidebar = ({ userId, userEmail }: SidebarProps) => {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [selectedId, setSelectedId] = useState('new');
+const getIconState = (
+  item: { id: string; icon: IconName; activeIcon: IconName },
+  currentSelectedId: string,
+) => {
+  const isActive = currentSelectedId === item.id;
+  const iconName = isActive ? item.activeIcon : item.icon;
+  return { isActive, iconName };
+};
 
+const FLOATING_LABEL_ITEMS = LABEL_ITEMS.map((item) => ({
+  id: item.id,
+  name: item.label,
+}));
+
+const Sidebar = ({
+  userId,
+  userEmail,
+  isExpanded,
+  onToggle,
+  selectedId,
+  onSelect,
+}: SidebarProps) => {
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
@@ -69,11 +90,7 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <Icon name="ic_logo_type" width={92.3} height={12} />
         </span>
 
-        <button
-          type="button"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className={styles.foldingBtn}
-        >
+        <button type="button" onClick={onToggle} className={styles.foldingBtn}>
           <Icon name="ic_folding" width={36} height={36} />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
@@ -86,14 +103,13 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
       <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
       <div className={styles.menuList({ expanded: isExpanded })}>
         {MENU_ITEMS.map((item) => {
-          const isActive = selectedId === item.id;
-          const iconName = isActive ? item.activeIcon : item.icon;
+          const { isActive, iconName } = getIconState(item, selectedId);
 
           return isExpanded ? (
             <SidebarPannel
               key={item.id}
               isSelected={isActive}
-              onClick={() => setSelectedId(item.id)}
+              onClick={() => onSelect(item.id)}
               icon={<Icon name={iconName} width={36} height={36} />}
             >
               {item.label}
@@ -102,7 +118,7 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
             <div key={item.id} className={styles.iconContainer}>
               <SidebarIcon
                 isSelected={isActive}
-                onClick={() => setSelectedId(item.id)}
+                onClick={() => onSelect(item.id)}
                 icon={<Icon name={iconName} width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
@@ -117,14 +133,13 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
       <div className={styles.labelList({ expanded: isExpanded })}>
         {isExpanded ? (
           LABEL_ITEMS.map((item) => {
-            const isActive = selectedId === item.id;
-            const iconName = isActive ? item.activeIcon : item.icon;
+            const { isActive, iconName } = getIconState(item, selectedId);
 
             return (
               <SidebarPannel
                 key={item.id}
                 isSelected={isActive}
-                onClick={() => setSelectedId(item.id)}
+                onClick={() => onSelect(item.id)}
                 icon={<Icon name={iconName} width={36} height={36} />}
               >
                 {item.label}
@@ -136,18 +151,13 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
             <SidebarIcon
               isSelected={false}
               onClick={() => {
-                setIsExpanded(true);
-                setSelectedId(LABEL_ITEMS[0].id);
+                onToggle();
+                onSelect(LABEL_ITEMS[0].id);
               }}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
-              <FloatingLabel
-                labels={LABEL_ITEMS.map((item) => ({
-                  id: item.id,
-                  name: item.label,
-                }))}
-              />
+              <FloatingLabel labels={FLOATING_LABEL_ITEMS} />
             </div>
           </div>
         )}
@@ -158,7 +168,6 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <>
             <SidebarPannel
               isSelected={selectedId === 'trash'}
-              onClick={() => {}}
               icon={
                 selectedId === 'trash' ? (
                   <Icon name="ic_trash_blue" width={36} height={36} />
@@ -177,8 +186,6 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
           <>
             <div className={styles.iconContainer}>
               <SidebarIcon
-                isSelected={false}
-                onClick={() => {}}
                 icon={
                   selectedId === 'trash' ? (
                     <Icon name="ic_trash_blue" width={36} height={36} />
@@ -193,8 +200,6 @@ const Sidebar = ({ userId, userEmail }: SidebarProps) => {
             </div>
             <div className={styles.iconContainer}>
               <SidebarIcon
-                isSelected={false}
-                onClick={() => {}}
                 icon={<Icon name="ic_profile" width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>

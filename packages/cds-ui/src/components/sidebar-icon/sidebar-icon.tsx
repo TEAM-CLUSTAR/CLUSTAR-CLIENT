@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 import * as styles from './sidebar-icon.css';
 
 interface SidebarIconProps {
-  isSelected: boolean;
-  onClick: () => void;
+  isSelected?: boolean;
+  onClick?: () => void;
   icon: ReactNode;
 }
 

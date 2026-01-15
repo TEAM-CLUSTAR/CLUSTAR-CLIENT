@@ -17,7 +17,7 @@ export const container = recipe({
     display: 'flex',
     flexDirection: 'column',
 
-    height: '100dvh',
+    height: '100vh',
 
     borderRadius: '16px',
     backgroundColor: themeVars.color.grey50,
