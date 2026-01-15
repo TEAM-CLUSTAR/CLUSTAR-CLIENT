@@ -29,7 +29,7 @@ export const img = style({
 
   selectors: {
     [`${container}:hover &`]: {
-      transform: 'scale(1.05)',
+      transform: 'scale(1.03)',
     },
   },
 });
