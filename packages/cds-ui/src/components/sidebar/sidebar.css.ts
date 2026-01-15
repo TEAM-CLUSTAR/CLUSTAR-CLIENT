@@ -1,14 +1,11 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
 
-const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+import { fadeIn } from '../../styles/animations.css';
 
-const fadeIn = keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 },
-});
+const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
 
 const fadeInAnimation = `${fadeIn} 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
 
@@ -67,12 +64,12 @@ export const logo = recipe({
 export const title = recipe({
   base: {
     paddingLeft: '1rem',
-    transition: smoothTransition,
   },
   variants: {
     expanded: {
       true: {
         opacity: 1,
+        transition: smoothTransition,
       },
       false: {
         opacity: 0,
