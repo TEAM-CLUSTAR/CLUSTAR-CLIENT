@@ -1,12 +1,9 @@
-import { useState } from 'react';
-
-import InputTitle from '@features/memo/input-title/input-title';
+import { Icon } from '@cds/icon';
 
 const MemoPage = () => {
-  const [title, setTitle] = useState('');
   return (
     <div>
-      <InputTitle title={title} onChange={(e) => setTitle(e.target.value)} />
+      <Icon name="ic_ai_gra" />
     </div>
   );
 };
