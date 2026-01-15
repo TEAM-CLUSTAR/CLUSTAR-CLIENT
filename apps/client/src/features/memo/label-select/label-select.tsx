@@ -89,6 +89,7 @@ const LabelSelect = ({ onSelect }: LabelSelectProps) => {
           <span className={styles.labelText}>라벨 선택</span>
           <LabelList
             listType="card"
+            labelSize="lg"
             labelItems={dropdownItems}
             onItemClick={handleSelect}
           />
