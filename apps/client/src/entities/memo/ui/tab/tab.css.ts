@@ -13,9 +13,7 @@ export const tabContainer = recipe({
     justifyContent: 'space-between',
     paddingRight: '1.2rem',
     height: '4.4rem',
-    minWidth: '13rem',
-    maxWidth: '16.5rem',
-    width: 'fit-content',
+    width: '15rem',
     cursor: 'pointer',
     borderRadius: '8px',
     boxShadow: `0 0 4px 0 ${themeVars.color.grey400}`,
@@ -85,4 +83,11 @@ export const buttonTextContainer = style({
   whiteSpace: 'nowrap',
   padding: '0.8rem 0.4rem 0.8rem 2.4rem',
   flex: '1',
+});
+
+export const deleteButton = style({
+  ':hover': {
+    backgroundColor: themeVars.color.grey200,
+    borderRadius: '8px',
+  },
 });

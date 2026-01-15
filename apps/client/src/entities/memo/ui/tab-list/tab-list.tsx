@@ -6,11 +6,11 @@ import Tab from '../tab/tab';
 
 import * as styles from './tab-list.css';
 
-type TabItemType = {
+interface TabItemType {
   id: string;
-  title: string;
+  title?: string;
   label: LabelTextType;
-};
+}
 
 interface TabListProps {
   items: TabItemType[];
@@ -30,23 +30,23 @@ const TabList = ({
   maxTabs,
 }: TabListProps) => {
   const isAddTab = items.length < maxTabs;
-  const isDeleteTab = items.length > 1;
+  const isDefault = items.length > 1;
 
   return (
     <div className={styles.tabListContainer}>
       <div className={styles.memoMarer}>
         <Icon name="ic_memo_36" width={36} height={36} />
       </div>
-      {items.map((item) => (
+      {items.map(({ id, title, label }) => (
         <Tab
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          label={item.label}
-          isSelected={item.id === selectedTabId}
-          handleSelect={() => handleSelectTab(item.id)}
-          handleDelete={() => handleDeleteTab(item.id)}
-          isDeleteTab={isDeleteTab}
+          key={id}
+          id={id}
+          title={title}
+          label={label}
+          isSelected={id === selectedTabId}
+          handleSelect={() => handleSelectTab(id)}
+          handleDelete={() => handleDeleteTab(id)}
+          isDefault={isDefault}
         />
       ))}
       {isAddTab && (

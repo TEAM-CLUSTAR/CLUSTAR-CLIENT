@@ -22,4 +22,8 @@ export const memoMarer = style({
 
 export const addButton = style({
   cursor: 'pointer',
+  ':hover': {
+    backgroundColor: themeVars.color.grey300,
+    borderRadius: '8px',
+  },
 });

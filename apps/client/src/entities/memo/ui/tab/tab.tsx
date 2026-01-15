@@ -14,7 +14,7 @@ interface TabProps {
   handleDelete: () => void;
   handleSelect: () => void;
   isSelected: boolean;
-  isDeleteTab: boolean;
+  isDefault: boolean;
 }
 
 const Tab = ({
@@ -23,7 +23,7 @@ const Tab = ({
   handleSelect,
   isSelected,
   handleDelete,
-  isDeleteTab,
+  isDefault,
 }: TabProps) => {
   const labelColor = LABEL_COLOR_BY_TEXT[label];
   const primaryColorValue = PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[labelColor];
@@ -46,8 +46,12 @@ const Tab = ({
       >
         {title}
       </button>
-      {isDeleteTab && (
-        <button>
+      {isDefault && isSelected && (
+        <button
+          className={styles.deleteButton}
+          type="button"
+          aria-label="탭 닫기"
+        >
           <Icon
             name="ic_close"
             width={28}
