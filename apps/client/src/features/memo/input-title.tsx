@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, UIEvent } from 'react';
 
 import * as styles from './input-title.css';
 
@@ -18,6 +18,12 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
     }
   };
 
+  const handleScroll = (e: UIEvent<HTMLInputElement>) => {
+    if (document.activeElement !== e.currentTarget) {
+      e.currentTarget.scrollLeft = 0;
+    }
+  };
+
   return (
     <input
       className={styles.container}
@@ -26,6 +32,7 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
       value={title}
       onChange={handleChange}
       onBlur={handleBlur}
+      onScroll={handleScroll}
     />
   );
 };
