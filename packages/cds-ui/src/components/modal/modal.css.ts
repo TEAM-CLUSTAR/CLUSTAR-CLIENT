@@ -17,10 +17,10 @@ export const overlay = style({
   zIndex: themeVars.zIndex.modalOverlay,
   selectors: {
     '&[data-state="open"]': {
-      animation: `${opacityShow} 400ms ease-out`,
+      animation: `${opacityShow} 100ms ease-out`,
     },
     '&[data-state="closed"]': {
-      animation: `${opacityHide} 400ms ease-in forwards`,
+      animation: `${opacityHide} 100ms ease-in forwards`,
     },
   },
 });
