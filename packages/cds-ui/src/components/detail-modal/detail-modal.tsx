@@ -16,6 +16,7 @@ import TextContent, {
 
 import * as styles from './detail-modal.css';
 
+// api 명세 추가 시 해당 타입 삭제
 interface SelectedMemoTypes {
   id: number;
   memoName: string;
