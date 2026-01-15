@@ -25,7 +25,7 @@ const PromptOptionItem = ({
   const isActive = selected || hovered;
 
   return (
-    <div className={styles.optionWrapper}>
+    <div className={styles.optionContainer}>
       <button
         type="button"
         className={styles.optionItem({ active: selected })}
@@ -43,7 +43,7 @@ const PromptOptionItem = ({
       </button>
 
       {hovered && (
-        <div className={styles.popoverWrapper}>
+        <div className={styles.popoverContainer}>
           <PromptPopover
             title={option.title}
             description={option.description}

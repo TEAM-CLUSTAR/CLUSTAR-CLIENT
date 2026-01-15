@@ -12,7 +12,7 @@ export const container = style({
   gap: '0.4rem',
 });
 
-export const optionWrapper = style({
+export const optionContainer = style({
   position: 'relative',
   selectors: {
     '&:not(:last-child)::after': {
@@ -45,7 +45,7 @@ export const optionItem = recipe({
   },
 });
 
-export const popoverWrapper = style({
+export const popoverContainer = style({
   position: 'absolute',
   bottom: 'calc(100% + 0.8rem)',
   left: '-15%',
