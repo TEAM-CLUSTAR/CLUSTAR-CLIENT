@@ -45,9 +45,6 @@ export const labelContainer = recipe({
     clickable: {
       true: {
         cursor: 'pointer',
-        ':hover': {
-          opacity: 0.8,
-        },
       },
       false: {
         cursor: 'default',

@@ -20,9 +20,15 @@ export interface LabelListProps {
   listType: LabelListType;
   dateText?: string;
   labelItems: LabelItem[];
+  onItemClick?: (item: LabelItem) => void;
 }
 
-const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
+const LabelList = ({
+  listType,
+  dateText,
+  labelItems,
+  onItemClick,
+}: LabelListProps) => {
   const primaryLabelColor = labelItems[0]
     ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
     : 'grey';
@@ -39,12 +45,13 @@ const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
         <p className={styles.dateTextContainer}>{dateText} 생성됨</p>
       )}
       <div className={styles.labelContainer}>
-        {labelItems.map(({ id, text }) => (
+        {labelItems.map((item) => (
           <Label
-            key={id}
+            key={item.id}
             labelSize={labelSize}
-            labelColor={LABEL_COLOR_BY_TEXT[text]}
-            labelText={text}
+            labelColor={LABEL_COLOR_BY_TEXT[item.text]}
+            labelText={item.text}
+            onClick={onItemClick ? () => onItemClick(item) : undefined}
           />
         ))}
       </div>
