@@ -15,14 +15,14 @@ interface TabProps {
   label: LabelTextType;
   handleDelete: () => void;
   handleSelect: () => void;
-  isSeleted: boolean;
+  isSelected: boolean;
 }
 
 const Tab = ({
-  title = 'undefied',
+  title = 'untitled',
   label,
   handleSelect,
-  isSeleted,
+  isSelected,
   handleDelete,
 }: TabProps) => {
   const labelColor = LABEL_COLOR_BY_TEXT[label];
@@ -35,7 +35,7 @@ const Tab = ({
 
   return (
     <div
-      className={styles.tabContainer({ isSeleted })}
+      className={styles.tabContainer({ isSelected })}
       style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
       onClick={handleSelect}
     >

@@ -57,7 +57,7 @@ export const tabContainer = recipe({
   },
 
   variants: {
-    isSeleted: {
+    isSelected: {
       true: {
         borderRadius: `0 8px 8px 0`,
         backgroundColor: themeVars.color.white,
