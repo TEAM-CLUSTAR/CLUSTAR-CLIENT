@@ -120,6 +120,9 @@ importers:
       axios:
         specifier: ^1.13.2
         version: 1.13.2
+      quill-markdown-shortcuts:
+        specifier: ^0.0.10
+        version: 0.0.10
       react:
         specifier: catalog:react-core
         version: 19.2.0
@@ -132,6 +135,12 @@ importers:
       react-router:
         specifier: ^7.11.0
         version: 7.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      turndown:
+        specifier: ^7.2.2
+        version: 7.2.2
+      turndown-plugin-gfm:
+        specifier: ^1.0.2
+        version: 1.0.2
     devDependencies:
       '@clustar/eslint-config':
         specifier: workspace:*
@@ -166,6 +175,9 @@ importers:
       '@types/react-dom':
         specifier: catalog:react-core
         version: 19.2.3(@types/react@19.2.7)
+      '@types/turndown':
+        specifier: ^5.0.6
+        version: 5.0.6
       '@vanilla-extract/css':
         specifier: catalog:vanilla-extract-core
         version: 1.18.0
@@ -1386,6 +1398,12 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
+
+  '@mixmark-io/domino@2.2.0':
+    resolution:
+      {
+        integrity: sha512-Y28PR25bHXUg88kCV7nivXrP2Nj2RueZ3/l/jdx6J9f8J4nsEGcgX0Qe6lt7Pa+J79+kPiJU3LguR6O/6zrLOw==,
+      }
 
   '@nodelib/fs.scandir@2.1.5':
     resolution:
@@ -2630,6 +2648,12 @@ packages:
         integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==,
       }
 
+  '@types/turndown@5.0.6':
+    resolution:
+      {
+        integrity: sha512-ru00MoyeeouE5BX4gRL+6m/BsDfbRayOskWqUvh7CLGW+UXxHQItqALa38kKnOiZPqJrtzJUgAC2+F0rL1S4Pg==,
+      }
+
   '@types/uuid@9.0.8':
     resolution:
       {
@@ -3444,6 +3468,13 @@ packages:
       }
     engines: { node: '>=0.8' }
 
+  clone@2.1.2:
+    resolution:
+      {
+        integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==,
+      }
+    engines: { node: '>=0.8' }
+
   color-convert@1.9.3:
     resolution:
       {
@@ -3729,6 +3760,13 @@ packages:
         integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==,
       }
     engines: { node: '>=6' }
+
+  deep-equal@1.1.2:
+    resolution:
+      {
+        integrity: sha512-5tdhKF6DbU7iIzrIOa1AOUt39ZRm13cmL1cGEh//aqR8x9+tNfbywRf0n5FD/18OKMdo7DNEtrX2t22ZAkI+eg==,
+      }
+    engines: { node: '>= 0.4' }
 
   deep-extend@0.6.0:
     resolution:
@@ -4257,6 +4295,12 @@ packages:
       }
     engines: { node: '>= 0.8' }
 
+  eventemitter3@2.0.3:
+    resolution:
+      {
+        integrity: sha512-jLN68Dx5kyFHaePoXWPsCGW5qdyZQtLYHkxkg02/Mz6g0kYpDx4FyP6XfArhQdlOC4b8Mv+EMxPo/8La7Tzghg==,
+      }
+
   eventemitter3@5.0.1:
     resolution:
       {
@@ -4277,6 +4321,12 @@ packages:
       }
     engines: { node: '>=12.0.0' }
 
+  extend@3.0.2:
+    resolution:
+      {
+        integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==,
+      }
+
   external-editor@3.1.0:
     resolution:
       {
@@ -4288,6 +4338,12 @@ packages:
     resolution:
       {
         integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==,
+      }
+
+  fast-diff@1.1.2:
+    resolution:
+      {
+        integrity: sha512-KaJUt+M9t1qaIteSvjc6P3RbMdXsNhK61GRftR6SNxqmhthcd9MGIi4T+o0jD8LUSpSnSKXE20nLtJ3fOHxQig==,
       }
 
   fast-diff@1.3.0:
@@ -5849,6 +5905,13 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
+  object-is@1.1.6:
+    resolution:
+      {
+        integrity: sha512-F8cZ+KfGlSGi09lJT7/Nd6KJZ9ygtvYC0/UYYLI9nmQKLMnydpB9yvbv9K1uSkEu7FU9vYPmVwLg328tX+ot3Q==,
+      }
+    engines: { node: '>= 0.4' }
+
   object-keys@1.1.1:
     resolution:
       {
@@ -6004,6 +6067,12 @@ packages:
     resolution:
       {
         integrity: sha512-eQE845L6ot89sk2N8liD8HAuH4ca6Vvr7VWAWwt7+kvvG5aBcPmmphQ68JsEG2qa9n1TykS2DLeMt363AAH8/w==,
+      }
+
+  parchment@1.1.4:
+    resolution:
+      {
+        integrity: sha512-J5FBQt/pM2inLzg4hEWmzQx/8h8D0CiDxaG3vyp9rKrQRSDgBlhjdP5jQGgosEajXPSQouXGHOmVdgo7QmJuOg==,
       }
 
   parchment@3.0.0:
@@ -6238,12 +6307,31 @@ packages:
         integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==,
       }
 
+  quill-delta@3.6.3:
+    resolution:
+      {
+        integrity: sha512-wdIGBlcX13tCHOXGMVnnTVFtGRLoP0imqxM696fIPwIf5ODIYUHIvHbZcyvGlZFiFhK5XzDC2lpjbxRhnM05Tg==,
+      }
+    engines: { node: '>=0.10' }
+
   quill-delta@5.1.0:
     resolution:
       {
         integrity: sha512-X74oCeRI4/p0ucjb5Ma8adTXd9Scumz367kkMK5V/IatcX6A0vlgLgKbzXWy5nZmCGeNJm2oQX0d2Eqj+ZIlCA==,
       }
     engines: { node: '>= 12.0.0' }
+
+  quill-markdown-shortcuts@0.0.10:
+    resolution:
+      {
+        integrity: sha512-2FFFqqo65JgDgAGSer7cFQTCeiSjJF4N8lRGXGv/xjppCxSwj42OnNdGPZ/zeeCxdUY/j1LW4AiSvPQaTIkY2A==,
+      }
+
+  quill@1.3.7:
+    resolution:
+      {
+        integrity: sha512-hG/DVzh/TiknWtE6QmWAF/pxoZKYxfe3J/d/+ShUWkDvvkZQVTPeVmUJVu1uE6DDooC4fWTiCLh84ul89oNz5g==,
+      }
 
   quill@2.0.3:
     resolution:
@@ -7201,6 +7289,18 @@ packages:
         integrity: sha512-5JIA5aYBAJSAhrhbyag1ZuMSgUZnHtI+Sq3H8D3an4fL8PeF+L1yYvbEJg47akP1PFfATMf5ehkqFnxfkmuwZQ==,
       }
     hasBin: true
+
+  turndown-plugin-gfm@1.0.2:
+    resolution:
+      {
+        integrity: sha512-vwz9tfvF7XN/jE0dGoBei3FXWuvll78ohzCZQuOb+ZjWrs3a0XhQVomJEb2Qh4VHTPNRO4GPZh0V7VRbiWwkRg==,
+      }
+
+  turndown@7.2.2:
+    resolution:
+      {
+        integrity: sha512-1F7db8BiExOKxjSMU2b7if62D/XOyQyZbPKq/nUwopfgnHlqXHqQ0lvfUTeUIr1lZJzOPFn43dODyMSIfvWRKQ==,
+      }
 
   type-check@0.4.0:
     resolution:
@@ -8298,6 +8398,8 @@ snapshots:
       '@types/react': 19.2.7
       react: 19.2.0
 
+  '@mixmark-io/domino@2.2.0': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -9109,6 +9211,8 @@ snapshots:
 
   '@types/tinycolor2@1.4.6': {}
 
+  '@types/turndown@5.0.6': {}
+
   '@types/uuid@9.0.8': {}
 
   '@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)':
@@ -9748,6 +9852,8 @@ snapshots:
 
   clone@1.0.4: {}
 
+  clone@2.1.2: {}
+
   color-convert@1.9.3:
     dependencies:
       color-name: 1.1.3
@@ -9900,6 +10006,15 @@ snapshots:
   dedent@1.7.1: {}
 
   deep-eql@5.0.2: {}
+
+  deep-equal@1.1.2:
+    dependencies:
+      is-arguments: 1.2.0
+      is-date-object: 1.1.0
+      is-regex: 1.2.1
+      object-is: 1.1.6
+      object-keys: 1.1.1
+      regexp.prototype.flags: 1.5.4
 
   deep-extend@0.6.0: {}
 
@@ -10347,6 +10462,8 @@ snapshots:
       '@types/node': 24.10.4
       require-like: 0.1.2
 
+  eventemitter3@2.0.3: {}
+
   eventemitter3@5.0.1: {}
 
   execa@5.1.1:
@@ -10363,6 +10480,8 @@ snapshots:
 
   expect-type@1.3.0: {}
 
+  extend@3.0.2: {}
+
   external-editor@3.1.0:
     dependencies:
       chardet: 0.7.0
@@ -10370,6 +10489,8 @@ snapshots:
       tmp: 0.0.33
 
   fast-deep-equal@3.1.3: {}
+
+  fast-diff@1.1.2: {}
 
   fast-diff@1.3.0: {}
 
@@ -11239,6 +11360,11 @@ snapshots:
 
   object-inspect@1.13.4: {}
 
+  object-is@1.1.6:
+    dependencies:
+      call-bind: 1.0.8
+      define-properties: 1.2.1
+
   object-keys@1.1.1: {}
 
   object.assign@4.1.7:
@@ -11371,6 +11497,8 @@ snapshots:
     dependencies:
       no-case: 2.3.2
 
+  parchment@1.1.4: {}
+
   parchment@3.0.0: {}
 
   parent-module@1.0.1:
@@ -11494,11 +11622,30 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
+  quill-delta@3.6.3:
+    dependencies:
+      deep-equal: 1.1.2
+      extend: 3.0.2
+      fast-diff: 1.1.2
+
   quill-delta@5.1.0:
     dependencies:
       fast-diff: 1.3.0
       lodash.clonedeep: 4.5.0
       lodash.isequal: 4.5.0
+
+  quill-markdown-shortcuts@0.0.10:
+    dependencies:
+      quill: 1.3.7
+
+  quill@1.3.7:
+    dependencies:
+      clone: 2.1.2
+      deep-equal: 1.1.2
+      eventemitter3: 2.0.3
+      extend: 3.0.2
+      parchment: 1.1.4
+      quill-delta: 3.6.3
 
   quill@2.0.3:
     dependencies:
@@ -12115,6 +12262,12 @@ snapshots:
       turbo-linux-arm64: 2.7.2
       turbo-windows-64: 2.7.2
       turbo-windows-arm64: 2.7.2
+
+  turndown-plugin-gfm@1.0.2: {}
+
+  turndown@7.2.2:
+    dependencies:
+      '@mixmark-io/domino': 2.2.0
 
   type-check@0.4.0:
     dependencies:

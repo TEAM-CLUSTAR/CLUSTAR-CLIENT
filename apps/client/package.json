@@ -19,10 +19,13 @@
     "@sentry/react": "^10.32.1",
     "@tanstack/react-query": "^5.90.16",
     "axios": "^1.13.2",
+    "quill-markdown-shortcuts": "^0.0.10",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",
     "react-quill-new": "^3.7.0",
-    "react-router": "^7.11.0"
+    "react-router": "^7.11.0",
+    "turndown": "^7.2.2",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
@@ -36,6 +39,7 @@
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
+    "@types/turndown": "^5.0.6",
     "@vanilla-extract/css": "catalog:vanilla-extract-core",
     "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
     "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
