@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
 
@@ -80,6 +82,7 @@ const Sidebar = ({
   selectedId,
   onSelect,
 }: SidebarProps) => {
+  const [isHover, setIsHover] = useState(false);
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
@@ -90,8 +93,18 @@ const Sidebar = ({
           <Icon name="ic_logo_type" width={92.3} height={12} />
         </span>
 
-        <button type="button" onClick={onToggle} className={styles.foldingBtn}>
-          <Icon name="ic_folding" width={36} height={36} />
+        <button
+          type="button"
+          onClick={onToggle}
+          className={styles.foldingBtn}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        >
+          <Icon
+            name={isExpanded || isHover ? 'ic_folding' : 'ic_logo_symbol'}
+            width={36}
+            height={36}
+          />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
               <FloatingMenu menuName="사이드바 열기" />
