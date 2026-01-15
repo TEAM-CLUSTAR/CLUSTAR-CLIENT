@@ -1,127 +1,127 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+
+import { Icon } from '@cds/icon';
 
 import DetailModal from './detail-modal';
 
 const meta: Meta<typeof DetailModal> = {
-  title: 'Components/Modal/DetailModal',
+  title: 'Components/DetailModal',
   component: DetailModal,
   parameters: {
     layout: 'centered',
   },
-};
+  tags: ['autodocs'],
+  argTypes: {
+    trigger: { control: false },
+  },
+  args: {
+    generateAiButton: {
+      onClick: fn(),
+    },
+    trigger: (
+      <button
+        type="button"
+        style={{
+          padding: '10px 20px',
+          borderRadius: '8px',
+          backgroundColor: '#000',
+          color: '#fff',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          cursor: 'pointer',
+        }}
+      >
+        <span>모달 열기</span>
+        <Icon name="ic_ai_gra" width={20} height={20} />
+      </button>
+    ),
+  },
+} satisfies Meta<typeof DetailModal>;
 
 export default meta;
-
-type Story = StoryObj<typeof DetailModal>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    trigger: <button>상세 보기</button>,
-
-    labelItems: [
-      { id: 1, text: '졸업 프로젝트' },
-      { id: 2, text: '교양' },
-      { id: 3, text: 'SOPT' },
-    ],
-    dateText: '2026.01.15',
-
-    title: 'AI 기반 문서 요약 및 정리 결과',
-    content:
-      '이 문서는 여러 개의 메모와 자료를 기반으로 AI가 자동으로 생성한 결과입니다.\n\n' +
-      '기존에 작성된 메모들을 분석하여 핵심 내용을 추출하고, 중복되는 정보를 제거한 뒤 하나의 구조화된 문서 형태로 재구성했습니다.\n\n' +
-      '해당 결과는 참고용이며, 최종 문서로 사용하기 전 반드시 검토가 필요합니다.',
-
-    isAiResult: true,
-
+    labelList: {
+      labelItems: [
+        { id: 1, name: '졸업 프로젝트' },
+        { id: 2, name: '교양' },
+      ],
+      dateText: '2024.01.15',
+    },
+    textContent: {
+      isAiResult: false,
+      title: '2024년 1분기 서비스 기획 회의',
+      content:
+        '이번 분기 서비스 고도화를 위해 기획팀과 개발팀이 모여 논의를 진행했습니다. 주요 안건으로는 UX 개선과 신규 기능 도입이 있었으며, 구체적인 일정은 다음 주까지 확정하기로 했습니다. \n\n1. 메인 화면 개편 \n2. 검색 기능 강화 \n3. 마이페이지 대시보드화',
+    },
     images: [
       {
-        imageUrl: 'https://picsum.photos/600/400?random=1',
-        imageAlt: '참고 이미지 1',
+        imageUrl: 'https://via.placeholder.com/150',
+        imageAlt: '회의실 화이트보드 사진 1',
       },
       {
-        imageUrl: 'https://picsum.photos/600/400?random=2',
-        imageAlt: '참고 이미지 2',
+        imageUrl: 'https://via.placeholder.com/150/0000FF/808080',
+        imageAlt: '디자인 시안 스케치',
       },
       {
-        imageUrl: 'https://picsum.photos/600/400?random=3',
-        imageAlt: '참고 이미지 3',
-      },
-      {
-        imageUrl: 'https://picsum.photos/600/400?random=4',
-        imageAlt: '참고 이미지 4',
+        imageUrl: 'https://via.placeholder.com/150/FF0000/FFFFFF',
+        imageAlt: '참고 레퍼런스 이미지',
       },
     ],
-
-    memos: [
-      {
-        id: 1,
-        memoName: '사용자 인터뷰 결과',
-      },
-      {
-        id: 2,
-        memoName: '경쟁 서비스 분석',
-      },
-      {
-        id: 3,
-        memoName: 'AI 요약 기능에 대한 내부 논의 내용',
-      },
-      {
-        id: 4,
-        memoName: '초기 프로토타입 테스트',
-      },
-    ],
-
     files: [
       {
-        fileName: '시장조사_리포트.pdf',
-        fileSize: '3.4MB',
-        fileUrl: '/files/market-report.pdf',
+        fileName: '2024_1분기_기획안.pdf',
+        fileSize: '2.4MB',
+        fileUrl: '#',
       },
       {
-        fileName: '사용자_인터뷰_정리.pdf',
-        fileSize: '1.8MB',
-        fileUrl: '/files/interview.docx',
-      },
-      {
-        fileName: '와이어프레임.pdf',
-        fileSize: '920KB',
-        fileUrl: '/files/wireframe.png',
+        fileName: '회의록_녹음.mp3',
+        fileSize: '15MB',
+        fileUrl: '#',
       },
     ],
+    memos: [
+      { id: 1, memoName: '기획 아이디어 스케치' },
+      { id: 2, memoName: '경쟁사 분석 노트' },
+      { id: 3, memoName: '1월 2주차 주간보고' },
+    ],
+  },
+};
 
-    onClick: () => {
-      alert('AI 생성 버튼 클릭');
+export const WithoutImages: Story = {
+  args: {
+    ...Default.args,
+    images: undefined,
+  },
+};
+
+export const SimpleContent: Story = {
+  args: {
+    ...Default.args,
+    images: undefined,
+    files: undefined,
+    memos: undefined,
+    textContent: {
+      isAiResult: false,
+      title: '간단한 메모',
+      content: '첨부파일이나 이미지 없이 텍스트로만 작성된 내용입니다.',
     },
   },
 };
 
-export const ManyImages: Story = {
-  args: {
-    ...Default.args,
-    images: Array.from({ length: 8 }).map((_, index) => ({
-      imageUrl: `https://picsum.photos/600/400?random=${index + 10}`,
-      imageAlt: `이미지 ${index + 1}`,
-    })),
-  },
-};
-
-export const LongArticleMemos: Story = {
+export const AiGeneratedResult: Story = {
   args: {
     ...Default.args,
     images: undefined,
-    memos: [
-      {
-        id: 1,
-        memoName: '프로젝트 배경',
-      },
-      {
-        id: 2,
-        memoName: '번거로운 작업',
-      },
-      {
-        id: 3,
-        memoName: 'AI를 활용한 여러 개의 메모',
-      },
-    ],
+    textContent: {
+      isAiResult: true,
+      title: 'AI 요약 결과',
+      content:
+        'AI가 회의록을 자동으로 요약했습니다. \n핵심 키워드: #기획 #개발 #일정 \n\n전체적인 흐름은 긍정적이었으나 일정 조율이 필요해 보입니다.',
+    },
   },
 };
