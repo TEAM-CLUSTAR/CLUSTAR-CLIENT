@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import InputTitle from '@features/memo/input-title';
+import InputTitle from '@features/memo/input-title/input-title';
 
 const MemoPage = () => {
   const [title, setTitle] = useState('');
