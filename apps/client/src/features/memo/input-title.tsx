@@ -8,10 +8,6 @@ interface InputTitleProps {
 }
 
 const InputTitle = ({ title, onChange }: InputTitleProps) => {
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.scrollLeft = 0;
-  };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 55) {
       onChange(e);
@@ -24,6 +20,10 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
     }
   };
 
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.scrollLeft = 0;
+  };
+
   return (
     <input
       className={styles.container}
@@ -31,8 +31,8 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
       maxLength={55}
       value={title}
       onChange={handleChange}
-      onBlur={handleBlur}
       onScroll={handleScroll}
+      onBlur={handleBlur}
     />
   );
 };
