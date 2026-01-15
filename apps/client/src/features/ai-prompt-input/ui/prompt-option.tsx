@@ -54,9 +54,9 @@ const PromptOption = () => {
           option={option}
           selected={selectedId === option.id}
           hovered={hoveredId === option.id}
-          onSelect={() => handleSelect(option.id)}
-          onHover={() => setHoveredId(option.id)}
-          onLeave={() => setHoveredId(null)}
+          handleSelect={() => handleSelect(option.id)}
+          handleHover={() => setHoveredId(option.id)}
+          handleLeave={() => setHoveredId(null)}
         />
       ))}
     </div>
