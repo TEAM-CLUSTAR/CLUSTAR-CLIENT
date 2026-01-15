@@ -22,6 +22,7 @@ export const iconNames = [
   'ic_italic',
   'ic_label',
   'ic_label_blue',
+  'ic_memo_36',
   'ic_memo_blue',
   'ic_newmemo',
   'ic_newmemo_blue',
