@@ -25,7 +25,7 @@ export interface LabelListProps {
 const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
   const primaryLabelColor = labelItems[0]
     ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
-    : 'gray';
+    : 'grey';
   const primaryColorValue =
     PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
   const labelSize = listType === 'modal' ? 'lg' : 'sm';

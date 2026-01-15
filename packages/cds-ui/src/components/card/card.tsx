@@ -49,7 +49,7 @@ const Card = ({
 }: CardProps) => {
   const primaryLabelColor = item[0]
     ? LABEL_COLOR_BY_TEXT[item[0].text]
-    : 'gray';
+    : 'grey';
   const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
   const primaryColorValue =
     PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
