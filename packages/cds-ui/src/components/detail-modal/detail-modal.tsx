@@ -85,24 +85,30 @@ const DetailModal = ({
           </div>
           {memos && (
             <div className={styles.selectedMemoContainer}>
-              <p>사용된 메모 ({memos?.length})</p>
+              <p className={styles.selectedMemoCountContainer}>
+                사용된 메모 ({memos?.length})
+              </p>
               <div className={styles.selectedMemoContentContainer}>
-                {memos.map(({ id, memoName }) => (
-                  <SelectedMemo key={id} memoName={memoName} />
-                ))}
+                <div className={styles.selectedMemoContentInnerContainer}>
+                  {memos.map(({ id, memoName }) => (
+                    <SelectedMemo key={id} memoName={memoName} />
+                  ))}
+                </div>
               </div>
             </div>
           )}
           {files && (
             <div className={styles.fileContainer}>
-              {files.map(({ fileName, fileSize, fileUrl }) => (
-                <File
-                  key={fileUrl}
-                  fileName={fileName}
-                  fileSize={fileSize}
-                  fileUrl={fileUrl}
-                />
-              ))}
+              <div className={styles.fileInnerContainer}>
+                {files.map(({ fileName, fileSize, fileUrl }) => (
+                  <File
+                    key={fileUrl}
+                    fileName={fileName}
+                    fileSize={fileSize}
+                    fileUrl={fileUrl}
+                  />
+                ))}
+              </div>
             </div>
           )}
 
