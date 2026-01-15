@@ -3,7 +3,6 @@ import { Icon } from '@cds/icon';
 import * as styles from './selected-memo.css';
 
 export interface SelectedMemoProps {
-  id?: number;
   memoName: string;
 }
 

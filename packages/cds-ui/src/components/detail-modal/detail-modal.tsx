@@ -9,38 +9,41 @@ import ImageContainer, {
 } from '../image-container/image-container';
 import LabelList, { type LabelListProps } from '../label-list/label-list';
 import Modal from '../modal/modal';
-import SelectedMemo, {
-  type SelectedMemoProps,
-} from '../selected-memo/selected-memo';
+import SelectedMemo from '../selected-memo/selected-memo';
 import TextContent, {
   type TextContentProps,
 } from '../text-content/text-content';
 
 import * as styles from './detail-modal.css';
 
-interface DetailModalProps
-  extends
-    Omit<LabelListProps, 'listType'>,
-    Omit<TextContentProps, 'mode'>,
-    Omit<ButtonProps, 'size'> {
+interface SelectedMemoTypes {
+  id: number;
+  memoName: string;
+}
+
+interface DetailModalProps {
+  labelList: Omit<LabelListProps, 'listType'>;
+  textContent: Omit<TextContentProps, 'mode'>;
+  generateAiButton: Omit<ButtonProps, 'size'>;
   trigger: ReactNode;
   images?: ImageContainerProps[];
   files?: FileProps[];
-  memos?: SelectedMemoProps[];
+  memos?: SelectedMemoTypes[];
 }
 
 const DetailModal = ({
   trigger,
-  labelItems,
-  dateText,
+  labelList,
   images,
-  isAiResult,
-  title,
-  content,
+  textContent,
   files,
   memos,
-  onClick,
+  generateAiButton,
 }: DetailModalProps) => {
+  const { labelItems, dateText } = labelList;
+  const { isAiResult, title, content } = textContent;
+  const { onClick } = generateAiButton;
+
   return (
     <Modal>
       <Modal.Trigger>{trigger}</Modal.Trigger>
