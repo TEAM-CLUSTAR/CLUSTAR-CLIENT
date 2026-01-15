@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 
+import { ThemeProvider } from '../../providers/theme-provider';
+
 import * as styles from './modal.css';
 
 interface ModalRootProps {
@@ -47,8 +49,10 @@ const ModalClose = ({ children }: ModalCloseProps) => {
 const ModalContent = ({ children }: ModalContentProps) => {
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className={styles.overlay} />
-      <Dialog.Content className={styles.content}>{children}</Dialog.Content>
+      <ThemeProvider>
+        <Dialog.Overlay className={styles.overlay} />
+        <Dialog.Content className={styles.content}>{children}</Dialog.Content>
+      </ThemeProvider>
     </Dialog.Portal>
   );
 };

@@ -11,11 +11,12 @@ globalStyle('html, body', {
   fontFamily: `'Pretendard Variable', sans-serif`,
   scrollbarWidth: 'thin',
   scrollbarColor: `${themeVars.color.grey300} transparent`,
+  scrollBehavior: 'smooth',
 });
 
 globalStyle('::-webkit-scrollbar', {
-  width: '16px',
-  height: '16px',
+  width: '24px',
+  height: '24px',
 });
 
 globalStyle('::-webkit-scrollbar-track', {

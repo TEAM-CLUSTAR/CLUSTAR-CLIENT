@@ -2,7 +2,7 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './file.css';
 
-interface FileProps {
+export interface FileProps {
   fileName: string;
   fileSize: string;
   fileUrl: string;
