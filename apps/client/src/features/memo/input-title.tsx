@@ -1,10 +1,25 @@
+import { ChangeEvent } from 'react';
+
 import * as styles from './input-title.css';
 
-const InputTitle = () => {
+interface InputTitleProps {
+  title: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputTitle = ({ title, onChange }: InputTitleProps) => {
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.scrollLeft = 0;
+  };
+
   return (
-    <textarea
+    <input
       className={styles.container}
-      placeholder="정리하고 싶은 내용을 메모하세요."
+      placeholder="제목을 입력하세요."
+      maxLength={55}
+      value={title}
+      onChange={onChange}
+      onBlur={handleBlur}
     />
   );
 };

@@ -10,11 +10,15 @@ export const container = style({
   border: `1px solid ${themeVars.color.grey200}`,
   borderRadius: '8px',
   backgroundColor: themeVars.color.white,
-  outline: 'none',
-  resize: 'none',
 
   ...themeVars.fontStyles.title_m_18,
   color: themeVars.color.grey900,
+
+  outline: 'none',
+
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 
   '::placeholder': {
     color: themeVars.color.grey500,
