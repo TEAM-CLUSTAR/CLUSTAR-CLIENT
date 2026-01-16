@@ -13,6 +13,13 @@ export const container = recipe({
     borderRadius: '3px',
     backgroundColor: themeVars.color.white,
     boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.25)',
+    transition: 'background-color 0.2s ease',
+
+    selectors: {
+      '&:hover': {
+        backgroundColor: themeVars.color.grey200,
+      },
+    },
   },
 
   variants: {
@@ -33,6 +40,7 @@ export const title = style({
   color: themeVars.color.grey900,
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
+  textAlign: 'left',
 });
 
 export const content = style({
@@ -42,4 +50,5 @@ export const content = style({
   color: themeVars.color.grey700,
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
+  textAlign: 'left',
 });
