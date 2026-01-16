@@ -20,6 +20,11 @@ export const textarea = style({
   resize: 'none',
   ...themeVars.fontStyles.body_m_16,
   backgroundColor: 'transparent',
+  selectors: {
+    '&:focus::placeholder': {
+      color: 'transparent',
+    },
+  },
 });
 
 export const footer = style({
