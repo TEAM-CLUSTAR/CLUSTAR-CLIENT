@@ -25,7 +25,7 @@ export interface LabelListProps {
 const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
   const primaryLabelColor = labelItems[0]
     ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
-    : 'gray';
+    : 'grey';
   const primaryColorValue =
     PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
   const labelSize = listType === 'modal' ? 'lg' : 'sm';
@@ -35,7 +35,9 @@ const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
       className={styles.labelListContainer({ listType })}
       style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
     >
-      {dateText && <p className={styles.dateTextContainer}>{dateText} 생성됨</p>}
+      {dateText && (
+        <p className={styles.dateTextContainer}>{dateText} 생성됨</p>
+      )}
       <div className={styles.labelContainer}>
         {labelItems.map(({ id, text }) => (
           <Label
