@@ -8,7 +8,7 @@ export const tabListContainer = style({
   gap: '1.2rem',
 });
 
-export const memoMarer = style({
+export const memoMarker = style({
   width: '5.2rem',
   height: '5.2rem',
   display: 'flex',

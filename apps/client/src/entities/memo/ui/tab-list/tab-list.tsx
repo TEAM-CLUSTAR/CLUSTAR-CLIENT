@@ -34,7 +34,7 @@ const TabList = ({
 
   return (
     <div className={styles.tabListContainer}>
-      <div className={styles.memoMarer}>
+      <div className={styles.memoMarker}>
         <Icon name="ic_memo_36" width={36} height={36} />
       </div>
       {items.map(({ id, title, label }) => (
