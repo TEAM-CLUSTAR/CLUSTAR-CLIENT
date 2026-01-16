@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
 
-export function PublicLayout() {
+export default function PublicLayout() {
   return <Outlet />;
 }

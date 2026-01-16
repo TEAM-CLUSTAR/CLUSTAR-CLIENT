@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 
-import { Sidebar } from '@cds/ui';
-
 import { PATH } from '@shared/router/path';
+
+import Sidebar from '@widgets/sidebar/sidebar';
 
 import * as styles from './private-layout.css';
 
@@ -21,7 +21,7 @@ const getMenuIdByPath = (pathname: string) => {
   if (pathname.startsWith(PATH.LABEL)) return 'label';
   return 'all';
 };
-const PrivateLayout = () => {
+export default function PrivateLayout() {
   const [isExpanded, setIsExpanded] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -63,6 +63,4 @@ const PrivateLayout = () => {
       </div>
     </div>
   );
-};
-
-export default PrivateLayout;
+}
