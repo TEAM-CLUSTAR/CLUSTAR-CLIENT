@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeVars } from '@cds/ui';
+
 import backgroundImage from '../../../../public/background.png';
 
 export const root = style({
@@ -28,9 +30,13 @@ export const overlay = style({
 
 export const content = style({
   position: 'relative',
-  zIndex: 1,
+  zIndex: themeVars.zIndex.sidebar,
   minHeight: '100vh',
   display: 'flex',
+});
+
+export const sidebarContainer = style({
+  padding: '2rem 0 2rem 2rem',
 });
 
 export const mainContent = style({

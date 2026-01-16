@@ -49,14 +49,16 @@ export default function PrivateLayout() {
       <div className={styles.bgLayer} aria-hidden />
       <div className={styles.overlay} aria-hidden />
       <div className={styles.content}>
-        <Sidebar
-          userId="user123"
-          userEmail="user@example.com"
-          isExpanded={isExpanded}
-          onToggle={handleToggle}
-          selectedId={selectedId}
-          onSelect={handleSelect}
-        />
+        <div className={styles.sidebarContainer}>
+          <Sidebar
+            userId="user123"
+            userEmail="user@example.com"
+            isExpanded={isExpanded}
+            onToggle={handleToggle}
+            selectedId={selectedId}
+            onSelect={handleSelect}
+          />
+        </div>
         <div className={styles.mainContent}>
           <Outlet />
         </div>
