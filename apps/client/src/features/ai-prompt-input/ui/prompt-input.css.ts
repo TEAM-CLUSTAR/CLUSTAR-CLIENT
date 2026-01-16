@@ -27,8 +27,3 @@ export const footer = style({
   justifyContent: 'space-between',
   alignItems: 'center',
 });
-
-export const optionsWrapper = style({
-  display: 'flex',
-  gap: '0.8rem',
-});
