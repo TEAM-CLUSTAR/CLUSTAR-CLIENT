@@ -83,6 +83,17 @@ const Sidebar = ({
   onSelect,
 }: SidebarProps) => {
   const [isHover, setIsHover] = useState(false);
+
+  const processedMenuItems = MENU_ITEMS.map((item) => ({
+    ...item,
+    ...getIconState(item, selectedId),
+  }));
+
+  const processedLabelItems = LABEL_ITEMS.map((item) => ({
+    ...item,
+    ...getIconState(item, selectedId),
+  }));
+
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
@@ -115,50 +126,44 @@ const Sidebar = ({
 
       <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
       <div className={styles.menuList({ expanded: isExpanded })}>
-        {MENU_ITEMS.map((item) => {
-          const { isActive, iconName } = getIconState(item, selectedId);
-
-          return isExpanded ? (
+        {processedMenuItems.map((item) =>
+          isExpanded ? (
             <SidebarPannel
               key={item.id}
-              isSelected={isActive}
+              isSelected={item.isActive}
               onClick={() => onSelect(item.id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              icon={<Icon name={item.iconName} width={36} height={36} />}
             >
               {item.label}
             </SidebarPannel>
           ) : (
             <div key={item.id} className={styles.iconContainer}>
               <SidebarIcon
-                isSelected={isActive}
+                isSelected={item.isActive}
                 onClick={() => onSelect(item.id)}
-                icon={<Icon name={iconName} width={36} height={36} />}
+                icon={<Icon name={item.iconName} width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
                 <FloatingMenu menuName={item.label} />
               </div>
             </div>
-          );
-        })}
+          ),
+        )}
       </div>
 
       <span className={styles.label({ expanded: isExpanded })}>라벨</span>
       <div className={styles.labelList({ expanded: isExpanded })}>
         {isExpanded ? (
-          LABEL_ITEMS.map((item) => {
-            const { isActive, iconName } = getIconState(item, selectedId);
-
-            return (
-              <SidebarPannel
-                key={item.id}
-                isSelected={isActive}
-                onClick={() => onSelect(item.id)}
-                icon={<Icon name={iconName} width={36} height={36} />}
-              >
-                {item.label}
-              </SidebarPannel>
-            );
-          })
+          processedLabelItems.map((item) => (
+            <SidebarPannel
+              key={item.id}
+              isSelected={item.isActive}
+              onClick={() => onSelect(item.id)}
+              icon={<Icon name={item.iconName} width={36} height={36} />}
+            >
+              {item.label}
+            </SidebarPannel>
+          ))
         ) : (
           <div className={styles.labelContainer}>
             <SidebarIcon
