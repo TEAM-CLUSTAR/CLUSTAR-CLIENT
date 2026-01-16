@@ -1,7 +1,4 @@
-import {
-  LABEL_COLOR_BY_TEXT,
-  LabelTextType,
-} from '@entities/memo/models/constant';
+import { LABEL_COLOR_BY_TEXT, LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './tree-memo.css';
 
