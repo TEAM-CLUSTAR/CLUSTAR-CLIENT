@@ -29,9 +29,12 @@ const LabelList = ({
   dateText,
   labelItems,
   onItemClick,
-  labelSize = listType === 'modal' ? 'lg' : 'sm',
+  labelSize,
 }: LabelListProps) => {
+  const resolvedSize = labelSize ?? (listType === 'modal' ? 'lg' : 'sm');
+
   const firstLabelText = labelItems[0]?.text;
+
   const primaryColorValue = firstLabelText
     ? PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[LABEL_COLOR_BY_TEXT[firstLabelText]]
     : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR.grey;
@@ -48,7 +51,7 @@ const LabelList = ({
         {labelItems.map(({ id, text }) => (
           <Label
             key={id}
-            labelSize={labelSize}
+            labelSize={resolvedSize}
             labelColor={LABEL_COLOR_BY_TEXT[text]}
             labelText={text}
             onClick={onItemClick ? () => onItemClick({ id, text }) : undefined}
