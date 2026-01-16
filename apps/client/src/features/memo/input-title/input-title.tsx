@@ -7,9 +7,11 @@ interface InputTitleProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+const MAX_LENGTH = 55;
+
 const InputTitle = ({ title, onChange }: InputTitleProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 55) {
+    if (e.target.value.length <= MAX_LENGTH) {
       onChange(e);
     }
   };
@@ -28,7 +30,7 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
     <input
       className={styles.container}
       placeholder="제목을 입력하세요."
-      maxLength={55}
+      maxLength={MAX_LENGTH}
       value={title}
       onChange={handleChange}
       onScroll={handleScroll}
