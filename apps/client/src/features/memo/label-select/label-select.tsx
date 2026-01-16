@@ -52,7 +52,7 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
     <div className={styles.container} onBlur={handleBlur} tabIndex={-1}>
       <button
         type="button"
-        className={`${styles.selectBox} ${isOpen ? styles.selectBoxOpen : ''}`}
+        className={styles.selectBox({ isOpen: isOpen })}
         onClick={() => setIsOpen(!isOpen)}
       >
         <Icon name="ic_label" width={36} height={36} />
@@ -65,10 +65,14 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
                 labelSize="lg"
                 labelColor={LABEL_COLOR_BY_TEXT[item.text]}
                 labelText={item.text}
-                onClick={(e?: React.MouseEvent) => {
-                  e?.stopPropagation();
-                  handleSelect(item);
-                }}
+                onClick={
+                  isOpen
+                    ? (e?: React.MouseEvent) => {
+                        e?.stopPropagation();
+                        handleSelect(item);
+                      }
+                    : undefined
+                }
               />
             ))}
           </div>
