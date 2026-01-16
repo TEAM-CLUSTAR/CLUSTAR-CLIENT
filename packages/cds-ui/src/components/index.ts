@@ -14,6 +14,7 @@ export { default as Modal } from './modal/modal';
 export { default as PageTitle } from './page-title/page-title';
 export { default as Search } from './search/search';
 export { default as SelectedMemo } from './selected-memo/selected-memo';
+export { default as Sidebar } from './sidebar/sidebar';
 export { default as SidebarIcon } from './sidebar-icon/sidebar-icon';
 export { default as SidebarPannel } from './sidebar-pannel/sidebar-pannel';
 export { default as SideBarProfile } from './sidebar-profile/sidebar-profile';

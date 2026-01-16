@@ -5,7 +5,7 @@ import * as styles from './floating-label.css';
 // api에서 내려주는 라벨의 키값으로 변경 필요
 interface LabelTypes {
   name: string;
-  id: number;
+  id: string | number;
 }
 
 interface FloatingLabelProps {
