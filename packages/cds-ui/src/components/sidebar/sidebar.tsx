@@ -126,25 +126,25 @@ const Sidebar = ({
 
       <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
       <div className={styles.menuList({ expanded: isExpanded })}>
-        {processedMenuItems.map((item) =>
+        {processedMenuItems.map(({ id, label, isActive, iconName }) =>
           isExpanded ? (
             <SidebarPannel
-              key={item.id}
-              isSelected={item.isActive}
-              onClick={() => onSelect(item.id)}
-              icon={<Icon name={item.iconName} width={36} height={36} />}
+              key={id}
+              isSelected={isActive}
+              onClick={() => onSelect(id)}
+              icon={<Icon name={iconName} width={36} height={36} />}
             >
-              {item.label}
+              {label}
             </SidebarPannel>
           ) : (
-            <div key={item.id} className={styles.iconContainer}>
+            <div key={id} className={styles.iconContainer}>
               <SidebarIcon
-                isSelected={item.isActive}
-                onClick={() => onSelect(item.id)}
-                icon={<Icon name={item.iconName} width={36} height={36} />}
+                isSelected={isActive}
+                onClick={() => onSelect(id)}
+                icon={<Icon name={iconName} width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={item.label} />
+                <FloatingMenu menuName={label} />
               </div>
             </div>
           ),
@@ -154,14 +154,14 @@ const Sidebar = ({
       <span className={styles.label({ expanded: isExpanded })}>라벨</span>
       <div className={styles.labelList({ expanded: isExpanded })}>
         {isExpanded ? (
-          processedLabelItems.map((item) => (
+          processedLabelItems.map(({ id, label, isActive, iconName }) => (
             <SidebarPannel
-              key={item.id}
-              isSelected={item.isActive}
-              onClick={() => onSelect(item.id)}
-              icon={<Icon name={item.iconName} width={36} height={36} />}
+              key={id}
+              isSelected={isActive}
+              onClick={() => onSelect(id)}
+              icon={<Icon name={iconName} width={36} height={36} />}
             >
-              {item.label}
+              {label}
             </SidebarPannel>
           ))
         ) : (
