@@ -1,4 +1,4 @@
-import { ChangeEvent, UIEvent } from 'react';
+import { ChangeEvent, UIEvent, useRef } from 'react';
 
 import * as styles from './input-title.css';
 
@@ -10,6 +10,8 @@ interface InputTitleProps {
 const MAX_LENGTH = 55;
 
 const InputTitle = ({ title, onChange }: InputTitleProps) => {
+  const isFocused = useRef(false);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= MAX_LENGTH) {
       onChange(e);
@@ -17,13 +19,9 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
   };
 
   const handleScroll = (e: UIEvent<HTMLInputElement>) => {
-    if (document.activeElement !== e.currentTarget) {
+    if (!isFocused.current) {
       e.currentTarget.scrollLeft = 0;
     }
-  };
-
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.scrollLeft = 0;
   };
 
   return (
@@ -34,7 +32,13 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
       value={title}
       onChange={handleChange}
       onScroll={handleScroll}
-      onBlur={handleBlur}
+      onFocus={() => {
+        isFocused.current = true;
+      }}
+      onBlur={(e) => {
+        isFocused.current = false;
+        e.target.scrollLeft = 0;
+      }}
     />
   );
 };
