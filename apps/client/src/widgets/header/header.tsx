@@ -1,10 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import { Icon } from '@cds/icon';
-
-import PageTitle from '../page-title/page-title';
-import Search from '../search/search';
-import Toggle from '../toggle/toggle';
+import { PageTitle, Search, Toggle } from '@cds/ui';
 
 import * as styles from './header.css';
 interface HeaderProps {

@@ -2,14 +2,13 @@ import { useState } from 'react';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
-
 import {
   FloatingLabel,
   FloatingMenu,
   SidebarIcon,
   SidebarPannel,
   SideBarProfile,
-} from '..';
+} from '@cds/ui';
 
 import * as styles from './sidebar.css';
 
