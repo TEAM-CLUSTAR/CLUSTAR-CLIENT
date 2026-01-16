@@ -35,7 +35,9 @@ const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
       className={styles.labelListContainer({ listType })}
       style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
     >
-      {dateText && <p className={styles.dateTextContainer}>{dateText} 생성됨</p>}
+      {dateText && (
+        <p className={styles.dateTextContainer}>{dateText} 생성됨</p>
+      )}
       <div className={styles.labelContainer}>
         {labelItems.map(({ id, text }) => (
           <Label
