@@ -11,7 +11,7 @@ const meta: Meta<typeof Label> = {
     labelSize: { control: 'radio', options: ['sm', 'lg'] },
     labelColor: {
       control: 'select',
-      options: ['blue', 'purple', 'green', 'pink', 'gray'],
+      options: ['blue', 'purple', 'green', 'pink', 'grey'],
     },
     labelText: { control: 'text' },
   },
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     labelSize: 'sm',
-    labelColor: 'gray',
+    labelColor: 'grey',
     labelText: '태그 없음',
   },
 };
@@ -89,11 +89,11 @@ export const PinkSizes: Story = {
   ),
 };
 
-export const GraySizes: Story = {
+export const greySizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-      <Label labelSize="sm" labelColor="gray" labelText="회색 라벨" />
-      <Label labelSize="lg" labelColor="gray" labelText="회색 라벨" />
+      <Label labelSize="sm" labelColor="grey" labelText="회색 라벨" />
+      <Label labelSize="lg" labelColor="grey" labelText="회색 라벨" />
     </div>
   ),
 };
