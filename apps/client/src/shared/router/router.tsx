@@ -1,8 +1,7 @@
+import GlobalLayout from '@app/layouts/global-layout';
+import PrivateLayout from '@app/layouts/private-layout/private-layout';
+import PublicLayout from '@app/layouts/public-layout';
 import { createBrowserRouter } from 'react-router';
-
-import GlobalLayout from '@widgets/layouts/ui/global-layout';
-import PrivateLayout from '@widgets/layouts/ui/private-layout/private-layout';
-import { PublicLayout } from '@widgets/layouts/ui/public-layout';
 
 import { privateRoutes } from './routes/private-route';
 import { publicRoutes } from './routes/public-route';
