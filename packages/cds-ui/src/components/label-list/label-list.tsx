@@ -45,13 +45,13 @@ const LabelList = ({
         <p className={styles.dateTextContainer}>{dateText} 생성됨</p>
       )}
       <div className={styles.labelContainer}>
-        {labelItems.map((item) => (
+        {labelItems.map(({ id, text }) => (
           <Label
-            key={item.id}
+            key={id}
             labelSize={labelSize}
-            labelColor={LABEL_COLOR_BY_TEXT[item.text]}
-            labelText={item.text}
-            onClick={onItemClick ? () => onItemClick(item) : undefined}
+            labelColor={LABEL_COLOR_BY_TEXT[text]}
+            labelText={text}
+            onClick={onItemClick ? () => onItemClick({ id, text }) : undefined}
           />
         ))}
       </div>
