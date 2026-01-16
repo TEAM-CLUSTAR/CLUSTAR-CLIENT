@@ -10,3 +10,13 @@ export const slideInUp = keyframes({
     opacity: 1,
   },
 });
+
+export const dropDown = keyframes({
+  '0%': {
+    opacity: 0,
+  },
+  '100%': {
+    transform: 'translateY(0)',
+    opacity: 1,
+  },
+});

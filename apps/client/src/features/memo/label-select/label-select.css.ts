@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { dropDown, themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
@@ -19,6 +19,8 @@ export const selectBox = style({
   border: '1px solid transparent',
   borderRadius: '8px',
   cursor: 'pointer',
+  outline: 'none',
+
   transition:
     'border 0.2s ease, background-color 0.2s ease, border-radius 0.2s ease',
 
@@ -58,6 +60,7 @@ export const dropdown = style({
   borderTop: 'none',
 
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+  animation: `${dropDown} 0.2s ease-out`,
 });
 
 export const labelText = style({
