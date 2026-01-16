@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import Button, { type ButtonProps } from '../button/button';
+import Button from '../button/button';
 import File, { type FileProps } from '../file/file';
 import ImageContainer, {
   type ImageContainerProps,
@@ -23,31 +23,32 @@ interface SelectedMemoTypes {
 }
 
 interface DetailModalProps {
+  children: ReactNode;
   labelList: Omit<LabelListProps, 'listType'>;
-  textContent: Omit<TextContentProps, 'mode'>;
-  generateAiButton: Omit<ButtonProps, 'size'>;
-  trigger: ReactNode;
   images?: ImageContainerProps[];
+  textContent: Omit<TextContentProps, 'mode'>;
   files?: FileProps[];
-  memos?: SelectedMemoTypes[];
+  selectedMemos?: SelectedMemoTypes[];
 }
 
 const DetailModal = ({
-  trigger,
+  children,
   labelList,
   images,
   textContent,
   files,
-  memos,
-  generateAiButton,
+  selectedMemos,
 }: DetailModalProps) => {
   const { labelItems, dateText } = labelList;
   const { isAiResult, title, content } = textContent;
-  const { onClick } = generateAiButton;
+
+  const handleClick = () => {
+    // ai 메모 생성 클릭 시, 모달에 뜬 메모의 id에 대해 선택하고, 메모 페이지로 이동합니다. 이후 ai 프롬프트를 띄웁니다.
+  };
 
   return (
     <Modal>
-      <Modal.Trigger>{trigger}</Modal.Trigger>
+      <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Content>
         <div className={styles.container}>
           <div className={styles.headerContainer}>
@@ -89,14 +90,14 @@ const DetailModal = ({
               />
             </div>
           </div>
-          {memos && (
+          {selectedMemos && (
             <div className={styles.selectedMemoContainer}>
               <p className={styles.selectedMemoCountContainer}>
-                사용된 메모 ({memos?.length})
+                사용된 메모 ({selectedMemos?.length})
               </p>
               <div className={styles.selectedMemoContentContainer}>
                 <div className={styles.selectedMemoContentInnerContainer}>
-                  {memos.map(({ id, memoName }) => (
+                  {selectedMemos.map(({ id, memoName }) => (
                     <SelectedMemo key={id} memoName={memoName} />
                   ))}
                 </div>
@@ -119,8 +120,8 @@ const DetailModal = ({
           )}
 
           <Modal.Close>
-            <div className={styles.aiGenerateButtonContainer}>
-              <Button size="xl" onClick={onClick}>
+            <div className={styles.createAiMemoButton}>
+              <Button size="xl" onClick={handleClick}>
                 AI 생성 하기
               </Button>
             </div>
