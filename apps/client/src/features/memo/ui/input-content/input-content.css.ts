@@ -77,3 +77,7 @@ globalStyle(`${Q} .ql-editor.ql-blank::before`, {
   fontStyle: 'normal',
   color: themeVars.color.grey500,
 });
+
+globalStyle(`${Q} .ql-editor.ql-blank:focus::before`, {
+  opacity: 0,
+});

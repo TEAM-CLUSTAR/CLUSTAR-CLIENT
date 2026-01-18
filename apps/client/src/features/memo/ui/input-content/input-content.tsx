@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import MarkdownShortcuts from 'quill-markdown-shortcuts';
 import ReactQuill, { Quill } from 'react-quill-new';
 
@@ -6,15 +6,14 @@ import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
 
 import * as styles from './input-content.css';
 
+interface InputContnentProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
 Quill.register('modules/markdownShortcuts', MarkdownShortcuts, true);
 
-const InputContent = () => {
-  const [value, setValue] = useState('');
-
-  const handleChange = (content: string) => {
-    setValue(content);
-  };
-
+const InputContent = ({ value, onChange }: InputContnentProps) => {
   const modules = useMemo(() => memoQuillModules, []);
   const formats = useMemo(() => [...memoQuillFormats], []);
 
@@ -26,7 +25,7 @@ const InputContent = () => {
         modules={modules}
         formats={formats}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </section>
   );
