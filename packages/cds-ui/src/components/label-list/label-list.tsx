@@ -21,7 +21,7 @@ export interface LabelListProps {
   dateText?: string;
   labelItems: LabelItem[];
   onItemClick?: (item: LabelItem) => void;
-  labelSize: 'sm' | 'lg';
+  labelSize?: 'sm' | 'lg';
 }
 
 const NO_LABEL_TEXT: LabelTextType = '라벨없음';
@@ -37,7 +37,7 @@ const LabelList = ({
 
   const displayItems: LabelItem[] =
     listType === 'card' && labelItems.length === 0
-      ? [{ id: 'no-label', text: NO_LABEL_TEXT }]
+      ? [{ id: '라벨없음', text: NO_LABEL_TEXT }]
       : labelItems;
 
   const firstLabelText = displayItems[0]?.text;

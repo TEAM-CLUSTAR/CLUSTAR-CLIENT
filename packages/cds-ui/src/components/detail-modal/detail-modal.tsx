@@ -22,14 +22,9 @@ interface SelectedMemoTypes {
   memoName: string;
 }
 
-type DetailModalLabelListProps = Pick<
-  LabelListProps,
-  'labelItems' | 'dateText' | 'onItemClick'
->;
-
 interface DetailModalProps {
   children: ReactNode;
-  labelList: Omit<DetailModalLabelListProps, 'listType'>;
+  labelList: Omit<LabelListProps, 'listType'>;
   images?: ImageContainerProps[];
   textContent: Omit<TextContentProps, 'mode'>;
   files?: FileProps[];
