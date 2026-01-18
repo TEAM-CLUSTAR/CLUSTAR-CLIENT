@@ -86,6 +86,7 @@ export const useAiPrompt = ({
       };
       setMessages((prev) => [...prev, userMessage]);
 
+      // eslint-disable-next-line no-console
       console.log('프롬프트 전송:', {
         text: value.text,
         selectedOptionId: value.selectedOptionId,
@@ -114,12 +115,14 @@ export const useAiPrompt = ({
 
   // 메모 재생성 요청
   const handleRegenerate = useCallback(async (messageId: string) => {
+    // eslint-disable-next-line no-console
     console.log('재생성 요청:', messageId);
     // TODO: API 요청 처리
   }, []);
 
   // 메모로 저장 요청
   const handleSaveToMemo = useCallback(async (messageId: string) => {
+    // eslint-disable-next-line no-console
     console.log('메모로 저장:', messageId);
     // TODO: API 요청 처리
   }, []);

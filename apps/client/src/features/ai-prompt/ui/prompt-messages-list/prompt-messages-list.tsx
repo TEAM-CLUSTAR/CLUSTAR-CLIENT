@@ -1,14 +1,13 @@
 import { Icon } from '@cds/icon';
 
-import { UserMessageBubble } from '@entities/message/ui';
+import { UserMessageBubble } from '@entities/message';
 
-import { useMessagesScroll } from '../../model';
-import type { Message } from '../../model/types';
-import AiMessageItem from '../ai-message/ai-message';
+import { useMessagesScroll } from '@features/ai-prompt/model/use-ai-prompt';
+import AiMessageItem from '@features/ai-prompt/ui/ai-message/ai-message';
+
+import { Message } from '../../model/types';
 
 import * as styles from './prompt-messages-list.css';
-
-export type { Message } from '../../model/types';
 
 interface AiMessagesListProps {
   messages: Message[];
