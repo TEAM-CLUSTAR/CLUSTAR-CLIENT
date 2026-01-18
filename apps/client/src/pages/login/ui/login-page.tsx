@@ -1,3 +1,5 @@
+import LoginButton from '@features/login-button/ui/login-button';
+
 import LoginHeader from './login-header';
 
 import * as styles from './login-page.css';
@@ -22,6 +24,7 @@ const LoginPage = () => {
         </picture>
         <p className={styles.loginSection}>
           <p className={styles.login}>로그인/회원가입</p>
+          <LoginButton onClick={() => {}} />
           <div className={styles.loginDeesctiption}>
             계속 진행하면 <a className={styles.point}>이용약관</a> 및
             <a className={styles.point}>개인정보처리방침</a>

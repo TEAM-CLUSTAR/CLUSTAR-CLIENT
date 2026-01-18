@@ -30,8 +30,7 @@ export const description = style({
 });
 
 export const loginSection = style({
-  width: '100%',
-  paddingTop: '2.7rem',
+  width: '39.2rem',
 });
 
 export const login = style({
@@ -41,6 +40,7 @@ export const login = style({
   alignItems: 'center',
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey500,
+  padding: '2.7rem 0 2.8rem 0',
 
   '::before': {
     content: '""',
