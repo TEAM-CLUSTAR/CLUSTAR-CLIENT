@@ -50,29 +50,7 @@ export const useAiPrompt = ({
   const [inputText, setInputText] = useState('');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (messages.length === 0) return;
-
-    const scrollToBottom = () => {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'end',
-        });
-      }, 100);
-    };
-
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage) {
-      if (lastMessage.type === 'ai' && !isLoading) {
-        scrollToBottom();
-      } else if (isLoading) {
-        scrollToBottom();
-      }
-    }
-  }, [messages, isLoading]);
+  const messagesEndRef = useMessagesScroll({ messages, isLoading });
 
   // AI 프롬프트 입력 요청
   const handleSubmit = useCallback(
