@@ -1,7 +1,7 @@
 import { LABEL_COLOR_BY_TEXT, LabelTextType } from '@shared/types/label-type';
 import { MemoInfoTypes } from '@shared/types/memo-info-type';
 
-import TreeMemo from '@features/tree-memo/ui/tree-memo';
+import TreeMemo from '@entities/memo/ui/tree-memo/tree-memo';
 
 import * as styles from './tree-memo-list.css';
 
