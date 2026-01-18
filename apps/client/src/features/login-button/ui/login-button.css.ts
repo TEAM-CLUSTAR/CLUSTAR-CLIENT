@@ -16,4 +16,9 @@ export const container = style({
   border: `1px solid ${themeVars.color.grey300}`,
   ...themeVars.fontStyles.title_m_18,
   color: themeVars.color.grey800,
+  transition: 'background-color 0.2s ease',
+
+  ':hover': {
+    backgroundColor: themeVars.color.grey200,
+  },
 });
