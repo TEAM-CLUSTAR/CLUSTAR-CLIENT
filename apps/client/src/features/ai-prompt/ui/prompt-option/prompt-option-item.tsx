@@ -12,6 +12,7 @@ interface PromptOptionItemProps {
   handleSelect: () => void;
   handleHover: () => void;
   handleLeave: () => void;
+  disabled?: boolean;
 }
 
 const PromptOptionItem = ({
@@ -21,6 +22,7 @@ const PromptOptionItem = ({
   handleSelect,
   handleHover,
   handleLeave,
+  disabled = false,
 }: PromptOptionItemProps) => {
   const isActive = selected || hovered;
 
@@ -34,6 +36,7 @@ const PromptOptionItem = ({
         onMouseLeave={handleLeave}
         aria-pressed={selected}
         aria-label={option.title}
+        disabled={disabled}
       >
         <Icon
           name={isActive ? option.iconOn : option.iconOff}
