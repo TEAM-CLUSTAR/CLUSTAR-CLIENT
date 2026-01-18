@@ -1,8 +1,7 @@
 import { style } from '@vanilla-extract/css';
+import backgroundImage from 'public/background.png';
 
 import { themeVars } from '@cds/ui';
-
-import backgroundImage from '../../../../public/background.png';
 
 export const root = style({
   minHeight: '100vh',
