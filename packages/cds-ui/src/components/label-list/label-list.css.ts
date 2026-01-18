@@ -35,3 +35,16 @@ export const labelContainer = style({
   display: 'flex',
   gap: '0.8rem',
 });
+
+export const emptyLabel = recipe({
+  variants: {
+    labelSize: {
+      lg: {
+        height: '2.1rem',
+      },
+      sm: {
+        height: '1.6rem',
+      },
+    },
+  },
+});
