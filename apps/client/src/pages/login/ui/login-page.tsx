@@ -22,7 +22,7 @@ const LoginPage = () => {
           <source srcSet="/login_file.webp" type="image/webp" />
           <img
             src="/login_file.png"
-            alt="login pile image"
+            alt="login file image"
             className={styles.loginfile}
           />
         </picture>
