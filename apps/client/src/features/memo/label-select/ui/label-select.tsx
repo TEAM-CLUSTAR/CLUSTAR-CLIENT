@@ -22,9 +22,9 @@ interface LabelSelectProps {
 
 const dropdownItems: LabelItem[] = (
   Object.keys(LABEL_COLOR_BY_TEXT) as LabelTextType[]
-).map((text, index) => ({
-  id: String(index + 1),
-  text,
+).map((text) => ({
+  id: text,
+  text: text,
 }));
 
 const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
@@ -34,6 +34,11 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setIsOpen(false);
     }
+  };
+
+  const handleLabelChipClick = (item: LabelItem) => (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    handleSelect(item);
   };
 
   const handleSelect = (item: LabelItem) => {
@@ -64,14 +69,7 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
                 labelSize="lg"
                 labelColor={LABEL_COLOR_BY_TEXT[item.text]}
                 labelText={item.text}
-                onClick={
-                  isOpen
-                    ? (e?: React.MouseEvent) => {
-                        e?.stopPropagation();
-                        handleSelect(item);
-                      }
-                    : undefined
-                }
+                onClick={isOpen ? handleLabelChipClick(item) : undefined}
               />
             ))}
           </div>
