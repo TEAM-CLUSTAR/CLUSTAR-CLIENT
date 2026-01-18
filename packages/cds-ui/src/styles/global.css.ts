@@ -33,7 +33,3 @@ globalStyle('::-webkit-scrollbar-thumb', {
 globalStyle('::-webkit-scrollbar-thumb:hover', {
   backgroundColor: themeVars.color.grey400,
 });
-
-globalStyle('*', {
-  boxSizing: 'border-box',
-});

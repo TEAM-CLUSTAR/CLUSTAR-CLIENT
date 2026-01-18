@@ -20,15 +20,24 @@ export interface LabelListProps {
   listType: LabelListType;
   dateText?: string;
   labelItems: LabelItem[];
+  onItemClick?: (item: LabelItem) => void;
+  labelSize?: 'sm' | 'lg';
 }
 
-const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
-  const primaryLabelColor = labelItems[0]
-    ? LABEL_COLOR_BY_TEXT[labelItems[0].text]
-    : 'gray';
-  const primaryColorValue =
-    PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
-  const labelSize = listType === 'modal' ? 'lg' : 'sm';
+const LabelList = ({
+  listType,
+  dateText,
+  labelItems,
+  onItemClick,
+  labelSize,
+}: LabelListProps) => {
+  const resolvedSize = labelSize ?? (listType === 'modal' ? 'lg' : 'sm');
+
+  const firstLabelText = labelItems[0]?.text;
+
+  const primaryColorValue = firstLabelText
+    ? PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[LABEL_COLOR_BY_TEXT[firstLabelText]]
+    : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR.grey;
 
   return (
     <div
@@ -42,9 +51,10 @@ const LabelList = ({ listType, dateText, labelItems }: LabelListProps) => {
         {labelItems.map(({ id, text }) => (
           <Label
             key={id}
-            labelSize={labelSize}
+            labelSize={resolvedSize}
             labelColor={LABEL_COLOR_BY_TEXT[text]}
             labelText={text}
+            onClick={onItemClick ? () => onItemClick({ id, text }) : undefined}
           />
         ))}
       </div>

@@ -19,7 +19,7 @@ const LABEL_CONTAINER_COLORS = {
     color: themeVars.color.label07,
     backgroundColor: themeVars.color.label08,
   },
-  gray: {
+  grey: {
     color: themeVars.color.grey700,
     backgroundColor: themeVars.color.grey200,
   },
@@ -30,7 +30,7 @@ const LABEL_INDICATOR_COLORS = {
   purple: { backgroundColor: themeVars.color.label01 },
   green: { backgroundColor: themeVars.color.label05 },
   pink: { backgroundColor: themeVars.color.label07 },
-  gray: { backgroundColor: themeVars.color.grey700 },
+  grey: { backgroundColor: themeVars.color.grey700 },
 } as const;
 
 export const labelContainer = recipe({
@@ -42,6 +42,14 @@ export const labelContainer = recipe({
     width: 'fit-content',
   },
   variants: {
+    clickable: {
+      true: {
+        cursor: 'pointer',
+      },
+      false: {
+        cursor: 'default',
+      },
+    },
     labelSize: {
       lg: {
         ...themeVars.fontStyles.body_m_14,

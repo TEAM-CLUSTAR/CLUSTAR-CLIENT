@@ -8,11 +8,19 @@ export interface LabelProps {
   labelSize: LabelSizeType;
   labelColor: LabelColorType;
   labelText: string;
+  onClick?: () => void;
 }
 
-const Label = ({ labelSize, labelColor, labelText }: LabelProps) => {
+const Label = ({ labelSize, labelColor, labelText, onClick }: LabelProps) => {
   return (
-    <div className={styles.labelContainer({ labelSize, labelColor })}>
+    <div
+      className={styles.labelContainer({
+        labelSize,
+        labelColor,
+        clickable: !!onClick,
+      })}
+      onClick={onClick}
+    >
       {labelColor && (
         <div
           className={styles.labelIndicator({ labelSize, labelColor })}
