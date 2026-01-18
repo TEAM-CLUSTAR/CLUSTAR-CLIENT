@@ -11,12 +11,9 @@ export const tabContainer = recipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '0.8rem 1.2rem 0.8rem 2.4rem',
-    gap: '0.4rem',
+    paddingRight: '1.2rem',
     height: '4.4rem',
-    minWidth: '13rem',
-    maxWidth: '16.5rem',
-    width: 'fit-content',
+    width: '15rem',
     cursor: 'pointer',
     borderRadius: '8px',
     boxShadow: `0 0 4px 0 ${themeVars.color.grey400}`,
@@ -80,9 +77,17 @@ export const tabContainer = recipe({
 
 export const buttonTextContainer = style({
   ...themeVars.fontStyles.title_m_18,
-  flex: 1,
   textAlign: 'left',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  padding: '0.8rem 0.4rem 0.8rem 2.4rem',
+  flex: '1',
+});
+
+export const deleteButton = style({
+  ':hover': {
+    backgroundColor: themeVars.color.grey200,
+    borderRadius: '8px',
+  },
 });

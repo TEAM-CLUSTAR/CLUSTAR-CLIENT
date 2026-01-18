@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { dropDown, themeVars } from '@cds/ui';
+import { fadeIn, themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
@@ -71,7 +71,7 @@ export const dropdown = style({
   borderTop: 'none',
 
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-  animation: `${dropDown} 0.2s ease-out`,
+  animation: `${fadeIn} 0.2s ease-out`,
 });
 
 export const labelText = style({

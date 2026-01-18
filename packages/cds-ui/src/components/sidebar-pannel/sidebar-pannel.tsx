@@ -5,7 +5,7 @@ import * as styles from './sidebar-pannel.css';
 interface SideBarPannelProps {
   children: ReactNode;
   isSelected: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   icon: ReactNode;
 }
 

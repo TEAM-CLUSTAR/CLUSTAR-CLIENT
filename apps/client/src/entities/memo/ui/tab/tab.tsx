@@ -2,20 +2,19 @@ import { CSSProperties } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import {
-  LABEL_COLOR_BY_TEXT,
-  LabelTextType,
-  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
-} from '@entities/memo/models/constant';
+import { PRIMARY_COLOR_VALUE_BY_LABEL_COLOR } from '@shared/constants/label-match';
+import { LABEL_COLOR_BY_TEXT, LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './tab.css';
 
 interface TabProps {
+  id: string;
   title?: string;
   label: LabelTextType;
   handleDelete: () => void;
   handleSelect: () => void;
   isSelected: boolean;
+  isDefault: boolean;
 }
 
 const Tab = ({
@@ -24,6 +23,7 @@ const Tab = ({
   handleSelect,
   isSelected,
   handleDelete,
+  isDefault,
 }: TabProps) => {
   const labelColor = LABEL_COLOR_BY_TEXT[label];
   const primaryColorValue = PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[labelColor];
@@ -38,18 +38,28 @@ const Tab = ({
       className={styles.tabContainer({ isSelected })}
       style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
     >
-      <button className={styles.buttonTextContainer} onClick={handleSelect}>
+      <button
+        type="button"
+        className={styles.buttonTextContainer}
+        onClick={handleSelect}
+        aria-current={isSelected ? 'page' : undefined}
+      >
         {title}
       </button>
-
-      <button>
-        <Icon
-          name="ic_close"
-          width={28}
-          height={28}
-          onClick={handleDeleteClick}
-        />
-      </button>
+      {isDefault && isSelected && (
+        <button
+          className={styles.deleteButton}
+          type="button"
+          aria-label="탭 닫기"
+        >
+          <Icon
+            name="ic_close"
+            width={28}
+            height={28}
+            onClick={handleDeleteClick}
+          />
+        </button>
+      )}
     </div>
   );
 };

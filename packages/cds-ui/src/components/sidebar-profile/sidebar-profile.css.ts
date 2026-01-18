@@ -4,6 +4,7 @@ import { themeVars } from '../../styles';
 
 export const sidebarProfileContainer = style({
   position: 'relative',
+  isolation: 'isolate',
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
@@ -15,7 +16,7 @@ export const sidebarProfileContainer = style({
     '&::before': {
       position: 'absolute',
       inset: '-2px',
-      zIndex: themeVars.zIndex.deep,
+      zIndex: themeVars.zIndex.back,
       background: themeVars.color.gradient02,
       borderRadius: '8px',
       pointerEvents: 'none',
