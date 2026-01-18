@@ -76,7 +76,7 @@ const Card = ({
       <div className={styles.allContentsContainer}>
         <div>
           <div className={styles.labelListContainer}>
-            <LabelList listType="card" labelItems={item} />
+            <LabelList listType="card" labelItems={item} labelSize="sm" />
             {aiNewResult && <p className={styles.aiNewResult}>NEW</p>}
           </div>
 

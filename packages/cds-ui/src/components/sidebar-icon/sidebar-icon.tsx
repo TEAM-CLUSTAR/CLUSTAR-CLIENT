@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 
 import * as styles from './sidebar-icon.css';
 
@@ -8,16 +8,19 @@ interface SidebarIconProps {
   icon: ReactNode;
 }
 
-const SidebarIcon = ({ isSelected, onClick, icon }: SidebarIconProps) => {
-  return (
-    <button
-      type="button"
-      className={styles.container({ isSelected })}
-      onClick={onClick}
-    >
-      {icon}
-    </button>
-  );
-};
+const SidebarIcon = forwardRef<HTMLButtonElement, SidebarIconProps>(
+  ({ isSelected, onClick, icon }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={styles.container({ isSelected })}
+        onClick={onClick}
+      >
+        {icon}
+      </button>
+    );
+  },
+);
 
 export default SidebarIcon;

@@ -5,7 +5,7 @@ export type LabelTextType =
   | '교양'
   | 'SOPT'
   | '레퍼런스'
-  | '라벨 없음';
+  | '라벨없음';
 
 export type LabelColorType = 'blue' | 'green' | 'pink' | 'purple' | 'grey';
 
@@ -14,7 +14,7 @@ export const LABEL_COLOR_BY_TEXT: Record<LabelTextType, LabelColorType> = {
   교양: 'green',
   SOPT: 'pink',
   레퍼런스: 'purple',
-  '라벨 없음': 'grey',
+  라벨없음: 'grey',
 };
 
 export const PRIMARY_COLOR_VALUE_BY_LABEL_COLOR: Record<

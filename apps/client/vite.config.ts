@@ -13,6 +13,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 export default defineConfig({
   resolve: {
     alias: {
+      '@app': resolve(__dirname, 'src/app'),
       '@pages': resolve(__dirname, 'src/pages'),
       '@widgets': resolve(__dirname, 'src/widgets'),
       '@features': resolve(__dirname, 'src/features'),

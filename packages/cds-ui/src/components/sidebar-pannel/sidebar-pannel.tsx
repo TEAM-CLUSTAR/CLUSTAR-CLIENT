@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 
 import * as styles from './sidebar-pannel.css';
 
@@ -9,22 +9,20 @@ interface SideBarPannelProps {
   icon: ReactNode;
 }
 
-const SidebarPannel = ({
-  children,
-  isSelected,
-  onClick,
-  icon,
-}: SideBarPannelProps) => {
-  return (
-    <button
-      type="button"
-      className={styles.container({ isSelected })}
-      onClick={onClick}
-    >
-      {icon}
-      {children}
-    </button>
-  );
-};
+const SidebarPannel = forwardRef<HTMLButtonElement, SideBarPannelProps>(
+  ({ children, isSelected, onClick, icon }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        className={styles.container({ isSelected })}
+        onClick={onClick}
+      >
+        {icon}
+        {children}
+      </button>
+    );
+  },
+);
 
 export default SidebarPannel;

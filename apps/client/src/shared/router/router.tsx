@@ -1,12 +1,23 @@
+import GlobalLayout from '@app/layouts/global-layout';
+import PrivateLayout from '@app/layouts/private-layout/private-layout';
+import PublicLayout from '@app/layouts/public-layout';
 import { createBrowserRouter } from 'react-router';
 
-import { GlobalLayout } from '@widgets/global-layout';
-
-import { globalRoutes } from './routes/global-route';
+import { privateRoutes } from './routes/private-route';
+import { publicRoutes } from './routes/public-route';
 
 export const router = createBrowserRouter([
   {
     Component: GlobalLayout,
-    children: [...globalRoutes],
+    children: [
+      {
+        Component: PublicLayout,
+        children: publicRoutes,
+      },
+      {
+        Component: PrivateLayout,
+        children: privateRoutes,
+      },
+    ],
   },
 ]);

@@ -24,6 +24,8 @@ export interface LabelListProps {
   labelSize?: 'sm' | 'lg';
 }
 
+const NO_LABEL_TEXT: LabelTextType = '라벨없음';
+
 const LabelList = ({
   listType,
   dateText,
@@ -33,7 +35,14 @@ const LabelList = ({
 }: LabelListProps) => {
   const resolvedSize = labelSize ?? (listType === 'modal' ? 'lg' : 'sm');
 
-  const firstLabelText = labelItems[0]?.text;
+  const displayItems: LabelItem[] =
+    listType === 'card' && labelItems.length === 0
+      ? [{ id: '라벨없음', text: NO_LABEL_TEXT }]
+      : labelItems;
+
+  const firstLabelText = displayItems[0]?.text;
+
+  const hasLabel = displayItems.length > 0;
 
   const primaryColorValue = firstLabelText
     ? PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[LABEL_COLOR_BY_TEXT[firstLabelText]]
@@ -48,15 +57,23 @@ const LabelList = ({
         <p className={styles.dateTextContainer}>{dateText} 생성됨</p>
       )}
       <div className={styles.labelContainer}>
-        {labelItems.map(({ id, text }) => (
-          <Label
-            key={id}
-            labelSize={resolvedSize}
-            labelColor={LABEL_COLOR_BY_TEXT[text]}
-            labelText={text}
-            onClick={onItemClick ? () => onItemClick({ id, text }) : undefined}
-          />
-        ))}
+        {listType === 'modal' && !hasLabel ? (
+          <div className={styles.emptyLabel({ labelSize })} />
+        ) : (
+          <>
+            {displayItems.map(({ id, text }) => (
+              <Label
+                key={id}
+                labelSize={resolvedSize}
+                labelColor={LABEL_COLOR_BY_TEXT[text]}
+                labelText={text}
+                onClick={
+                  onItemClick ? () => onItemClick({ id, text }) : undefined
+                }
+              />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

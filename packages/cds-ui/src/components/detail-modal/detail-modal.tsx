@@ -57,6 +57,7 @@ const DetailModal = ({
                 listType="modal"
                 labelItems={labelItems}
                 dateText={dateText}
+                labelSize="lg"
               />
             </div>
 
