@@ -4,6 +4,7 @@ import { themeVars } from '@cds/ui';
 
 export const header = style({
   display: 'flex',
+  alignItems: 'center',
   gap: '1.2rem',
   height: '10.3rem',
   padding: '0 10rem',
