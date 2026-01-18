@@ -6,7 +6,7 @@ export const container = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.4rem',
+  gap: '1.6rem',
 
   width: themeVars.width.full,
   height: '4.8rem',
@@ -22,3 +22,5 @@ export const container = style({
     backgroundColor: themeVars.color.grey200,
   },
 });
+
+export const googleLogo = style({ width: '2.2rem', height: '2.2rem' });

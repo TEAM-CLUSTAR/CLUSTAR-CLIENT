@@ -17,7 +17,6 @@ export const iconNames = [
   'ic_file_24',
   'ic_file_36',
   'ic_folding',
-  'ic_google',
   'ic_img_24',
   'ic_img_36',
   'ic_italic',

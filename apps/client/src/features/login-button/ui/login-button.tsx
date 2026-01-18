@@ -1,5 +1,3 @@
-import { Icon } from '@cds/icon';
-
 import * as styles from './login-button.css';
 
 interface LoginButtonProps {
@@ -9,7 +7,14 @@ interface LoginButtonProps {
 const LoginButton = ({ onClick }: LoginButtonProps) => {
   return (
     <button type="button" className={styles.container} onClick={onClick}>
-      <Icon name="ic_google" width={24} height={24} />
+      <picture>
+        <source srcSet="/google_logo.webp" type="image/webp" />
+        <img
+          src="/google_logo.png"
+          alt="Google Logo"
+          className={styles.googleLogo}
+        />
+      </picture>
       Google로 시작하기
     </button>
   );
