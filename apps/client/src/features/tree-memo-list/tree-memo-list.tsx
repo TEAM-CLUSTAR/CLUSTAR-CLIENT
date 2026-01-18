@@ -3,14 +3,14 @@ import { MemoInfoTypes } from '@shared/types/memo-info-type';
 
 import TreeMemo from '@features/tree-memo/ui/tree-memo';
 
-import * as styles from './tree-memo-wrapper.css';
+import * as styles from './tree-memo-list.css';
 
-interface TreeMemoWrapperProps {
+interface TreeMemoListProps {
   labelName: LabelTextType;
   memos: MemoInfoTypes[];
 }
 
-const TreeMemoWrapper = ({ labelName, memos }: TreeMemoWrapperProps) => {
+const TreeMemoList = ({ labelName, memos }: TreeMemoListProps) => {
   const labelColor = LABEL_COLOR_BY_TEXT[labelName];
 
   return (
@@ -25,4 +25,4 @@ const TreeMemoWrapper = ({ labelName, memos }: TreeMemoWrapperProps) => {
   );
 };
 
-export default TreeMemoWrapper;
+export default TreeMemoList;
