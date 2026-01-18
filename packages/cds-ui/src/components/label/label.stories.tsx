@@ -31,6 +31,7 @@ const meta: Meta<typeof Label> = {
     labelColor: {
       control: 'select',
       options: ['blue', 'purple', 'green', 'pink', 'grey'],
+
       description: '라벨의 테마 색상을 결정합니다.',
     },
     labelText: {

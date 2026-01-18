@@ -274,7 +274,7 @@ globalStyle('textarea', {
 
 /*
 1. Reset the default placeholder opacity in Firefox.
-2. Set the default placeholder color to the user's configured gray 400 color.
+2. Set the default placeholder color to the user's configured grey 400 color.
 */
 globalStyle('input::placeholder, textarea::placeholder', {
   opacity: '1' /*1 */,

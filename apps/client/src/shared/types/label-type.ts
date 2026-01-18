@@ -3,6 +3,6 @@ export type LabelTextType =
   | '교양'
   | 'SOPT'
   | '레퍼런스'
-  | '태그없음';
+  | '라벨 없음';
 
 export type LabelColorType = 'blue' | 'green' | 'pink' | 'purple' | 'grey';

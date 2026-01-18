@@ -111,6 +111,6 @@ export const selectedMemoContentInnerContainer = style({
   gap: '1.2rem',
 });
 
-export const aiGenerateButtonContainer = style({
+export const createAiMemoButton = style({
   margin: '2.4rem 4.4rem 4.6rem 4.4rem',
 });
