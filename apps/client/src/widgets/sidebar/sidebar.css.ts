@@ -136,6 +136,7 @@ export const floatingMenu = style({
   position: 'absolute',
   top: '45%',
   left: 'calc(100% + 1.4rem)',
+  zIndex: themeVars.zIndex.sidebar,
 
   marginLeft: '1.2rem',
 
@@ -216,6 +217,7 @@ export const floatingLabel = style({
   top: '50%',
   left: 'calc(100% + 1.4rem)',
   marginLeft: '1.2rem',
+  zIndex: themeVars.zIndex.button,
 
   transform: 'translateY(-17%)',
   opacity: 0,

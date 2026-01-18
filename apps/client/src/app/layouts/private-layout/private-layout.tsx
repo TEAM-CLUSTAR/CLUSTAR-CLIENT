@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { PATH } from '@shared/router/path';
 
@@ -11,14 +11,15 @@ const MENU_ID_TO_PATH: Record<string, string> = {
   new: PATH.NEW_MEMO,
   all: PATH.ALL_MEMO,
   ai: PATH.AI_RESULTS,
-  label: PATH.LABEL,
 };
 
-const getMenuIdByPath = (pathname: string) => {
-  if (pathname.startsWith(PATH.NEW_MEMO)) return 'new';
+const getMenuIdByPath = (pathname: string, labelId?: string) => {
+  if (pathname === PATH.NEW_MEMO) return 'new';
   if (pathname.startsWith(PATH.AI_RESULTS)) return 'ai';
   if (pathname.startsWith(PATH.ALL_MEMO)) return 'all';
-  if (pathname.startsWith(PATH.LABEL)) return 'label';
+  if (pathname.startsWith('/label/') && labelId) {
+    return labelId;
+  }
   return 'all';
 };
 export default function PrivateLayout() {
@@ -26,22 +27,16 @@ export default function PrivateLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getSelectedId = () => {
-    return getMenuIdByPath(location.pathname);
-  };
-
-  const [selectedId, setSelectedId] = useState(getSelectedId());
+  const { labelId } = useParams<{ labelId?: string }>();
+  const selectedId = getMenuIdByPath(location.pathname, labelId);
 
   const handleToggle = () => {
     setIsExpanded((prev) => !prev);
   };
 
   const handleSelect = (id: string) => {
-    setSelectedId(id);
     const path = MENU_ID_TO_PATH[id];
-    if (path) {
-      navigate(path);
-    }
+    navigate(path ?? `/label/${id}`);
   };
 
   return (
