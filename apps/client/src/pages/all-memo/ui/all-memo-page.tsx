@@ -1,4 +1,4 @@
-import { LabelList } from '@cds/ui';
+import { AlertModal, LabelList } from '@cds/ui';
 
 import { LabelTextType } from '@shared/types/label-type';
 
@@ -29,6 +29,7 @@ const AllMemoPage = () => {
       />
       <LabelList listType="card" labelItems={item} labelSize="sm" />
       <LabelList listType="card" labelItems={[]} labelSize="sm" />
+      <AlertModal />
     </div>
   );
 };

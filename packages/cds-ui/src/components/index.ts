@@ -1,3 +1,4 @@
+export { default as AlertModal } from './alert-modal/alert-modal';
 export { default as Button } from './button/button';
 export { default as Card } from './card/card';
 export { default as DetailModal } from './detail-modal/detail-modal';
