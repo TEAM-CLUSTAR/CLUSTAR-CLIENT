@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button } from '@cds/ui';
 
@@ -33,9 +33,10 @@ type MemoDraft = {
 type DraftsById = Record<string, MemoDraft>;
 
 const MAX_TABS = 4;
+const DEFAULT_TITLE = 'untitled';
+const DEFAULT_LABEL = '라벨없음' as LabelTextType;
 
 const createId = () => crypto.randomUUID();
-
 const createEmptyDraft = (id: string): MemoDraft => ({
   id,
   title: '',
@@ -44,10 +45,9 @@ const createEmptyDraft = (id: string): MemoDraft => ({
 });
 
 const MemoInput = () => {
-  // ✅ 최초 탭 1개를 “초기값”으로 생성 (useEffect X)
   const [{ initTabs, initSelectedId, initDraftsById }] = useState(() => {
     const id = createId();
-    const tab: TabItem = { id, title: 'untitled', label: '라벨없음' };
+    const tab: TabItem = { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL };
     return {
       initTabs: [tab],
       initSelectedId: id,
@@ -59,7 +59,9 @@ const MemoInput = () => {
   const [selectedTabId, setSelectedTabId] = useState<string>(initSelectedId);
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
 
-  const tabItemsView = () => {
+  const selectedDraft = draftsById[selectedTabId];
+
+  const tabItemsView = useMemo(() => {
     return tabs.map((tab) => {
       const draft = draftsById[tab.id];
       const title = draft?.title?.trim();
@@ -67,39 +69,53 @@ const MemoInput = () => {
 
       return {
         ...tab,
-        title: title && title.length > 0 ? title : `untiitled`,
-        label: firstLabel ?? '라벨없음',
+        title: title && title.length > 0 ? title : DEFAULT_TITLE,
+        label: firstLabel ?? DEFAULT_LABEL,
       };
     });
-  };
-
-  const selectedDraft = draftsById[selectedTabId];
+  }, [tabs, draftsById]);
 
   const handleAddTab = () => {
-    if (tabs.length >= MAX_TABS) return;
+    setTabs((prevTabs) => {
+      if (prevTabs.length >= MAX_TABS) return prevTabs;
 
-    const id = createId();
+      const id = createId();
 
-    setTabs((prev) => [...prev, { id, title: 'untitled', label: '라벨없음' }]);
-    setDraftsById((prev) => ({ ...prev, [id]: createEmptyDraft(id) }));
-    setSelectedTabId(id);
+      const nextTabs = [
+        ...prevTabs,
+        { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL },
+      ];
+
+      setDraftsById((prevDrafts) => ({
+        ...prevDrafts,
+        [id]: createEmptyDraft(id),
+      }));
+
+      setSelectedTabId(id);
+
+      return nextTabs;
+    });
   };
 
   const handleDeleteTab = (id: string) => {
     setTabs((prevTabs) => {
       if (prevTabs.length <= 1) return prevTabs;
 
-      const removedIndex = prevTabs.findIndex((tab) => tab.id === id);
       const nextTabs = prevTabs.filter((tab) => tab.id !== id);
+      setDraftsById((prev) => {
+        const { [id]: _, ...rest } = prev;
+        return rest;
+      });
 
-      // 3) “선택 탭”을 삭제한 경우 → 바로 이전 탭으로 이동 (없으면 다음)
+      const removedIndex = prevTabs.findIndex((tab) => tab.id === id);
+
       setSelectedTabId((prevSelected) => {
         if (prevSelected !== id) return prevSelected;
 
-        const prevTab = nextTabs[removedIndex - 1]; // 바로 이전(삭제 전 index 기준)
+        const prevTab = nextTabs[removedIndex - 1];
         if (prevTab) return prevTab.id;
 
-        const nextTab = nextTabs[removedIndex]; // 이전이 없으면 다음
+        const nextTab = nextTabs[removedIndex];
         return nextTab?.id ?? nextTabs[0]?.id ?? '';
       });
 
@@ -111,48 +127,42 @@ const MemoInput = () => {
     setSelectedTabId(id);
   };
 
-  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-
+  const patchSelectedDraft = (patch: Partial<Omit<MemoDraft, 'id'>>) => {
     setDraftsById((prev) => ({
       ...prev,
       [selectedTabId]: {
         ...prev[selectedTabId],
-        title,
+        ...patch,
       },
     }));
+  };
+
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    patchSelectedDraft({ title: e.target.value });
   };
 
   const handleChangeContents = (contents: string) => {
-    setDraftsById((prev) => ({
-      ...prev,
-      [selectedTabId]: {
-        ...prev[selectedTabId],
-        contents,
-      },
-    }));
+    patchSelectedDraft({ contents });
   };
 
   const handleChangeLabels = (labels: LabelItem[]) => {
-    setDraftsById((prev) => ({
-      ...prev,
-      [selectedTabId]: {
-        ...prev[selectedTabId],
-        labels,
-      },
-    }));
+    patchSelectedDraft({ labels });
   };
 
   const handleSubmit = () => {
-    const draft = draftsById[selectedTabId];
-    console.log(draft);
+    const payload = {
+      title: selectedDraft.title,
+      content: selectedDraft.contents,
+      labelNames: selectedDraft.labels.map((l) => l.text),
+    };
+    return payload; //임시로 return
+    // @TODO api 연결
   };
-
   return (
     <div className={styles.memoInputContainer}>
       <div>
         <TabList
-          items={tabItemsView()}
+          items={tabItemsView}
           selectedTabId={selectedTabId}
           handleAddTab={handleAddTab}
           handleDeleteTab={handleDeleteTab}
