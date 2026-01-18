@@ -10,6 +10,6 @@ export const container = style({
   height: '100vh',
   backgroundColor: themeVars.color.grey50,
   padding: '0 2.4rem 2.4rem 2.4rem',
-  borderRadius: '1.6rem',
+  borderRadius: '16px',
   border: `3px solid ${themeVars.color.white}`,
 });
