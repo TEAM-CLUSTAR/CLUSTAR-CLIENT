@@ -42,6 +42,14 @@ export const labelContainer = recipe({
     width: 'fit-content',
   },
   variants: {
+    clickable: {
+      true: {
+        cursor: 'pointer',
+      },
+      false: {
+        cursor: 'default',
+      },
+    },
     labelSize: {
       lg: {
         ...themeVars.fontStyles.body_m_14,

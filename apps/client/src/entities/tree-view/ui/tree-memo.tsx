@@ -1,6 +1,7 @@
 import { DetailModal } from '@cds/ui';
 
-import { LABEL_COLOR_BY_TEXT, LabelTextType } from '@shared/types/label-type';
+import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
+import { LabelTextType } from '@shared/types/label-type';
 import { MemoInfoTypes } from '@shared/types/memo-info-type';
 
 import * as styles from './tree-memo.css';
