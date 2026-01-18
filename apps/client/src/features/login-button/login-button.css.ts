@@ -10,7 +10,7 @@ export const container = style({
 
   width: '39.2rem',
   height: '4.8rem',
-  borderRadius: '1.2rem',
+  borderRadius: '12px',
 
   backgroundColor: themeVars.color.white,
   border: `1px solid ${themeVars.color.grey300}`,
