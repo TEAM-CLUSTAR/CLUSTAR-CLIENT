@@ -2,13 +2,13 @@ import { SelectedMemo } from '@cds/ui';
 
 import * as styles from './selected-memo-section.css';
 
-export interface SelectedMemoItem {
+export interface SelectedMemoItemType {
   id: string;
   title: string;
 }
 
 interface SelectedMemosListProps {
-  selectedMemos: SelectedMemoItem[];
+  selectedMemos: SelectedMemoItemType[];
 }
 
 const SelectedMemosList = ({ selectedMemos }: SelectedMemosListProps) => {
