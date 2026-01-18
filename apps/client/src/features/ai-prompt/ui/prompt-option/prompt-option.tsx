@@ -41,15 +41,18 @@ const OPTIONS: PromptOptionType[] = [
 interface PromptOptionProps {
   selectedOptionId: string | null;
   handleOptionSelect: (optionId: string | null) => void;
+  disabled?: boolean;
 }
 
 const PromptOption = ({
   selectedOptionId,
   handleOptionSelect,
+  disabled = false,
 }: PromptOptionProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
+    if (disabled) return;
     const newSelectedId = selectedOptionId === id ? null : id;
     handleOptionSelect(newSelectedId);
   };
@@ -65,6 +68,7 @@ const PromptOption = ({
           handleSelect={() => handleSelect(option.id)}
           handleHover={() => setHoveredId(option.id)}
           handleLeave={() => setHoveredId(null)}
+          disabled={disabled}
         />
       ))}
     </div>

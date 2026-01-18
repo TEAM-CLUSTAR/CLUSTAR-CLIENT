@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
 
-import PromptOption from './prompt-option';
+import PromptOption from '../prompt-option/prompt-option';
 
 import * as styles from './prompt-input.css';
 
@@ -18,6 +18,7 @@ interface PromptInputProps {
   selectedOptionId: string | null;
   onOptionSelect: (optionId: string | null) => void;
   handleSubmit: (value: PromptInputValueType) => void;
+  disabled?: boolean;
 }
 
 const PromptInput = ({
@@ -26,6 +27,7 @@ const PromptInput = ({
   selectedOptionId,
   onOptionSelect,
   handleSubmit,
+  disabled = false,
 }: PromptInputProps) => {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
@@ -51,13 +53,15 @@ const PromptInput = ({
         value={value}
         onChange={handleChange}
         placeholder="선택한 메모를 기반으로 만들고 싶은 것에 대해 설명하세요."
+        disabled={disabled}
       />
       <div className={styles.footer}>
         <PromptOption
           selectedOptionId={selectedOptionId}
           handleOptionSelect={onOptionSelect}
+          disabled={disabled}
         />
-        <Button onClick={handleSend} size="sm" disabled={!hasValue}>
+        <Button onClick={handleSend} size="sm" disabled={!hasValue || disabled}>
           <Icon name="ic_send" width={36} height={36} />
         </Button>
       </div>
