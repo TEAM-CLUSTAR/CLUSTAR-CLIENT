@@ -1,12 +1,9 @@
 import { Icon } from '@cds/icon';
 
-import LoginButton from '@features/login-button/login-button';
-
 const MemoPage = () => {
   return (
-    <div style={{ backgroundColor: 'red' }}>
+    <div>
       <Icon name="ic_ai_gra" />
-      <LoginButton onClick={() => {}} />
     </div>
   );
 };
