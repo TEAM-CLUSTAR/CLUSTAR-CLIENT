@@ -34,7 +34,7 @@ export const gridItemWithImage = style([
 
 export const scrollContainer = style({
   height: '100vh',
-  overflowY: 'auto',
+  overflowY: 'scroll',
   overflowX: 'hidden',
   paddingRight: '0.7rem',
 });
