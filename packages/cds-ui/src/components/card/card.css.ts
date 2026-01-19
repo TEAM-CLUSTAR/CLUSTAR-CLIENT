@@ -21,7 +21,7 @@ export const cardContainer = recipe({
     width: '32rem',
     borderRadius: RADIUS_DEFAULT,
     boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.20)',
-    cursor: 'pointer',
+    cursor: 'default',
 
     position: 'relative',
     overflow: 'hidden',
@@ -150,6 +150,16 @@ export const cardContainer = recipe({
         },
       },
       false: {},
+    },
+
+    // 클릭 가능 여부
+    isClickable: {
+      true: {
+        cursor: 'pointer',
+      },
+      false: {
+        cursor: 'default',
+      },
     },
   },
 });

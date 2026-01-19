@@ -29,7 +29,7 @@ interface CardProps {
   isSelectedCard?: boolean;
   aiResult?: boolean;
   aiNewResult?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Card = ({
@@ -63,8 +63,13 @@ const Card = ({
         aiNewResultAndAiMode: aiNewResult && isAiMode,
         isSelectedCard: isSelectedCard && isAiMode,
         imageUrl: !!imageUrl,
+        isClickable: !!onClick,
       })}
-      style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
+      style={
+        {
+          [styles.PRIMARY_COLOR_VAR]: primaryColorValue,
+        } as CSSProperties
+      }
       onClick={onClick}
     >
       {imageUrl && (
