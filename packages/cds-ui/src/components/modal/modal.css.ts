@@ -1,9 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { keyframes } from '@vanilla-extract/css';
 
-import { opacityHide, opacityShow } from '@cds/ui';
-
-import { themeVars } from '../../styles';
+import { opacityHide, opacityShow, themeVars } from '@cds/ui';
 
 const contentShow = keyframes({
   '0%': {

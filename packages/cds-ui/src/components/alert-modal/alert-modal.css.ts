@@ -1,8 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { opacityHide, opacityShow } from '@cds/ui';
-
-import { themeVars } from '../../styles';
+import { opacityHide, opacityShow, themeVars } from '@cds/ui';
 
 export const overlay = style({
   position: 'fixed',
