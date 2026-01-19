@@ -26,7 +26,7 @@ const AiPrompt = ({
     selectedOptionId,
     setInputText,
     setSelectedOptionId,
-    handlePromptClose,
+    handleClose: handlePromptClose,
     handleSubmit,
     handleRegenerate,
     handleSaveToMemo,
@@ -37,7 +37,9 @@ const AiPrompt = ({
   });
 
   useEffect(() => {
-    onLoadingChange?.(isLoading);
+    if (onLoadingChange) {
+      onLoadingChange(isLoading);
+    }
   }, [isLoading, onLoadingChange]);
 
   if (!isOpen) return null;
