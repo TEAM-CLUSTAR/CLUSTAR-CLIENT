@@ -1,24 +1,38 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
+import { PATH } from '@shared/router/path';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
 import { MemoCardGrid, MemoSelectionGrid } from '@widgets/memo-list';
+import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
 
 import { useAllMemo } from '../hooks/use-all-memo';
 
 import * as styles from './all-memo-page.css';
 
+export interface AllMemoPageHelpers {
+  setInitialSelectedId: (id: string) => void;
+  setIsAiMode: (value: boolean) => void;
+}
+
 interface AllMemoPageProps {
   title?: string;
   count?: number;
+  initialMemos?: MockMemo[];
+  onAiCreateClick?: (memoId: string, helpers: AllMemoPageHelpers) => void;
 }
 
-const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
+const AllMemoPage = ({
+  title = '메모',
+  count,
+  initialMemos,
+  onAiCreateClick,
+}: AllMemoPageProps) => {
   const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } =
     useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
@@ -26,6 +40,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     searchInput,
@@ -37,7 +52,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
     selectedMemos,
     handleCardClick,
     setInitialSelectedId,
-  } = useAllMemo(count, isAiMode, isLoading || isPromptOpen);
+  } = useAllMemo(count, isAiMode, isLoading || isPromptOpen, initialMemos);
 
   useEffect(() => {
     const state = location.state as { selectedMemoId?: string } | null;
@@ -46,7 +61,22 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
       setIsAiMode(true);
       window.history.replaceState({}, '');
     }
-  }, [location.state, setIsAiMode, setInitialSelectedId]);
+  }, [location.state?.selectedMemoId, setIsAiMode, setInitialSelectedId]);
+
+  // 일반 모드에서 모달의 AI 생성하기 버튼 클릭 시 해당 메모 선택하고 AI 모드로 전환
+  // prop으로 전달된 함수가 있으면 사용하고, 없으면 기본 동작 (전체 메모 페이지로 이동)
+  const handleAiCreateClick = (memoId: string) => {
+    if (onAiCreateClick) {
+      onAiCreateClick(memoId, {
+        setInitialSelectedId,
+        setIsAiMode,
+      });
+    } else {
+      navigate(PATH.ALL_MEMO, {
+        state: { selectedMemoId: memoId },
+      });
+    }
+  };
 
   // AI로 정리하기 버튼 클릭 시 카드 선택 모드 진입
   const handleStartAiMode = () => {
@@ -119,7 +149,10 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
             onAiCreateClick={handleAiCreateClickInSelectionMode}
           />
         ) : (
-          <MemoCardGrid memos={filteredMemos} />
+          <MemoCardGrid
+            memos={filteredMemos}
+            onAiCreateClick={handleAiCreateClick}
+          />
         )}
       </div>
 

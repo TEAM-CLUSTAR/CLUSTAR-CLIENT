@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 import { Card, DetailModal } from '@cds/ui';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
-import { PATH } from '@shared/router/path';
 
 import { MockMemo } from './mock-memos';
 
@@ -12,17 +10,10 @@ import * as styles from './memo-card-grid.css';
 
 interface MemoCardGridProps {
   memos: MockMemo[];
+  onAiCreateClick?: (memoId: string) => void;
 }
 
-export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
-  const navigate = useNavigate();
-
-  const handleAiCreateClick = (memoId: string) => {
-    navigate(PATH.ALL_MEMO, {
-      state: { selectedMemoId: memoId },
-    });
-  };
-
+export const MemoCardGrid = ({ memos, onAiCreateClick }: MemoCardGridProps) => {
   return (
     <div className={styles.scrollContainer}>
       <div className={styles.gridContainer({ hasAiComponent: false })}>
@@ -83,7 +74,7 @@ export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
                   }
                   selectedMemos={selectedMemos}
                   memoId={id}
-                  onAiCreateClick={handleAiCreateClick}
+                  onAiCreateClick={onAiCreateClick}
                   open={isModalOpen}
                   onOpenChange={setIsModalOpen}
                 >
