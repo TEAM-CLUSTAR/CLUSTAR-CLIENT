@@ -32,6 +32,8 @@ interface DetailModalProps {
   selectedMemos?: SelectedMemoTypes[];
   memoId?: string;
   onAiCreateClick?: (memoId: string) => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const DetailModal = ({
@@ -43,6 +45,8 @@ const DetailModal = ({
   selectedMemos,
   memoId,
   onAiCreateClick,
+  open,
+  onOpenChange,
 }: DetailModalProps) => {
   const { labelItems, dateText } = labelList;
   const { isAiResult, title, content } = textContent;
@@ -54,8 +58,9 @@ const DetailModal = ({
   };
 
   return (
-    <Modal>
-      <Modal.Trigger>{children}</Modal.Trigger>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      {open === undefined && <Modal.Trigger>{children}</Modal.Trigger>}
+      {open !== undefined && children}
       <Modal.Content>
         <Dialog.Title className={styles.visuallyHidden}>{title}</Dialog.Title>
         <Dialog.Description className={styles.visuallyHidden}>

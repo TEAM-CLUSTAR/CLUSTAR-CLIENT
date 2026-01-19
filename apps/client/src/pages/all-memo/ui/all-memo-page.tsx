@@ -88,6 +88,14 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
     setViewMode(value);
   };
 
+  // AI 모드에서 모달의 AI 생성하기 버튼 클릭 시 해당 메모 선택
+  // 이미 선택된 메모는 선택 해제되지 않도록 처리
+  const handleAiCreateClickInSelectionMode = (memoId: string) => {
+    if (!selectedCardIds.has(memoId)) {
+      handleCardClick(memoId);
+    }
+  };
+
   return (
     <div className={styles.homePageContainer({ isPromptOpen })}>
       <div className={styles.contentWrapper({ isPromptOpen })}>
@@ -108,6 +116,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
             onSelect={handleCardClick}
             disabled={isLoading || isPromptOpen}
             hasAiComponent={isPromptOpen}
+            onAiCreateClick={handleAiCreateClickInSelectionMode}
           />
         ) : (
           <MemoCardGrid memos={filteredMemos} />

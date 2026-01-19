@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { Card, DetailModal } from '@cds/ui';
 
+import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { PATH } from '@shared/router/path';
 
 import { MockMemo } from './mock-memos';
@@ -45,49 +47,67 @@ export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
             ? styles.gridItemWithImage
             : styles.gridItem;
 
-          return (
-            <div key={id} className={cardClassName}>
-              <DetailModal
-                labelList={{
-                  labelItems: item,
-                  dateText: date,
-                }}
-                textContent={{
-                  isAiResult: aiResult ?? false,
-                  title,
-                  content: contents,
-                }}
-                images={
-                  imageUrl
-                    ? [
-                        {
-                          imageUrl,
-                          imageAlt: imageAlt ?? '',
-                        },
-                      ]
-                    : undefined
-                }
-                selectedMemos={selectedMemos}
-                memoId={id}
-                onAiCreateClick={handleAiCreateClick}
-              >
-                <Card
-                  item={item}
-                  title={title}
-                  contents={contents}
-                  fileCount={fileCount}
-                  imageCount={imageCount}
-                  date={date}
-                  imageUrl={imageUrl}
-                  imageAlt={imageAlt}
-                  isAiMode={false}
-                  isSelectedCard={false}
-                  aiResult={aiResult}
-                  aiNewResult={aiNewResult}
-                />
-              </DetailModal>
-            </div>
-          );
+          const MemoCardItem = () => {
+            const [isModalOpen, setIsModalOpen] = useState(false);
+
+            const handleModalOpen = () => {
+              setIsModalOpen(true);
+            };
+
+            const handleClick = useSingleAndDoubleClick({
+              handleSingleClick: handleModalOpen,
+              handleDoubleClick: handleModalOpen,
+            });
+
+            return (
+              <div className={cardClassName}>
+                <DetailModal
+                  labelList={{
+                    labelItems: item,
+                    dateText: date,
+                  }}
+                  textContent={{
+                    isAiResult: aiResult ?? false,
+                    title,
+                    content: contents,
+                  }}
+                  images={
+                    imageUrl
+                      ? [
+                          {
+                            imageUrl,
+                            imageAlt: imageAlt ?? '',
+                          },
+                        ]
+                      : undefined
+                  }
+                  selectedMemos={selectedMemos}
+                  memoId={id}
+                  onAiCreateClick={handleAiCreateClick}
+                  open={isModalOpen}
+                  onOpenChange={setIsModalOpen}
+                >
+                  <Card
+                    item={item}
+                    title={title}
+                    contents={contents}
+                    fileCount={fileCount}
+                    imageCount={imageCount}
+                    date={date}
+                    imageUrl={imageUrl}
+                    imageAlt={imageAlt}
+                    isAiMode={false}
+                    isSelectedCard={false}
+                    aiResult={aiResult}
+                    aiNewResult={aiNewResult}
+                    onClick={handleClick}
+                  />
+                </DetailModal>
+              </div>
+            );
+          };
+
+          return <MemoCardItem key={id} />;
         })}
       </div>
     </div>
