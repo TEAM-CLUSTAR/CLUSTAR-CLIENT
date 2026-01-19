@@ -1,7 +1,6 @@
 {
   "extends": "@clustar/typescript-config/react-library.json",
   "compilerOptions": {
-    "rootDir": ".",
     "outDir": "dist",
     "types": ["vite/client"]
   },
