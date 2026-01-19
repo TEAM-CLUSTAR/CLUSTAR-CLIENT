@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -11,7 +11,7 @@ interface SearchProps {
 }
 
 const Search = ({ inputValue, handleChangeInput, onEnter }: SearchProps) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && onEnter) {
       onEnter();
     }
