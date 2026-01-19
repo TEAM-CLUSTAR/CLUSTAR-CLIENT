@@ -1,44 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Message, UseAiPromptProps } from './types';
 
-interface UseMessagesScrollProps {
-  messages: Message[];
-  isLoading: boolean;
-}
-
-// 자동 스크롤 로직
-export const useMessagesScroll = ({
-  messages,
-  isLoading,
-}: UseMessagesScrollProps) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (messages.length === 0) return;
-
-    const scrollToBottom = () => {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'end',
-        });
-      }, 100);
-    };
-
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage) {
-      if (lastMessage.type === 'ai' && !isLoading) {
-        scrollToBottom();
-      } else if (isLoading) {
-        scrollToBottom();
-      }
-    }
-  }, [messages, isLoading]);
-
-  return messagesEndRef;
-};
-
+// API 연동할 때 변경 예정 (테스트용)
 // AI 프롬프트 사용자 정의 훅
 export const useAiPrompt = ({
   isAIOpen,
@@ -50,19 +14,23 @@ export const useAiPrompt = ({
   const [inputText, setInputText] = useState('');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
-  const messagesEndRef = useMessagesScroll({ messages, isLoading });
-
   // AI 프롬프트 입력 요청
   const handleSubmit = useCallback(
-    async (value: { text: string; selectedOptionId: string | null }) => {
+    async (value: {
+      text: string;
+      selectedOptionId: string | null;
+      skipUserMessage?: boolean;
+    }) => {
       if (!value.text.trim()) return;
 
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        text: value.text.trim(),
-        type: 'user',
-      };
-      setMessages((prev) => [...prev, userMessage]);
+      if (!value.skipUserMessage) {
+        const userMessage: Message = {
+          id: Date.now().toString(),
+          text: value.text.trim(),
+          type: 'user',
+        };
+        setMessages((prev) => [...prev, userMessage]);
+      }
 
       // eslint-disable-next-line no-console
       console.log('프롬프트 전송:', {
@@ -85,18 +53,40 @@ export const useAiPrompt = ({
         setIsLoading(false);
       }, 3000);
 
-      setInputText('');
-      setSelectedOptionId(null);
+      if (!value.skipUserMessage) {
+        setInputText('');
+        setSelectedOptionId(null);
+      }
     },
     [selectedMemos],
   );
 
   // 메모 재생성 요청
-  const handleRegenerate = useCallback(async (messageId: string) => {
-    // eslint-disable-next-line no-console
-    console.log('재생성 요청:', messageId);
-    // TODO: API 요청 처리
-  }, []);
+  const handleRegenerate = useCallback(
+    async (messageId: string) => {
+      if (selectedMemos.length === 0) return;
+
+      const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+      if (messageIndex === -1) return;
+
+      let userMessage: Message | null = null;
+      for (let i = messageIndex - 1; i >= 0; i--) {
+        if (messages[i].type === 'user') {
+          userMessage = messages[i];
+          break;
+        }
+      }
+
+      if (!userMessage) return;
+
+      await handleSubmit({
+        text: userMessage.text,
+        selectedOptionId: null,
+        skipUserMessage: true,
+      });
+    },
+    [messages, selectedMemos, handleSubmit],
+  );
 
   // 메모로 저장 요청
   const handleSaveToMemo = useCallback(async (messageId: string) => {
@@ -105,21 +95,15 @@ export const useAiPrompt = ({
     // TODO: API 요청 처리
   }, []);
 
-  // AI 프롬프트 닫기
-  const handlePromptClose = useCallback(() => {
-    handleClose();
-  }, [handleClose]);
-
   return {
     isOpen: isAIOpen,
     messages,
     isLoading,
     inputText,
     selectedOptionId,
-    messagesEndRef,
     setInputText,
     setSelectedOptionId,
-    handlePromptClose,
+    handleClose,
     handleSubmit,
     handleRegenerate,
     handleSaveToMemo,

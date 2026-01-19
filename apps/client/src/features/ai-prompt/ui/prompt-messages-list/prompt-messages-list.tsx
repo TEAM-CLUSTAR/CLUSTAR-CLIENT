@@ -1,8 +1,9 @@
+import { useEffect, useRef } from 'react';
+
 import { Icon } from '@cds/icon';
 
 import { UserMessageBubble } from '@entities/message';
 
-import { useMessagesScroll } from '@features/ai-prompt/model/use-ai-prompt';
 import AiMessageItem from '@features/ai-prompt/ui/ai-message/ai-message';
 
 import { Message } from '../../model/types';
@@ -24,7 +25,24 @@ const AiMessagesList = ({
   handleRegenerate,
   handleSaveToMemo,
 }: AiMessagesListProps) => {
-  const messagesEndRef = useMessagesScroll({ messages, isLoading });
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length === 0) return;
+
+    const scrollToBottom = () => {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+        });
+      }, 100);
+    };
+
+    if (isLoading || messages[messages.length - 1]?.type === 'ai') {
+      scrollToBottom();
+    }
+  }, [messages, isLoading]);
 
   return (
     <div className={styles.container}>

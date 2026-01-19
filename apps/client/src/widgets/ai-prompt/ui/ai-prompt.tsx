@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useAiPrompt, UseAiPromptProps } from '@features/ai-prompt';
 import AiPromptHeader from '@features/ai-prompt/ui/prompt-header/prompt-header';
 import PromptInput from '@features/ai-prompt/ui/prompt-input/prompt-input';
@@ -6,9 +8,16 @@ import SelectedMemosList from '@features/ai-prompt/ui/selected-memo-section/sele
 
 import * as styles from './ai-prompt.css';
 
-type AiPromptProps = UseAiPromptProps;
+interface AiPromptProps extends UseAiPromptProps {
+  onLoadingChange?: (isLoading: boolean) => void;
+}
 
-const AiPrompt = ({ isAIOpen, selectedMemos, handleClose }: AiPromptProps) => {
+const AiPrompt = ({
+  isAIOpen,
+  selectedMemos,
+  handleClose,
+  onLoadingChange,
+}: AiPromptProps) => {
   const {
     isOpen,
     messages,
@@ -26,6 +35,10 @@ const AiPrompt = ({ isAIOpen, selectedMemos, handleClose }: AiPromptProps) => {
     selectedMemos,
     handleClose,
   });
+
+  useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading, onLoadingChange]);
 
   if (!isOpen) return null;
 
@@ -46,7 +59,8 @@ const AiPrompt = ({ isAIOpen, selectedMemos, handleClose }: AiPromptProps) => {
         selectedOptionId={selectedOptionId}
         onOptionSelect={setSelectedOptionId}
         handleSubmit={handleSubmit}
-        disabled={isLoading}
+        disabled={isLoading || selectedMemos.length === 0}
+        selectedMemosCount={selectedMemos.length}
       />
     </div>
   );

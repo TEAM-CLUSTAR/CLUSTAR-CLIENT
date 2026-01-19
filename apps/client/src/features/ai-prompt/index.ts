@@ -4,7 +4,7 @@ export type {
   SelectedMemo,
   UseAiPromptProps,
 } from './model/types';
-export { useAiPrompt, useMessagesScroll } from './model/use-ai-prompt';
+export { useAiPrompt } from './model/use-ai-prompt';
 export { default as AiMessage } from './ui/ai-message/ai-message';
 export { default as PromptHeader } from './ui/prompt-header/prompt-header';
 export { default as PromptInput } from './ui/prompt-input/prompt-input';
