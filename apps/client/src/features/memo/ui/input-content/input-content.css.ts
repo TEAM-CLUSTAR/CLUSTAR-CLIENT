@@ -84,6 +84,6 @@ globalStyle(`${Q} .ql-editor.ql-blank:focus::before`, {
 
 globalStyle('[data-quill-scope] .ql-editor hr', {
   border: 'none',
-  borderTop: `1px solid ${themeVars.color.grey100}`,
+  borderTop: `1px solid ${themeVars.color.grey200}`,
   pointerEvents: 'none',
 });

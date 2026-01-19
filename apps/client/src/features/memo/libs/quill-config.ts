@@ -45,6 +45,7 @@ export const memoQuillFormats = [
   'header',
   'bold',
   'underline',
+  'list',
   'blockquote',
   'divider',
 ];
