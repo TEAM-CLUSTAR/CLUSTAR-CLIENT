@@ -13,9 +13,6 @@ export const container = style({
   backgroundColor: themeVars.color.grey100,
 });
 
-/* -------------------------------
-   회전 애니메이션
--------------------------------- */
 const rotateLoading = keyframes({
   '0%': {
     transform: 'rotate(0deg)',
@@ -25,9 +22,6 @@ const rotateLoading = keyframes({
   },
 });
 
-/* -------------------------------
-   전체 컨테이너
--------------------------------- */
 export const loadingContainer = style({
   position: 'relative',
   width: '20rem',
@@ -38,9 +32,6 @@ export const loadingContainer = style({
   alignItems: 'center',
 });
 
-/* -------------------------------
-   회전 원
--------------------------------- */
 export const spinner = style({
   position: 'absolute',
 
@@ -55,9 +46,6 @@ export const spinner = style({
   animation: `${rotateLoading} 1.7s linear infinite`,
 });
 
-/* -------------------------------
-   중앙 로고
--------------------------------- */
 export const logo = style({
   width: '9rem',
   height: '9rem',
