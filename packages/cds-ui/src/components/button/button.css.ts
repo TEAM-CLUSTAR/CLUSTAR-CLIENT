@@ -53,6 +53,12 @@ export const button = recipe({
       },
       false: {},
     },
+    textSize: {
+      sm: {},
+      lg: {
+        ...themeVars.fontStyles.title_sb_24,
+      },
+    },
   },
 
   compoundVariants: [
