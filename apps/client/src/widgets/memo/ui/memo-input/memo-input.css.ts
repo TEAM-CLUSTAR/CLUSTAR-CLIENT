@@ -21,6 +21,8 @@ export const inputContainer = style({
   padding: '2.4rem 2.8rem',
   backgroundColor: themeVars.color.grey50,
   borderRadius: '24px',
+  border: `2px solid ${themeVars.color.white}`,
+  boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.20)`,
 });
 
 export const contentsContainer = style({
