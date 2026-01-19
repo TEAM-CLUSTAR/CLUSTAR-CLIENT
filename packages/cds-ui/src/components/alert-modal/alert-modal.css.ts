@@ -1,6 +1,16 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
-import { opacityHide, opacityShow, themeVars } from '../../styles';
+import { themeVars } from '../../styles';
+
+const opacityShow = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+});
+
+const opacityHide = keyframes({
+  '0%': { opacity: 1 },
+  '100%': { opacity: 0 },
+});
 
 export const overlay = style({
   position: 'fixed',
