@@ -1,7 +1,5 @@
 import { BaseEdge, EdgeProps } from '@xyflow/react';
 
-import { EDGE_BORDER_RADIUS } from '@features/tree-view/model/constants';
-
 export const TreeCustomEdgeNoLabel = ({
   id,
   sourceX,
@@ -9,7 +7,7 @@ export const TreeCustomEdgeNoLabel = ({
   targetX,
   targetY,
 }: EdgeProps) => {
-  const radius = EDGE_BORDER_RADIUS;
+  const radius = 30;
 
   const path = `
   M ${sourceX},${sourceY}
