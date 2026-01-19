@@ -34,6 +34,11 @@ interface TreeViewProps {
   data: TreeViewDataTypes[];
 }
 
+const ZOOM = {
+  MIN: 0.6,
+  MAX: 0.9,
+};
+
 const TreeView = ({ data }: TreeViewProps) => {
   const { nodes, edges } = createNodeEdge(data);
   return (
@@ -45,8 +50,8 @@ const TreeView = ({ data }: TreeViewProps) => {
         edgeTypes={edgeTypes}
         fitView
         fitViewOptions={{ padding: 0.2 }}
-        minZoom={0.6}
-        maxZoom={0.9}
+        minZoom={ZOOM.MIN}
+        maxZoom={ZOOM.MAX}
       >
         <Controls />
       </ReactFlow>
