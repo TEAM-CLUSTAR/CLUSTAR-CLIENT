@@ -5,7 +5,7 @@ import { themeVars } from '@cds/ui';
 export const header = style({
   position: 'fixed',
   width: '100%',
-  backgroundColor: themeVars.color.white,
+  backgroundColor: themeVars.color.grey100,
   display: 'flex',
   alignItems: 'center',
   gap: '1.2rem',
@@ -19,6 +19,7 @@ export const content = style({
   flexDirection: 'column',
   alignItems: 'center',
   paddingTop: '20.5rem',
+  backgroundColor: themeVars.color.grey100,
 });
 
 export const welcome = style({
