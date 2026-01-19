@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 
 import { AlertModal, FloatingButton } from '@cds/ui';
 
-import { useAiMode } from '@shared/contexts/ai-mode-context';
+import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
@@ -19,7 +19,8 @@ interface AllMemoPageProps {
 }
 
 const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
-  const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } = useAiMode();
+  const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } =
+    useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);

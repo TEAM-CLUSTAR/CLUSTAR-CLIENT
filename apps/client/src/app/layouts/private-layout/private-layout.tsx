@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
-import { useAiMode } from '@shared/contexts/ai-mode-context';
+import {
+  LayoutUIProvider,
+  useLayoutUI,
+} from '@shared/layouts/layout-ui-context';
 import { PATH } from '@shared/router/path';
 
 import Sidebar from '@widgets/sidebar/sidebar';
@@ -23,31 +25,15 @@ const getMenuIdByPath = (pathname: string, labelId?: string) => {
   }
   return 'all';
 };
-export default function PrivateLayout() {
-  const [isExpanded, setIsExpanded] = useState(true);
+
+function PrivateLayoutContent() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isPromptOpen } = useAiMode();
-  const prevExpandedStateRef = useRef<boolean>(true);
-
   const { labelId } = useParams<{ labelId?: string }>();
+  const { isExpanded, toggleSidebar, sidebarLocked } = useLayoutUI();
+
   const selectedId = getMenuIdByPath(location.pathname, labelId);
-
-  useEffect(() => {
-    if (isPromptOpen) {
-      if (isExpanded) {
-        prevExpandedStateRef.current = isExpanded;
-        setIsExpanded(false);
-      }
-    } else {
-      setIsExpanded(prevExpandedStateRef.current);
-    }
-  }, [isPromptOpen]);
-
-  const handleToggle = () => {
-    if (isPromptOpen) return;
-    setIsExpanded((prev) => !prev);
-  };
+  const effectiveExpanded = isExpanded && !sidebarLocked;
 
   const handleSelect = (id: string) => {
     const path = MENU_ID_TO_PATH[id];
@@ -63,8 +49,8 @@ export default function PrivateLayout() {
           <Sidebar
             userId="user123"
             userEmail="user@example.com"
-            isExpanded={isExpanded}
-            onToggle={handleToggle}
+            isExpanded={effectiveExpanded}
+            onToggle={toggleSidebar}
             selectedId={selectedId}
             onSelect={handleSelect}
           />
@@ -74,5 +60,13 @@ export default function PrivateLayout() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PrivateLayout() {
+  return (
+    <LayoutUIProvider>
+      <PrivateLayoutContent />
+    </LayoutUIProvider>
   );
 }
