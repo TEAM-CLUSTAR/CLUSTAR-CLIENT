@@ -6,7 +6,7 @@ import { TreeMemo } from '@entities/tree-view';
 
 import * as styles from './tree-memo-list.css';
 
-interface TreeMemoListProps {
+export interface TreeMemoListProps {
   labelName: LabelTextType;
   memos: MemoInfoTypes[];
 }
