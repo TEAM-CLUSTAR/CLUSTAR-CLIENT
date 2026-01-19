@@ -7,12 +7,10 @@ import { MOCK_MEMOS, MockMemo } from '@widgets/memo-list/ui/mock-memos';
 // 검색 관련
 interface UseMemoSearchReturn {
   searchInput: string;
-  searchQuery: string;
   filteredMemos: MockMemo[];
   memoCount: number;
   handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchEnter: () => void;
-  resetSearch: () => void;
 }
 
 const useMemoSearch = (count?: number): UseMemoSearchReturn => {
@@ -31,12 +29,6 @@ const useMemoSearch = (count?: number): UseMemoSearchReturn => {
   const handleSearchEnter = useCallback(() => {
     setSearchQuery(searchInput.trim());
   }, [searchInput]);
-
-  // 검색 초기화
-  const resetSearch = useCallback(() => {
-    setSearchInput('');
-    setSearchQuery('');
-  }, []);
 
   // 검색 필터링된 메모 목록
   const filteredMemos: MockMemo[] = useMemo(() => {
@@ -57,12 +49,10 @@ const useMemoSearch = (count?: number): UseMemoSearchReturn => {
 
   return {
     searchInput,
-    searchQuery,
     filteredMemos,
     memoCount,
     handleChangeInput,
     handleSearchEnter,
-    resetSearch,
   };
 };
 
@@ -71,7 +61,6 @@ interface UseMemoSelectionReturn {
   selectedCardIds: Set<string>;
   selectedMemos: SelectedMemo[];
   handleCardClick: (id: string) => void;
-  resetSelection: () => void;
 }
 
 const useMemoSelection = (
@@ -100,17 +89,12 @@ const useMemoSelection = (
     [isLoading],
   );
 
-  // 선택 초기화
-  const resetSelection = useCallback(() => {
-    setSelectedCardIds(new Set());
-  }, []);
-
   // AI 모드 종료 시 선택 초기화
   useEffect(() => {
     if (!isAiMode) {
-      resetSelection();
+      setSelectedCardIds(new Set());
     }
-  }, [isAiMode, resetSelection]);
+  }, [isAiMode]);
 
   // 전체 메모를 Map으로 변환
   const allMemosMap = useMemo(() => {
@@ -136,7 +120,6 @@ const useMemoSelection = (
     selectedCardIds,
     selectedMemos,
     handleCardClick,
-    resetSelection,
   };
 };
 
