@@ -30,13 +30,13 @@ const LoginPage = () => {
         <div className={styles.loginSection}>
           <p className={styles.login}>로그인/회원가입</p>
           <LoginButton onClick={() => {}} />
-          <div className={styles.loginDescription}>
+          <p className={styles.loginDescription}>
             계속 진행하면 <a className={styles.point}>이용약관</a> 및
             <a className={styles.point}> 개인정보처리방침</a>
             을 이해하고
             <br />
             동의하는 것으로 간주됩니다.
-          </div>
+          </p>
         </div>
       </div>
     </>
