@@ -74,25 +74,21 @@ const MemoInput = () => {
   }, [tabs, draftsById]);
 
   const handleAddTab = () => {
-    setTabs((prevTabs) => {
-      if (prevTabs.length >= MAX_TABS) return prevTabs;
+    if (tabs.length >= MAX_TABS) return;
 
-      const id = createId();
+    const id = createId();
 
-      const nextTabs = [
-        ...prevTabs,
-        { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL },
-      ];
+    setTabs((prevTabs) => [
+      ...prevTabs,
+      { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL },
+    ]);
 
-      setDraftsById((prevDrafts) => ({
-        ...prevDrafts,
-        [id]: createEmptyDraft(id),
-      }));
+    setDraftsById((prevDrafts) => ({
+      ...prevDrafts,
+      [id]: createEmptyDraft(id),
+    }));
 
-      setSelectedTabId(id);
-
-      return nextTabs;
-    });
+    setSelectedTabId(id);
   };
 
   const handleDeleteTab = (id: string) => {
