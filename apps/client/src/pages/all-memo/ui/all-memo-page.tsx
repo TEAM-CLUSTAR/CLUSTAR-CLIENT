@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { FloatingButton } from '@cds/ui';
+import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { useAiMode } from '@shared/contexts/ai-mode-context';
 
@@ -21,6 +21,8 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
   const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } = useAiMode();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const {
     searchInput,
@@ -45,10 +47,32 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
     }
   }, [selectedMemos.length, setIsPromptOpen]);
 
-  // AI 프롬프트 닫기 (카드 선택 모드로 돌아감)
+  // AI 프롬프트 닫기 시도 시 AlertModal 표시
   const handleCloseAiPrompt = useCallback(() => {
-    setIsPromptOpen(false);
-  }, [setIsPromptOpen]);
+    if (isPromptOpen) {
+      setShowAlertModal(true);
+    }
+  }, [isPromptOpen]);
+
+  // AlertModal 닫기
+  const handleCloseAlertModal = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setShowAlertModal(false);
+      setIsClosing(false);
+    }, 200);
+  }, []);
+
+  // AlertModal 확인 - 상태 초기화
+  const handleConfirmAlertModal = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setShowAlertModal(false);
+      setIsClosing(false);
+      setIsPromptOpen(false);
+      setIsAiMode(false);
+    }, 200);
+  }, [setIsPromptOpen, setIsAiMode]);
 
   // 뷰 모드 변경 시 뷰 모드 설정
   const handleValueChange = useCallback((value: string) => {
@@ -110,6 +134,16 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
             정리 진행하기
           </FloatingButton>
         </div>
+      )}
+
+      {showAlertModal && (
+        <AlertModal
+          title="대화창을 닫으시겠습니까?"
+          description="대화창을 닫을시 모든 대화 내역은 삭제됩니다."
+          onClose={handleCloseAlertModal}
+          onConfirm={handleConfirmAlertModal}
+          isClosing={isClosing}
+        />
       )}
     </div>
   );
