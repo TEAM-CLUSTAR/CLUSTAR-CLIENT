@@ -17,6 +17,8 @@ export const container = recipe({
     height: '100%',
 
     borderRadius: '16px',
+    border: `2px solid ${themeVars.color.white}`,
+    boxShadow: '0px 0px 12px 0px rgba(0, 0, 0, 0.1)',
     backgroundColor: themeVars.color.grey50,
 
     whiteSpace: 'nowrap',
