@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
+import { useAiMode } from '@shared/contexts/ai-mode-context';
 import { PATH } from '@shared/router/path';
 
 import Sidebar from '@widgets/sidebar/sidebar';
@@ -26,11 +27,19 @@ export default function PrivateLayout() {
   const [isExpanded, setIsExpanded] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAiMode } = useAiMode();
 
   const { labelId } = useParams<{ labelId?: string }>();
   const selectedId = getMenuIdByPath(location.pathname, labelId);
 
+  useEffect(() => {
+    if (isAiMode && isExpanded) {
+      setIsExpanded(false);
+    }
+  }, [isAiMode, isExpanded]);
+
   const handleToggle = () => {
+    if (isAiMode) return;
     setIsExpanded((prev) => !prev);
   };
 
