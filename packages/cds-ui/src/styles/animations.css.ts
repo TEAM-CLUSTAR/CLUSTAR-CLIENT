@@ -15,3 +15,12 @@ export const fadeIn = keyframes({
   '0%': { opacity: 0 },
   '100%': { opacity: 1 },
 });
+
+export const slideInRight = keyframes({
+  '0%': {
+    transform: 'translateX(100%)',
+  },
+  '100%': {
+    transform: 'translateX(0)',
+  },
+});
