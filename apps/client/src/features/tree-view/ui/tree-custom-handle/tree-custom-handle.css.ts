@@ -5,8 +5,8 @@ import { themeVars } from '@cds/ui';
 
 export const handle = recipe({
   base: {
-    width: '12px',
-    height: '12px',
+    width: '1.2rem',
+    height: '1.2rem',
     borderRadius: '50%',
   },
   variants: {
@@ -36,8 +36,8 @@ export const handle = recipe({
 });
 
 export const baseHandle = style({
-  width: '12px',
-  height: '12px',
+  width: '1.2rem',
+  height: '1.2rem',
   borderRadius: '50%',
   backgroundColor: themeVars.color.white,
   border: `2px solid ${themeVars.color.grey300}`,
