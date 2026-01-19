@@ -160,30 +160,32 @@ const MemoInput = () => {
   };
   return (
     <div className={styles.memoInputContainer}>
-      <div>
-        <TabList
-          items={tabItemsView}
-          selectedTabId={selectedTabId}
-          handleAddTab={handleAddTab}
-          handleDeleteTab={handleDeleteTab}
-          handleSelectTab={handleSelectTab}
-          maxTabs={MAX_TABS}
-        />
-      </div>
-
+      <TabList
+        items={tabItemsView}
+        selectedTabId={selectedTabId}
+        handleAddTab={handleAddTab}
+        handleDeleteTab={handleDeleteTab}
+        handleSelectTab={handleSelectTab}
+        maxTabs={MAX_TABS}
+      />
       <div className={styles.inputContainer}>
-        <LabelSelect
-          selectedItems={selectedDraft.labels}
-          onSelect={handleChangeLabels}
-        />
+        <div className={styles.contentsContainer}>
+          <LabelSelect
+            selectedItems={selectedDraft.labels}
+            onSelect={handleChangeLabels}
+          />
 
-        <InputTitle title={selectedDraft.title} onChange={handleChangeTitle} />
+          <InputTitle
+            title={selectedDraft.title}
+            onChange={handleChangeTitle}
+          />
 
-        <InputContent
-          key={selectedTabId}
-          value={selectedDraft.contents}
-          onChange={handleChangeContents}
-        />
+          <InputContent
+            key={selectedTabId}
+            value={selectedDraft.contents}
+            onChange={handleChangeContents}
+          />
+        </div>
 
         <div className={styles.footerContainer}>
           <ToolBar />

@@ -17,8 +17,14 @@ export const footerContainer = style({
 export const inputContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.2rem',
+  gap: '2.8rem',
   padding: '2.4rem 2.8rem',
   backgroundColor: themeVars.color.grey50,
   borderRadius: '24px',
+});
+
+export const contentsContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
 });
