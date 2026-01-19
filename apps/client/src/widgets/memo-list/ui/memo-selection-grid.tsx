@@ -23,28 +23,42 @@ export const MemoSelectionGrid = ({
     <div className={styles.scrollContainer}>
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memos.map((memo) => {
-          const hasImage = !!memo.imageUrl;
+          const {
+            id,
+            item,
+            title,
+            contents,
+            fileCount,
+            imageCount,
+            date,
+            imageUrl,
+            imageAlt,
+            aiResult,
+            aiNewResult,
+          } = memo;
+
+          const hasImage = !!imageUrl;
           const cardClassName = hasImage
             ? styles.gridItemWithImage
             : styles.gridItem;
-          const isSelected = selectedIds.has(memo.id);
+          const isSelected = selectedIds.has(id);
 
           return (
-            <div key={memo.id} className={cardClassName}>
+            <div key={id} className={cardClassName}>
               <Card
-                item={memo.item}
-                title={memo.title}
-                contents={memo.contents}
-                fileCount={memo.fileCount}
-                imageCount={memo.imageCount}
-                date={memo.date}
-                imageUrl={memo.imageUrl}
-                imageAlt={memo.imageAlt}
+                item={item}
+                title={title}
+                contents={contents}
+                fileCount={fileCount}
+                imageCount={imageCount}
+                date={date}
+                imageUrl={imageUrl}
+                imageAlt={imageAlt}
                 isAiMode={true}
                 isSelectedCard={isSelected}
-                aiResult={memo.aiResult}
-                aiNewResult={memo.aiNewResult}
-                onClick={disabled ? undefined : () => onSelect(memo.id)}
+                aiResult={aiResult}
+                aiNewResult={aiNewResult}
+                onClick={disabled ? undefined : () => onSelect(id)}
               />
             </div>
           );

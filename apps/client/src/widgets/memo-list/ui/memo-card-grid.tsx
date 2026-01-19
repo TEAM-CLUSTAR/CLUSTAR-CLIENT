@@ -13,48 +13,63 @@ export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
     <div className={styles.scrollContainer}>
       <div className={styles.gridContainer({ hasAiComponent: false })}>
         {memos.map((memo) => {
-          const hasImage = !!memo.imageUrl;
+          const {
+            id,
+            item,
+            date,
+            title,
+            contents,
+            fileCount,
+            imageCount,
+            imageUrl,
+            imageAlt,
+            aiResult,
+            aiNewResult,
+            selectedMemos,
+          } = memo;
+
+          const hasImage = !!imageUrl;
           const cardClassName = hasImage
             ? styles.gridItemWithImage
             : styles.gridItem;
 
           return (
-            <div key={memo.id} className={cardClassName}>
+            <div key={id} className={cardClassName}>
               <DetailModal
                 labelList={{
-                  labelItems: memo.item,
-                  dateText: memo.date,
+                  labelItems: item,
+                  dateText: date,
                 }}
                 textContent={{
-                  isAiResult: memo.aiResult ?? false,
-                  title: memo.title,
-                  content: memo.contents,
+                  isAiResult: aiResult ?? false,
+                  title,
+                  content: contents,
                 }}
                 images={
-                  memo.imageUrl
+                  imageUrl
                     ? [
                         {
-                          imageUrl: memo.imageUrl,
-                          imageAlt: memo.imageAlt ?? '',
+                          imageUrl,
+                          imageAlt: imageAlt ?? '',
                         },
                       ]
                     : undefined
                 }
-                selectedMemos={memo.selectedMemos}
+                selectedMemos={selectedMemos}
               >
                 <Card
-                  item={memo.item}
-                  title={memo.title}
-                  contents={memo.contents}
-                  fileCount={memo.fileCount}
-                  imageCount={memo.imageCount}
-                  date={memo.date}
-                  imageUrl={memo.imageUrl}
-                  imageAlt={memo.imageAlt}
+                  item={item}
+                  title={title}
+                  contents={contents}
+                  fileCount={fileCount}
+                  imageCount={imageCount}
+                  date={date}
+                  imageUrl={imageUrl}
+                  imageAlt={imageAlt}
                   isAiMode={false}
                   isSelectedCard={false}
-                  aiResult={memo.aiResult}
-                  aiNewResult={memo.aiNewResult}
+                  aiResult={aiResult}
+                  aiNewResult={aiNewResult}
                 />
               </DetailModal>
             </div>
