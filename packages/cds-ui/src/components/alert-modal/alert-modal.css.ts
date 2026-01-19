@@ -1,6 +1,31 @@
 import { style } from '@vanilla-extract/css';
 
+import { opacityHide, opacityShow } from '@cds/ui';
+
 import { themeVars } from '../../styles';
+
+export const overlay = style({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  zIndex: themeVars.zIndex.modalOverlay,
+
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  width: '100vw',
+  height: '100vh',
+  backgroundColor: themeVars.color.opacity35,
+  selectors: {
+    '&[data-state="open"]': {
+      animation: `${opacityShow} 100ms ease-out`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${opacityHide} 100ms ease-in forwards`,
+    },
+  },
+});
 
 export const container = style({
   position: 'relative',
@@ -30,7 +55,7 @@ export const title = style({
   color: themeVars.color.black,
 });
 
-export const descript = style({
+export const description = style({
   paddingTop: '0.8rem',
   ...themeVars.fontStyles.title_m_18,
   color: themeVars.color.grey600,

@@ -4,22 +4,42 @@ import Button from '../button/button';
 
 import * as styles from './alert-modal.css';
 
-const AlertModal = () => {
+interface AlertModalProps {
+  title: string;
+  description: string;
+  onClose: () => void;
+  onConfirm: () => void;
+  isClosing: boolean;
+}
+
+const AlertModal = ({
+  title,
+  description,
+  onClose,
+  onConfirm,
+  isClosing,
+}: AlertModalProps) => {
   return (
-    <div className={styles.container}>
-      <Icon name="ic_close" width={28} height={28} className={styles.close} />
-      <Icon name="ic_alert" width={56} height={56} />
-      <p className={styles.title}>대화창을 닫으시겠습니까?</p>
-      <p className={styles.descript}>
-        대화창을 닫을시 모든 대화 내역은 삭제됩니다.
-      </p>
-      <div className={styles.buttonContainer}>
-        <Button onClick={() => {}} size="lg" variant="outlined">
-          취소
-        </Button>
-        <Button onClick={() => {}} size="lg">
-          확인
-        </Button>
+    <div className={styles.overlay} data-state={isClosing ? 'closed' : 'open'}>
+      <div className={styles.container}>
+        <Icon
+          name="ic_close"
+          width={28}
+          height={28}
+          className={styles.close}
+          onClick={onClose}
+        />
+        <Icon name="ic_alert" width={56} height={56} />
+        <p className={styles.title}>{title}</p>
+        <p className={styles.description}>{description}</p>
+        <div className={styles.buttonContainer}>
+          <Button onClick={onClose} size="lg" variant="outlined">
+            취소
+          </Button>
+          <Button onClick={onConfirm} size="lg">
+            확인
+          </Button>
+        </div>
       </div>
     </div>
   );
