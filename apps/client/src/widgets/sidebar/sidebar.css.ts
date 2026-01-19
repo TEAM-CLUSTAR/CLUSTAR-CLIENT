@@ -2,7 +2,8 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
-import { fadeIn } from '@cds/ui';
+
+import { fadeIn } from 'node_modules/@cds/ui/src/styles/animations.css';
 
 const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
 
