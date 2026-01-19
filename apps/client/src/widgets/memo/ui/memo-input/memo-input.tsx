@@ -6,9 +6,7 @@ import { LabelTextType } from '@shared/types/label-type';
 
 import { TabList, ToolBar } from '@entities/memo';
 
-import InputContent from '../../../../features/memo/ui/input-content/input-content';
-import InputTitle from '../../../../features/memo/ui/input-title/input-title';
-import LabelSelect from '../../../../features/memo/ui/label-select/label-select';
+import { InputContent, InputTitle, LabelSelect } from '@features/memo';
 
 import * as styles from './memo-input.css';
 
