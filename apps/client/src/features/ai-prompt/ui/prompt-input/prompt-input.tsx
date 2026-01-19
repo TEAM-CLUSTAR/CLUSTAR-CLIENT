@@ -19,6 +19,7 @@ interface PromptInputProps {
   onOptionSelect: (optionId: string | null) => void;
   handleSubmit: (value: PromptInputValueType) => void;
   disabled?: boolean;
+  selectedMemosCount?: number;
 }
 
 const PromptInput = ({
@@ -28,6 +29,7 @@ const PromptInput = ({
   onOptionSelect,
   handleSubmit,
   disabled = false,
+  selectedMemosCount = 0,
 }: PromptInputProps) => {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
@@ -35,6 +37,7 @@ const PromptInput = ({
 
   const trimmedText = value.trim();
   const hasValue = trimmedText.length > 0;
+  const hasSelectedMemos = selectedMemosCount > 0;
 
   const handleSend = () => {
     //TODO: 추후 API 요청 코드 추가
@@ -61,7 +64,11 @@ const PromptInput = ({
           handleOptionSelect={onOptionSelect}
           disabled={disabled}
         />
-        <Button onClick={handleSend} size="sm" disabled={!hasValue || disabled}>
+        <Button
+          onClick={handleSend}
+          size="sm"
+          disabled={!hasValue || disabled || !hasSelectedMemos}
+        >
           <Icon name="ic_send" width={36} height={36} />
         </Button>
       </div>

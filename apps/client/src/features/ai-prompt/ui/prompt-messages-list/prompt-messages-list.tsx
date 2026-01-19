@@ -46,6 +46,7 @@ const AiMessagesList = ({
               content={message.text}
               handleRegenerate={handleRegenerate}
               handleSaveToMemo={handleSaveToMemo}
+              selectedMemosCount={selectedMemosCount}
             />
           );
         }

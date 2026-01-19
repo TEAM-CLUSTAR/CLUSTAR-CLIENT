@@ -10,6 +10,7 @@ interface AiMessageProps {
   content: string;
   handleRegenerate: (messageId: string) => void;
   handleSaveToMemo: (messageId: string) => void;
+  selectedMemosCount?: number;
 }
 
 const AiMessage = ({
@@ -18,7 +19,10 @@ const AiMessage = ({
   content,
   handleRegenerate,
   handleSaveToMemo,
+  selectedMemosCount = 0,
 }: AiMessageProps) => {
+  const hasSelectedMemos = selectedMemosCount > 0;
+
   return (
     <div className={styles.container}>
       <AiMessageBubble title={title} content={content} />
@@ -27,6 +31,7 @@ const AiMessage = ({
           onClick={() => handleRegenerate(id)}
           size="md"
           variant="outlined"
+          disabled={!hasSelectedMemos}
         >
           재생성하기
         </Button>
