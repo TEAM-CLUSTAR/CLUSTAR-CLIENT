@@ -1,5 +1,5 @@
 // API 연동 후 삭제 예정
-import { LabelTextType } from '@cds/ui';
+import { LabelTextType } from '@shared/types/label-type';
 
 interface LabelItem {
   id: string;
