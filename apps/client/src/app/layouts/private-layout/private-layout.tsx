@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { useAiMode } from '@shared/contexts/ai-mode-context';
@@ -28,15 +28,19 @@ export default function PrivateLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAiMode } = useAiMode();
+  const prevExpandedStateRef = useRef<boolean>(true);
 
   const { labelId } = useParams<{ labelId?: string }>();
   const selectedId = getMenuIdByPath(location.pathname, labelId);
 
   useEffect(() => {
-    if (isAiMode && isExpanded) {
+    if (isAiMode) {
+      prevExpandedStateRef.current = isExpanded;
       setIsExpanded(false);
+    } else {
+      setIsExpanded(prevExpandedStateRef.current);
     }
-  }, [isAiMode, isExpanded]);
+  }, [isAiMode]);
 
   const handleToggle = () => {
     if (isAiMode) return;
