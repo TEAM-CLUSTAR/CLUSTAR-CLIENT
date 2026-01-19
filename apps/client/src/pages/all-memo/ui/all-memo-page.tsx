@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 
 import { AlertModal, FloatingButton } from '@cds/ui';
@@ -48,31 +48,31 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
   }, [location.state, setIsAiMode, setInitialSelectedId]);
 
   // AI로 정리하기 버튼 클릭 시 카드 선택 모드 진입
-  const handleStartAiMode = useCallback(() => {
+  const handleStartAiMode = () => {
     setIsAiMode(true);
-  }, [setIsAiMode]);
+  };
 
   // 정리 진행하기 버튼 클릭 시 AI 프롬프트 열기
-  const handleStartPrompt = useCallback(() => {
+  const handleStartPrompt = () => {
     setIsPromptOpen(true);
-  }, [setIsPromptOpen]);
+  };
 
   // AI 프롬프트 닫기 시도 시 AlertModal 표시
-  const handleCloseAiPrompt = useCallback(() => {
+  const handleCloseAiPrompt = () => {
     setShowAlertModal(true);
-  }, []);
+  };
 
   // AlertModal 닫기
-  const handleCloseAlertModal = useCallback(() => {
+  const handleCloseAlertModal = () => {
     setIsClosing(true);
     setTimeout(() => {
       setShowAlertModal(false);
       setIsClosing(false);
     }, 200);
-  }, []);
+  };
 
   // AlertModal 확인 - 상태 초기화
-  const handleConfirmAlertModal = useCallback(() => {
+  const handleConfirmAlertModal = () => {
     setIsClosing(true);
     setTimeout(() => {
       setShowAlertModal(false);
@@ -80,12 +80,12 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
       setIsPromptOpen(false);
       setIsAiMode(false);
     }, 200);
-  }, [setIsPromptOpen, setIsAiMode]);
+  };
 
   // 뷰 모드 변경 시 뷰 모드 설정
-  const handleValueChange = useCallback((value: string) => {
+  const handleValueChange = (value: string) => {
     setViewMode(value);
-  }, []);
+  };
 
   return (
     <div className={styles.homePageContainer({ isPromptOpen })}>
