@@ -1,6 +1,15 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
-import { slideInRight, themeVars } from '@cds/ui';
+import { themeVars } from '@cds/ui';
+
+const slideInRight = keyframes({
+  '0%': {
+    transform: 'translateX(100%)',
+  },
+  '100%': {
+    transform: 'translateX(0)',
+  },
+});
 
 export const container = style({
   display: 'flex',
