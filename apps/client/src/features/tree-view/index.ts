@@ -1,4 +1,3 @@
-export { default as TreeBaseMemo } from './ui/tree-base-memo/tree-base-memo';
 export { default as TreeBaseMemoNode } from './ui/tree-base-memo-node/tree-base-memo-node';
 export { default as TreeCustomEdgeLabel } from './ui/tree-custom-edge-label/tree-custom-edge-label';
 export { default as TreeCustomEdgeNoLabel } from './ui/tree-custom-edge-no-label/tree-custom-edge-no-label';

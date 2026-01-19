@@ -2,8 +2,9 @@ import { memo } from 'react';
 import type { Node, NodeProps } from '@xyflow/react';
 import { Handle, Position } from '@xyflow/react';
 
-import TreeBaseMemo from '../tree-base-memo/tree-base-memo';
 import TreeCustomHandle from '../tree-custom-handle/tree-custom-handle';
+
+import * as styles from './tree-base-memo-node.css';
 
 type EmptyNodeDataTypes = Record<string, never>;
 type TreeBaseMemoNodeDataTypes = Node<EmptyNodeDataTypes, 'initial'>;
@@ -13,7 +14,9 @@ const TreeBaseMemoNode = ({
 }: NodeProps<TreeBaseMemoNodeDataTypes>) => {
   return (
     <div>
-      <TreeBaseMemo />
+      <div className={styles.container}>
+        <span className={styles.text}>전체 메모</span>
+      </div>
 
       <Handle
         id="baseRight"
