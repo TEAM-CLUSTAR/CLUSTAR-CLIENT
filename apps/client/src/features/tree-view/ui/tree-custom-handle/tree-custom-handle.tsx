@@ -14,7 +14,7 @@ const TreeCustomHandle = ({
   return (
     <div
       className={isBaseMemo ? styles.baseHandle : styles.handle({ labelColor })}
-    ></div>
+    />
   );
 };
 
