@@ -50,5 +50,4 @@ export const logo = style({
   width: '9rem',
   height: '9rem',
   objectFit: 'contain',
-  zIndex: 1,
 });
