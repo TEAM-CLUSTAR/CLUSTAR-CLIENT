@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 
 import { Icon } from '@cds/icon';
 
@@ -50,6 +51,10 @@ const DetailModal = ({
     <Modal>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Content>
+        <Dialog.Title className={styles.visuallyHidden}>{title}</Dialog.Title>
+        <Dialog.Description className={styles.visuallyHidden}>
+          {content}
+        </Dialog.Description>
         <div className={styles.container}>
           <div className={styles.headerContainer}>
             <div>

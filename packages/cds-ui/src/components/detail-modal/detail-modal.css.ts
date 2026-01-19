@@ -114,3 +114,15 @@ export const selectedMemoContentInnerContainer = style({
 export const createAiMemoButton = style({
   margin: '2.4rem 4.4rem 4.6rem 4.4rem',
 });
+
+export const visuallyHidden = style({
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  borderWidth: 0,
+});
