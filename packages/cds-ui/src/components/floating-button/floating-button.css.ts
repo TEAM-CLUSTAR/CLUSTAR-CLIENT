@@ -20,6 +20,13 @@ export const button = recipe({
   },
 
   variants: {
+    disabled: {
+      true: {
+        opacity: 0.8,
+        cursor: 'not-allowed',
+      },
+      false: {},
+    },
     isActive: {
       false: {
         backgroundColor: themeVars.color.blue500,
