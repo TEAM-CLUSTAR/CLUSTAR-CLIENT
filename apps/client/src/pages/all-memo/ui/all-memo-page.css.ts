@@ -25,7 +25,6 @@ export const contentWrapper = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
   },
   variants: {
     isPromptOpen: {
