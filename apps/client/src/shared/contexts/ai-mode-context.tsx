@@ -1,8 +1,16 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
 interface AiModeContextType {
   isAiMode: boolean;
-  setIsAiMode: (value: boolean) => void;
+  setIsAiMode: Dispatch<SetStateAction<boolean>>;
 }
 
 const AiModeContext = createContext<AiModeContextType | undefined>(undefined);
