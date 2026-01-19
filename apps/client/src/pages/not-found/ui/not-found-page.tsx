@@ -6,7 +6,7 @@ import { PATH } from '@shared/router/path';
 
 import * as styles from './not-found-page.css';
 
-import errorImage from '/error.svg';
+import notFoundImage from '/not_found.svg';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const NotFoundPage = () => {
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <p className={styles.errorText}>HTTP ERROR 404</p>
-        <img src={errorImage} alt="404 not found" />
+        <img src={notFoundImage} alt="404 not found" />
         <div className={styles.textContainer}>
           <p className={styles.errorTitle}>앗, 페이지를 찾을 수 없어요!</p>
           <p className={styles.errorText}>
