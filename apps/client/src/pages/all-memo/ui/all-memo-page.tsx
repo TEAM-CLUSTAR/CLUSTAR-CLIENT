@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 
 import { AlertModal, FloatingButton } from '@cds/ui';
 
@@ -23,6 +24,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const location = useLocation();
 
   const {
     searchInput,
@@ -33,7 +35,17 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
     selectedCardIds,
     selectedMemos,
     handleCardClick,
+    setInitialSelectedId,
   } = useAllMemo(count, isAiMode, isLoading || isPromptOpen);
+
+  useEffect(() => {
+    const state = location.state as { selectedMemoId?: string } | null;
+    if (state?.selectedMemoId) {
+      setInitialSelectedId(state.selectedMemoId);
+      setIsAiMode(true);
+      window.history.replaceState({}, '');
+    }
+  }, [location.state, setIsAiMode, setInitialSelectedId]);
 
   // AI로 정리하기 버튼 클릭 시 카드 선택 모드 진입
   const handleStartAiMode = useCallback(() => {
@@ -42,17 +54,13 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
 
   // 정리 진행하기 버튼 클릭 시 AI 프롬프트 열기
   const handleStartPrompt = useCallback(() => {
-    if (selectedMemos.length > 0) {
-      setIsPromptOpen(true);
-    }
-  }, [selectedMemos.length, setIsPromptOpen]);
+    setIsPromptOpen(true);
+  }, [setIsPromptOpen]);
 
   // AI 프롬프트 닫기 시도 시 AlertModal 표시
   const handleCloseAiPrompt = useCallback(() => {
-    if (isPromptOpen) {
-      setShowAlertModal(true);
-    }
-  }, [isPromptOpen]);
+    setShowAlertModal(true);
+  }, []);
 
   // AlertModal 닫기
   const handleCloseAlertModal = useCallback(() => {

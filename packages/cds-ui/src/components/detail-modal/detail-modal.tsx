@@ -30,6 +30,8 @@ interface DetailModalProps {
   textContent: Omit<TextContentProps, 'mode'>;
   files?: FileProps[];
   selectedMemos?: SelectedMemoTypes[];
+  memoId?: string;
+  onAiCreateClick?: (memoId: string) => void;
 }
 
 const DetailModal = ({
@@ -39,12 +41,16 @@ const DetailModal = ({
   textContent,
   files,
   selectedMemos,
+  memoId,
+  onAiCreateClick,
 }: DetailModalProps) => {
   const { labelItems, dateText } = labelList;
   const { isAiResult, title, content } = textContent;
 
   const handleClick = () => {
-    // ai 메모 생성 클릭 시, 모달에 뜬 메모의 id에 대해 선택하고, 메모 페이지로 이동합니다. 이후 ai 프롬프트를 띄웁니다.
+    if (memoId && onAiCreateClick) {
+      onAiCreateClick(memoId);
+    }
   };
 
   return (

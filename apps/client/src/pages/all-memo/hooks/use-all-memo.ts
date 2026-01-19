@@ -61,6 +61,7 @@ interface UseMemoSelectionReturn {
   selectedCardIds: Set<string>;
   selectedMemos: SelectedMemo[];
   handleCardClick: (id: string) => void;
+  setInitialSelectedId: (id: string) => void;
 }
 
 const useMemoSelection = (
@@ -88,6 +89,11 @@ const useMemoSelection = (
     },
     [isLoading],
   );
+
+  // 초기 선택된 메모 ID 설정
+  const setInitialSelectedId = useCallback((id: string) => {
+    setSelectedCardIds(new Set([id]));
+  }, []);
 
   // AI 모드 종료 시 선택 초기화
   useEffect(() => {
@@ -120,6 +126,7 @@ const useMemoSelection = (
     selectedCardIds,
     selectedMemos,
     handleCardClick,
+    setInitialSelectedId,
   };
 };
 

@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router';
+
 import { Card, DetailModal } from '@cds/ui';
+
+import { PATH } from '@shared/router/path';
 
 import { MockMemo } from './mock-memos';
 
@@ -9,6 +13,14 @@ interface MemoCardGridProps {
 }
 
 export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
+  const navigate = useNavigate();
+
+  const handleAiCreateClick = (memoId: string) => {
+    navigate(PATH.ALL_MEMO, {
+      state: { selectedMemoId: memoId },
+    });
+  };
+
   return (
     <div className={styles.scrollContainer}>
       <div className={styles.gridContainer({ hasAiComponent: false })}>
@@ -56,6 +68,8 @@ export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
                     : undefined
                 }
                 selectedMemos={selectedMemos}
+                memoId={id}
+                onAiCreateClick={handleAiCreateClick}
               >
                 <Card
                   item={item}
