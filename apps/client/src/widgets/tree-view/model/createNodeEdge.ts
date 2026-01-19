@@ -9,14 +9,13 @@ interface NodeEdgeTypes {
 }
 
 const NO_LABEL = '라벨없음';
+const DISCOUNT = {
+  IS_NO_LABEL: 2,
+  IS_LABEL: 1,
+};
 
 const X_SPACING = 400;
 const Y_SPACING = 300;
-
-const DISCOUNT_NO_LABEL: Record<string, number> = {
-  true: 2,
-  false: 1,
-};
 
 export const createNodeEdge = (data: NodeEdgeTypes[]) => {
   const nodes: Node[] = [
@@ -41,14 +40,15 @@ export const createNodeEdge = (data: NodeEdgeTypes[]) => {
 
   sortedData.forEach(({ labelName, memos }, index) => {
     const isNoLabelMemo = index === dataCount - 1 && isNoLabel;
+    const discountNoLabel = isNoLabel
+      ? DISCOUNT.IS_NO_LABEL
+      : DISCOUNT.IS_LABEL;
 
     nodes.push({
       id: labelName,
       type: 'treeMemo',
       position: {
-        x:
-          (index - (dataCount - DISCOUNT_NO_LABEL[String(isNoLabel)]) / 2) *
-          X_SPACING,
+        x: (index - (dataCount - discountNoLabel) / 2) * X_SPACING,
         y: Y_SPACING,
       },
       data: {
