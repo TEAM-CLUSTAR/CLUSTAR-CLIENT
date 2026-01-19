@@ -9,17 +9,15 @@ export const homePageContainer = recipe({
     overflow: 'hidden',
   },
   variants: {
-    isAiMode: {
+    isPromptOpen: {
       true: {
         width: 'calc(100% - 58rem)',
       },
-      false: {
-        padding: '0',
-      },
+      false: {},
     },
   },
   defaultVariants: {
-    isAiMode: false,
+    isPromptOpen: false,
   },
 });
 
@@ -29,7 +27,7 @@ export const contentWrapper = recipe({
     flexDirection: 'column',
   },
   variants: {
-    isAiMode: {
+    isPromptOpen: {
       true: {
         padding: '0',
       },
@@ -39,7 +37,7 @@ export const contentWrapper = recipe({
     },
   },
   defaultVariants: {
-    isAiMode: false,
+    isPromptOpen: false,
   },
 });
 

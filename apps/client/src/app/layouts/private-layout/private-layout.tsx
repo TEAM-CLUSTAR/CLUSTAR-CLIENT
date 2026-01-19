@@ -27,23 +27,25 @@ export default function PrivateLayout() {
   const [isExpanded, setIsExpanded] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAiMode } = useAiMode();
+  const { isPromptOpen } = useAiMode();
   const prevExpandedStateRef = useRef<boolean>(true);
 
   const { labelId } = useParams<{ labelId?: string }>();
   const selectedId = getMenuIdByPath(location.pathname, labelId);
 
   useEffect(() => {
-    if (isAiMode) {
-      prevExpandedStateRef.current = isExpanded;
-      setIsExpanded(false);
+    if (isPromptOpen) {
+      if (isExpanded) {
+        prevExpandedStateRef.current = isExpanded;
+        setIsExpanded(false);
+      }
     } else {
       setIsExpanded(prevExpandedStateRef.current);
     }
-  }, [isAiMode]);
+  }, [isPromptOpen]);
 
   const handleToggle = () => {
-    if (isAiMode) return;
+    if (isPromptOpen) return;
     setIsExpanded((prev) => !prev);
   };
 

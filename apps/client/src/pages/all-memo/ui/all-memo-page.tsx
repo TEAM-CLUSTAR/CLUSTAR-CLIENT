@@ -18,7 +18,7 @@ interface AllMemoPageProps {
 }
 
 const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
-  const { isAiMode, setIsAiMode } = useAiMode();
+  const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } = useAiMode();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,22 +28,27 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
     memoCount,
     handleChangeInput,
     handleSearchEnter,
-    resetSearch,
     selectedCardIds,
     selectedMemos,
     handleCardClick,
-  } = useAllMemo(count, isAiMode, isLoading);
+  } = useAllMemo(count, isAiMode, isLoading || isPromptOpen);
 
-  // 정리 진행하기 버튼 클릭 시 AI 모드 토글
-  const handleFloatingButtonClick = useCallback(() => {
-    setIsAiMode((prev) => !prev);
+  // AI로 정리하기 버튼 클릭 시 카드 선택 모드 진입
+  const handleStartAiMode = useCallback(() => {
+    setIsAiMode(true);
   }, [setIsAiMode]);
 
-  // AI 모드 종료 시 검색어 초기화
+  // 정리 진행하기 버튼 클릭 시 AI 프롬프트 열기
+  const handleStartPrompt = useCallback(() => {
+    if (selectedMemos.length > 0) {
+      setIsPromptOpen(true);
+    }
+  }, [selectedMemos.length, setIsPromptOpen]);
+
+  // AI 프롬프트 닫기 (카드 선택 모드로 돌아감)
   const handleCloseAiPrompt = useCallback(() => {
-    setIsAiMode(false);
-    resetSearch();
-  }, [setIsAiMode, resetSearch]);
+    setIsPromptOpen(false);
+  }, [setIsPromptOpen]);
 
   // 뷰 모드 변경 시 뷰 모드 설정
   const handleValueChange = useCallback((value: string) => {
@@ -51,8 +56,8 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
   }, []);
 
   return (
-    <div className={styles.homePageContainer({ isAiMode })}>
-      <div className={styles.contentWrapper({ isAiMode })}>
+    <div className={styles.homePageContainer({ isPromptOpen })}>
+      <div className={styles.contentWrapper({ isPromptOpen })}>
         <Header
           title={title}
           count={memoCount}
@@ -60,7 +65,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
           handleChangeInput={handleChangeInput}
           viewMode={viewMode}
           handleValueChange={handleValueChange}
-          isAiMode={isAiMode}
+          isAiMode={isPromptOpen}
           onSearchEnter={handleSearchEnter}
         />
         {isAiMode ? (
@@ -68,17 +73,18 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
             memos={filteredMemos}
             selectedIds={selectedCardIds}
             onSelect={handleCardClick}
-            disabled={isLoading}
+            disabled={isLoading || isPromptOpen}
+            hasAiComponent={isPromptOpen}
           />
         ) : (
           <MemoCardGrid memos={filteredMemos} />
         )}
       </div>
 
-      {isAiMode && (
+      {isPromptOpen && (
         <div className={styles.aiPromptContainer}>
           <AiPrompt
-            isAIOpen={isAiMode}
+            isAIOpen={isPromptOpen}
             selectedMemos={selectedMemos}
             handleClose={handleCloseAiPrompt}
             onLoadingChange={setIsLoading}
@@ -88,9 +94,18 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
 
       {!isAiMode && (
         <div className={styles.floatingButtonContainer}>
+          <FloatingButton isActive={false} handleClick={handleStartAiMode}>
+            AI로 정리하기
+          </FloatingButton>
+        </div>
+      )}
+
+      {isAiMode && !isPromptOpen && (
+        <div className={styles.floatingButtonContainer}>
           <FloatingButton
             isActive={true}
-            handleClick={handleFloatingButtonClick}
+            disabled={selectedMemos.length === 0}
+            handleClick={handleStartPrompt}
           >
             정리 진행하기
           </FloatingButton>

@@ -9,6 +9,7 @@ interface MemoSelectionGridProps {
   selectedIds: Set<string>;
   onSelect: (id: string) => void;
   disabled?: boolean;
+  hasAiComponent?: boolean;
 }
 
 export const MemoSelectionGrid = ({
@@ -16,10 +17,11 @@ export const MemoSelectionGrid = ({
   selectedIds,
   onSelect,
   disabled = false,
+  hasAiComponent = false,
 }: MemoSelectionGridProps) => {
   return (
     <div className={styles.scrollContainer}>
-      <div className={styles.gridContainer({ hasAiComponent: true })}>
+      <div className={styles.gridContainer({ hasAiComponent })}>
         {memos.map((memo) => {
           const hasImage = !!memo.imageUrl;
           const cardClassName = hasImage

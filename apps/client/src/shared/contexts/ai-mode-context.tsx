@@ -11,14 +11,20 @@ import {
 interface AiModeContextType {
   isAiMode: boolean;
   setIsAiMode: Dispatch<SetStateAction<boolean>>;
+  isPromptOpen: boolean;
+  setIsPromptOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const AiModeContext = createContext<AiModeContextType | undefined>(undefined);
 
 export const AiModeProvider = ({ children }: { children: ReactNode }) => {
   const [isAiMode, setIsAiMode] = useState(false);
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
 
-  const value = useMemo(() => ({ isAiMode, setIsAiMode }), [isAiMode]);
+  const value = useMemo(
+    () => ({ isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen }),
+    [isAiMode, isPromptOpen],
+  );
 
   return (
     <AiModeContext.Provider value={value}>{children}</AiModeContext.Provider>
