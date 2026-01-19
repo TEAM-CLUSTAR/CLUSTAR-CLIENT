@@ -187,7 +187,11 @@ const MemoInput = () => {
 
         <div className={styles.footerContainer}>
           <ToolBar />
-          <Button size="lg" onClick={handleSubmit}>
+          <Button
+            size="lg"
+            onClick={handleSubmit}
+            disabled={!selectedDraft.contents || !selectedDraft.title}
+          >
             저장하기
           </Button>
         </div>
