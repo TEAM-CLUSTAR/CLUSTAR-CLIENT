@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run --passWithNoTests"
+    "test:run": "vitest run --passWithNoTests",
+    "generate:types": "openapi-typescript https://dev.clustar.cloud/v3/api-docs -o ./src/shared/types/schema.d.ts"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
@@ -48,6 +49,7 @@
     "@vitest/ui": "catalog:test-core",
     "eslint": "catalog:eslint-core",
     "jsdom": "catalog:test-core",
+    "openapi-typescript": "^7.10.1",
     "typescript": "catalog:typescript-core",
     "vite": "catalog:vite-core",
     "vitest": "catalog:test-core"
