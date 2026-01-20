@@ -7,6 +7,7 @@ import { LoadingPage } from '@pages/loading';
 interface GlobalLayoutBoundaryProps {
   children: ReactNode;
 }
+
 export default function GlobalErrorBoundary({
   children,
 }: GlobalLayoutBoundaryProps) {
