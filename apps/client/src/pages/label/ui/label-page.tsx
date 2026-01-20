@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import AllMemoPage, {
-  type AllMemoPageHelpers,
-} from '@pages/all-memo/ui/all-memo-page';
-
 import { MOCK_MEMOS } from '@widgets/memo-list/ui/mock-memos';
+import {
+  MemoListView,
+  type MemoListViewHelpers,
+} from '@widgets/memo-list-view';
 
 const LABEL_ID_TO_TEXT: Record<string, string> = {
   project: '졸업 프로젝트',
@@ -30,13 +30,16 @@ const LabelPage = () => {
     );
   }, [labelText]);
 
-  const handleAiCreateClick = (memoId: string, helpers: AllMemoPageHelpers) => {
-    helpers.setInitialSelectedId(memoId);
+  const handleAiCreateClick = (
+    memoId: string,
+    helpers: MemoListViewHelpers,
+  ) => {
+    helpers.selectFunction(memoId);
     helpers.setIsAiMode(true);
   };
 
   return (
-    <AllMemoPage
+    <MemoListView
       title={labelText}
       initialMemos={labeledMemos}
       onAiCreateClick={handleAiCreateClick}
