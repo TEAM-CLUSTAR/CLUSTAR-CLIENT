@@ -7,6 +7,10 @@ import { LabelTextType } from '@shared/types/label-type';
 import { TabList, ToolBar } from '@entities/memo';
 
 import { InputContent, InputTitle, LabelSelect } from '@features/memo';
+import { htmlToMarkdown } from '@features/memo/models/html-to-markdown';
+
+import { useCreateMemo } from '../../api/queries';
+import type { MemoCreateRequest } from '../../api/type';
 
 import * as styles from './memo-input.css';
 
@@ -56,6 +60,8 @@ const MemoInput = () => {
   const [tabs, setTabs] = useState<TabItem[]>(initTabs);
   const [selectedTabId, setSelectedTabId] = useState<string>(initSelectedId);
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
+
+  const { mutate: createMemo } = useCreateMemo();
 
   const selectedDraft = draftsById[selectedTabId];
 
@@ -144,13 +150,12 @@ const MemoInput = () => {
   };
 
   const handleSubmit = () => {
-    const payload = {
+    const request: MemoCreateRequest = {
       title: selectedDraft.title,
-      content: selectedDraft.contents,
+      content: htmlToMarkdown(selectedDraft.contents),
       labelNames: selectedDraft.labels.map((l) => l.text),
     };
-    return payload; //임시로 return
-    // @TODO api 연결
+    createMemo(request);
   };
   return (
     <div className={styles.memoInputContainer}>
