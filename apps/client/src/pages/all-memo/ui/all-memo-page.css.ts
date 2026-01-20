@@ -31,11 +31,9 @@ export const contentWrapper = recipe({
   variants: {
     isPromptOpen: {
       true: {
-        padding: '0',
+        alignItems: 'center',
       },
-      false: {
-        padding: '0',
-      },
+      false: {},
     },
   },
   defaultVariants: {

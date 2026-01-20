@@ -26,7 +26,7 @@ export const MemoSelectionGrid = ({
   onAiCreateClick,
 }: MemoSelectionGridProps) => {
   return (
-    <div className={styles.scrollContainer}>
+    <div className={styles.scrollContainer({ hasAiComponent })}>
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memos.map((memo) => {
           const {

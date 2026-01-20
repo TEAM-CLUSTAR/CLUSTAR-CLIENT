@@ -11,8 +11,8 @@ export const gridContainer = recipe({
     hasAiComponent: {
       true: {
         gridTemplateColumns: 'repeat(2, 1fr)',
-        padding: '0 3.4rem 0 4.6rem',
-        width: '75.6rem',
+        padding: '0 2.2rem 0 4.6rem',
+        width: '73.2rem',
       },
       false: {
         gridTemplateColumns: 'repeat(3, 1fr)',
@@ -34,11 +34,20 @@ export const gridItemWithImage = style([
   },
 ]);
 
-export const scrollContainer = style({
-  height: '100vh',
-  overflowY: 'scroll',
-  overflowX: 'hidden',
-  scrollbarGutter: 'stable',
-  display: 'flex',
-  justifyContent: 'center',
+export const scrollContainer = recipe({
+  base: {
+    height: '100vh',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
+    scrollbarGutter: 'stable',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  variants: {
+    hasAiComponent: {
+      true: { width: 'min-content' },
+      false: { width: 'auto' },
+    },
+  },
 });

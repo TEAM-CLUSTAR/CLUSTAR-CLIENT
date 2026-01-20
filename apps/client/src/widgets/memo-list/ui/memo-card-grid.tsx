@@ -24,7 +24,7 @@ export const MemoCardGrid = ({ memos }: MemoCardGridProps) => {
   };
 
   return (
-    <div className={styles.scrollContainer}>
+    <div className={styles.scrollContainer({ hasAiComponent: false })}>
       <div className={styles.gridContainer({ hasAiComponent: false })}>
         {memos.map((memo) => {
           const {
