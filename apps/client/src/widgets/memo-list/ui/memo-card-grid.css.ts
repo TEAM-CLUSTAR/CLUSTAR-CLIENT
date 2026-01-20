@@ -11,7 +11,7 @@ export const gridContainer = recipe({
     hasAiComponent: {
       true: {
         gridTemplateColumns: 'repeat(2, 1fr)',
-        padding: '0 4.6rem 0 4.6rem',
+        padding: '0 3.4rem 0 4.6rem',
         width: '75.6rem',
       },
       false: {

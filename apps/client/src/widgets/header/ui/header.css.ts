@@ -29,19 +29,19 @@ export const container = recipe({
     {
       variants: { isAiMode: false, isTree: false },
       style: {
-        padding: '3.2rem 3rem 6rem 0',
+        padding: '3.2rem 3.3rem 6rem 0',
       },
     },
     {
       variants: { isAiMode: true, isTree: false },
       style: {
-        padding: '3.2rem 3rem 6rem 0',
+        padding: '3.2rem 1.3rem 6rem 0',
       },
     },
     {
       variants: { isTree: true },
       style: {
-        padding: '3.2rem 3rem 1.6rem 0',
+        padding: '3.2rem 3.3rem 1.6rem 0',
       },
     },
   ],
