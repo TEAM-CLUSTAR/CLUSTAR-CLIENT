@@ -29,7 +29,6 @@ export const useMemoListView = ({
     setIsAiMode,
     isPromptOpen,
     setIsPromptOpen,
-    isTreeViewOpen,
     setIsTreeViewOpen,
   } = useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
