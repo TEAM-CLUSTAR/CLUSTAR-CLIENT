@@ -643,7 +643,7 @@ export interface components {
        * @example MERGE
        * @enum {string}
        */
-      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
+      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
       /**
        * @description AI가 참조할 메모 ID 목록
        * @example [
@@ -733,6 +733,8 @@ export interface components {
       labelList?: components['schemas']['LabelResponse'][];
     };
     MemoListDashboardResponse: {
+      /** Format: int64 */
+      totalCount?: number;
       memos?: components['schemas']['MemoDashboardResponse'][];
     };
     ApiResponseMemoDetailResponse: {
@@ -827,14 +829,13 @@ export interface components {
        */
       isAiGenerated?: boolean;
       /**
-       * @description AI 생성 시 참고한 메모 ID 목록
+       * @description AI 생성 시 참고한 메모 제목 목록
        * @example [
-       *       1,
-       *       2,
-       *       3
+       *       "UX 리서치 정리",
+       *       "시험 대비 요약"
        *     ]
        */
-      sourceList?: number[];
+      sourceMemoTitleList?: string[];
     };
     ApiResponseMemoStructureListResponse: {
       /** Format: int32 */

@@ -4,8 +4,8 @@ import { treeViewDummy } from '@pages/all-memo/api/tree-view-dummy';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
-import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
 import { TreeView } from '@widgets/tree-view';
 
 import {
@@ -20,6 +20,10 @@ export interface MemoListViewProps {
   count?: number;
   initialMemos?: MockMemo[];
   onAiCreateClick?: (memoId: string, helpers: MemoListViewHelpers) => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  fetchNextPage?: () => void;
+  totalCount?: number;
 }
 
 const MemoListView = ({
@@ -27,6 +31,10 @@ const MemoListView = ({
   count,
   initialMemos,
   onAiCreateClick,
+  hasNextPage = false,
+  isFetchingNextPage = false,
+  fetchNextPage,
+  totalCount,
 }: MemoListViewProps) => {
   const {
     viewMode,
@@ -62,7 +70,7 @@ const MemoListView = ({
       <div className={styles.contentWrapper({ isPromptOpen })}>
         <Header
           title={title}
-          count={memoCount}
+          count={totalCount ?? memoCount}
           inputValue={searchInput}
           handleChangeInput={handleChangeInput}
           viewMode={viewMode}
@@ -79,6 +87,9 @@ const MemoListView = ({
             hasAiComponent={isPromptOpen}
             disabled={isLoading || isPromptOpen}
             onAiCreateClick={handleAiCreateClick}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            onLoadMore={fetchNextPage}
           />
         )}
         {viewMode === 'tree' && <TreeView data={treeViewDummy} />}

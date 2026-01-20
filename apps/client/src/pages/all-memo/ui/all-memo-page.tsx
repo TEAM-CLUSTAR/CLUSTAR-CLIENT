@@ -3,7 +3,18 @@ import {
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
+import { useGetAllMemo, useGetMemoTotalCount } from '../api/queries';
+
 const AllMemoPage = () => {
+  const {
+    data: filteredMemos,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGetAllMemo();
+
+  const { data: totalCount } = useGetMemoTotalCount();
+
   const handleAiCreateClick = (
     memoId: string,
     helpers: MemoListViewHelpers,
@@ -13,7 +24,15 @@ const AllMemoPage = () => {
   };
 
   return (
-    <MemoListView title="전체 메모" onAiCreateClick={handleAiCreateClick} />
+    <MemoListView
+      title="전체 메모"
+      onAiCreateClick={handleAiCreateClick}
+      initialMemos={filteredMemos}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+      totalCount={totalCount}
+    />
   );
 };
 

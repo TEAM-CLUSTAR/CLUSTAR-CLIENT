@@ -6,7 +6,7 @@ import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 import { PATH } from '@shared/router/path';
 
-import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 
 import { useCreateChatRoom, useDeleteChatRoom } from '../api/queries';
 
