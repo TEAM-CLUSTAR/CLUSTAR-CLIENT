@@ -2,9 +2,15 @@ import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@shared/api/instance';
 
+import { AI_END_POINT } from './end-point';
 import { PROMPT_END_POINT } from './end-point';
+import { AI_KEY } from './query-key';
 import { PROMPT_KEY } from './query-key';
 import {
+  AiCreateRequest,
+  AiCreateResponse,
+  AiSaveRequest,
+  AiSaveResponse,
   PromptCreateResponse,
   PromptDeleteRequest,
   PromptDeleteResponse,
@@ -49,5 +55,44 @@ export const useDeleteChatRoom = () => {
   return useMutation({
     mutationKey: PROMPT_KEY.DELETE(),
     mutationFn: deleteChatRoom,
+  });
+};
+
+/**
+ * AI 채팅 응답 생성
+ * @param request 채팅 생성 요청 (chatRoomId와 body 포함)
+ * @returns 생성된 AI 응답
+ */
+const createAiChat = async (
+  request: AiCreateRequest,
+): Promise<AiCreateResponse> => {
+  const response = await api.post<AiCreateResponse>(
+    AI_END_POINT.CREATE.replace('{chatRoomId}', request.chatRoomId.toString()),
+    request.body,
+  );
+  return response.data;
+};
+
+export const useCreateAiChat = () => {
+  return useMutation({
+    mutationKey: AI_KEY.CREATE(),
+    mutationFn: createAiChat,
+  });
+};
+
+/**
+ * AI가 만든 메모 저장
+ * @param request 메모 저장 요청 (title, content, sourceMemoIds)
+ * @returns 저장된 메모
+ */
+const saveAiMemo = async (request: AiSaveRequest): Promise<AiSaveResponse> => {
+  const response = await api.post<AiSaveResponse>(AI_END_POINT.SAVE, request);
+  return response.data;
+};
+
+export const useSaveAiMemo = () => {
+  return useMutation({
+    mutationKey: AI_KEY.SAVE(),
+    mutationFn: saveAiMemo,
   });
 };
