@@ -1,7 +1,5 @@
 import { AlertModal, FloatingButton } from '@cds/ui';
 
-import { treeViewDummy } from '@pages/all-memo/api/tree-view-dummy';
-
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
 import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
@@ -81,7 +79,7 @@ const MemoListView = ({
             onAiCreateClick={handleAiCreateClick}
           />
         )}
-        {viewMode === 'tree' && <TreeView data={treeViewDummy} />}
+        {viewMode === 'tree' && <TreeView />}
       </div>
 
       {isPromptOpen && (
