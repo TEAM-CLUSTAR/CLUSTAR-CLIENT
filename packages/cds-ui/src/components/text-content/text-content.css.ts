@@ -74,73 +74,97 @@ export const content = style({
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
 
-  // 마크다운 스타일링
-  '& h1, & h2, & h3, & h4, & h5, & h6': {
-    marginTop: '1.6rem',
-    marginBottom: '0.8rem',
-    fontWeight: 'bold',
-  },
-  '& h1': {
-    fontSize: '2rem',
-  },
-  '& h2': {
-    fontSize: '1.75rem',
-  },
-  '& h3': {
-    fontSize: '1.5rem',
-  },
-  '& p': {
-    marginBottom: '1rem',
-    lineHeight: '1.6',
-  },
-  '& ul, & ol': {
-    marginLeft: '2rem',
-    marginBottom: '1rem',
-  },
-  '& li': {
-    marginBottom: '0.5rem',
-  },
-  '& blockquote': {
-    borderLeft: `4px solid ${themeVars.color.grey300}`,
-    paddingLeft: '1.6rem',
-    marginLeft: 0,
-    marginBottom: '1rem',
-    fontStyle: 'italic',
-    color: themeVars.color.grey600,
-  },
-  '& code': {
-    backgroundColor: themeVars.color.grey100,
-    padding: '0.2rem 0.4rem',
-    borderRadius: '4px',
-    fontSize: '0.9em',
-    fontFamily: 'monospace',
-  },
-  '& pre': {
-    backgroundColor: themeVars.color.grey100,
-    padding: '1.6rem',
-    borderRadius: '8px',
-    overflow: 'auto',
-    marginBottom: '1rem',
+  selectors: {
+    '& h1': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+      fontSize: '2rem',
+    },
+    '& h2': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+      fontSize: '1.75rem',
+    },
+    '& h3': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+      fontSize: '1.5rem',
+    },
+    '& h4': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+    },
+    '& h5': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+    },
+    '& h6': {
+      marginTop: '1.6rem',
+      marginBottom: '0.8rem',
+      fontWeight: 'bold',
+    },
+    '& p': {
+      marginBottom: '1rem',
+      lineHeight: '1.6',
+    },
+    '& ul': {
+      marginLeft: '2rem',
+      marginBottom: '1rem',
+    },
+    '& ol': {
+      marginLeft: '2rem',
+      marginBottom: '1rem',
+    },
+    '& li': {
+      marginBottom: '0.5rem',
+    },
+    '& blockquote': {
+      borderLeft: `4px solid ${themeVars.color.grey300}`,
+      paddingLeft: '1.6rem',
+      marginLeft: 0,
+      marginBottom: '1rem',
+      fontStyle: 'italic',
+      color: themeVars.color.grey600,
+    },
     '& code': {
+      backgroundColor: themeVars.color.grey100,
+      padding: '0.2rem 0.4rem',
+      borderRadius: '4px',
+      fontSize: '0.9em',
+      fontFamily: 'monospace',
+    },
+    '& pre': {
+      backgroundColor: themeVars.color.grey100,
+      padding: '1.6rem',
+      borderRadius: '8px',
+      overflow: 'auto',
+      marginBottom: '1rem',
+    },
+    '& pre code': {
       backgroundColor: 'transparent',
       padding: 0,
     },
-  },
-  '& a': {
-    color: themeVars.color.blue500,
-    textDecoration: 'underline',
-    '&:hover': {
+    '& a': {
+      color: themeVars.color.blue500,
+      textDecoration: 'underline',
+    },
+    '& a:hover': {
       color: themeVars.color.blue600,
     },
-  },
-  '& img': {
-    maxWidth: '100%',
-    height: 'auto',
-    marginBottom: '1rem',
-  },
-  '& hr': {
-    border: 'none',
-    borderTop: `1px solid ${themeVars.color.grey300}`,
-    margin: '2rem 0',
+    '& img': {
+      maxWidth: '100%',
+      height: 'auto',
+      marginBottom: '1rem',
+    },
+    '& hr': {
+      border: 'none',
+      borderTop: `1px solid ${themeVars.color.grey300}`,
+      margin: '2rem 0',
+    },
   },
 });

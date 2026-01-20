@@ -97,6 +97,12 @@ export const useAiPrompt = ({
     }) => {
       if (!value.text.trim() || !chatRoomId) return;
 
+      // 요청 전송 시 즉시 입력값과 옵션 초기화
+      if (!value.skipUserMessage) {
+        setInputText('');
+        setSelectedOptionId(null);
+      }
+
       if (!value.skipUserMessage) {
         const userMessage: Message = {
           id: Date.now().toString(),
@@ -144,11 +150,6 @@ export const useAiPrompt = ({
           type: 'ai',
         };
         setMessages((prev) => [...prev, errorMessage]);
-      } finally {
-        if (!value.skipUserMessage) {
-          setInputText('');
-          setSelectedOptionId(null);
-        }
       }
     },
     [selectedMemos, chatRoomId, createAiChatMutation],
