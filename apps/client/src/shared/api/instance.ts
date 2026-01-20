@@ -9,7 +9,6 @@ import { SentryInterceptor } from './interceptors/sentry.interceptor';
 
 const instance: AxiosInstance = axios.create({
   baseURL: appConfig.api.baseUrl,
-  withCredentials: true,
 });
 
 /**
