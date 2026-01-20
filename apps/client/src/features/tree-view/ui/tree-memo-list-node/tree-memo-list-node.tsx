@@ -4,7 +4,7 @@ import { Handle, Position } from '@xyflow/react';
 
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
-import { MemoInfoTypes } from '@shared/types/memo-info-type';
+import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import TreeCustomHandle from '../tree-custom-handle/tree-custom-handle';
 import TreeMemoList from '../tree-memo-list/tree-memo-list';
@@ -12,7 +12,7 @@ import TreeMemoList from '../tree-memo-list/tree-memo-list';
 type TreeMemoListNodeDataTypes = Node<
   {
     labelName: LabelTextType;
-    memos: MemoInfoTypes[];
+    memos: StructureMemoTypes[];
   },
   'memo'
 >;
