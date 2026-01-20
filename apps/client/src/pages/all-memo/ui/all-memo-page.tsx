@@ -8,7 +8,7 @@ import { PATH } from '@shared/router/path';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
-import { MemoCardGrid, MemoSelectionGrid } from '@widgets/memo-list';
+import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
 import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
 
 import { useAllMemo } from '../hooks/use-all-memo';
@@ -61,7 +61,7 @@ const AllMemoPage = ({
       setIsAiMode(true);
       window.history.replaceState({}, '');
     }
-  }, [location.state?.selectedMemoId, setIsAiMode, setInitialSelectedId]);
+  }, [location.state, setIsAiMode, setInitialSelectedId]);
 
   // 일반 모드에서 모달의 AI 생성하기 버튼 클릭 시 해당 메모 선택하고 AI 모드로 전환
   // prop으로 전달된 함수가 있으면 사용하고, 없으면 기본 동작 (전체 메모 페이지로 이동)
@@ -118,14 +118,6 @@ const AllMemoPage = ({
     setViewMode(value);
   };
 
-  // AI 모드에서 모달의 AI 생성하기 버튼 클릭 시 해당 메모 선택
-  // 이미 선택된 메모는 선택 해제되지 않도록 처리
-  const handleAiCreateClickInSelectionMode = (memoId: string) => {
-    if (!selectedCardIds.has(memoId)) {
-      handleCardClick(memoId);
-    }
-  };
-
   return (
     <div className={styles.homePageContainer({ isPromptOpen })}>
       <div className={styles.contentWrapper({ isPromptOpen })}>
@@ -139,21 +131,15 @@ const AllMemoPage = ({
           isAiMode={isPromptOpen}
           onSearchEnter={handleSearchEnter}
         />
-        {isAiMode ? (
-          <MemoSelectionGrid
-            memos={filteredMemos}
-            selectedIds={selectedCardIds}
-            onSelect={handleCardClick}
-            disabled={isLoading || isPromptOpen}
-            hasAiComponent={isPromptOpen}
-            onAiCreateClick={handleAiCreateClickInSelectionMode}
-          />
-        ) : (
-          <MemoCardGrid
-            memos={filteredMemos}
-            onAiCreateClick={handleAiCreateClick}
-          />
-        )}
+        <CardGridList
+          memoData={filteredMemos}
+          isAiMode={isAiMode}
+          selectedIds={selectedCardIds}
+          onAiSelectToggle={handleCardClick}
+          hasAiComponent={isPromptOpen}
+          disabled={isLoading || isPromptOpen}
+          onAiCreateClick={handleAiCreateClick}
+        />
       </div>
 
       {isPromptOpen && (
