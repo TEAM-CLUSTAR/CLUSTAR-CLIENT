@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { useBlocker, useLocation, useNavigate } from 'react-router';
 
 import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 
@@ -37,9 +37,14 @@ export const useMemoListView = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<
+    (() => void) | null
+  >(null);
   const [chatRoomId, setChatRoomId] = useState<number | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const isPromptOpenRef = useRef(isPromptOpen);
+  const isResettingRef = useRef(false);
 
   const { mutate: createChatRoom } = useCreateChatRoom();
   const { mutate: deleteChatRoom } = useDeleteChatRoom();
@@ -57,6 +62,51 @@ export const useMemoListView = ({
     addSelectedId,
   } = useAllMemo(count, isAiMode, isLoading || isPromptOpen, initialMemos);
 
+  // isPromptOpen ref 업데이트
+  useEffect(() => {
+    isPromptOpenRef.current = isPromptOpen;
+  }, [isPromptOpen]);
+
+  // 페이지 이동 차단
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      isPromptOpen && currentLocation.pathname !== nextLocation.pathname,
+  );
+
+  // blocker 상태에 따라 모달 표시
+  useEffect(() => {
+    if (
+      blocker.state === 'blocked' &&
+      !showAlertModal &&
+      !isResettingRef.current
+    ) {
+      setShowAlertModal(true);
+      setPendingNavigation(() => () => blocker.proceed());
+    }
+
+    if (blocker.state === 'unblocked' && isResettingRef.current) {
+      isResettingRef.current = false;
+    }
+  }, [blocker, showAlertModal]);
+
+  // 새로고침 감지
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isPromptOpenRef.current) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  // 메모 선택 시 모드 전환
   useEffect(() => {
     const state = location.state as { selectedMemoId?: string } | null;
     if (state?.selectedMemoId) {
@@ -117,16 +167,23 @@ export const useMemoListView = ({
     setIsTreeViewOpen(true);
   };
 
-  // AlertModal 닫기
+  // AlertModal 닫기 - 페이지 이동 취소
   const handleCloseAlertModal = () => {
     setIsClosing(true);
+
+    if (pendingNavigation && blocker.state === 'blocked') {
+      isResettingRef.current = true;
+      blocker.reset();
+    }
+    setPendingNavigation(null);
+
     setTimeout(() => {
       setShowAlertModal(false);
       setIsClosing(false);
     }, 200);
   };
 
-  // AlertModal 확인 - 채팅방 삭제 후 상태 초기화
+  // AlertModal 확인 - 상태 초기화 및 페이지 이동 진행
   const handleConfirmAlertModal = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -137,6 +194,11 @@ export const useMemoListView = ({
       setIsClosing(false);
       setIsPromptOpen(false);
       setIsAiMode(false);
+
+      if (pendingNavigation) {
+        pendingNavigation();
+        setPendingNavigation(null);
+      }
       setChatRoomId(null);
     }, 200);
   };

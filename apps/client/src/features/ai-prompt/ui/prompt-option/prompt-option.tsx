@@ -16,21 +16,21 @@ export interface PromptOptionType {
 
 const OPTIONS: PromptOptionType[] = [
   {
-    id: 'breif',
+    id: 'MERGE',
     iconOn: 'ic_breif_on',
     iconOff: 'ic_breif_off',
     title: '정리본',
     description: '여러 메모를 하나의 문서로 정리',
   },
   {
-    id: 'summary',
+    id: 'SUMMARY',
     iconOn: 'ic_summary_on',
     iconOff: 'ic_summary_off',
     title: '요약본',
     description: '핵심만 간단 정리',
   },
   {
-    id: 'structure',
+    id: 'STRUCTURE',
     iconOn: 'ic_structure_on',
     iconOff: 'ic_structure_off',
     title: '구조화',

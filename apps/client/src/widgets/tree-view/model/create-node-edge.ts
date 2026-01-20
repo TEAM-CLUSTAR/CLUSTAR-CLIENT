@@ -1,11 +1,11 @@
 import type { Edge, Node } from '@xyflow/react';
 
 import { LabelTextType } from '@shared/types/label-type';
-import { MemoInfoTypes } from '@shared/types/memo-info-type';
+import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 interface NodeEdgeTypes {
   labelName: LabelTextType;
-  memos: MemoInfoTypes[];
+  memos: StructureMemoTypes[];
 }
 
 const NO_LABEL = '라벨없음';

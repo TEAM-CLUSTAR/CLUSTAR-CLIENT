@@ -38,15 +38,17 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
   const location = useLocation();
   const prevPathnameRef = useRef<string>(location.pathname);
 
-  // 페이지 이동 시 AI 모드 상태 초기화
+  // 페이지 이동 시 AI 모드 상태 초기화 (AI prompt가 열려있지 않을 때만)
   useEffect(() => {
     if (prevPathnameRef.current !== location.pathname) {
-      setIsAiMode(false);
-      setIsPromptOpen(false);
-      setIsTreeViewOpen(false);
+      if (!isPromptOpen) {
+        setIsAiMode(false);
+        setIsPromptOpen(false);
+        setIsTreeViewOpen(false);
+      }
       prevPathnameRef.current = location.pathname;
     }
-  }, [location.pathname]);
+  }, [location.pathname, isPromptOpen]);
 
   // isPromptOpen에 따라 사이드바 자동 닫기/열기
   useEffect(() => {

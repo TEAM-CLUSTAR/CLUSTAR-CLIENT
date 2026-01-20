@@ -1,8 +1,47 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { Message, UseAiPromptProps } from './types';
+import {
+  useCreateAiChat,
+  useCreateChatRoom,
+  useSaveAiMemo,
+} from '@widgets/memo-list-view/api/queries';
 
-// API 연동할 때 변경 예정 (테스트용)
+import { AiOption, Message, UseAiPromptProps } from './types';
+
+const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE'] as const;
+
+const isValidOption = (
+  value: string | null | undefined,
+): value is Exclude<AiOption, null> => {
+  if (!value) return false;
+  return VALID_OPTIONS.includes(value as Exclude<AiOption, null>);
+};
+
+const convertMemoIdsToNumbers = (memos: { id: string }[]): number[] => {
+  return memos
+    .map((memo) => {
+      const numId = Number(memo.id);
+      return isNaN(numId) ? null : numId;
+    })
+    .filter((id): id is number => id !== null);
+};
+
+const insertMessageAfter = (
+  messages: Message[],
+  targetMessageId: string,
+  newMessage: Message,
+): Message[] => {
+  const messageIndex = messages.findIndex((msg) => msg.id === targetMessageId);
+  if (messageIndex === -1) {
+    return [...messages, newMessage];
+  }
+  return [
+    ...messages.slice(0, messageIndex + 1),
+    newMessage,
+    ...messages.slice(messageIndex + 1),
+  ];
+};
+
 // AI 프롬프트 사용자 정의 훅
 export const useAiPrompt = ({
   isAIOpen,
@@ -10,9 +49,44 @@ export const useAiPrompt = ({
   handleClose,
 }: UseAiPromptProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
+
+  const createChatRoomMutation = useCreateChatRoom();
+  const createAiChatMutation = useCreateAiChat();
+  const saveAiMemoMutation = useSaveAiMemo();
+
+  // 로딩 상태는 mutation 상태와 동기화
+  const isLoading =
+    createChatRoomMutation.isPending ||
+    createAiChatMutation.isPending ||
+    saveAiMemoMutation.isPending;
+
+  // AI 프롬프트가 열릴 때 채팅방 생성
+  useEffect(() => {
+    if (isAIOpen && !chatRoomId && !createChatRoomMutation.isPending) {
+      createChatRoomMutation.mutate(undefined, {
+        onSuccess: (data) => {
+          const newChatRoomId = data.data?.chatRoomId;
+          if (newChatRoomId) {
+            setChatRoomId(newChatRoomId);
+          }
+        },
+        onError: (error) => {
+          console.error('채팅방 생성 실패:', error);
+        },
+      });
+    }
+  }, [isAIOpen, chatRoomId, createChatRoomMutation]);
+
+  // AI 프롬프트가 닫힐 때 채팅방 ID 초기화
+  useEffect(() => {
+    if (!isAIOpen) {
+      setChatRoomId(null);
+      setMessages([]);
+    }
+  }, [isAIOpen]);
 
   // AI 프롬프트 입력 요청
   const handleSubmit = useCallback(
@@ -21,7 +95,13 @@ export const useAiPrompt = ({
       selectedOptionId: string | null;
       skipUserMessage?: boolean;
     }) => {
-      if (!value.text.trim()) return;
+      if (!value.text.trim() || !chatRoomId) return;
+
+      // 요청 전송 시 즉시 입력값과 옵션 초기화
+      if (!value.skipUserMessage) {
+        setInputText('');
+        setSelectedOptionId(null);
+      }
 
       if (!value.skipUserMessage) {
         const userMessage: Message = {
@@ -32,68 +112,131 @@ export const useAiPrompt = ({
         setMessages((prev) => [...prev, userMessage]);
       }
 
-      // eslint-disable-next-line no-console
-      console.log('프롬프트 전송:', {
-        text: value.text,
-        selectedOptionId: value.selectedOptionId,
-        selectedMemos,
-      });
+      const memoIds = convertMemoIdsToNumbers(selectedMemos);
 
-      setIsLoading(true);
+      const option = isValidOption(value.selectedOptionId)
+        ? value.selectedOptionId
+        : null;
 
-      // TODO: API 요청 처리
-      setTimeout(() => {
-        const aiMessage: Message = {
-          id: `ai-${Date.now()}`,
-          text: '첫째, 북극성 지표를 구체화해야 한다. 이는 서비스가 궁극적으로 전달하고자 하는 핵심 가치를 수치로 표현하는 단계로, 예를 들어 "AI 결과물 생성률"처럼 사용자 가치와 직접 연결된 지표를 설정하는 것이 목표다.',
-          title: '6차 세미나',
+      const userPrompt = value.text.trim();
+
+      try {
+        const response = await createAiChatMutation.mutateAsync({
+          chatRoomId,
+          body: {
+            userPrompt,
+            option,
+            memoIds,
+          },
+        });
+
+        if (response.data) {
+          const aiMessage: Message = {
+            id: `ai-${Date.now()}`,
+            text: response.data.content || '',
+            title: response.data.title,
+            type: 'ai',
+            memoIds,
+            userPrompt,
+            option,
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+        }
+      } catch (error) {
+        console.error('AI 응답 생성 실패:', error);
+        const errorMessage: Message = {
+          id: `error-${Date.now()}`,
+          text: 'AI 응답 생성에 실패했습니다. 다시 시도해주세요.',
           type: 'ai',
         };
-        setMessages((prev) => [...prev, aiMessage]);
-        setIsLoading(false);
-      }, 3000);
-
-      if (!value.skipUserMessage) {
-        setInputText('');
-        setSelectedOptionId(null);
+        setMessages((prev) => [...prev, errorMessage]);
       }
     },
-    [selectedMemos],
+    [selectedMemos, chatRoomId, createAiChatMutation],
   );
 
   // 메모 재생성 요청
   const handleRegenerate = useCallback(
     async (messageId: string) => {
-      if (selectedMemos.length === 0) return;
+      if (!chatRoomId) return;
 
-      const messageIndex = messages.findIndex((msg) => msg.id === messageId);
-      if (messageIndex === -1) return;
+      const aiMessage = messages.find((msg) => msg.id === messageId);
+      if (!aiMessage || aiMessage.type !== 'ai') return;
 
-      let userMessage: Message | null = null;
-      for (let i = messageIndex - 1; i >= 0; i--) {
-        if (messages[i].type === 'user') {
-          userMessage = messages[i];
-          break;
-        }
+      if (!aiMessage.memoIds || !aiMessage.userPrompt) {
+        // eslint-disable-next-line no-console
+        console.error('재생성에 필요한 정보가 없습니다.');
+        return;
       }
 
-      if (!userMessage) return;
+      try {
+        const response = await createAiChatMutation.mutateAsync({
+          chatRoomId,
+          body: {
+            userPrompt: aiMessage.userPrompt,
+            option: aiMessage.option,
+            memoIds: aiMessage.memoIds,
+          },
+        });
 
-      await handleSubmit({
-        text: userMessage.text,
-        selectedOptionId: null,
-        skipUserMessage: true,
-      });
+        if (response.data) {
+          const newAiMessage: Message = {
+            id: `ai-${Date.now()}`,
+            text: response.data.content || '',
+            title: response.data.title,
+            type: 'ai',
+            memoIds: aiMessage.memoIds,
+            userPrompt: aiMessage.userPrompt,
+            option: aiMessage.option,
+          };
+          setMessages((prev) =>
+            insertMessageAfter(prev, messageId, newAiMessage),
+          );
+        }
+      } catch (error) {
+        console.error('AI 응답 재생성 실패:', error);
+        const errorMessage: Message = {
+          id: `error-${Date.now()}`,
+          text: 'AI 응답 재생성에 실패했습니다. 다시 시도해주세요.',
+          type: 'ai',
+        };
+        setMessages((prev) =>
+          insertMessageAfter(prev, messageId, errorMessage),
+        );
+      }
     },
-    [messages, selectedMemos, handleSubmit],
+    [messages, chatRoomId, createAiChatMutation],
   );
 
   // 메모로 저장 요청
-  const handleSaveToMemo = useCallback(async (messageId: string) => {
-    // eslint-disable-next-line no-console
-    console.log('메모로 저장:', messageId);
-    // TODO: API 요청 처리
-  }, []);
+  const handleSaveToMemo = useCallback(
+    async (messageId: string) => {
+      const message = messages.find((msg) => msg.id === messageId);
+      if (
+        !message ||
+        message.type !== 'ai' ||
+        !message.title ||
+        !message.text
+      ) {
+        return;
+      }
+
+      const sourceMemoIds =
+        message.memoIds || convertMemoIdsToNumbers(selectedMemos);
+
+      try {
+        await saveAiMemoMutation.mutateAsync({
+          title: message.title,
+          content: message.text,
+          sourceMemoIds,
+        });
+        console.log('메모 저장 성공');
+      } catch (error) {
+        console.error('메모 저장 실패:', error);
+      }
+    },
+    [messages, selectedMemos, saveAiMemoMutation],
+  );
 
   return {
     isOpen: isAIOpen,
