@@ -8,9 +8,10 @@ import * as styles from './login-page.css';
 
 const LoginPage = () => {
   const handleGoogleLogin = () => {
-    const targetUrl = `${import.meta.env.VITE_API_BASE_URL}${LOGIN_END_POINT.LOGIN}`;
-    window.location.href = targetUrl;
+    const loginUrl = `${import.meta.env.VITE_API_BASE_URL}${LOGIN_END_POINT.LOGIN}`;
+    window.location.href = loginUrl;
   };
+
   return (
     <>
       <div className={styles.header}>
