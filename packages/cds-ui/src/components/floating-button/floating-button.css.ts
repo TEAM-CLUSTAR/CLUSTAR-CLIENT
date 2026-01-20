@@ -22,7 +22,6 @@ export const button = recipe({
   variants: {
     disabled: {
       true: {
-        opacity: 0.8,
         cursor: 'not-allowed',
         pointerEvents: 'none',
       },
