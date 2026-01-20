@@ -21,6 +21,7 @@
     "@tanstack/react-query": "^5.90.16",
     "@xyflow/react": "^12.10.0",
     "axios": "^1.13.2",
+    "quill": "^2.0.3",
     "quill-markdown-shortcuts": "^0.0.10",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",

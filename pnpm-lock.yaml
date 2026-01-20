@@ -123,6 +123,9 @@ importers:
       axios:
         specifier: ^1.13.2
         version: 1.13.2
+      quill:
+        specifier: ^2.0.3
+        version: 2.0.3
       quill-markdown-shortcuts:
         specifier: ^0.0.10
         version: 0.0.10

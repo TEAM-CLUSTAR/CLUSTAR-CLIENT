@@ -2,6 +2,7 @@ import { ReactNode, Suspense } from 'react';
 import { ErrorBoundary } from '@sentry/react';
 
 import { ErrorPage } from '@pages/error';
+import { LoadingPage } from '@pages/loading';
 
 interface GlobalLayoutBoundaryProps {
   children: ReactNode;
@@ -11,7 +12,7 @@ export default function GlobalErrorBoundary({
 }: GlobalLayoutBoundaryProps) {
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      <Suspense fallback={<p>loading...</p>}>{children}</Suspense>
+      <Suspense fallback={<LoadingPage />}>{children}</Suspense>
     </ErrorBoundary>
   );
 }

@@ -18,12 +18,12 @@ interface LabelSelectProps {
   onSelect: (items: LabelItem[]) => void;
 }
 
-const dropdownItems: LabelItem[] = (
-  Object.keys(LABEL_COLOR_BY_TEXT) as LabelTextType[]
-).map((text) => ({
-  id: text,
-  text: text,
-}));
+const dropdownItems: LabelItem[] = [
+  { id: 'project', text: '졸업 프로젝트' },
+  { id: 'general', text: '교양' },
+  { id: 'sopt', text: 'SOPT' },
+  { id: 'reference', text: '레퍼런스' },
+];
 
 const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);

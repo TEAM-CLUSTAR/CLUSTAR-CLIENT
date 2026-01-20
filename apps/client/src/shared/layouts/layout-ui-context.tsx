@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useLocation } from 'react-router';
 
 interface LayoutUIContextValue {
   // 사이드바 UI 상태
@@ -30,6 +31,17 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
   const [isAiMode, setIsAiMode] = useState(false);
   const [isPromptOpen, setIsPromptOpen] = useState(false);
   const prevExpandedStateRef = useRef<boolean>(true);
+  const location = useLocation();
+  const prevPathnameRef = useRef<string>(location.pathname);
+
+  // 페이지 이동 시 AI 모드 상태 초기화
+  useEffect(() => {
+    if (prevPathnameRef.current !== location.pathname) {
+      setIsAiMode(false);
+      setIsPromptOpen(false);
+      prevPathnameRef.current = location.pathname;
+    }
+  }, [location.pathname]);
 
   // isPromptOpen에 따라 사이드바 자동 닫기/열기
   useEffect(() => {

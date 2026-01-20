@@ -58,6 +58,7 @@ export const placeholder = style({
 
 export const dropdown = style({
   position: 'absolute',
+  zIndex: themeVars.zIndex.button,
 
   display: 'flex',
   flexDirection: 'column',
