@@ -128,7 +128,7 @@ const MemoCardGrid = ({
   onAiCreateClick,
 }: CardGridListProps) => {
   return (
-    <div className={styles.scrollContainer}>
+    <div className={styles.scrollContainer({ hasAiComponent })}>
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memoData.map((memo) => {
           const isSelected = selectedIds.has(memo.id);

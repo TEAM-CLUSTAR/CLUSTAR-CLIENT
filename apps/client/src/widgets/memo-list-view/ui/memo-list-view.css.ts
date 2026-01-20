@@ -11,7 +11,7 @@ export const container = recipe({
   variants: {
     isPromptOpen: {
       true: {
-        width: 'calc(100% - 58rem)',
+        width: 'calc(100% - 60rem)',
       },
       false: {},
     },
@@ -25,14 +25,17 @@ export const contentWrapper = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   },
   variants: {
     isPromptOpen: {
       true: {
         padding: '0',
+
+        alignItems: 'center',
       },
       false: {
-        padding: '0 7.6rem',
+        padding: '0',
       },
     },
   },

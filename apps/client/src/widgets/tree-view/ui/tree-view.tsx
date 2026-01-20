@@ -41,6 +41,7 @@ const ZOOM = {
 
 const TreeView = ({ data }: TreeViewProps) => {
   const { nodes, edges } = createNodeEdge(data);
+
   return (
     <div className={styles.container}>
       <ReactFlow

@@ -5,13 +5,14 @@ export const homePageContainer = recipe({
   base: {
     display: 'flex',
     justifyContent: 'center',
+    width: '100%',
     height: '100vh',
     overflow: 'hidden',
   },
   variants: {
     isPromptOpen: {
       true: {
-        width: 'calc(100% - 58rem)',
+        width: 'calc(100% - 60rem)',
       },
       false: {},
     },
@@ -25,15 +26,14 @@ export const contentWrapper = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   },
   variants: {
     isPromptOpen: {
       true: {
-        padding: '0',
+        alignItems: 'center',
       },
-      false: {
-        padding: '0 7.6rem',
-      },
+      false: {},
     },
   },
   defaultVariants: {
