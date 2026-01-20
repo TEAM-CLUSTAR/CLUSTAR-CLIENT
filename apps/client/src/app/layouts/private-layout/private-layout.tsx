@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import {
@@ -31,6 +32,14 @@ function PrivateLayoutContent() {
   const navigate = useNavigate();
   const { labelId } = useParams<{ labelId?: string }>();
   const { isExpanded, toggleSidebar, sidebarLocked } = useLayoutUI();
+
+  useEffect(() => {
+    const code = new URLSearchParams(location.search).get('code');
+
+    if (code) {
+      navigate(`${PATH.LOGIN_CALLBACK}${location.search}`, { replace: true });
+    }
+  }, [location.search, navigate]);
 
   const selectedId = getMenuIdByPath(location.pathname, labelId);
   const effectiveExpanded = isExpanded && !sidebarLocked;
