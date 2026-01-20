@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { useGetAllMemo } from '@pages/all-memo/api/queries';
+import {
+  useGetAllMemo,
+  useGetMemoTotalCount,
+} from '@pages/all-memo/api/queries';
 
 import {
   MemoListView,
@@ -29,9 +32,14 @@ const LabelPage = () => {
     return LABEL_META[labelId];
   }, [labelId]);
 
-  const { data: labeledMemos } = useGetAllMemo(
-    labelMeta ? [labelMeta.id] : undefined,
-  );
+  const {
+    data: labeledMemos,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGetAllMemo(labelMeta ? [labelMeta.id] : undefined);
+
+  const { data: totalCount } = useGetMemoTotalCount();
 
   const handleAiCreateClick = (
     memoId: string,
@@ -46,6 +54,10 @@ const LabelPage = () => {
       title={labelMeta?.text}
       initialMemos={labeledMemos}
       onAiCreateClick={handleAiCreateClick}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+      totalCount={totalCount}
     />
   );
 };

@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 
-import { useGetAllMemo } from '@pages/all-memo/api/queries';
+import {
+  useGetAllMemo,
+  useGetMemoTotalCount,
+} from '@pages/all-memo/api/queries';
 
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
@@ -9,10 +12,17 @@ import {
 } from '@widgets/memo-list-view';
 
 const AiResultsPage = () => {
-  const { data: allMemos } = useGetAllMemo();
+  const {
+    data: allMemos,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGetAllMemo();
   const aiResultMemos = useMemo<MockMemo[]>(() => {
     return allMemos?.filter((memo) => memo.aiResult) ?? [];
   }, [allMemos]);
+
+  const { data: totalCount } = useGetMemoTotalCount();
 
   const handleAiCreateClick = (
     memoId: string,
@@ -27,6 +37,10 @@ const AiResultsPage = () => {
       title="AI 결과물"
       initialMemos={aiResultMemos}
       onAiCreateClick={handleAiCreateClick}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+      totalCount={totalCount}
     />
   );
 };
