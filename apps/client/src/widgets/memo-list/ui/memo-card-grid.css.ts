@@ -46,7 +46,7 @@ export const scrollContainer = recipe({
 
   variants: {
     hasAiComponent: {
-      true: { width: 'min-content' },
+      true: { width: 'calc(min-content - 12px)' },
       false: { width: 'auto' },
     },
   },

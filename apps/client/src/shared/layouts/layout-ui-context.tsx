@@ -21,6 +21,9 @@ interface LayoutUIContextValue {
   setIsAiMode: Dispatch<SetStateAction<boolean>>;
   isPromptOpen: boolean;
   setIsPromptOpen: Dispatch<SetStateAction<boolean>>;
+  // 트리뷰 상태
+  isTreeViewOpen: boolean;
+  setIsTreeViewOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const LayoutUIContext = createContext<LayoutUIContextValue | null>(null);
@@ -30,6 +33,7 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
   const [sidebarLocked, setSidebarLocked] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
   const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const [isTreeViewOpen, setIsTreeViewOpen] = useState(false);
   const prevExpandedStateRef = useRef<boolean>(true);
   const location = useLocation();
   const prevPathnameRef = useRef<string>(location.pathname);
@@ -39,13 +43,14 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
     if (prevPathnameRef.current !== location.pathname) {
       setIsAiMode(false);
       setIsPromptOpen(false);
+      setIsTreeViewOpen(false);
       prevPathnameRef.current = location.pathname;
     }
   }, [location.pathname]);
 
   // isPromptOpen에 따라 사이드바 자동 닫기/열기
   useEffect(() => {
-    if (isPromptOpen) {
+    if (isPromptOpen || isTreeViewOpen) {
       // 프롬프트가 열릴 때 사이드바가 열려있으면 닫고 이전 상태 저장
       setIsExpanded((prev) => {
         if (prev) {
@@ -58,10 +63,11 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
       // 프롬프트가 닫히면 이전 상태로 복원
       setIsExpanded(prevExpandedStateRef.current);
     }
-  }, [isPromptOpen]);
+  }, [isPromptOpen, isTreeViewOpen]);
 
   const toggleSidebar = () => {
     if (isPromptOpen) return;
+    if (isTreeViewOpen) return;
     setIsExpanded((prev) => !prev);
   };
 
@@ -76,6 +82,8 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
         setIsAiMode,
         isPromptOpen,
         setIsPromptOpen,
+        isTreeViewOpen,
+        setIsTreeViewOpen,
       }}
     >
       {children}

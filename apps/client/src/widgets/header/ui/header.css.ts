@@ -2,8 +2,9 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const header = style({
-  display: 'flex',
+  display: 'inline-flex',
   justifyContent: 'center',
+  width: '100%',
 });
 
 export const container = recipe({

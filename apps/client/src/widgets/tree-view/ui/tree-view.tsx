@@ -1,4 +1,11 @@
-import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
+import { useEffect } from 'react';
+import {
+  Controls,
+  EdgeTypes,
+  NodeTypes,
+  ReactFlow,
+  useReactFlow,
+} from '@xyflow/react';
 
 import { LabelTextType } from '@shared/types/label-type';
 import { MemoInfoTypes } from '@shared/types/memo-info-type';
@@ -41,6 +48,7 @@ const ZOOM = {
 
 const TreeView = ({ data }: TreeViewProps) => {
   const { nodes, edges } = createNodeEdge(data);
+
   return (
     <div className={styles.container}>
       <ReactFlow
