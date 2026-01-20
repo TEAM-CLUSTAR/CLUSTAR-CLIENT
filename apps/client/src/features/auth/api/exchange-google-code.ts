@@ -1,6 +1,6 @@
 import { api } from '@shared/api/instance';
 
-import { END_POINT } from '@features/auth/model/end_point';
+import { END_POINT } from './end-point';
 
 export interface GoogleLoginResult {
   accessToken: string;
