@@ -1,4 +1,4 @@
-import { ChangeEvent, UIEvent, useRef } from 'react';
+import { ChangeEvent, type FocusEvent, UIEvent, useState } from 'react';
 
 import * as styles from './input-title.css';
 
@@ -10,7 +10,7 @@ interface InputTitleProps {
 const MAX_LENGTH = 55;
 
 const InputTitle = ({ title, onChange }: InputTitleProps) => {
-  const isFocused = useRef(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= MAX_LENGTH) {
@@ -19,26 +19,28 @@ const InputTitle = ({ title, onChange }: InputTitleProps) => {
   };
 
   const handleScroll = (e: UIEvent<HTMLInputElement>) => {
-    if (!isFocused.current) {
+    if (!isFocused) {
       e.currentTarget.scrollLeft = 0;
     }
+  };
+
+  const handleFocus = () => setIsFocused(true);
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false);
+    e.currentTarget.scrollLeft = 0;
   };
 
   return (
     <input
       className={styles.container}
-      placeholder="제목을 입력하세요."
+      placeholder={isFocused ? undefined : '제목을 입력하세요.'}
       maxLength={MAX_LENGTH}
       value={title}
       onChange={handleChange}
       onScroll={handleScroll}
-      onFocus={() => {
-        isFocused.current = true;
-      }}
-      onBlur={(e) => {
-        isFocused.current = false;
-        e.target.scrollLeft = 0;
-      }}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     />
   );
 };

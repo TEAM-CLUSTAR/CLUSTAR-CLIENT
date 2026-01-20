@@ -25,9 +25,9 @@ export const container = recipe({
   variants: {
     labelColor: {
       blue: { borderLeft: `3.5px solid ${themeVars.color.label03}` },
-      green: { borderLeft: `3.5px solid ${themeVars.color.label01}` },
-      pink: { borderLeft: `3.5px solid ${themeVars.color.label05}` },
-      purple: { borderLeft: `3.5px solid ${themeVars.color.label07}` },
+      green: { borderLeft: `3.5px solid ${themeVars.color.label05}` },
+      pink: { borderLeft: `3.5px solid ${themeVars.color.label07}` },
+      purple: { borderLeft: `3.5px solid ${themeVars.color.label01}` },
       grey: { borderLeft: `3.5px solid ${themeVars.color.grey600}` },
     },
   },

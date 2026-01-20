@@ -16,9 +16,9 @@ export const container = recipe({
   variants: {
     labelColor: {
       blue: { backgroundColor: themeVars.color.label04 },
-      green: { backgroundColor: themeVars.color.label02 },
-      pink: { backgroundColor: themeVars.color.label06 },
-      purple: { backgroundColor: themeVars.color.label08 },
+      green: { backgroundColor: themeVars.color.label06 },
+      pink: { backgroundColor: themeVars.color.label08 },
+      purple: { backgroundColor: themeVars.color.label02 },
       grey: { backgroundColor: themeVars.color.grey300 },
     },
   },
@@ -35,9 +35,9 @@ export const title = recipe({
   variants: {
     labelColor: {
       blue: { color: themeVars.color.label03 },
-      green: { color: themeVars.color.label01 },
-      pink: { color: themeVars.color.label05 },
-      purple: { color: themeVars.color.label07 },
+      green: { color: themeVars.color.label05 },
+      pink: { color: themeVars.color.label07 },
+      purple: { color: themeVars.color.label01 },
       grey: { color: themeVars.color.grey600 },
     },
   },
