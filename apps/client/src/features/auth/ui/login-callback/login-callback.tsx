@@ -33,7 +33,7 @@ const LoginCallback = () => {
 
         setAccessToken(response.accessToken);
 
-        navigate('/', { replace: true });
+        navigate(PATH.NEW_MEMO, { replace: true });
       } catch (error) {
         console.error('로그인 실패:', error);
         navigate(PATH.LOGIN, { replace: true });

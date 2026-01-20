@@ -6,19 +6,27 @@ export interface GoogleLoginResult {
   accessToken: string;
 }
 
-export const exchangeGoogleCode = async (code: string) => {
-  const response = await api.get(
-    `${END_POINT.LOGIN.EXCHANGE_GOOGLE_CODE}?code=${encodeURIComponent(code)}`,
-  );
+export const exchangeGoogleCode = async (
+  code: string,
+): Promise<GoogleLoginResult> => {
+  const response = await api.get(END_POINT.LOGIN.EXCHANGE_GOOGLE_CODE, {
+    params: { code },
+  });
 
   const authHeader =
-    response.headers['authorization'] || response.headers['Authorization'];
+    response.headers?.authorization ?? response.headers?.Authorization;
 
-  if (!authHeader || typeof authHeader !== 'string') {
-    throw new Error('Authorization 헤더를 찾을 수 없습니다.');
+  if (!authHeader) {
+    throw new Error(
+      `Missing Authorization header (status: ${response.status})`,
+    );
   }
 
   const accessToken = authHeader.replace(/^Bearer\s+/i, '');
+
+  if (!accessToken) {
+    throw new Error('Access Token이 비어있거나 형식이 잘못되었습니다.');
+  }
 
   return { accessToken };
 };
