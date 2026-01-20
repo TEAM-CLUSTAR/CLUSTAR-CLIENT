@@ -118,7 +118,7 @@ interface CardGridListProps {
   onAiCreateClick?: (memoId: string) => void;
 }
 
-const CardGridList = ({
+const MemoCardGrid = ({
   memoData,
   isAiMode,
   selectedIds,
@@ -150,4 +150,4 @@ const CardGridList = ({
   );
 };
 
-export default CardGridList;
+export default MemoCardGrid;
