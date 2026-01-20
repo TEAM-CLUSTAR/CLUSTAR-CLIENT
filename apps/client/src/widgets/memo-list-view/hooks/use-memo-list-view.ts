@@ -8,6 +8,8 @@ import { PATH } from '@shared/router/path';
 
 import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
 
+import { useCreateChatRoom, useDeleteChatRoom } from '../api/queries';
+
 export interface MemoListViewHelpers {
   setIsAiMode: (value: boolean) => void;
   selectFunction: (id: string) => void;
@@ -38,10 +40,14 @@ export const useMemoListView = ({
   const [pendingNavigation, setPendingNavigation] = useState<
     (() => void) | null
   >(null);
+  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const isPromptOpenRef = useRef(isPromptOpen);
   const isResettingRef = useRef(false);
+
+  const { mutate: createChatRoom } = useCreateChatRoom();
+  const { mutate: deleteChatRoom } = useDeleteChatRoom();
 
   const {
     searchInput,
@@ -131,9 +137,25 @@ export const useMemoListView = ({
     setIsAiMode(true);
   };
 
-  // 정리 진행하기 버튼 클릭 시 AI 프롬프트 열기
+  // 정리 진행하기 버튼 클릭 시 AI 채팅방 생성 후 프롬프트 열기
   const handleStartPrompt = () => {
-    setIsPromptOpen(true);
+    if (selectedMemos.length === 0) return;
+
+    setIsLoading(true);
+    createChatRoom(undefined, {
+      onSuccess: (data) => {
+        const roomId = data.data?.chatRoomId;
+        if (roomId) {
+          setChatRoomId(roomId);
+        }
+        setIsPromptOpen(true);
+        setIsLoading(false);
+      },
+      onError: (error) => {
+        console.error('채팅방 생성 실패:', error);
+        setIsLoading(false);
+      },
+    });
   };
 
   // AI 프롬프트 닫기 시도 시 AlertModal 표시
@@ -165,6 +187,9 @@ export const useMemoListView = ({
   const handleConfirmAlertModal = () => {
     setIsClosing(true);
     setTimeout(() => {
+      if (chatRoomId) {
+        deleteChatRoom({ chatRoomId });
+      }
       setShowAlertModal(false);
       setIsClosing(false);
       setIsPromptOpen(false);
@@ -174,6 +199,7 @@ export const useMemoListView = ({
         pendingNavigation();
         setPendingNavigation(null);
       }
+      setChatRoomId(null);
     }, 200);
   };
 

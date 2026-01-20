@@ -50,7 +50,7 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 메모 전체 조회
+     * 대시보드 메모 전체 조회
      * @description 메모를 전체 조회합니다.
      *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
@@ -103,8 +103,8 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * AI 메모 작성
-     * @description AI 응답 결과를 기반으로 메모를 작성합니다.
+     * AI가 만든 메모 저장
+     * @description AI 응답 결과를 기반으로 메모를 등록요청을 하는 API입니다.
      *     제목과 본문을 분리해서 전달해야 합니다.
      */
     post: operations['createAiMemo'];
@@ -114,7 +114,31 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/ai/memo': {
+  '/api/v1/chat-rooms': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * AI 채팅방 전체 조회
+     * @description 로그인한 사용자의 AI 채팅방 목록을 조회합니다.
+     */
+    get: operations['getChatRooms'];
+    put?: never;
+    /**
+     * AI 채팅방 생성
+     * @description 새로운 AI 채팅방을 생성합니다.
+     */
+    post: operations['createChatRoom'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chat-rooms/{chatRoomId}/chat': {
     parameters: {
       query?: never;
       header?: never;
@@ -124,15 +148,16 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 메모 기반 AI 응답 생성
+     * AI 채팅 응답 생성
      * @description 선택한 메모들을 기반으로 RAG를 수행하여
      *     AI 응답을 생성합니다.
      *
-     *     - userPrompt: 사용자의 질문
-     *     - option: AI 처리 전략 (MERGE, STRUCTURE, SUMMARY)
-     *     - memoIds: 참조할 메모 ID 목록
+     *     - chatRoomId : AI 대화 세션 ID
+     *     - userPrompt : 사용자의 질문
+     *     - option     : AI 처리 전략 (MERGE, STRUCTURE, SUMMARY)
+     *     - memoIds    : 참조할 메모 ID 목록
      *
-     *     기본 AI 채팅/요약/정리 용도로 사용됩니다.
+     *     채팅방(chatRoom) 단위로 대화 컨텍스트가 유지됩니다.
      */
     post: operations['generateMemoAi'];
     delete?: never;
@@ -141,7 +166,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/ai/memo/for-plan': {
+  '/api/v1/chat-rooms/{chatRoomId}/chat/for-plan': {
     parameters: {
       query?: never;
       header?: never;
@@ -181,6 +206,16 @@ export interface paths {
      *     - 사용자 요청이 요구한 작업을 제대로 수행했는지를 나타내는 지표
      *     - true  : 요청 의도에 맞는 작업 수행
      *     - false : 작업 미이행 또는 의도 불일치
+     *
+     *     ---
+     *     모델 선택 방법
+     *
+     *     - gemini-3-flash-preview
+     *     - gemini-2.5-pro
+     *     - gemini-2.5-flash
+     *     - gemini-2.5-flash-lite
+     *     - gemini-2.0-flash
+     *     - gemini-2.0-flash-lite
      */
     post: operations['generateMemoAiForPlan'];
     delete?: never;
@@ -231,6 +266,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/user': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 유저 정보 조회
+     * @description 유저 정보를 조회하여, 이름, 이메일, 프로필이미지를 올립니다.
+     */
+    get: operations['getUserInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memo/{memoId}': {
     parameters: {
       query?: never;
@@ -258,6 +313,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memo/structure': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 구조화뷰 메모 전체 조회
+     * @description 구조화뷰를 위한 전체 메모를 조회합니다.
+     */
+    get: operations['getStructureMemo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chat-rooms/latest': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 최근 AI 채팅방 단일 조회
+     * @description 로그인한 사용자의 최근 AI 채팅방을 조회합니다.
+     */
+    get: operations['findLatestChatRoomByUser'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/access': {
     parameters: {
       query?: never;
@@ -273,6 +368,26 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chat-rooms/{chatRoomId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * AI 채팅방 삭제
+     * @description AI 채팅방을 삭제합니다. (Soft Delete)
+     */
+    delete: operations['deleteChatRoom'];
     options?: never;
     head?: never;
     patch?: never;
@@ -486,10 +601,20 @@ export interface components {
       content: string;
       sourceMemoIds: number[];
     };
+    ApiResponseCreateChatRoomResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['CreateChatRoomResponse'];
+    };
+    CreateChatRoomResponse: {
+      /** Format: int64 */
+      chatRoomId?: number;
+    };
     MemoAiRequest: {
       userPrompt?: string;
       /** @enum {string} */
-      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY';
+      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
       memoIds: number[];
     };
     ApiResponseMemoAiResponse: {
@@ -502,7 +627,7 @@ export interface components {
       title?: string;
       content?: string;
       /** @enum {string} */
-      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY';
+      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
       memoIds?: number[];
       usedPrompt?: string;
     };
@@ -518,15 +643,7 @@ export interface components {
        * @example MERGE
        * @enum {string}
        */
-      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY';
-      /**
-       * @description 플랜에서 정의한 System Prompt
-       * @example 너는 컴퓨터공학 전공 시험 대비를 돕는 AI 튜터다.
-       *     - 핵심 개념 위주로 정리한다
-       *     - 시간 복잡도와 목적을 명확히 설명한다
-       *     - 불필요한 장황한 설명은 피한다
-       */
-      systemPrompt: string;
+      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
       /**
        * @description AI가 참조할 메모 ID 목록
        * @example [
@@ -536,6 +653,25 @@ export interface components {
        *     ]
        */
       memoIds: number[];
+      /**
+       * @description 플랜에서 정의한 System Prompt
+       * @example 너는 컴퓨터공학 전공 시험 대비를 돕는 AI 튜터다.
+       *     - 핵심 개념 위주로 정리한다
+       *     - 시간 복잡도와 목적을 명확히 설명한다
+       *     - 불필요한 장황한 설명은 피한다
+       */
+      systemPrompt: string;
+      /**
+       * @description 모델 정의
+       * @example gemini-3-flash-preview
+       */
+      model: string;
+      /**
+       * Format: double
+       * @description temperature 정의
+       * @example 0.7
+       */
+      temperature: number;
     };
     AiEvaluationResult: {
       /** Format: double */
@@ -555,6 +691,19 @@ export interface components {
     MemoAiResponseForPlan: {
       aiResponse?: components['schemas']['MemoAiResponse'];
       evaluation?: components['schemas']['AiEvaluationResult'];
+    };
+    ApiResponseUserInfoResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['UserInfoResponse'];
+    };
+    UserInfoResponse: {
+      /** Format: int64 */
+      userId?: number;
+      name?: string;
+      email?: string;
+      profileImageUrl?: string;
     };
     ApiResponseMemoListDashboardResponse: {
       /** Format: int32 */
@@ -581,7 +730,7 @@ export interface components {
       isAiGenerated?: boolean;
       /** Format: date-time */
       createdAt?: string;
-      labels?: components['schemas']['LabelResponse'][];
+      labelList?: components['schemas']['LabelResponse'][];
     };
     MemoListDashboardResponse: {
       memos?: components['schemas']['MemoDashboardResponse'][];
@@ -665,16 +814,8 @@ export interface components {
       images?: components['schemas']['ImageInfo'][];
       /** @description 첨부 파일 정보 목록 */
       files?: components['schemas']['FileInfo'][];
-      /**
-       * @description 메모에 딸린 라벨들
-       * @example [
-       *       "SOPT",
-       *       "졸업프로젝트",
-       *       "교양",
-       *       "레퍼런스"
-       *     ]
-       */
-      labelList?: string[];
+      /** @description 메모에 딸린 라벨들 */
+      labelList?: components['schemas']['LabelResponse'][];
       /**
        * Format: date-time
        * @description 메모 생성 시각
@@ -694,6 +835,58 @@ export interface components {
        *     ]
        */
       sourceList?: number[];
+    };
+    ApiResponseMemoStructureListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['MemoStructureListResponse'];
+    };
+    MemoStructureListResponse: {
+      /** @description 구조화뷰 메모 목록 */
+      memos?: components['schemas']['MemoStructureResponse'][];
+    };
+    /** @description 구조화뷰 메모 목록 */
+    MemoStructureResponse: {
+      /**
+       * Format: int64
+       * @description 메모 ID
+       * @example 1
+       */
+      memoId?: number;
+      /**
+       * @description 메모 제목
+       * @example 집에 빨리 가는 법
+       */
+      title?: string;
+      /**
+       * @description 메모 내용
+       * @example 발박수 치며 날아 간다.
+       */
+      content?: string;
+      /** @description 메모에 딸린 라벨 목록 */
+      labelList?: components['schemas']['LabelResponse'][];
+    };
+    ApiResponseChatRoomListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['ChatRoomListResponse'];
+    };
+    ChatRoomListResponse: {
+      chatRooms?: components['schemas']['ChatRoomResponse'][];
+    };
+    ChatRoomResponse: {
+      /** Format: int64 */
+      chatRoomId?: number;
+      /** Format: date-time */
+      createdAt?: string;
+    };
+    ApiResponseChatRoomResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['ChatRoomResponse'];
     };
   };
   responses: never;
@@ -1137,11 +1330,53 @@ export interface operations {
       };
     };
   };
-  generateMemoAi: {
+  getChatRooms: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseChatRoomListResponse'];
+        };
+      };
+    };
+  };
+  createChatRoom: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseCreateChatRoomResponse'];
+        };
+      };
+    };
+  };
+  generateMemoAi: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        chatRoomId: number;
+      };
       cookie?: never;
     };
     requestBody: {
@@ -1165,7 +1400,9 @@ export interface operations {
     parameters: {
       query?: never;
       header?: never;
-      path?: never;
+      path: {
+        chatRoomId: number;
+      };
       cookie?: never;
     };
     requestBody: {
@@ -1317,6 +1554,26 @@ export interface operations {
         };
         content: {
           'application/json': unknown;
+        };
+      };
+    };
+  };
+  getUserInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseUserInfoResponse'];
         };
       };
     };
@@ -1477,6 +1734,46 @@ export interface operations {
       };
     };
   };
+  getStructureMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoStructureListResponse'];
+        };
+      };
+    };
+  };
+  findLatestChatRoomByUser: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseChatRoomResponse'];
+        };
+      };
+    };
+  };
   createAccess: {
     parameters: {
       query?: never;
@@ -1493,6 +1790,28 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseString'];
+        };
+      };
+    };
+  };
+  deleteChatRoom: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        chatRoomId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseVoid'];
         };
       };
     };
