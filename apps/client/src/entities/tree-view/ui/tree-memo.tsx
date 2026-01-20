@@ -1,5 +1,3 @@
-import { DetailModal } from '@cds/ui';
-
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
