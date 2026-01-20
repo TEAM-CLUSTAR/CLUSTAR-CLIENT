@@ -1,3 +1,4 @@
+import AuthGuard from '@app/layouts/auth-guard';
 import GlobalLayout from '@app/layouts/global-layout';
 import PrivateLayout from '@app/layouts/private-layout/private-layout';
 import PublicLayout from '@app/layouts/public-layout';
@@ -8,6 +9,12 @@ import { NotFoundPage } from '@pages/not-found';
 import { privateRoutes } from './routes/private-route';
 import { publicRoutes } from './routes/public-route';
 
+const privateGuardElement = (
+  <AuthGuard>
+    <PrivateLayout />
+  </AuthGuard>
+);
+
 export const router = createBrowserRouter([
   {
     Component: GlobalLayout,
@@ -17,7 +24,7 @@ export const router = createBrowserRouter([
         children: publicRoutes,
       },
       {
-        Component: PrivateLayout,
+        element: privateGuardElement,
         children: privateRoutes,
       },
       {
