@@ -1,3 +1,4 @@
+import { formatDate } from '@shared/libs/format-date';
 import { LabelTextType } from '@shared/types/label-type';
 import { components } from '@shared/types/schema';
 
@@ -48,7 +49,7 @@ export const mapApiMemoToMockMemo = (m: ApiMemo): MockMemo => {
     fileCount: m.fileCount ?? 0,
     imageCount: m.imageCount ?? 0,
     aiResult: m.isAiGenerated ?? false,
-    date: m.createdAt ?? '',
+    date: formatDate(m.createdAt ?? ''),
     imageUrl: m.representativeImageUrl ?? undefined,
     imageAlt: undefined,
     isSelectedCard: false,

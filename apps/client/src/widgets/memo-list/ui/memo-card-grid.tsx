@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Card, DetailModal } from '@cds/ui';
 
@@ -116,6 +116,9 @@ interface CardGridListProps {
   hasAiComponent?: boolean;
   disabled?: boolean;
   onAiCreateClick?: (memoId: string) => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  onLoadMore?: () => void;
 }
 
 const MemoCardGrid = ({
@@ -126,9 +129,36 @@ const MemoCardGrid = ({
   hasAiComponent = false,
   disabled = false,
   onAiCreateClick,
+  hasNextPage = false,
+  isFetchingNextPage = false,
+  onLoadMore,
 }: CardGridListProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer || !onLoadMore || !hasNextPage || isFetchingNextPage) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const scrollBottom = scrollHeight - scrollTop - clientHeight;
+
+      if (scrollBottom < 200) {
+        onLoadMore();
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasNextPage, isFetchingNextPage, onLoadMore]);
+
   return (
-    <div className={styles.scrollContainer}>
+    <div ref={scrollContainerRef} className={styles.scrollContainer}>
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memoData.map((memo) => {
           const isSelected = selectedIds.has(memo.id);

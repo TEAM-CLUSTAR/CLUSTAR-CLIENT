@@ -17,6 +17,10 @@ export interface MemoListViewProps {
   count?: number;
   initialMemos?: MockMemo[];
   onAiCreateClick?: (memoId: string, helpers: MemoListViewHelpers) => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  fetchNextPage?: () => void;
+  totalCount?: number;
 }
 
 const MemoListView = ({
@@ -24,6 +28,10 @@ const MemoListView = ({
   count,
   initialMemos,
   onAiCreateClick,
+  hasNextPage = false,
+  isFetchingNextPage = false,
+  fetchNextPage,
+  totalCount,
 }: MemoListViewProps) => {
   const {
     viewMode,
@@ -59,7 +67,7 @@ const MemoListView = ({
       <div className={styles.contentWrapper({ isPromptOpen })}>
         <Header
           title={title}
-          count={memoCount}
+          count={totalCount ?? memoCount}
           inputValue={searchInput}
           handleChangeInput={handleChangeInput}
           viewMode={viewMode}
@@ -75,6 +83,9 @@ const MemoListView = ({
           hasAiComponent={isPromptOpen}
           disabled={isLoading || isPromptOpen}
           onAiCreateClick={handleAiCreateClick}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          onLoadMore={fetchNextPage}
         />
       </div>
 
