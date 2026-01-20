@@ -25,7 +25,39 @@ export const headerContainer = style({
   gap: '1.2rem',
   display: 'flex',
   alignItems: 'center',
+  minWidth: 0, // flex 아이템이 축소될 수 있도록
 });
+
+export const titleWrapper = style({
+  flex: 1,
+  minWidth: 0,
+  maxWidth: '100%',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.4rem',
+});
+
+export const titleContainer = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 0, // flex 아이템이 축소될 수 있도록
+  },
+  variants: {
+    isAiResult: {
+      true: { gap: '0.4rem' },
+      false: {},
+    },
+  },
+});
+
+export const titleTextWrapper = style({
+  flex: 1,
+  minWidth: 0, // 제목이 넘칠 때 ellipsis가 작동하도록
+  overflow: 'hidden',
+});
+
 export const icon = style({
   backgroundColor: themeVars.color.blue50,
   borderRadius: '8px',
@@ -39,7 +71,76 @@ export const aiSummary = style({
 
 export const content = style({
   width: themeVars.width.full,
-  whiteSpace: 'pre-wrap',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
+
+  // 마크다운 스타일링
+  '& h1, & h2, & h3, & h4, & h5, & h6': {
+    marginTop: '1.6rem',
+    marginBottom: '0.8rem',
+    fontWeight: 'bold',
+  },
+  '& h1': {
+    fontSize: '2rem',
+  },
+  '& h2': {
+    fontSize: '1.75rem',
+  },
+  '& h3': {
+    fontSize: '1.5rem',
+  },
+  '& p': {
+    marginBottom: '1rem',
+    lineHeight: '1.6',
+  },
+  '& ul, & ol': {
+    marginLeft: '2rem',
+    marginBottom: '1rem',
+  },
+  '& li': {
+    marginBottom: '0.5rem',
+  },
+  '& blockquote': {
+    borderLeft: `4px solid ${themeVars.color.grey300}`,
+    paddingLeft: '1.6rem',
+    marginLeft: 0,
+    marginBottom: '1rem',
+    fontStyle: 'italic',
+    color: themeVars.color.grey600,
+  },
+  '& code': {
+    backgroundColor: themeVars.color.grey100,
+    padding: '0.2rem 0.4rem',
+    borderRadius: '4px',
+    fontSize: '0.9em',
+    fontFamily: 'monospace',
+  },
+  '& pre': {
+    backgroundColor: themeVars.color.grey100,
+    padding: '1.6rem',
+    borderRadius: '8px',
+    overflow: 'auto',
+    marginBottom: '1rem',
+    '& code': {
+      backgroundColor: 'transparent',
+      padding: 0,
+    },
+  },
+  '& a': {
+    color: themeVars.color.blue500,
+    textDecoration: 'underline',
+    '&:hover': {
+      color: themeVars.color.blue600,
+    },
+  },
+  '& img': {
+    maxWidth: '100%',
+    height: 'auto',
+    marginBottom: '1rem',
+  },
+  '& hr': {
+    border: 'none',
+    borderTop: `1px solid ${themeVars.color.grey300}`,
+    margin: '2rem 0',
+  },
 });
