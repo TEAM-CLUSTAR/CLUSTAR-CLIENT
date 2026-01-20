@@ -1,9 +1,12 @@
 import { AlertModal, FloatingButton } from '@cds/ui';
 
+import { treeViewDummy } from '@pages/all-memo/api/tree-view-dummy';
+
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
+import { TreeView } from '@widgets/tree-view';
 
 import {
   type MemoListViewHelpers,
@@ -24,7 +27,7 @@ export interface MemoListViewProps {
 }
 
 const MemoListView = ({
-  title = '메모',
+  title = '전체 메모',
   count,
   initialMemos,
   onAiCreateClick,
@@ -75,18 +78,21 @@ const MemoListView = ({
           isAiMode={isPromptOpen}
           onSearchEnter={handleSearchEnter}
         />
-        <CardGridList
-          memoData={filteredMemos}
-          isAiMode={isAiMode}
-          selectedIds={selectedCardIds}
-          onAiSelectToggle={handleCardClick}
-          hasAiComponent={isPromptOpen}
-          disabled={isLoading || isPromptOpen}
-          onAiCreateClick={handleAiCreateClick}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          onLoadMore={fetchNextPage}
-        />
+        {viewMode === 'card' && (
+          <CardGridList
+            memoData={filteredMemos}
+            isAiMode={isAiMode}
+            selectedIds={selectedCardIds}
+            onAiSelectToggle={handleCardClick}
+            hasAiComponent={isPromptOpen}
+            disabled={isLoading || isPromptOpen}
+            onAiCreateClick={handleAiCreateClick}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            onLoadMore={fetchNextPage}
+          />
+        )}
+        {viewMode === 'tree' && <TreeView data={treeViewDummy} />}
       </div>
 
       {isPromptOpen && (
@@ -100,7 +106,7 @@ const MemoListView = ({
         </div>
       )}
 
-      {!isAiMode && (
+      {!isAiMode && viewMode === 'card' && (
         <div className={styles.floatingButtonContainer}>
           <FloatingButton isActive={false} handleClick={handleStartAiMode}>
             AI로 정리하기
@@ -108,7 +114,7 @@ const MemoListView = ({
         </div>
       )}
 
-      {isAiMode && !isPromptOpen && (
+      {isAiMode && !isPromptOpen && viewMode === 'card' && (
         <div className={styles.floatingButtonContainer}>
           <FloatingButton
             isActive={true}

@@ -24,8 +24,13 @@ export const useMemoListView = ({
   initialMemos,
   onAiCreateClick,
 }: UseMemoListViewProps) => {
-  const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } =
-    useLayoutUI();
+  const {
+    isAiMode,
+    setIsAiMode,
+    isPromptOpen,
+    setIsPromptOpen,
+    setIsTreeViewOpen,
+  } = useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -86,6 +91,10 @@ export const useMemoListView = ({
     setShowAlertModal(true);
   };
 
+  const handleOpenTreeView = () => {
+    setIsTreeViewOpen(true);
+  };
+
   // AlertModal 닫기
   const handleCloseAlertModal = () => {
     setIsClosing(true);
@@ -109,6 +118,9 @@ export const useMemoListView = ({
   // 뷰 모드 변경 시 뷰 모드 설정
   const handleValueChange = (value: string) => {
     setViewMode(value);
+
+    if (value === 'tree') setIsTreeViewOpen(true);
+    else setIsTreeViewOpen(false);
   };
 
   return {
@@ -133,6 +145,7 @@ export const useMemoListView = ({
     handleCloseAlertModal,
     handleConfirmAlertModal,
     handleValueChange,
+    handleOpenTreeView,
     setIsLoading,
   };
 };
