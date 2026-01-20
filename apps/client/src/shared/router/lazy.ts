@@ -7,9 +7,6 @@ export const LoginPage = lazy(() => import('@pages/login/ui/login-page'));
 export const AllMemoPage = lazy(
   () => import('@pages/all-memo/ui/all-memo-page'),
 );
-export const LoginCallbackPage = lazy(
-  () => import('@pages/login-callback/login-callback-page'),
-);
 export const AiResultsPage = lazy(
   () => import('@pages/ai-results/ui/ai-results-page'),
 );
