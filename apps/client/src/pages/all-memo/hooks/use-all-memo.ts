@@ -13,7 +13,10 @@ interface UseMemoSearchReturn {
   handleSearchEnter: () => void;
 }
 
-const useMemoSearch = (count?: number): UseMemoSearchReturn => {
+const useMemoSearch = (
+  count?: number,
+  initialMemos: MockMemo[] = MOCK_MEMOS,
+): UseMemoSearchReturn => {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -32,15 +35,15 @@ const useMemoSearch = (count?: number): UseMemoSearchReturn => {
 
   // 검색 필터링된 메모 목록
   const filteredMemos: MockMemo[] = useMemo(() => {
-    if (!searchQuery) return MOCK_MEMOS;
+    if (!searchQuery) return initialMemos;
 
     const query = searchQuery.toLowerCase();
-    return MOCK_MEMOS.filter(
+    return initialMemos.filter(
       (memo) =>
         memo.title.toLowerCase().includes(query) ||
         memo.contents.toLowerCase().includes(query),
     );
-  }, [searchQuery]);
+  }, [searchQuery, initialMemos]);
 
   // 메모 개수
   const memoCount = useMemo(() => {
@@ -62,11 +65,13 @@ interface UseMemoSelectionReturn {
   selectedMemos: SelectedMemo[];
   handleCardClick: (id: string) => void;
   setInitialSelectedId: (id: string) => void;
+  addSelectedId: (id: string) => void;
 }
 
 const useMemoSelection = (
   isAiMode: boolean,
   isLoading: boolean,
+  initialMemos: MockMemo[] = MOCK_MEMOS,
 ): UseMemoSelectionReturn => {
   const [selectedCardIds, setSelectedCardIds] = useState<Set<string>>(
     new Set(),
@@ -90,9 +95,20 @@ const useMemoSelection = (
     [isLoading],
   );
 
-  // 초기 선택된 메모 ID 설정
+  // 초기 선택된 메모 ID 설정 (기존 선택 덮어쓰기)
   const setInitialSelectedId = useCallback((id: string) => {
     setSelectedCardIds(new Set([id]));
+  }, []);
+
+  // 기존 선택 유지하면서 메모 ID 추가
+  const addSelectedId = useCallback((id: string) => {
+    setSelectedCardIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.size < 5 && !newSet.has(id)) {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   }, []);
 
   // AI 모드 종료 시 선택 초기화
@@ -105,11 +121,11 @@ const useMemoSelection = (
   // 전체 메모를 Map으로 변환
   const allMemosMap = useMemo(() => {
     const map = new Map<string, MockMemo>();
-    MOCK_MEMOS.forEach((memo) => {
+    initialMemos.forEach((memo) => {
       map.set(memo.id, memo);
     });
     return map;
-  }, []);
+  }, [initialMemos]);
 
   // 선택된 메모는 검색 필터링과 무관하게 전체 메모에서 조회
   const selectedMemos: SelectedMemo[] = useMemo(() => {
@@ -127,6 +143,7 @@ const useMemoSelection = (
     selectedMemos,
     handleCardClick,
     setInitialSelectedId,
+    addSelectedId,
   };
 };
 
@@ -135,9 +152,14 @@ export const useAllMemo = (
   count?: number,
   isAiMode?: boolean,
   isLoading?: boolean,
+  initialMemos: MockMemo[] = MOCK_MEMOS,
 ) => {
-  const search = useMemoSearch(count);
-  const selection = useMemoSelection(isAiMode ?? false, isLoading ?? false);
+  const search = useMemoSearch(count, initialMemos);
+  const selection = useMemoSelection(
+    isAiMode ?? false,
+    isLoading ?? false,
+    initialMemos,
+  );
 
   return {
     ...search,

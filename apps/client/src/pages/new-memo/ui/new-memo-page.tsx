@@ -1,4 +1,4 @@
-import MemoInput from '@widgets/memo/ui/memo-input/memo-input';
+import { MemoInput } from '@widgets/memo';
 
 import * as styles from './new-memo-page.css';
 
