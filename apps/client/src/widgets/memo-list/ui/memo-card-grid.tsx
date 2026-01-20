@@ -4,7 +4,7 @@ import { Card, DetailModal } from '@cds/ui';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
-import type { MockMemo } from './mock-memos';
+import type { MockMemo } from '@widgets/memo-list/types/memo';
 
 import * as styles from './memo-card-grid.css';
 

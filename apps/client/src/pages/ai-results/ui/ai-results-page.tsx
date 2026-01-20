@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { MOCK_MEMOS } from '@widgets/memo-list/ui/mock-memos';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
   type MemoListViewHelpers,
@@ -8,8 +8,9 @@ import {
 
 const AiResultsPage = () => {
   //TODO: 실제 API 연동 후 수정
-  const aiResultMemos = useMemo(() => {
-    return MOCK_MEMOS.filter((memo) => memo.aiResult === true);
+  const aiResultMemos = useMemo<MockMemo[]>(() => {
+    // TODO: API 연동 시 AI 결과 메모 목록으로 교체
+    return [];
   }, []);
 
   const handleAiCreateClick = (

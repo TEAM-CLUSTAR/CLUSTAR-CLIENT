@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/api/instance';
 
+import { mapApiMemoToMockMemo } from '@widgets/memo-list/types/memo';
+
 import { ALL_MEMO_END_POIINT } from './end-point';
 import { ALL_MEMO_KEY } from './query-key';
 import { AllMemoResponse } from './type';
@@ -15,5 +17,9 @@ export const useGetAllMemo = () => {
   return useQuery({
     queryKey: ALL_MEMO_KEY.GET(),
     queryFn: getAllMemo,
+    select: (res) => {
+      const apiMemos = res.data?.memos ?? [];
+      return apiMemos.map(mapApiMemoToMockMemo);
+    },
   });
 };

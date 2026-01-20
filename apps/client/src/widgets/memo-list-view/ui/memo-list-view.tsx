@@ -2,8 +2,8 @@ import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
-import { MockMemo } from '@widgets/memo-list/ui/mock-memos';
 
 import {
   type MemoListViewHelpers,

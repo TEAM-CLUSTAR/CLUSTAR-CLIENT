@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { MOCK_MEMOS } from '@widgets/memo-list/ui/mock-memos';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
   type MemoListViewHelpers,
@@ -21,13 +21,10 @@ const LabelPage = () => {
     return labelId ? LABEL_ID_TO_TEXT[labelId] : undefined;
   }, [labelId]);
 
-  //TODO: 실제 API 연동 후 수정
-  const labeledMemos = useMemo(() => {
+  //TODO: 실제 API 연동 후 라벨별 메모 리스트 API 사용
+  const labeledMemos = useMemo<MockMemo[]>(() => {
     if (!labelText) return [];
-
-    return MOCK_MEMOS.filter((memo) =>
-      memo.item.some((item) => item.text === labelText),
-    );
+    return [];
   }, [labelText]);
 
   const handleAiCreateClick = (
