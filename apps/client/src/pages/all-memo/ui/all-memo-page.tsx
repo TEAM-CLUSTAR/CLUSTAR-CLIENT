@@ -8,6 +8,7 @@ import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
 import { MemoCardGrid, MemoSelectionGrid } from '@widgets/memo-list';
+import { TreeView } from '@widgets/tree-view';
 
 import { useAllMemo } from '../hooks/use-all-memo';
 
@@ -18,7 +19,7 @@ interface AllMemoPageProps {
   count?: number;
 }
 
-const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
+const AllMemoPage = ({ title = '전체 메모', count }: AllMemoPageProps) => {
   const { isAiMode, setIsAiMode, isPromptOpen, setIsPromptOpen } =
     useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
@@ -109,17 +110,390 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
           isAiMode={isPromptOpen}
           onSearchEnter={handleSearchEnter}
         />
-        {isAiMode ? (
-          <MemoSelectionGrid
-            memos={filteredMemos}
-            selectedIds={selectedCardIds}
-            onSelect={handleCardClick}
-            disabled={isLoading || isPromptOpen}
-            hasAiComponent={isPromptOpen}
-            onAiCreateClick={handleAiCreateClickInSelectionMode}
+        {viewMode === 'card' &&
+          (isAiMode ? (
+            <MemoSelectionGrid
+              memos={filteredMemos}
+              selectedIds={selectedCardIds}
+              onSelect={handleCardClick}
+              disabled={isLoading || isPromptOpen}
+              hasAiComponent={isPromptOpen}
+              onAiCreateClick={handleAiCreateClickInSelectionMode}
+            />
+          ) : (
+            <MemoCardGrid memos={filteredMemos} />
+          ))}
+
+        {viewMode === 'tree' && (
+          <TreeView
+            data={[
+              {
+                labelName: 'SOPT',
+                memos: [
+                  {
+                    id: 1,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 2,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 3,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 4,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                ],
+              },
+              {
+                labelName: '졸업 프로젝트',
+                memos: [
+                  {
+                    id: 1,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 2,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 3,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 4,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                ],
+              },
+              {
+                labelName: '교양',
+                memos: [
+                  {
+                    id: 1,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 2,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 3,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 4,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                ],
+              },
+              {
+                labelName: '레퍼런스',
+                memos: [
+                  {
+                    id: 1,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 2,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 3,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 4,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                ],
+              },
+              {
+                labelName: '라벨없음',
+                memos: [
+                  {
+                    id: 1,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 2,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 3,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                  {
+                    id: 4,
+                    labelList: {
+                      dateText: '2025-20-20',
+                      labelItems: [
+                        {
+                          id: 'idid',
+                          text: 'SOPT',
+                        },
+                      ],
+                    },
+                    textContent: {
+                      isAiResult: true,
+                      title: '제목임니다',
+                      content: '콘텐츠임니다.',
+                    },
+                  },
+                ],
+              },
+            ]}
           />
-        ) : (
-          <MemoCardGrid memos={filteredMemos} />
         )}
       </div>
 
@@ -134,7 +508,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
         </div>
       )}
 
-      {!isAiMode && (
+      {!isAiMode && viewMode === 'card' && (
         <div className={styles.floatingButtonContainer}>
           <FloatingButton isActive={false} handleClick={handleStartAiMode}>
             AI로 정리하기
@@ -142,7 +516,7 @@ const AllMemoPage = ({ title = '메모', count }: AllMemoPageProps) => {
         </div>
       )}
 
-      {isAiMode && !isPromptOpen && (
+      {isAiMode && !isPromptOpen && viewMode === 'card' && (
         <div className={styles.floatingButtonContainer}>
           <FloatingButton
             isActive={true}

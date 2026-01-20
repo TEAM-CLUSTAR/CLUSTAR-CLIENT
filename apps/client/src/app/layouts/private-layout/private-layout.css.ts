@@ -39,7 +39,7 @@ export const sidebarContainer = style({
 });
 
 export const mainContent = style({
-  flex: 1,
+  flexGrow: 1,
   position: 'relative',
   overflow: 'auto',
 });
