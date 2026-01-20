@@ -28,30 +28,18 @@ export interface MockMemo {
 }
 
 type ApiMemo = components['schemas']['MemoDashboardResponse'];
-
-type ApiMemoWithLabelList = ApiMemo & {
-  labelList?: {
-    labelId?: number;
-    name?: string;
-  }[];
-};
+type LabelResponse = components['schemas']['LabelResponse'];
 
 const toLabelTextType = (name: string): LabelTextType => {
   return name as LabelTextType;
 };
 
-export const mapApiMemoToMockMemo = (m: ApiMemoWithLabelList): MockMemo => {
-  const labels =
-    m.labels ??
-    m.labelList?.map((label) => ({
-      labelId: label.labelId,
-      name: label.name,
-    })) ??
-    [];
+export const mapApiMemoToMockMemo = (m: ApiMemo): MockMemo => {
+  const labels: LabelResponse[] = m.labelList ?? [];
 
   return {
     id: String(m.memoId ?? ''),
-    item: labels.map((l) => ({
+    item: labels.map((l: LabelResponse) => ({
       id: String(l.labelId ?? ''),
       text: toLabelTextType(l.name ?? ''),
     })),

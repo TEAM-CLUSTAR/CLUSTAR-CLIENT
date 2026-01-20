@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { useGetAllMemo } from '@pages/all-memo/api/queries';
+
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
@@ -7,11 +9,10 @@ import {
 } from '@widgets/memo-list-view';
 
 const AiResultsPage = () => {
-  //TODO: 실제 API 연동 후 수정
+  const { data: allMemos } = useGetAllMemo();
   const aiResultMemos = useMemo<MockMemo[]>(() => {
-    // TODO: API 연동 시 AI 결과 메모 목록으로 교체
-    return [];
-  }, []);
+    return allMemos?.filter((memo) => memo.aiResult) ?? [];
+  }, [allMemos]);
 
   const handleAiCreateClick = (
     memoId: string,
