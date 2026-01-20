@@ -20,14 +20,14 @@ const markdownToHtml = (markdown: string): string => {
   let html = markdown;
 
   const codeBlocks: string[] = [];
-  html = html.replace(/```([\s\S]*?)```/g, (match, code) => {
+  html = html.replace(/```([\s\S]*?)```/g, (_match, code) => {
     const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
     codeBlocks.push(`<pre><code>${code}</code></pre>`);
     return placeholder;
   });
 
   const inlineCodes: string[] = [];
-  html = html.replace(/`([^`]+)`/g, (match, code) => {
+  html = html.replace(/`([^`]+)`/g, (_match, code) => {
     const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
     inlineCodes.push(`<code>${code}</code>`);
     return placeholder;
