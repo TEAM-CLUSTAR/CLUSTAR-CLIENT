@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Card, DetailModal } from '@cds/ui';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
-import type { MockMemo } from './mock-memos';
+import type { MockMemo } from '@widgets/memo-list/types/memo';
 
 import * as styles from './memo-card-grid.css';
 
@@ -116,6 +116,9 @@ interface CardGridListProps {
   hasAiComponent?: boolean;
   disabled?: boolean;
   onAiCreateClick?: (memoId: string) => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  onLoadMore?: () => void;
 }
 
 const MemoCardGrid = ({
@@ -126,7 +129,34 @@ const MemoCardGrid = ({
   hasAiComponent = false,
   disabled = false,
   onAiCreateClick,
+  hasNextPage = false,
+  isFetchingNextPage = false,
+  onLoadMore,
 }: CardGridListProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer || !onLoadMore || !hasNextPage || isFetchingNextPage) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const scrollBottom = scrollHeight - scrollTop - clientHeight;
+
+      if (scrollBottom < 200) {
+        onLoadMore();
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasNextPage, isFetchingNextPage, onLoadMore]);
+
   return (
     <div className={styles.scrollContainer({ hasAiComponent })}>
       <div className={styles.gridContainer({ hasAiComponent })}>

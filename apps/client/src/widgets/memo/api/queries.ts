@@ -1,4 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { ALL_MEMO_KEY } from '@pages/all-memo/api/query-key';
 
 import { api } from '@shared/api/instance';
 
@@ -20,11 +22,18 @@ export const createMemo = async (
 };
 
 /**
- * 메모 작성 Mutation=
+ * 메모 작성 Mutation Hook
  */
 export const useCreateMemo = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: MEMO_KEY.CREATE(),
     mutationFn: createMemo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ALL_MEMO_KEY.ALL,
+      });
+    },
   });
 };

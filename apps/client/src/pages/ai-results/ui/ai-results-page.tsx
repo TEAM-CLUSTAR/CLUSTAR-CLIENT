@@ -1,16 +1,28 @@
 import { useMemo } from 'react';
 
-import { MOCK_MEMOS } from '@widgets/memo-list/ui/mock-memos';
+import {
+  useGetAllMemo,
+  useGetMemoTotalCount,
+} from '@pages/all-memo/api/queries';
+
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
 const AiResultsPage = () => {
-  //TODO: 실제 API 연동 후 수정
-  const aiResultMemos = useMemo(() => {
-    return MOCK_MEMOS.filter((memo) => memo.aiResult === true);
-  }, []);
+  const {
+    data: allMemos,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGetAllMemo();
+  const aiResultMemos = useMemo<MockMemo[]>(() => {
+    return allMemos?.filter((memo) => memo.aiResult) ?? [];
+  }, [allMemos]);
+
+  const { data: totalCount } = useGetMemoTotalCount();
 
   const handleAiCreateClick = (
     memoId: string,
@@ -25,6 +37,10 @@ const AiResultsPage = () => {
       title="AI 결과물"
       initialMemos={aiResultMemos}
       onAiCreateClick={handleAiCreateClick}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+      totalCount={totalCount}
     />
   );
 };

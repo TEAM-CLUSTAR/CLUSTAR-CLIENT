@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { SelectedMemo } from '@features/ai-prompt';
 
-import { MOCK_MEMOS, MockMemo } from '@widgets/memo-list/ui/mock-memos';
+import { type MockMemo } from '@widgets/memo-list/types/memo';
 
 // 검색 관련
 interface UseMemoSearchReturn {
@@ -15,7 +15,7 @@ interface UseMemoSearchReturn {
 
 const useMemoSearch = (
   count?: number,
-  initialMemos: MockMemo[] = MOCK_MEMOS,
+  initialMemos: MockMemo[] = [],
 ): UseMemoSearchReturn => {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,7 +71,7 @@ interface UseMemoSelectionReturn {
 const useMemoSelection = (
   isAiMode: boolean,
   isLoading: boolean,
-  initialMemos: MockMemo[] = MOCK_MEMOS,
+  initialMemos: MockMemo[] = [],
 ): UseMemoSelectionReturn => {
   const [selectedCardIds, setSelectedCardIds] = useState<Set<string>>(
     new Set(),
@@ -152,7 +152,7 @@ export const useAllMemo = (
   count?: number,
   isAiMode?: boolean,
   isLoading?: boolean,
-  initialMemos: MockMemo[] = MOCK_MEMOS,
+  initialMemos: MockMemo[] = [],
 ) => {
   const search = useMemoSearch(count, initialMemos);
   const selection = useMemoSelection(
