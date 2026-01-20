@@ -9,4 +9,5 @@ export const aiMessageBubble = style({
   borderRadius: '0 8px 8px 0',
   borderLeft: `3px solid ${themeVars.color.blue300}`,
   animation: `${slideInUp} 0.7s ease-out`,
+  whiteSpace: 'pre-wrap',
 });
