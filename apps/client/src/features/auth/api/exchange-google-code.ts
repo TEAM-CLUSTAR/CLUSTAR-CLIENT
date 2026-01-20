@@ -7,9 +7,9 @@ export interface GoogleLoginResult {
 }
 
 export const exchangeGoogleCode = async (code: string) => {
-  const response = await api.post(END_POINT.LOGIN.EXCHANGE_GOOGLE_CODE, {
-    json: { code },
-  });
+  const response = await api.get(
+    `${END_POINT.LOGIN.EXCHANGE_GOOGLE_CODE}?code=${encodeURIComponent(code)}`,
+  );
 
   const authHeader =
     response.headers['authorization'] || response.headers['Authorization'];
