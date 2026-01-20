@@ -1,6 +1,6 @@
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
-import { MemoInfoTypes } from '@shared/types/memo-info-type';
+import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import { TreeMemo } from '@entities/tree-view';
 
@@ -8,7 +8,7 @@ import * as styles from './tree-memo-list.css';
 
 export interface TreeMemoListProps {
   labelName: LabelTextType;
-  memos: MemoInfoTypes[];
+  memos: StructureMemoTypes[];
 }
 
 const TreeMemoList = ({ labelName, memos }: TreeMemoListProps) => {
@@ -19,7 +19,7 @@ const TreeMemoList = ({ labelName, memos }: TreeMemoListProps) => {
       <span className={styles.title({ labelColor })}>{labelName}</span>
       <div className={styles.memosContainer}>
         {memos.map((memo) => (
-          <TreeMemo key={memo.id} labelName={labelName} {...memo} />
+          <TreeMemo key={memo.memoId} labelName={labelName} memo={memo} />
         ))}
       </div>
     </div>

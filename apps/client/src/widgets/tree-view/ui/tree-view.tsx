@@ -1,8 +1,5 @@
 import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
 
-import { LabelTextType } from '@shared/types/label-type';
-import { MemoInfoTypes } from '@shared/types/memo-info-type';
-
 import {
   TreeBaseMemoNode,
   TreeCustomEdgeLabel,
@@ -10,7 +7,12 @@ import {
   TreeMemoListNode,
 } from '@features/tree-view';
 
-import { createNodeEdge } from '../model/createNodeEdge';
+import { useReadMemoStructure } from '../api/queries';
+import {
+  convertGroupToNodeEdgeData,
+  groupByLabelName,
+} from '../model/convert-memos-data';
+import { createNodeEdge } from '../model/create-node-edge';
 
 import '@xyflow/react/dist/style.css';
 import * as styles from './tree-view.css';
@@ -25,22 +27,16 @@ const edgeTypes: EdgeTypes = {
   'custom-edge-no-label': TreeCustomEdgeNoLabel,
 };
 
-interface TreeViewDataTypes {
-  labelName: LabelTextType;
-  memos: MemoInfoTypes[];
-}
-
-interface TreeViewProps {
-  data: TreeViewDataTypes[];
-}
-
 const ZOOM = {
   MIN: 0.6,
   MAX: 0.9,
 };
 
-const TreeView = ({ data }: TreeViewProps) => {
-  const { nodes, edges } = createNodeEdge(data);
+const TreeView = () => {
+  const { data: memos = [] } = useReadMemoStructure();
+  const groupedMemos = groupByLabelName(memos);
+  const sortedMemos = convertGroupToNodeEdgeData(groupedMemos);
+  const { nodes, edges } = createNodeEdge(sortedMemos);
 
   return (
     <div className={styles.container}>
