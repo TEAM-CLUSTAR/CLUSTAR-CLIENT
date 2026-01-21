@@ -39,7 +39,9 @@ const LabelPage = () => {
     fetchNextPage,
   } = useGetAllMemo(labelMeta ? [labelMeta.id] : undefined);
 
-  const { data: totalCount } = useGetMemoTotalCount();
+  const { data: totalCount } = useGetMemoTotalCount(
+    labelMeta ? [labelMeta.id] : undefined,
+  );
 
   const handleAiCreateClick = (
     memoId: string,
