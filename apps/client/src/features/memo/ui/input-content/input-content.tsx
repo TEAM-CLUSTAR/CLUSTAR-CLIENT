@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill-new';
 import '../../libs/quill-register';
 
 import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
+import { useIsEmptyContent } from '../../models/use-is-empty-content';
 
 import * as styles from './input-content.css';
 
@@ -12,18 +13,10 @@ interface InputContnentProps {
   onChange: (value: string) => void;
 }
 
-const isEmptyContent = (html: string): boolean => {
-  if (!html || html.trim() === '') return true;
-
-  const withoutTags = html.replace(/<[^>]*>/g, '');
-  const textContent = withoutTags.replace(/&nbsp;/g, ' ').trim();
-
-  return textContent.length === 0;
-};
-
 const InputContent = ({ value, onChange }: InputContnentProps) => {
   const modules = useMemo(() => memoQuillModules, []);
   const formats = useMemo(() => [...memoQuillFormats], []);
+  const { isEmptyContent } = useIsEmptyContent();
 
   const handleChange = (html: string) => {
     if (isEmptyContent(html)) {

@@ -11,7 +11,7 @@ import { htmlToMarkdown } from '@features/memo/models/html-to-markdown';
 
 import { useCreateMemo } from '../../api/queries';
 import type { MemoCreateRequest } from '../../api/type';
-import { useNavigationBlocker } from './use-navigation-blocker';
+import { useNavigationBlocker } from '../../models/use-navigation-blocker';
 
 import * as styles from './memo-input.css';
 
