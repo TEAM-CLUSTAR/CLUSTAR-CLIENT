@@ -36,6 +36,10 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
   const labelName = labelList[0]?.name ?? ('라벨없음' as LabelTextType);
   const labelColor = LABEL_COLOR_BY_TEXT[labelName as LabelTextType];
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
   return (
     <DetailModal
       open={isOpen}
@@ -43,7 +47,11 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
       id={memoId}
       data={memoDetail}
     >
-      <button type="button" className={styles.container({ labelColor })}>
+      <button
+        type="button"
+        className={styles.container({ labelColor })}
+        onClick={handleOpen}
+      >
         <span className={styles.title}>{title}</span>
         <span className={styles.content}>{content}</span>
       </button>

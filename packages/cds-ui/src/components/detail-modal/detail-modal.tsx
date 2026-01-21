@@ -66,6 +66,10 @@ interface DetailModalProps {
   data: SelectedMemoTypes;
   id: number;
   onAiCreateClick?: (memoId: number) => void;
+  /**
+   * 모달 open 상태를 제어하기 위한 제어형 props
+   * - 전달하지 않으면 Radix 내부 상태로만 제어됩니다.
+   */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -97,7 +101,8 @@ const DetailModal = ({
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      <Modal.Trigger>{children}</Modal.Trigger>
+      {/* 부모 컴포넌트에서 open 상태를 제어하므로 Trigger로 감싸지 않고 그대로 렌더링 */}
+      {children}
       <Modal.Content>
         <Dialog.Title className={styles.visuallyHidden}>{title}</Dialog.Title>
         <Dialog.Description className={styles.visuallyHidden}>

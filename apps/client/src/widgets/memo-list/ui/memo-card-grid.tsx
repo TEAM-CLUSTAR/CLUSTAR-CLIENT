@@ -63,7 +63,7 @@ const MemoCardItem = ({
 
   const handleSelect = () => {
     if (!disabled && isAiMode) {
-      onAiSelectToggle(String(id));
+      onAiSelectToggle(id);
     }
   };
 
