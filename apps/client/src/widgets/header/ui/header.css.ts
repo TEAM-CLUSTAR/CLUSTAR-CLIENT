@@ -10,14 +10,16 @@ export const header = style({
 export const container = recipe({
   base: {
     display: 'flex',
+
     gap: '5.6rem',
     justifyContent: 'space-between',
+    padding: '0 0.9rem',
   },
 
   variants: {
     isAiMode: {
-      true: {},
-      false: {},
+      true: { width: '65.5rem' },
+      false: { width: '99rem' },
     },
 
     isTree: {
@@ -30,7 +32,7 @@ export const container = recipe({
     {
       variants: { isAiMode: false, isTree: false },
       style: {
-        padding: '3.2rem 3rem 6rem 0',
+        padding: '3.2rem 0 6rem 0',
       },
     },
     {
@@ -42,7 +44,7 @@ export const container = recipe({
     {
       variants: { isTree: true },
       style: {
-        padding: '3.2rem 3rem 1.6rem 0',
+        padding: '3.2rem 0 1.6rem 0',
       },
     },
   ],

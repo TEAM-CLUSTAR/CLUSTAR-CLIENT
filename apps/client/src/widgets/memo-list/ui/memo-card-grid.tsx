@@ -111,7 +111,7 @@ const MemoCardItem = ({
   );
 };
 
-interface CardGridListProps {
+interface MemoCardGridProps {
   memoData: MockMemo[];
   isAiMode: boolean;
   selectedIds: Set<string>;
@@ -135,7 +135,7 @@ const MemoCardGrid = ({
   hasNextPage = false,
   isFetchingNextPage = false,
   onLoadMore,
-}: CardGridListProps) => {
+}: MemoCardGridProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -161,7 +161,10 @@ const MemoCardGrid = ({
   }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   return (
-    <div className={styles.scrollContainer({ hasAiComponent })}>
+    <div
+      ref={scrollContainerRef}
+      className={styles.scrollContainer({ hasAiComponent })}
+    >
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memoData.map((memo) => {
           const isSelected = selectedIds.has(memo.id);
