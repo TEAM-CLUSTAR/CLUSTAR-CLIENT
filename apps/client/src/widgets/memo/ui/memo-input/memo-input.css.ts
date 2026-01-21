@@ -14,6 +14,10 @@ export const footerContainer = style({
   justifyContent: 'space-between',
 });
 
+export const buttonContainer = style({
+  width: '12.4rem',
+});
+
 export const inputContainer = style({
   display: 'flex',
   flexDirection: 'column',

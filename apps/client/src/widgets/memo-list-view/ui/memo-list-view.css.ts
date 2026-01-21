@@ -6,7 +6,8 @@ export const container = recipe({
     display: 'flex',
     justifyContent: 'center',
     height: '100vh',
-    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    width: '100%',
   },
   variants: {
     isPromptOpen: {
@@ -25,7 +26,7 @@ export const contentWrapper = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
+    alignContent: 'center',
   },
   variants: {
     isPromptOpen: {
@@ -37,6 +38,10 @@ export const contentWrapper = recipe({
       false: {
         padding: '0',
       },
+    },
+    isCard: {
+      true: {},
+      false: { width: '100%' },
     },
   },
   defaultVariants: {
