@@ -11,23 +11,28 @@ const meta: Meta<typeof SidebarProfile> = {
       description: {
         component: `
 사이드바 하단에 위치하는 **사용자 프로필 요약 컴포넌트**입니다.  
-사용자의 아이디와 이메일 정보를 간단하게 표시하는 용도로 사용됩니다.
+사용자의 이름, 이메일, 프로필 이미지 정보를 간단하게 표시하는 용도로 사용됩니다.
 
-- \`userId\`: 사용자 아이디
-- \`userEmail\`: 사용자 이메일
+- \`name\`: 사용자 이름
+- \`email\`: 사용자 이메일
+- \`profileImageUrl\`: 프로필 이미지 URL (선택)
         `,
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
-    userId: {
+    name: {
       control: 'text',
-      description: '사용자 아이디',
+      description: '사용자 이름',
     },
-    userEmail: {
+    email: {
       control: 'text',
       description: '사용자 이메일',
+    },
+    profileImageUrl: {
+      control: 'text',
+      description: '프로필 이미지 URL',
     },
   },
 };
@@ -38,7 +43,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    userId: 'user123',
-    userEmail: 'joerin4177@gmail.com',
+    name: '조혜린',
+    email: 'joerin4177@gmail.com',
+  },
+};
+
+export const WithProfileImage: Story = {
+  args: {
+    name: '조혜린',
+    email: 'joerin4177@gmail.com',
+    profileImageUrl: 'https://via.placeholder.com/36',
   },
 };

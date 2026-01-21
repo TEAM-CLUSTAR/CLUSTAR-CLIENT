@@ -10,6 +10,8 @@ import {
   SideBarProfile,
 } from '@cds/ui';
 
+import { useGetUserInfo } from './api/queries';
+
 import * as styles from './sidebar.css';
 
 const MENU_ITEMS = [
@@ -56,8 +58,6 @@ const LABEL_ITEMS = [
 ] as const;
 
 interface SidebarProps {
-  userId: string;
-  userEmail: string;
   isExpanded: boolean;
   onToggle: () => void;
   selectedId: string;
@@ -79,14 +79,13 @@ const FLOATING_LABEL_ITEMS = LABEL_ITEMS.map((item) => ({
 }));
 
 const Sidebar = ({
-  userId,
-  userEmail,
   isExpanded,
   onToggle,
   selectedId,
   onSelect,
 }: SidebarProps) => {
   const [isHover, setIsHover] = useState(false);
+  const { data: userInfo } = useGetUserInfo();
 
   const processedMenuItems = MENU_ITEMS.map((item) => ({
     ...item,
@@ -201,7 +200,11 @@ const Sidebar = ({
               휴지통
             </SidebarPannel>
             <div className={styles.profileWrapper}>
-              <SideBarProfile userId={userId} userEmail={userEmail} />
+              <SideBarProfile
+                name={userInfo?.name}
+                email={userInfo?.email}
+                profileImageUrl={userInfo?.profileImageUrl}
+              />
             </div>
           </>
         ) : (
@@ -225,7 +228,7 @@ const Sidebar = ({
                 icon={<Icon name="ic_profile" width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={userId} />
+                <FloatingMenu menuName={userInfo?.name || '프로필'} />
               </div>
             </div>
           </>

@@ -1,4 +1,9 @@
+import { Navigate } from 'react-router';
+
 import { Icon } from '@cds/icon';
+
+import { PATH } from '@shared/router/path';
+import { getAccessToken } from '@shared/storage/token-storage';
 
 import LoginButton from '@features/login-button/ui/login-button';
 
@@ -7,6 +12,12 @@ import { LOGIN_END_POINT } from '@widgets/login-page/api/end-point';
 import * as styles from './login-page.css';
 
 const LoginPage = () => {
+  const accessToken = getAccessToken();
+
+  if (accessToken) {
+    return <Navigate to={PATH.NEW_MEMO} replace />;
+  }
+
   const handleGoogleLogin = () => {
     const loginUrl = `${import.meta.env.VITE_API_BASE_URL}${LOGIN_END_POINT.LOGIN}`;
     window.location.href = loginUrl;
