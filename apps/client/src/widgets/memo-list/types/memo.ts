@@ -53,7 +53,7 @@ export const mapApiMemoToMockMemo = (m: ApiMemo): MockMemo => {
     imageUrl: m.representativeImageUrl ?? undefined,
     imageAlt: undefined,
     isSelectedCard: false,
-    aiNewResult: false,
+    aiNewResult: m.isNew ?? false,
     selectedMemos: [],
   };
 };
