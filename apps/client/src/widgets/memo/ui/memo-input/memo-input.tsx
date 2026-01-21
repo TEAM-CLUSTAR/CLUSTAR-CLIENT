@@ -109,18 +109,15 @@ const MemoInput = () => {
     setSelectedTabId(id);
   };
 
-  const handleDeleteTab = (id: string) => {
-    if (tabs.length <= 1) return;
-
-    setTabToDeleteId(id);
-    setIsHaveCancel(true);
-    setIsConfirmModalOpen(true);
+  const hasDraftChanges = (draft: MemoDraft | undefined) => {
+    if (!draft) return false;
+    const hasTitle = draft.title.trim().length > 0;
+    const hasContents = draft.contents.trim().length > 0;
+    const hasLabels = draft.labels.length > 0;
+    return hasTitle || hasContents || hasLabels;
   };
 
-  const handleConfirmTabDelete = () => {
-    if (!tabToDeleteId) return;
-
-    const idToDelete = tabToDeleteId;
+  const deleteTabById = (idToDelete: string) => {
     setTabs((prevTabs) => {
       const nextTabs = prevTabs.filter((tab) => tab.id !== idToDelete);
 
@@ -142,6 +139,30 @@ const MemoInput = () => {
 
       return nextTabs;
     });
+  };
+
+  const handleDeleteTab = (id: string) => {
+    if (tabs.length <= 1) return;
+
+    const draft = draftsById[id];
+
+    // 선택한 탭에 작성된 내용이 없으면 모달 없이 바로 삭제
+    if (!hasDraftChanges(draft)) {
+      deleteTabById(id);
+      return;
+    }
+
+    // 내용이 있는 탭만 ConfirmModal 표시
+    setTabToDeleteId(id);
+    setIsHaveCancel(true);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmTabDelete = () => {
+    if (!tabToDeleteId) return;
+
+    const idToDelete = tabToDeleteId;
+    deleteTabById(idToDelete);
 
     setIsConfirmModalOpen(false);
     setTabToDeleteId(null);
