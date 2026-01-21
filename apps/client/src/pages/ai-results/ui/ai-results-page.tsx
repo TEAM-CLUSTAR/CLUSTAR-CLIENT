@@ -1,23 +1,23 @@
 import { useMemo } from 'react';
 
-import { useGetAllMemo } from '@pages/all-memo/api/queries';
-
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
+import { useGetAIMemo } from '../apis/queries';
+
 const AiResultsPage = () => {
   const {
-    data: allMemos,
+    data: aiMemos,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo();
+  } = useGetAIMemo();
   const aiResultMemos = useMemo<MockMemo[]>(() => {
-    return allMemos?.filter((memo) => memo.aiResult) ?? [];
-  }, [allMemos]);
+    return aiMemos?.filter((memo) => memo.aiResult) ?? [];
+  }, [aiMemos]);
   const handleAiCreateClick = (
     memoId: string,
     helpers: MemoListViewHelpers,
