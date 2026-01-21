@@ -36,6 +36,10 @@ const TreeMemo = ({ labelName, memo }: TreeMemoProps) => {
     },
   } = useDetailMemo({ memoId, enabled: isOpen });
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
   return (
     <DetailModal
       open={isOpen}
@@ -43,7 +47,11 @@ const TreeMemo = ({ labelName, memo }: TreeMemoProps) => {
       id={memoId}
       data={memoDetail}
     >
-      <button type="button" className={styles.container({ labelColor })}>
+      <button
+        type="button"
+        className={styles.container({ labelColor })}
+        onClick={handleOpen}
+      >
         <span className={styles.title}>{title}</span>
         <span className={styles.content}>{content}</span>
       </button>
