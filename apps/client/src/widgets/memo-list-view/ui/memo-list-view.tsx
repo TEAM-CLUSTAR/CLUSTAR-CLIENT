@@ -57,6 +57,7 @@ const MemoListView = ({
     handleConfirmAlertModal,
     handleValueChange,
     setIsLoading,
+    chatRoomId,
   } = useMemoListView({
     count,
     initialMemos,
@@ -107,6 +108,7 @@ const MemoListView = ({
             selectedMemos={selectedMemos}
             handleClose={handleCloseAiPrompt}
             onLoadingChange={setIsLoading}
+            chatRoomId={chatRoomId}
           />
         </div>
       )}

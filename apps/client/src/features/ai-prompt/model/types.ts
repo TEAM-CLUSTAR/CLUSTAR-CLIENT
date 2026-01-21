@@ -21,4 +21,5 @@ export interface UseAiPromptProps {
   isAIOpen: boolean;
   selectedMemos: SelectedMemo[];
   handleClose: () => void;
+  chatRoomId?: number | null;
 }

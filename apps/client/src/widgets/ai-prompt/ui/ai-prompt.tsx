@@ -10,6 +10,7 @@ import * as styles from './ai-prompt.css';
 
 interface AiPromptProps extends UseAiPromptProps {
   onLoadingChange?: (isLoading: boolean) => void;
+  chatRoomId?: number | null;
 }
 
 const AiPrompt = ({
@@ -17,6 +18,7 @@ const AiPrompt = ({
   selectedMemos,
   handleClose,
   onLoadingChange,
+  chatRoomId,
 }: AiPromptProps) => {
   const {
     isOpen,
@@ -34,6 +36,7 @@ const AiPrompt = ({
     isAIOpen,
     selectedMemos,
     handleClose,
+    chatRoomId,
   });
 
   useEffect(() => {

@@ -47,11 +47,16 @@ export const useAiPrompt = ({
   isAIOpen,
   selectedMemos,
   handleClose,
+  chatRoomId: externalChatRoomId,
 }: UseAiPromptProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
+  const [internalChatRoomId, setInternalChatRoomId] = useState<number | null>(
+    null,
+  );
+
+  const chatRoomId = externalChatRoomId ?? internalChatRoomId;
 
   const createChatRoomMutation = useCreateChatRoom();
   const createAiChatMutation = useCreateAiChat();
@@ -63,14 +68,18 @@ export const useAiPrompt = ({
     createAiChatMutation.isPending ||
     saveAiMemoMutation.isPending;
 
-  // AI 프롬프트가 열릴 때 채팅방 생성
   useEffect(() => {
-    if (isAIOpen && !chatRoomId && !createChatRoomMutation.isPending) {
+    if (
+      isAIOpen &&
+      !chatRoomId &&
+      !createChatRoomMutation.isPending &&
+      !externalChatRoomId
+    ) {
       createChatRoomMutation.mutate(undefined, {
         onSuccess: (data) => {
           const newChatRoomId = data.data?.chatRoomId;
           if (newChatRoomId) {
-            setChatRoomId(newChatRoomId);
+            setInternalChatRoomId(newChatRoomId);
           }
         },
         onError: (error) => {
@@ -78,12 +87,12 @@ export const useAiPrompt = ({
         },
       });
     }
-  }, [isAIOpen, chatRoomId, createChatRoomMutation]);
+  }, [isAIOpen, chatRoomId, externalChatRoomId, createChatRoomMutation]);
 
-  // AI 프롬프트가 닫힐 때 채팅방 ID 초기화
+  // AI 프롬프트가 닫힐 때 채팅방 ID 초기화 (내부 상태만 초기화)
   useEffect(() => {
     if (!isAIOpen) {
-      setChatRoomId(null);
+      setInternalChatRoomId(null);
       setMessages([]);
     }
   }, [isAIOpen]);
