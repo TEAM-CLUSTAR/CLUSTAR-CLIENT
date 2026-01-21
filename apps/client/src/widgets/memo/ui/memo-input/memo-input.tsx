@@ -11,6 +11,7 @@ import { htmlToMarkdown } from '@features/memo/models/html-to-markdown';
 
 import { useCreateMemo } from '../../api/queries';
 import type { MemoCreateRequest } from '../../api/type';
+import { useNavigationBlocker } from './use-navigation-blocker';
 
 import * as styles from './memo-input.css';
 
@@ -25,14 +26,14 @@ type LabelItem = {
   text: LabelTextType;
 };
 
-type MemoDraft = {
+export type MemoDraft = {
   id: string;
   title: string;
   contents: string;
   labels: LabelItem[];
 };
 
-type DraftsById = Record<string, MemoDraft>;
+export type DraftsById = Record<string, MemoDraft>;
 
 const MAX_TABS = 4;
 const DEFAULT_TITLE = 'untitled';
@@ -64,6 +65,15 @@ const MemoInput = () => {
   const [tabToDeleteId, setTabToDeleteId] = useState<string | null>(null);
   const [isHaveCancel, setIsHaveCancel] = useState(false);
   const { mutate: createMemo } = useCreateMemo();
+
+  const { pendingNavigation, handleNavigationConfirm, handleNavigationCancel } =
+    useNavigationBlocker({
+      draftsById,
+      isConfirmModalOpen,
+      tabToDeleteId,
+      setIsConfirmModalOpen,
+      setIsHaveCancel,
+    });
 
   const selectedDraft = draftsById[selectedTabId];
 
@@ -218,8 +228,32 @@ const MemoInput = () => {
       return;
     }
 
+    // 페이지 이동 확인 모달인 경우
+    if (pendingNavigation) {
+      handleNavigationConfirm(() => {
+        // 모든 탭과 draft 초기화
+        const id = createId();
+        const tab: TabItem = { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL };
+        setTabs([tab]);
+        setSelectedTabId(id);
+        setDraftsById({ [id]: createEmptyDraft(id) } as DraftsById);
+      });
+      return;
+    }
+
     // 저장하기 모달의 확인 버튼은 모달만 닫기
     setIsConfirmModalOpen(false);
+  };
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsConfirmModalOpen(open);
+    if (!open) {
+      setIsHaveCancel(false);
+      setTabToDeleteId(null);
+      if (pendingNavigation) {
+        handleNavigationCancel();
+      }
+    }
   };
   return (
     <div className={styles.memoInputContainer}>
@@ -264,14 +298,7 @@ const MemoInput = () => {
         </div>
         <ConfirmModal
           open={isConfirmModalOpen}
-          onOpenChange={(open) => {
-            setIsConfirmModalOpen(open);
-            if (!open) {
-              // 모달이 닫힐 때 상태 초기화
-              setIsHaveCancel(false);
-              setTabToDeleteId(null);
-            }
-          }}
+          onOpenChange={handleModalOpenChange}
           onCloseClick={handleConfirmModalClose}
           isHavedCancel={isHaveCancel}
         />
