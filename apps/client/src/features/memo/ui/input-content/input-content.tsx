@@ -12,9 +12,26 @@ interface InputContnentProps {
   onChange: (value: string) => void;
 }
 
+const isEmptyContent = (html: string): boolean => {
+  if (!html || html.trim() === '') return true;
+
+  const withoutTags = html.replace(/<[^>]*>/g, '');
+  const textContent = withoutTags.replace(/&nbsp;/g, ' ').trim();
+
+  return textContent.length === 0;
+};
+
 const InputContent = ({ value, onChange }: InputContnentProps) => {
   const modules = useMemo(() => memoQuillModules, []);
   const formats = useMemo(() => [...memoQuillFormats], []);
+
+  const handleChange = (html: string) => {
+    if (isEmptyContent(html)) {
+      onChange('');
+      return;
+    }
+    onChange(html);
+  };
 
   return (
     <section data-quill-scope>
@@ -24,7 +41,7 @@ const InputContent = ({ value, onChange }: InputContnentProps) => {
         modules={modules}
         formats={formats}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
       />
     </section>
   );
