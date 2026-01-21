@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import {
   useGetAllMemo,
+  useGetLabel,
   useGetMemoTotalCount,
 } from '@pages/all-memo/api/queries';
 
@@ -11,26 +12,24 @@ import {
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
-const LABEL_META: Record<
-  string,
-  {
-    id: number;
-    text: string;
-  }
-> = {
-  project: { id: 1, text: '졸업 프로젝트' },
-  general: { id: 2, text: '교양' },
-  sopt: { id: 3, text: 'SOPT' },
-  reference: { id: 4, text: '레퍼런스' },
-};
-
 const LabelPage = () => {
   const { labelId } = useParams<{ labelId?: string }>();
+  const { data: labels = [] } = useGetLabel();
 
   const labelMeta = useMemo(() => {
     if (!labelId) return undefined;
-    return LABEL_META[labelId];
-  }, [labelId]);
+
+    const numericLabelId = Number(labelId);
+    if (isNaN(numericLabelId)) return undefined;
+
+    const label = labels.find((l) => l.labelId === numericLabelId);
+    if (!label) return undefined;
+
+    return {
+      id: label.labelId ?? 0,
+      text: label.name ?? '',
+    };
+  }, [labelId, labels]);
 
   const {
     data: labeledMemos,

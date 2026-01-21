@@ -8,7 +8,7 @@ import { mapApiMemoToMockMemo } from '@widgets/memo-list/types/memo';
 
 import { ALL_MEMO_END_POIINT, LABEL_END_POINT } from './end-point';
 import { ALL_MEMO_KEY, LABEL_KEY } from './query-key';
-import { type AllMemoResponse, LabelResponse } from './type';
+import { type AllMemoResponse } from './type';
 
 type MemoCursor =
   | {
@@ -103,9 +103,13 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
   });
 };
 
-const getAllLabels = async () => {
-  const response = await api.get<LabelResponse>(LABEL_END_POINT.GET);
-  return response.data;
+type LabelListResponse = components['schemas']['LabelListResponse'];
+type ApiLabelResponse =
+  paths['/api/v1/label']['get']['responses']['200']['content']['*/*'];
+
+const getAllLabels = async (): Promise<LabelListResponse['labels']> => {
+  const response = await api.get<ApiLabelResponse>(LABEL_END_POINT.GET);
+  return response.data.data?.labels ?? [];
 };
 
 export const useGetLabel = () => {
