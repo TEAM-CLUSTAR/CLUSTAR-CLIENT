@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
@@ -9,6 +9,8 @@ import {
   SidebarPannel,
   SideBarProfile,
 } from '@cds/ui';
+
+import { useGetLabel } from '@pages/all-memo/api/queries';
 
 import { useGetUserInfo } from './api/queries';
 
@@ -30,33 +32,6 @@ const MENU_ITEMS = [
   { id: 'ai', label: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
 ] as const;
 
-const LABEL_ITEMS = [
-  {
-    id: 'project',
-    label: '졸업 프로젝트',
-    icon: 'ic_label',
-    activeIcon: 'ic_label_blue',
-  },
-  {
-    id: 'general',
-    label: '교양',
-    icon: 'ic_label',
-    activeIcon: 'ic_label_blue',
-  },
-  {
-    id: 'sopt',
-    label: 'SOPT',
-    icon: 'ic_label',
-    activeIcon: 'ic_label_blue',
-  },
-  {
-    id: 'reference',
-    label: '레퍼런스',
-    icon: 'ic_label',
-    activeIcon: 'ic_label_blue',
-  },
-] as const;
-
 interface SidebarProps {
   isExpanded: boolean;
   onToggle: () => void;
@@ -73,11 +48,6 @@ const getIconState = (
   return { isActive, iconName };
 };
 
-const FLOATING_LABEL_ITEMS = LABEL_ITEMS.map((item) => ({
-  id: item.id,
-  name: item.label,
-}));
-
 const Sidebar = ({
   isExpanded,
   onToggle,
@@ -86,13 +56,30 @@ const Sidebar = ({
 }: SidebarProps) => {
   const [isHover, setIsHover] = useState(false);
   const { data: userInfo } = useGetUserInfo();
+  const { data: labels = [] } = useGetLabel();
+
+  const labelItems = useMemo(() => {
+    return labels.map((label) => ({
+      id: String(label.labelId ?? ''),
+      label: label.name ?? '',
+      icon: 'ic_label' as IconName,
+      activeIcon: 'ic_label_blue' as IconName,
+    }));
+  }, [labels]);
+
+  const FLOATING_LABEL_ITEMS = useMemo(() => {
+    return labelItems.map((item) => ({
+      id: item.id,
+      name: item.label,
+    }));
+  }, [labelItems]);
 
   const processedMenuItems = MENU_ITEMS.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
   }));
 
-  const processedLabelItems = LABEL_ITEMS.map((item) => ({
+  const processedLabelItems = labelItems.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
   }));
@@ -172,8 +159,10 @@ const Sidebar = ({
             <SidebarIcon
               isSelected={false}
               onClick={() => {
-                onToggle();
-                onSelect(LABEL_ITEMS[0].id);
+                if (labelItems.length > 0) {
+                  onToggle();
+                  onSelect(labelItems[0].id);
+                }
               }}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />

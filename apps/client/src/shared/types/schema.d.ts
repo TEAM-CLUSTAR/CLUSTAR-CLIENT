@@ -341,6 +341,27 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/label': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 라벨 전체 조회
+     * @description 사용자가 생성한 모든 라벨 목록을 조회합니다.
+     *     메모에 사용된 라벨과 미사용 라벨을 모두 포함합니다.
+     */
+    get: operations['getAllLabels'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/chat-rooms/latest': {
     parameters: {
       query?: never;
@@ -876,6 +897,15 @@ export interface components {
       content?: string;
       /** @description 메모에 딸린 라벨 목록 */
       labelList?: components['schemas']['LabelResponse'][];
+    };
+    ApiResponseLabelListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['LabelListResponse'];
+    };
+    LabelListResponse: {
+      labels?: components['schemas']['LabelResponse'][];
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
@@ -1841,6 +1871,26 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseMemoStructureListResponse'];
+        };
+      };
+    };
+  };
+  getAllLabels: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseLabelListResponse'];
         };
       };
     };

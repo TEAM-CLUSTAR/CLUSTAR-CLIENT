@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { Card, DetailModal } from '@cds/ui';
+
+import { ALL_MEMO_KEY } from '@pages/all-memo/api/query-key';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
@@ -42,6 +45,7 @@ const MemoCardItem = ({
   } = memo;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   // 모달이 열릴 때만 API 호출
   const {
@@ -57,6 +61,13 @@ const MemoCardItem = ({
       sourceMemoTitleList: [],
     },
   } = useDetailMemo({ memoId: Number(id), enabled: isModalOpen });
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open);
+    if (!open) {
+      queryClient.invalidateQueries({ queryKey: ALL_MEMO_KEY.ALL });
+    }
+  };
 
   const hasImage = !!imageUrl;
   const cardClassName = hasImage ? styles.gridItemWithImage : styles.gridItem;
@@ -86,7 +97,7 @@ const MemoCardItem = ({
     <div className={cardClassName}>
       <DetailModal
         open={isModalOpen}
-        onOpenChange={setIsModalOpen}
+        onOpenChange={handleModalOpenChange}
         id={Number(id)}
         data={memoDetail}
         onAiCreateClick={handleAiCreateClick}

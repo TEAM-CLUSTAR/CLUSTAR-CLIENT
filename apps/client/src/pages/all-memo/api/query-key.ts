@@ -6,3 +6,8 @@ export const ALL_MEMO_KEY = {
     ...(labelIds ? [{ labelIds }] : []),
   ],
 };
+
+export const LABEL_KEY = {
+  ALL: ['labels'],
+  GET: () => [...LABEL_KEY.ALL, 'get'],
+};
