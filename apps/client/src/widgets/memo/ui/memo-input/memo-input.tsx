@@ -112,7 +112,6 @@ const MemoInput = () => {
   const handleDeleteTab = (id: string) => {
     if (tabs.length <= 1) return;
 
-    // 탭 삭제 모달은 취소 버튼 있음
     setTabToDeleteId(id);
     setIsHaveCancel(true);
     setIsConfirmModalOpen(true);
@@ -184,7 +183,6 @@ const MemoInput = () => {
 
     createMemo(request, {
       onSuccess: () => {
-        // 저장하기 모달은 취소 버튼 없음
         setIsHaveCancel(false);
         setIsConfirmModalOpen(true);
 
@@ -228,20 +226,11 @@ const MemoInput = () => {
       return;
     }
 
-    // 페이지 이동 확인 모달인 경우
     if (pendingNavigation) {
-      handleNavigationConfirm(() => {
-        // 모든 탭과 draft 초기화
-        const id = createId();
-        const tab: TabItem = { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL };
-        setTabs([tab]);
-        setSelectedTabId(id);
-        setDraftsById({ [id]: createEmptyDraft(id) } as DraftsById);
-      });
+      handleNavigationConfirm(() => {});
       return;
     }
 
-    // 저장하기 모달의 확인 버튼은 모달만 닫기
     setIsConfirmModalOpen(false);
   };
 
