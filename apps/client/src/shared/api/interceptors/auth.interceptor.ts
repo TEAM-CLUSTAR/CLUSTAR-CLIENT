@@ -22,9 +22,7 @@ export const handleCheckAndSetToken = (
  */
 export const handleUnauthorizedResponse = (error: AxiosError) => {
   if (error.response?.status === 401) {
-    // 토큰 만료 시 토큰 삭제
     removeAccessToken();
-    // TODO: 로그인 페이지로 리다이렉트 또는 토큰 재발급 로직 추가
   }
 
   return Promise.reject(error);
