@@ -190,16 +190,25 @@ export const image = style({
 
 export const allContentsContainer = style({
   display: 'flex',
+  height: '100%',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   gap: '2.1em',
   padding: '2.2rem 2rem',
 });
 
-export const textContent = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-  marginTop: '2rem',
+export const textContent = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+  variants: {
+    aiResult: {
+      true: { marginTop: '1.4rem' },
+      false: { marginTop: '2rem' },
+    },
+  },
 });
 
 export const labelListContainer = style({
@@ -218,6 +227,10 @@ export const titleContainer = recipe({
       false: {},
     },
   },
+});
+
+export const icon = style({
+  flexShrink: 0,
 });
 
 export const aiNewResult = style({
