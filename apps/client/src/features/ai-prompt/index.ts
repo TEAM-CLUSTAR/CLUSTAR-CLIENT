@@ -1,4 +1,5 @@
 export type {
+  AiOption,
   Message,
   MessageType,
   SelectedMemo,

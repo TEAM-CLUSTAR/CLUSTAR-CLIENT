@@ -40,7 +40,6 @@ const PromptInput = ({
   const hasSelectedMemos = selectedMemosCount > 0;
 
   const handleSend = () => {
-    //TODO: 추후 API 요청 코드 추가
     const submitValue = {
       text: trimmedText,
       selectedOptionId,
