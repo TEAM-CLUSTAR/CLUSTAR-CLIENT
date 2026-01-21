@@ -1,6 +1,6 @@
 import { ChangeEvent, useMemo, useState } from 'react';
 
-import { Button } from '@cds/ui';
+import { Button, ConfirmModal } from '@cds/ui';
 
 import { LabelTextType } from '@shared/types/label-type';
 
@@ -60,6 +60,7 @@ const MemoInput = () => {
   const [tabs, setTabs] = useState<TabItem[]>(initTabs);
   const [selectedTabId, setSelectedTabId] = useState<string>(initSelectedId);
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const { mutate: createMemo } = useCreateMemo();
 
@@ -150,12 +151,48 @@ const MemoInput = () => {
   };
 
   const handleSubmit = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmModalClose = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
       content: htmlToMarkdown(selectedDraft.contents),
       labelNames: selectedDraft.labels.map((l) => l.text),
     };
-    createMemo(request);
+
+    createMemo(request, {
+      onSuccess: () => {
+        setIsConfirmModalOpen(false);
+
+        const currentTabId = selectedTabId;
+        setTabs((prevTabs) => {
+          if (prevTabs.length <= 1) {
+            return prevTabs;
+          }
+
+          const nextTabs = prevTabs.filter((tab) => tab.id !== currentTabId);
+
+          setDraftsById((prev) => {
+            const { [currentTabId]: _, ...rest } = prev;
+            return rest;
+          });
+
+          const removedIndex = prevTabs.findIndex(
+            (tab) => tab.id === currentTabId,
+          );
+          const prevTab = nextTabs[removedIndex - 1];
+          if (prevTab) {
+            setSelectedTabId(prevTab.id);
+          } else {
+            const nextTab = nextTabs[removedIndex];
+            setSelectedTabId(nextTab?.id ?? nextTabs[0]?.id ?? '');
+          }
+
+          return nextTabs;
+        });
+      },
+    });
   };
   return (
     <div className={styles.memoInputContainer}>
@@ -188,14 +225,21 @@ const MemoInput = () => {
 
         <div className={styles.footerContainer}>
           <ToolBar />
-          <Button
-            size="lg"
-            onClick={handleSubmit}
-            disabled={!selectedDraft.contents || !selectedDraft.title}
-          >
-            저장하기
-          </Button>
+          <div className={styles.buttonContainer}>
+            <Button
+              size="lg"
+              onClick={handleSubmit}
+              disabled={!selectedDraft.contents || !selectedDraft.title}
+            >
+              저장하기
+            </Button>
+          </div>
         </div>
+        <ConfirmModal
+          open={isConfirmModalOpen}
+          onOpenChange={setIsConfirmModalOpen}
+          onCloseClick={handleConfirmModalClose}
+        />
       </div>
     </div>
   );
