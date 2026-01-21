@@ -158,7 +158,10 @@ const MemoCardGrid = ({
   }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   return (
-    <div className={styles.scrollContainer({ hasAiComponent })}>
+    <div
+      ref={scrollContainerRef}
+      className={styles.scrollContainer({ hasAiComponent })}
+    >
       <div className={styles.gridContainer({ hasAiComponent })}>
         {memoData.map((memo) => {
           const isSelected = selectedIds.has(memo.id);
