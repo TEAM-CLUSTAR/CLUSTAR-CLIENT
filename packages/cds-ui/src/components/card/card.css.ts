@@ -193,7 +193,6 @@ export const allContentsContainer = style({
   height: '100%',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  gap: '2.1em',
   padding: '2.2rem 2rem',
 });
 
