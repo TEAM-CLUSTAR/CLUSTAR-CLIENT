@@ -50,7 +50,7 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 대시보드 메모 전체 조회
+     * 메모 전체 조회(대시보드)
      * @description 메모를 전체 조회합니다.
      *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
@@ -100,7 +100,15 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    /**
+     * AI가 생성한 메모 전체 조회(대시보드)
+     * @description AI가 생성한 메모를 전체 조회합니다.
+     *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
+     *     - 커서 기반 페이지네이션을 지원합니다.
+     *     - 각 메모는 대표 이미지 1개(presigned URL)와
+     *       이미지/파일 개수 정보를 포함합니다.
+     */
+    get: operations['getAiMemos'];
     put?: never;
     /**
      * AI가 만든 메모 저장
@@ -294,7 +302,7 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 메모 상세조회(모달창)
+     * 메모 전체 조회(모달창)
      * @description 하나의 메모를 상세조회 합니다.
      *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
      *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
@@ -728,6 +736,7 @@ export interface components {
       fileCount?: number;
       isPinned?: boolean;
       isAiGenerated?: boolean;
+      isNew?: boolean;
       /** Format: date-time */
       createdAt?: string;
       labelList?: components['schemas']['LabelResponse'][];
@@ -1218,6 +1227,87 @@ export interface operations {
         };
       };
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getAiMemos: {
+    parameters: {
+      query?: {
+        labelIds?: number[];
+        cursorCreatedAt?: string;
+        cursorMemoId?: number;
+        size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoListDashboardResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
         headers: {
           [name: string]: unknown;
         };

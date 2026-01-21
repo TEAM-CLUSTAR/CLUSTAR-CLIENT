@@ -28,7 +28,8 @@ export const button = recipe({
         ...themeVars.fontStyles.label_sb_12,
       },
       lg: {
-        width: '12.4rem',
+        width: '100%',
+        minWidth: '12.4rem',
         height: '4rem',
         borderRadius: '8px',
         ...themeVars.fontStyles.title_sb_18,
