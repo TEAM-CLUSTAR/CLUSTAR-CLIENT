@@ -1,14 +1,14 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/api/instance';
-import { components } from '@shared/types/schema';
+import { components, paths } from '@shared/types/schema';
 
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import { mapApiMemoToMockMemo } from '@widgets/memo-list/types/memo';
 
-import { ALL_MEMO_END_POIINT } from './end-point';
-import { ALL_MEMO_KEY } from './query-key';
-import { type AllMemoResponse } from './type';
+import { ALL_MEMO_END_POIINT, LABEL_END_POINT } from './end-point';
+import { ALL_MEMO_KEY, LABEL_KEY } from './query-key';
+import { type AllMemoResponse, LabelResponse } from './type';
 
 type MemoCursor =
   | {
@@ -100,5 +100,17 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
       );
       return result;
     },
+  });
+};
+
+const getAllLabels = async () => {
+  const response = await api.get<LabelResponse>(LABEL_END_POINT.GET);
+  return response.data;
+};
+
+export const useGetLabel = () => {
+  return useQuery({
+    queryKey: LABEL_KEY.GET(),
+    queryFn: () => getAllLabels(),
   });
 };
