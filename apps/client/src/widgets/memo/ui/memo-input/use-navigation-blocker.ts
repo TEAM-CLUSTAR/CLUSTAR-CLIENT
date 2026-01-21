@@ -31,13 +31,20 @@ export const useNavigationBlocker = ({
   >(null);
   const isResettingRef = useRef(false);
 
+  const normalizeContents = (contents: string): string => {
+    if (!contents) return '';
+    const withoutTags = contents.replace(/<[^>]*>/g, '');
+    return withoutTags.replace(/&nbsp;/g, ' ').trim();
+  };
+
   const hasUnsavedChanges = useMemo(() => {
-    return Object.values(draftsById).some(
-      (draft: MemoDraft) =>
-        (draft.title && draft.title.trim().length > 0) ||
-        (draft.contents && draft.contents.trim().length > 0) ||
-        (draft.labels && draft.labels.length > 0),
-    );
+    return Object.values(draftsById).some((draft: MemoDraft) => {
+      const hasTitle = draft.title.trim().length > 0;
+      const hasContents = normalizeContents(draft.contents).length > 0;
+      const hasLabels = draft.labels.length > 0;
+
+      return hasTitle || hasContents || hasLabels;
+    });
   }, [draftsById]);
 
   const blocker = useBlocker(
