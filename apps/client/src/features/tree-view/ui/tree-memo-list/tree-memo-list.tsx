@@ -19,7 +19,7 @@ const TreeMemoList = ({ labelName, memos }: TreeMemoListProps) => {
       <span className={styles.title({ labelColor })}>{labelName}</span>
       <div className={styles.memosContainer}>
         {memos.map((memo) => (
-          <TreeMemo key={memo.memoId} labelName={labelName} memo={memo} />
+          <TreeMemo key={memo.memoId} memo={memo} />
         ))}
       </div>
     </div>

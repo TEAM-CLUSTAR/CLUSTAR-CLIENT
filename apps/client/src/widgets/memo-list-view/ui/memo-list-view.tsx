@@ -2,8 +2,8 @@ import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
+import { MemoCardGrid } from '@widgets/memo-list';
 import { type MockMemo } from '@widgets/memo-list/types/memo';
-import CardGridList from '@widgets/memo-list/ui/memo-card-grid';
 import { TreeView } from '@widgets/tree-view';
 
 import {
@@ -84,7 +84,7 @@ const MemoListView = ({
           onSearchEnter={handleSearchEnter}
         />
         {viewMode === 'card' && (
-          <CardGridList
+          <MemoCardGrid
             memoData={filteredMemos}
             isAiMode={isAiMode}
             selectedIds={selectedCardIds}
