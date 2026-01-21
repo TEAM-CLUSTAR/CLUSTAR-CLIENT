@@ -5,19 +5,17 @@ export const gridContainer = recipe({
   base: {
     display: 'grid',
     gap: '2.4rem',
-    padding: '0 0 1.2rem 0',
+    marginBottom: '2rem',
+    marginLeft: '2rem',
+    padding: '0 2rem',
   },
   variants: {
     hasAiComponent: {
       true: {
         gridTemplateColumns: 'repeat(2, 1fr)',
-        padding: '0 2.2rem 0 4.6rem',
-        width: '73.2rem',
       },
       false: {
         gridTemplateColumns: 'repeat(3, 1fr)',
-        padding: '0 7.6rem 0 7.6rem',
-        width: '116rem',
       },
     },
   },
@@ -39,9 +37,7 @@ export const scrollContainer = recipe({
     height: '100vh',
     overflowY: 'scroll',
     overflowX: 'hidden',
-    scrollbarGutter: 'stable',
-    display: 'flex',
-    justifyContent: 'center',
+    // backgroundColor: 'red',
   },
 
   variants: {

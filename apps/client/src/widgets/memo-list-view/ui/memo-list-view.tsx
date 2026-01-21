@@ -63,9 +63,16 @@ const MemoListView = ({
     onAiCreateClick,
   });
 
+  const isCard = viewMode === 'card';
+
   return (
     <div className={styles.container({ isPromptOpen })}>
-      <div className={styles.contentWrapper({ isPromptOpen })}>
+      <div
+        className={styles.contentWrapper({
+          isPromptOpen,
+          isCard,
+        })}
+      >
         <Header
           title={title}
           count={totalCount ?? memoCount}
