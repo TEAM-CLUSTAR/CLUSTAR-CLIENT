@@ -15,7 +15,7 @@ interface BlockEmbedConstructor {
 
 const INIT_KEY = '__clustar_quill_register_v1__';
 
-export const ensureQuillRegistered = () => {
+const ensureQuillRegistered = () => {
   // ✅ HMR/중복 번들에서도 1회만 보장
   const g = globalThis as unknown as Record<string, unknown>;
   if (g[INIT_KEY]) return;
@@ -35,3 +35,8 @@ export const ensureQuillRegistered = () => {
 
   g[INIT_KEY] = true;
 };
+
+// ✅ 모듈 로드 시점에 즉시 등록 (ReactQuill 렌더링 전에 실행됨)
+ensureQuillRegistered();
+
+export { ensureQuillRegistered };

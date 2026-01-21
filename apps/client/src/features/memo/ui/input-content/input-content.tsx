@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import ReactQuill from 'react-quill-new';
 
+import '../../libs/quill-register';
+
 import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
-import { ensureQuillRegistered } from '../../libs/quill-register';
 
 import * as styles from './input-content.css';
 
@@ -12,10 +13,6 @@ interface InputContnentProps {
 }
 
 const InputContent = ({ value, onChange }: InputContnentProps) => {
-  useEffect(() => {
-    ensureQuillRegistered();
-  }, []);
-
   const modules = useMemo(() => memoQuillModules, []);
   const formats = useMemo(() => [...memoQuillFormats], []);
 
