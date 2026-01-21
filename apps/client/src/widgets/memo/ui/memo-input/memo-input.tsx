@@ -61,7 +61,8 @@ const MemoInput = () => {
   const [selectedTabId, setSelectedTabId] = useState<string>(initSelectedId);
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
+  const [tabToDeleteId, setTabToDeleteId] = useState<string | null>(null);
+  const [isHaveCancel, setIsHaveCancel] = useState(false);
   const { mutate: createMemo } = useCreateMemo();
 
   const selectedDraft = draftsById[selectedTabId];
@@ -99,19 +100,29 @@ const MemoInput = () => {
   };
 
   const handleDeleteTab = (id: string) => {
-    setTabs((prevTabs) => {
-      if (prevTabs.length <= 1) return prevTabs;
+    if (tabs.length <= 1) return;
 
-      const nextTabs = prevTabs.filter((tab) => tab.id !== id);
+    // 탭 삭제 모달은 취소 버튼 있음
+    setTabToDeleteId(id);
+    setIsHaveCancel(true);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmTabDelete = () => {
+    if (!tabToDeleteId) return;
+
+    const idToDelete = tabToDeleteId;
+    setTabs((prevTabs) => {
+      const nextTabs = prevTabs.filter((tab) => tab.id !== idToDelete);
+
       setDraftsById((prev) => {
-        const { [id]: _, ...rest } = prev;
+        const { [idToDelete]: _, ...rest } = prev;
         return rest;
       });
 
-      const removedIndex = prevTabs.findIndex((tab) => tab.id === id);
-
+      const removedIndex = prevTabs.findIndex((tab) => tab.id === idToDelete);
       setSelectedTabId((prevSelected) => {
-        if (prevSelected !== id) return prevSelected;
+        if (prevSelected !== idToDelete) return prevSelected;
 
         const prevTab = nextTabs[removedIndex - 1];
         if (prevTab) return prevTab.id;
@@ -122,6 +133,10 @@ const MemoInput = () => {
 
       return nextTabs;
     });
+
+    setIsConfirmModalOpen(false);
+    setTabToDeleteId(null);
+    setIsHaveCancel(false);
   };
 
   const handleSelectTab = (id: string) => {
@@ -151,10 +166,6 @@ const MemoInput = () => {
   };
 
   const handleSubmit = () => {
-    setIsConfirmModalOpen(true);
-  };
-
-  const handleConfirmModalClose = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
       content: htmlToMarkdown(selectedDraft.contents),
@@ -163,7 +174,9 @@ const MemoInput = () => {
 
     createMemo(request, {
       onSuccess: () => {
-        setIsConfirmModalOpen(false);
+        // 저장하기 모달은 취소 버튼 없음
+        setIsHaveCancel(false);
+        setIsConfirmModalOpen(true);
 
         const currentTabId = selectedTabId;
         setTabs((prevTabs) => {
@@ -197,6 +210,16 @@ const MemoInput = () => {
         });
       },
     });
+  };
+
+  const handleConfirmModalClose = () => {
+    if (tabToDeleteId) {
+      handleConfirmTabDelete();
+      return;
+    }
+
+    // 저장하기 모달의 확인 버튼은 모달만 닫기
+    setIsConfirmModalOpen(false);
   };
   return (
     <div className={styles.memoInputContainer}>
@@ -241,8 +264,16 @@ const MemoInput = () => {
         </div>
         <ConfirmModal
           open={isConfirmModalOpen}
-          onOpenChange={setIsConfirmModalOpen}
+          onOpenChange={(open) => {
+            setIsConfirmModalOpen(open);
+            if (!open) {
+              // 모달이 닫힐 때 상태 초기화
+              setIsHaveCancel(false);
+              setTabToDeleteId(null);
+            }
+          }}
           onCloseClick={handleConfirmModalClose}
+          isHavedCancel={isHaveCancel}
         />
       </div>
     </div>

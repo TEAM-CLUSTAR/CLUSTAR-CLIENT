@@ -30,6 +30,9 @@ export const modalContent = style({
 });
 
 export const buttonContainer = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: '1.2rem',
   marginTop: '3.2rem',
   width: '100%',
 });

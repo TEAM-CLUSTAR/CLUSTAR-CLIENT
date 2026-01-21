@@ -58,6 +58,14 @@ export const button = recipe({
         ...themeVars.fontStyles.title_sb_24,
       },
     },
+    bgColor: {
+      white: {
+        backgroundColor: themeVars.color.white,
+      },
+      primary: {
+        backgroundColor: themeVars.color.blue500,
+      },
+    },
   },
 
   compoundVariants: [
