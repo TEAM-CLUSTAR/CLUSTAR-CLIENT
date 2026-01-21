@@ -235,5 +235,6 @@ export const useMemoListView = ({
     handleValueChange,
     handleOpenTreeView,
     setIsLoading,
+    chatRoomId,
   };
 };
