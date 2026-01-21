@@ -14,6 +14,26 @@ import TextContent from '../text-content/text-content';
 
 import * as styles from './detail-modal.css';
 
+const formatDateTime = (dateString: string): string => {
+  if (!dateString) return '';
+
+  try {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    return `${year}.${month}.${day} ${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+  } catch {
+    return dateString;
+  }
+};
+
 export interface SelectedMemoTypes {
   memoId: number;
   title: string;
@@ -92,7 +112,7 @@ const DetailModal = ({
                   id: String(label.labelId),
                   text: label.name,
                 }))}
-                dateText={createdAt}
+                dateText={formatDateTime(createdAt)}
                 labelSize="lg"
               />
             </div>
