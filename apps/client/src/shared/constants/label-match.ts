@@ -14,7 +14,7 @@ export const PRIMARY_COLOR_VALUE_BY_LABEL_COLOR: Record<
   LabelColorType,
   string
 > = {
-  blue: themeVars.color.blue400,
+  blue: themeVars.color.label03,
   green: themeVars.color.label05,
   pink: themeVars.color.label07,
   purple: themeVars.color.label01,

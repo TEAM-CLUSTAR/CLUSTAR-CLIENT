@@ -28,7 +28,7 @@ export const button = recipe({
         ...themeVars.fontStyles.label_sb_12,
       },
       lg: {
-        width: '12.4rem',
+        width: '100%',
         height: '4rem',
         borderRadius: '8px',
         ...themeVars.fontStyles.title_sb_18,
@@ -56,6 +56,14 @@ export const button = recipe({
       sm: {},
       lg: {
         ...themeVars.fontStyles.title_sb_24,
+      },
+    },
+    bgColor: {
+      white: {
+        backgroundColor: themeVars.color.white,
+      },
+      primary: {
+        backgroundColor: themeVars.color.blue500,
       },
     },
   },
