@@ -85,7 +85,7 @@ const Card = ({
             {aiNewResult && <p className={styles.aiNewResult}>NEW</p>}
           </div>
 
-          <div className={styles.textContent({ aiResult })}>
+          <div className={styles.textContent({ aiResult, aiNewResult })}>
             <div className={styles.titleContainer({ aiResult })}>
               {aiResult && (
                 <Icon

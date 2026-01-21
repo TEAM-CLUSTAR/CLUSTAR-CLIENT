@@ -208,6 +208,10 @@ export const textContent = recipe({
       true: { marginTop: '1.4rem' },
       false: { marginTop: '2rem' },
     },
+    aiNewResult: {
+      true: { marginTop: '1.2rem' },
+      false: {},
+    },
   },
 });
 
