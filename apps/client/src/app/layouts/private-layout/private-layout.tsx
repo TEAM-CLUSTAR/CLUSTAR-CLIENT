@@ -47,8 +47,6 @@ function PrivateLayoutContent() {
       <div className={styles.content}>
         <div className={styles.sidebarContainer}>
           <Sidebar
-            userId="user123"
-            userEmail="user@example.com"
             isExpanded={effectiveExpanded}
             onToggle={toggleSidebar}
             selectedId={selectedId}
