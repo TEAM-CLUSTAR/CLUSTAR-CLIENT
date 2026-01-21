@@ -168,6 +168,10 @@ const MemoInput = () => {
         const currentTabId = selectedTabId;
         setTabs((prevTabs) => {
           if (prevTabs.length <= 1) {
+            setDraftsById((prev) => ({
+              ...prev,
+              [currentTabId]: createEmptyDraft(currentTabId),
+            }));
             return prevTabs;
           }
 
