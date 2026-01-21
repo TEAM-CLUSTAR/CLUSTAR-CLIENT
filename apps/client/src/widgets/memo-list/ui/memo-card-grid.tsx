@@ -4,6 +4,8 @@ import { Card, DetailModal } from '@cds/ui';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
+import { useDetailMemo } from '@entities/tree-view/api/queries';
+
 import type { MockMemo } from '@widgets/memo-list/types/memo';
 
 import * as styles from './memo-card-grid.css';
@@ -37,17 +39,31 @@ const MemoCardItem = ({
     imageAlt,
     aiResult,
     aiNewResult,
-    selectedMemos,
   } = memo;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 모달이 열릴 때만 API 호출
+  const {
+    data: memoDetail = {
+      memoId: 0,
+      title: '',
+      content: '',
+      images: [],
+      files: [],
+      labelList: [],
+      createdAt: '',
+      isAiGenerated: false,
+      sourceMemoTitleList: [],
+    },
+  } = useDetailMemo({ memoId: Number(id), enabled: isModalOpen });
 
   const hasImage = !!imageUrl;
   const cardClassName = hasImage ? styles.gridItemWithImage : styles.gridItem;
 
   const handleSelect = () => {
     if (!disabled && isAiMode) {
-      onAiSelectToggle(id);
+      onAiSelectToggle(String(id));
     }
   };
 
@@ -60,33 +76,20 @@ const MemoCardItem = ({
     handleDoubleClick: handleModalOpen,
   });
 
+  const handleAiCreateClick = (memoId: number) => {
+    if (onAiCreateClick) {
+      onAiCreateClick(String(memoId));
+    }
+  };
+
   return (
     <div className={cardClassName}>
       <DetailModal
-        labelList={{
-          labelItems: item,
-          dateText: date,
-        }}
-        textContent={{
-          isAiResult: aiResult ?? false,
-          title,
-          content: contents,
-        }}
-        images={
-          imageUrl
-            ? [
-                {
-                  imageUrl,
-                  imageAlt: imageAlt ?? '',
-                },
-              ]
-            : undefined
-        }
-        selectedMemos={selectedMemos}
-        memoId={id}
-        onAiCreateClick={onAiCreateClick}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
+        id={Number(id)}
+        data={memoDetail}
+        onAiCreateClick={handleAiCreateClick}
       >
         <Card
           item={item}

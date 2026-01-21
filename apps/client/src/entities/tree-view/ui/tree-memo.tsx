@@ -1,6 +1,12 @@
+import { useState } from 'react';
+
+import { DetailModal } from '@cds/ui';
+
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
+
+import { useDetailMemo } from '../api/queries';
 
 import * as styles from './tree-memo.css';
 
@@ -10,14 +16,38 @@ interface TreeMemoProps {
 }
 
 const TreeMemo = ({ labelName, memo }: TreeMemoProps) => {
-  const { title, content } = memo;
+  const { memoId, title, content } = memo;
   const labelColor = LABEL_COLOR_BY_TEXT[labelName];
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 모달이 열릴 때만 API 호출
+  const {
+    data: memoDetail = {
+      memoId: 0,
+      title: '',
+      content: '',
+      images: [],
+      files: [],
+      labelList: [],
+      createdAt: '',
+      isAiGenerated: false,
+      sourceMemoTitleList: [],
+    },
+  } = useDetailMemo({ memoId, enabled: isOpen });
+
   return (
-    <button type="button" className={styles.container({ labelColor })}>
-      <span className={styles.title}>{title}</span>
-      <span className={styles.content}>{content}</span>
-    </button>
+    <DetailModal
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      id={memoId}
+      data={memoDetail}
+    >
+      <button type="button" className={styles.container({ labelColor })}>
+        <span className={styles.title}>{title}</span>
+        <span className={styles.content}>{content}</span>
+      </button>
+    </DetailModal>
   );
 };
 
