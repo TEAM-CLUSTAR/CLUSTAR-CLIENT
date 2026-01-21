@@ -11,13 +11,11 @@ import { useDetailMemo } from '../api/queries';
 import * as styles from './tree-memo.css';
 
 interface TreeMemoProps {
-  labelName: LabelTextType;
   memo: StructureMemoTypes;
 }
 
-const TreeMemo = ({ labelName, memo }: TreeMemoProps) => {
-  const { memoId, title, content } = memo;
-  const labelColor = LABEL_COLOR_BY_TEXT[labelName];
+const TreeMemo = ({ memo }: TreeMemoProps) => {
+  const { memoId, title, content, labelList } = memo;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,6 +33,8 @@ const TreeMemo = ({ labelName, memo }: TreeMemoProps) => {
       sourceMemoTitleList: [],
     },
   } = useDetailMemo({ memoId, enabled: isOpen });
+  const labelName = labelList[0]?.name ?? ('라벨없음' as LabelTextType);
+  const labelColor = LABEL_COLOR_BY_TEXT[labelName as LabelTextType];
 
   return (
     <DetailModal
