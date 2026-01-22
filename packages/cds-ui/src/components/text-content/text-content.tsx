@@ -189,7 +189,7 @@ const TextContent = ({
             className={styles.icon}
           />
           <div className={styles.titleWrapper}>
-            <p className={styles.aiSummary}>AI 요약본</p>
+            <p className={styles.aiSummary}>AI 결과</p>
             <Title title={title} />
           </div>
         </div>
