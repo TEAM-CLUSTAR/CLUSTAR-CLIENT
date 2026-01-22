@@ -1,12 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Controls,
-  EdgeTypes,
-  getNodesBounds,
-  NodeTypes,
-  ReactFlow,
-  useNodesInitialized,
-} from '@xyflow/react';
+import { useEffect, useRef, useState } from 'react';
+import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
 
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
