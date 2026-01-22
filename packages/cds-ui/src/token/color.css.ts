@@ -6,6 +6,7 @@ export const color = {
   black: '#000000',
 
   // blue Colors
+  blue25: '#F7F9FF',
   blue50: '#ECEEFF',
   blue100: '#E3E6FF',
   blue200: '#CACFFF',
