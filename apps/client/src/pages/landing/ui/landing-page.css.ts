@@ -51,7 +51,7 @@ export const contentContainer = style({
   alignItems: 'center',
   width: '100%',
   position: 'relative',
-  backgroundImage: `url('public/landing_bg.png')`,
+  backgroundImage: `url('/landing_bg.png')`,
   backgroundSize: '100% auto',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center top',
