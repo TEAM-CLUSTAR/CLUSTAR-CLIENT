@@ -12,7 +12,7 @@ const AllMemoEmptyView = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.emptycontainer}>
+    <div className={styles.container}>
       <img src={emptyImage} alt="empty image" />
       <p className={styles.emptyTitle}>작성된 메모가 없습니다.</p>
       <p className={styles.description}>

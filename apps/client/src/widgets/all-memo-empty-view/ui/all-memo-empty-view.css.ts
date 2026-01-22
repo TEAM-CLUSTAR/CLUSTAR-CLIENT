@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '@cds/ui';
 
-export const emptycontainer = style({
+export const container = style({
   height: '100vh',
   display: 'flex',
   flexDirection: 'column',
