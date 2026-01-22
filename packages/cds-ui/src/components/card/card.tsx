@@ -7,6 +7,7 @@ import {
   LabelTextType,
   PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
 } from '../../constants/label-color-map';
+import { themeVars } from '../../styles';
 import LabelList from '../label-list/label-list';
 import Title from '../title/title';
 
@@ -16,6 +17,7 @@ interface LabelItem {
   id: string;
   text: LabelTextType;
 }
+
 interface CardProps {
   item: LabelItem[];
   imageUrl?: string;
@@ -52,7 +54,9 @@ const Card = ({
     : 'grey';
   const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
   const primaryColorValue =
-    PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
+    primaryLabelColor === 'grey'
+      ? `${themeVars.color.grey600}`
+      : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
 
   return (
     <article
