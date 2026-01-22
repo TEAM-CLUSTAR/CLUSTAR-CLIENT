@@ -7,6 +7,7 @@ import {
   LabelTextType,
   PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
 } from '../../constants/label-color-map';
+import { themeVars } from '../../styles';
 import LabelList from '../label-list/label-list';
 import Title from '../title/title';
 
@@ -16,6 +17,7 @@ interface LabelItem {
   id: string;
   text: LabelTextType;
 }
+
 interface CardProps {
   item: LabelItem[];
   imageUrl?: string;
@@ -50,9 +52,13 @@ const Card = ({
   const primaryLabelColor = item[0]
     ? LABEL_COLOR_BY_TEXT[item[0].text]
     : 'grey';
-  const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
   const primaryColorValue =
-    PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
+    primaryLabelColor === 'grey'
+      ? `${themeVars.color.grey600}`
+      : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
+
+  const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
+  const isNewAiSelected = !!aiNewResult && isAiMode && !!isSelectedCard;
 
   return (
     <article
@@ -64,6 +70,7 @@ const Card = ({
         isSelectedCard: isSelectedCard && isAiMode,
         imageUrl: !!imageUrl,
         isClickable: !!onClick,
+        aiNewResultAndAiModeAndSelected: isNewAiSelected,
       })}
       style={
         {
