@@ -55,7 +55,7 @@ const LandingPage = () => {
             </a>
           </header>
           <img
-            src="public/landing_graphic.png"
+            src="/landing_graphic.png"
             alt="landing graphic"
             width={525}
             height={357}
@@ -95,12 +95,7 @@ const LandingPage = () => {
               혹시 당신의 이야기인가요?
             </span>
           </p>
-          <img
-            src="public/img_card.png"
-            alt="card image"
-            width={1202}
-            height={376}
-          />
+          <img src="/img_card.png" alt="card image" width={1202} height={376} />
         </div>
 
         <div className={styles.content03}>
@@ -118,7 +113,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="public/img_view1.png"
+            src="/img_view1.png"
             alt="view1 image"
             width={1440}
             height={437}
@@ -140,7 +135,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="public/img_view2.png"
+            src="/img_view2.png"
             alt="view2 image"
             width={1052}
             height={687}
@@ -149,7 +144,7 @@ const LandingPage = () => {
 
         <div className={styles.content05}>
           <img
-            src="public/img_view3.png"
+            src="/img_view3.png"
             alt="view3 image"
             width={1213}
             height={688}
@@ -181,7 +176,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="public/img_view4.png"
+            src="/img_view4.png"
             alt="view4 image"
             width={1440}
             height={1024}
