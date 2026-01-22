@@ -66,6 +66,7 @@ export const useGetMemoTotalCount = (labelIds?: number[]) => {
       ...(labelIds ? [{ labelIds }] : []),
     ],
     queryFn: () => getMemoTotalCount(labelIds),
+    refetchOnMount: 'always', // 페이지로 돌아왔을 때 항상 refetch (staleTime 무시)
   });
 };
 
@@ -91,6 +92,7 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
       };
     },
     initialPageParam: undefined,
+    refetchOnMount: 'always', // 페이지로 돌아왔을 때 항상 refetch (staleTime 무시)
     select: (data) => {
       const flatApiMemos: MemoDashboardResponse[] = data.pages.flatMap((p) =>
         getMemosFromResponse(p),
