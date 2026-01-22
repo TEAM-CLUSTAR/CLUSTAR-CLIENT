@@ -4,7 +4,6 @@ import ReactQuill from 'react-quill-new';
 import '../../libs/quill-register';
 
 import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
-import { useIsEmptyContent } from '../../models/use-is-empty-content';
 
 import * as styles from './input-content.css';
 
@@ -16,15 +15,6 @@ interface InputContnentProps {
 const InputContent = ({ value, onChange }: InputContnentProps) => {
   const modules = useMemo(() => memoQuillModules, []);
   const formats = useMemo(() => [...memoQuillFormats], []);
-  const { isEmptyContent } = useIsEmptyContent();
-
-  const handleChange = (html: string) => {
-    if (isEmptyContent(html)) {
-      onChange('');
-      return;
-    }
-    onChange(html);
-  };
 
   return (
     <section data-quill-scope>
@@ -34,7 +24,7 @@ const InputContent = ({ value, onChange }: InputContnentProps) => {
         modules={modules}
         formats={formats}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </section>
   );
