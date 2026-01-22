@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
 
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
@@ -42,13 +42,12 @@ const TreeView = () => {
   const { nodes, edges } = createNodeEdge(sortedMemos);
   const { isExpanded, isTreeViewOpen } = useLayoutUI();
   const [isReady, setIsReady] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isTreeViewOpen && !isExpanded) {
       const timer = setTimeout(() => {
         setIsReady(true);
-      }, 300);
+      }, 400);
       return () => clearTimeout(timer);
     } else {
       setIsReady(false);
@@ -56,7 +55,7 @@ const TreeView = () => {
   }, [isTreeViewOpen, isExpanded]);
 
   return (
-    <div ref={containerRef} className={styles.container}>
+    <div className={styles.container}>
       {isReady ? (
         <ReactFlow
           nodes={nodes}
