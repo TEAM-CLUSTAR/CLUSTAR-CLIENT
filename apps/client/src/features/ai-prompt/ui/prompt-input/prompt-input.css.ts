@@ -8,7 +8,7 @@ export const container = style({
   flexDirection: 'column',
   gap: '0.8rem',
   backgroundColor: themeVars.color.white,
-  borderRadius: '12px',
+  borderRadius: '16px',
   padding: '1.8rem 2rem',
   border: `1px solid ${themeVars.color.grey300}`,
   selectors: {
@@ -18,7 +18,7 @@ export const container = style({
       position: 'absolute',
       inset: '-0.1rem',
       padding: '0.15rem',
-      borderRadius: 'calc(12px + 0.1rem)',
+      borderRadius: 'calc(16px + 0.1rem)',
       pointerEvents: 'none',
       background: themeVars.color.gradient02,
 
