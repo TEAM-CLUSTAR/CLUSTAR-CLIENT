@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router';
 
+import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
-import { SplashPage } from '@pages/splash';
 
 import { LoginPage } from '../lazy';
 import { PATH } from '../path';
@@ -16,7 +16,7 @@ export const publicRoutes: RouteObject[] = [
     Component: LoginCallbackPage,
   },
   {
-    path: PATH.SPLASH,
-    Component: SplashPage,
+    path: PATH.LANDING,
+    Component: LandingPage,
   },
 ];
