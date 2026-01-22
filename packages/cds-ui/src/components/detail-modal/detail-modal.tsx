@@ -38,14 +38,14 @@ export interface SelectedMemoTypes {
   memoId: number;
   title: string;
   content: string;
-  images?: {
+  images: {
     imageId: number;
     imageUrl: string;
     imageName: string;
     imageExtension: string;
     imageSize: string;
   }[];
-  files?: {
+  files: {
     fileId: number;
     fileUrl: string;
     fileName: string;
@@ -58,7 +58,7 @@ export interface SelectedMemoTypes {
   }[];
   createdAt: string;
   isAiGenerated: boolean;
-  sourceMemoTitleList?: string[];
+  sourceMemoTitleList: string[];
 }
 
 interface DetailModalProps {
@@ -130,7 +130,7 @@ const DetailModal = ({
           </div>
 
           <div className={styles.contentContainer}>
-            {images && (
+            {images?.length > 0 && (
               <div className={styles.imageContainer}>
                 <div className={styles.imageInnerContainer}>
                   {images.map(({ imageId, imageUrl, imageName }) => (
@@ -143,7 +143,11 @@ const DetailModal = ({
                 </div>
               </div>
             )}
-            <div className={styles.textContentContainer({ isImg: !!images })}>
+            <div
+              className={styles.textContentContainer({
+                isImg: images?.length > 0,
+              })}
+            >
               <TextContent
                 isAiResult={isAiGenerated}
                 mode="detail"
@@ -152,21 +156,21 @@ const DetailModal = ({
               />
             </div>
           </div>
-          {sourceMemoTitleList && (
+          {sourceMemoTitleList?.length > 0 && (
             <div className={styles.selectedMemoContainer}>
               <p className={styles.selectedMemoCountContainer}>
                 사용된 메모 ({sourceMemoTitleList?.length})
               </p>
               <div className={styles.selectedMemoContentContainer}>
                 <div className={styles.selectedMemoContentInnerContainer}>
-                  {sourceMemoTitleList.map((name, idx) => (
+                  {sourceMemoTitleList?.map((name, idx) => (
                     <SelectedMemo key={idx} memoName={name} />
                   ))}
                 </div>
               </div>
             </div>
           )}
-          {files && (
+          {files?.length > 0 && (
             <div className={styles.fileContainer}>
               <div className={styles.fileInnerContainer}>
                 {files.map(({ fileId, fileName, fileSize, fileUrl }) => (

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { AiResultsEmptyView } from '@widgets/ai-results-empty-view';
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import {
   MemoListView,
@@ -26,7 +27,9 @@ const AiResultsPage = () => {
     helpers.setIsAiMode(true);
   };
 
-  return (
+  return aiResultMemos.length === 0 ? (
+    <AiResultsEmptyView />
+  ) : (
     <MemoListView
       title="AI 결과물"
       initialMemos={aiResultMemos}

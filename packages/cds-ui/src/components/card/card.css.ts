@@ -9,7 +9,6 @@ const RADIUS_DEFAULT = '12px';
 const RADIUS_AI_MODE = '0 12px 12px 0';
 
 const EASE_STANDARD = 'cubic-bezier(0.4, 0, 0.2, 1)';
-
 const BAR_TRANSITION = `transform 520ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ${EASE_STANDARD}`;
 
 export const cardContainer = recipe({
@@ -28,14 +27,12 @@ export const cardContainer = recipe({
 
     backgroundColor: themeVars.color.white,
 
-    // 카드: 배경 + radius만 애니메이션
     transition: `background-color 300ms ${EASE_STANDARD}, border-radius 220ms ease-out`,
 
     outline: '2px solid transparent',
     outlineOffset: '-2px',
 
     selectors: {
-      // 왼쪽 bar
       '&::before': {
         content: '""',
         position: 'absolute',
@@ -46,16 +43,12 @@ export const cardContainer = recipe({
         backgroundColor: themeVars.color.grey400,
         pointerEvents: 'none',
         zIndex: 1,
-
         transform: 'translateY(-50%) scaleY(0)',
         transformOrigin: 'center',
         transition: BAR_TRANSITION,
         transitionDelay: '40ms',
       },
 
-      // - 기본 outline(hover) + NEW 그라데이션 레이어는 ::after 하나로 관리
-      // - 기본 상태: boxShadow로 hover outline
-      // - NEW 상태: mask 그라데이션으로 전환(※ 여기서만 속성이 바뀜)
       '&::after': {
         content: '""',
         position: 'absolute',
@@ -87,7 +80,6 @@ export const cardContainer = recipe({
       false: {},
     },
 
-    // NEW 결과 (그라데이션 테두리)
     aiNewResult: {
       true: {
         backgroundImage: themeVars.color.gradient03,
@@ -160,6 +152,27 @@ export const cardContainer = recipe({
       false: {
         cursor: 'default',
       },
+    },
+    // card.css.ts (cardContainer variants 안)
+
+    aiNewResultAndAiModeAndSelected: {
+      true: {
+        borderRadius: RADIUS_AI_MODE,
+
+        boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.20), inset 0 0 0 9999px ${themeVars.color.blue50}`,
+
+        selectors: {
+          '&::before': {
+            backgroundColor: `var(${PRIMARY_COLOR_VAR})`,
+            transform: 'translateY(-50%) scaleY(1)',
+          },
+
+          '&::after': {
+            opacity: 0,
+          },
+        },
+      },
+      false: {},
     },
   },
 });
