@@ -52,11 +52,13 @@ const Card = ({
   const primaryLabelColor = item[0]
     ? LABEL_COLOR_BY_TEXT[item[0].text]
     : 'grey';
-  const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
   const primaryColorValue =
     primaryLabelColor === 'grey'
       ? `${themeVars.color.grey600}`
       : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
+
+  const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
+  const isNewAiSelected = !!aiNewResult && isAiMode && !!isSelectedCard;
 
   return (
     <article
@@ -68,6 +70,7 @@ const Card = ({
         isSelectedCard: isSelectedCard && isAiMode,
         imageUrl: !!imageUrl,
         isClickable: !!onClick,
+        aiNewResultAndAiModeAndSelected: isNewAiSelected,
       })}
       style={
         {
