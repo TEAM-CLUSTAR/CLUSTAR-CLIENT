@@ -3,14 +3,25 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
 
-export const container = style({
-  display: 'flex',
-  flexDirection: 'column',
-  overflowX: 'clip',
-  width: '89.6rem',
-  height: '78.4rem',
-  borderRadius: '16px',
-  backgroundColor: themeVars.color.grey50,
+export const container = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflowX: 'clip',
+    width: '89.6rem',
+    height: '78.4rem',
+    borderRadius: '16px',
+    backgroundColor: themeVars.color.grey50,
+  },
+
+  variants: {
+    isGenerateButton: {
+      true: {},
+      false: {
+        margin: '0 0 2.4rem 0',
+      },
+    },
+  },
 });
 
 export const headerContainer = style({
