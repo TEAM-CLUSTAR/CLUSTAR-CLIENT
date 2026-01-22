@@ -13,7 +13,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   const accessToken = getAccessToken();
 
   if (!accessToken) {
-    return <Navigate to={PATH.LOGIN} state={{ from: location }} replace />;
+    return <Navigate to={PATH.LANDING} state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

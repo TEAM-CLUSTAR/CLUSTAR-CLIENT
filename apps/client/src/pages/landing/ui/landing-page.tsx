@@ -1,19 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 
 import { PATH } from '@shared/router/path';
+import { getAccessToken } from '@shared/storage/token-storage';
 
 import * as styles from './landing-page.css';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const accessToken = getAccessToken();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    if (accessToken) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -25,7 +29,11 @@ const LandingPage = () => {
     container.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [accessToken]);
+
+  if (accessToken) {
+    return <Navigate to={PATH.NEW_MEMO} replace />;
+  }
 
   const scrollToTop = () => {
     containerRef.current?.scrollTo({

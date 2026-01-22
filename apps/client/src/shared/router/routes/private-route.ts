@@ -8,7 +8,6 @@ export const privateRoutes: RouteObject[] = [
     path: PATH.NEW_MEMO,
     Component: NewMemoPage,
   },
-
   {
     path: PATH.ALL_MEMO,
     Component: AllMemoPage,
