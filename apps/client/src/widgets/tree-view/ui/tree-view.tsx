@@ -1,4 +1,14 @@
-import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Controls,
+  EdgeTypes,
+  getNodesBounds,
+  NodeTypes,
+  ReactFlow,
+  useNodesInitialized,
+} from '@xyflow/react';
+
+import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
 import {
   TreeBaseMemoNode,
@@ -28,7 +38,7 @@ const edgeTypes: EdgeTypes = {
 };
 
 const ZOOM = {
-  MIN: 0.6,
+  MIN: 0.5,
   MAX: 0.9,
 };
 
@@ -37,21 +47,47 @@ const TreeView = () => {
   const groupedMemos = groupByLabelName(memos);
   const sortedMemos = convertGroupToNodeEdgeData(groupedMemos);
   const { nodes, edges } = createNodeEdge(sortedMemos);
+  const { isExpanded, isTreeViewOpen } = useLayoutUI();
+  const [isReady, setIsReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // 사이드바가 완전히 닫힌 후에만 트리뷰 준비
+  useEffect(() => {
+    if (isTreeViewOpen && !isExpanded) {
+      // 사이드바가 완전히 닫혀있을 때 준비
+      // 사이드바 애니메이션 완료 후 준비 (400ms)
+      const timer = setTimeout(() => {
+        setIsReady(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      // 사이드바가 아직 열려있거나 닫히는 중이면 로딩 유지
+      setIsReady(false);
+    }
+  }, [isTreeViewOpen, isExpanded]);
 
   return (
-    <div className={styles.container}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        fitView
-        fitViewOptions={{ padding: 0.2 }}
-        minZoom={ZOOM.MIN}
-        maxZoom={ZOOM.MAX}
-      >
-        <Controls />
-      </ReactFlow>
+    <div ref={containerRef} className={styles.container}>
+      {isReady ? (
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          fitView
+          fitViewOptions={{
+            padding: 0.2,
+          }}
+          minZoom={ZOOM.MIN}
+          maxZoom={ZOOM.MAX}
+        >
+          <Controls />
+        </ReactFlow>
+      ) : (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner} />
+        </div>
+      )}
     </div>
   );
 };
