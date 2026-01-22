@@ -44,17 +44,13 @@ const TreeView = () => {
   const [isReady, setIsReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 사이드바가 완전히 닫힌 후에만 트리뷰 준비
   useEffect(() => {
     if (isTreeViewOpen && !isExpanded) {
-      // 사이드바가 완전히 닫혀있을 때 준비
-      // 사이드바 애니메이션 완료 후 준비 (400ms)
       const timer = setTimeout(() => {
         setIsReady(true);
       }, 300);
       return () => clearTimeout(timer);
     } else {
-      // 사이드바가 아직 열려있거나 닫히는 중이면 로딩 유지
       setIsReady(false);
     }
   }, [isTreeViewOpen, isExpanded]);
