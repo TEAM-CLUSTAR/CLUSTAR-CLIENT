@@ -32,6 +32,8 @@ export const useMemoListView = ({
     isPromptOpen,
     setIsPromptOpen,
     setIsTreeViewOpen,
+    chatRoomId,
+    setChatRoomId,
   } = useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,6 @@ export const useMemoListView = ({
   const [pendingNavigation, setPendingNavigation] = useState<
     (() => void) | null
   >(null);
-  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const isPromptOpenRef = useRef(isPromptOpen);
