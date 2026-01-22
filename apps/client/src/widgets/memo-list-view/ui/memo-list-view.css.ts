@@ -61,4 +61,6 @@ export const aiPromptContainer = style({
   right: '2rem',
   bottom: '2rem',
   overflowY: 'auto',
+  boxShadow: '0 0 12px 0 rgba(0, 0, 0, 0.15)',
+  borderRadius: '16px',
 });
