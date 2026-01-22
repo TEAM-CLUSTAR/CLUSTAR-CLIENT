@@ -13,7 +13,7 @@ const AllMemoEmptyView = () => {
 
   return (
     <div className={styles.emptycontainer}>
-      <img src={emptyImage} alt="empty" />
+      <img src={emptyImage} alt="empty image" />
       <p className={styles.emptyTitle}>작성된 메모가 없습니다.</p>
       <p className={styles.description}>
         새 메모 창에 들어가서 새로운 메모를 생성해보세요.
