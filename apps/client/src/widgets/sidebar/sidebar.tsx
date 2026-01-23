@@ -39,6 +39,7 @@ interface SidebarProps {
   onSelect: (id: string) => void;
   setIsTreeViewOpen: (value: boolean) => void;
   isTreeViewOpen: boolean;
+  onLogoClick?: () => void;
 }
 
 const getIconState = (
@@ -57,6 +58,7 @@ const Sidebar = ({
   onSelect,
   setIsTreeViewOpen,
   isTreeViewOpen,
+  onLogoClick,
 }: SidebarProps) => {
   const [isHover, setIsHover] = useState(false);
   const { data: userInfo } = useGetUserInfo();
@@ -91,16 +93,48 @@ const Sidebar = ({
   return (
     <nav className={styles.container({ expanded: isExpanded })}>
       <div className={styles.header}>
-        <div className={styles.logo({ expanded: isExpanded })}>
-          <Icon name="ic_logo_symbol" width={36} height={36} />
-        </div>
-        <span className={styles.title({ expanded: isExpanded })}>
-          <Icon name="ic_logo_type" width={92.3} height={12} />
-        </span>
+        {isExpanded && (
+          <>
+            <div
+              className={styles.logo({ expanded: isExpanded })}
+              onClick={onLogoClick}
+              style={{ cursor: onLogoClick ? 'pointer' : 'default' }}
+            >
+              <Icon
+                name="ic_logo_symbol"
+                width={36}
+                height={36}
+                style={{ pointerEvents: 'none' }}
+              />
+            </div>
+            <span
+              className={styles.title({ expanded: isExpanded })}
+              onClick={onLogoClick}
+              style={{ cursor: onLogoClick ? 'pointer' : 'default' }}
+            >
+              <Icon
+                name="ic_logo_type"
+                width={92.3}
+                height={12}
+                style={{ pointerEvents: 'none' }}
+              />
+            </span>
+          </>
+        )}
 
         <button
           type="button"
-          onClick={onToggle}
+          onClick={() => {
+            if (!isExpanded) {
+              if (onLogoClick) {
+                onLogoClick();
+              } else {
+                onToggle();
+              }
+            } else {
+              onToggle();
+            }
+          }}
           className={styles.foldingBtn}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}

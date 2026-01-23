@@ -7,7 +7,7 @@ interface UserMessageBubbleProps {
 const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
   return (
     <div className={styles.bubbleBox}>
-      <p>{content}</p>
+      <p className={styles.content}>{content}</p>
     </div>
   );
 };

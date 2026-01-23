@@ -1,15 +1,8 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '@cds/ui';
 
-const slideInRight = keyframes({
-  '0%': {
-    transform: 'translateX(100%)',
-  },
-  '100%': {
-    transform: 'translateX(0)',
-  },
-});
+import { slideInRight } from 'node_modules/@cds/ui/src/styles/animations.css';
 
 export const container = style({
   display: 'flex',
