@@ -21,6 +21,8 @@ interface LayoutUIContextValue {
   setIsAiMode: Dispatch<SetStateAction<boolean>>;
   isPromptOpen: boolean;
   setIsPromptOpen: Dispatch<SetStateAction<boolean>>;
+  chatRoomId: number | null;
+  setChatRoomId: Dispatch<SetStateAction<number | null>>;
   // 트리뷰 상태
   isTreeViewOpen: boolean;
   setIsTreeViewOpen: Dispatch<SetStateAction<boolean>>;
@@ -33,6 +35,7 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
   const [sidebarLocked, setSidebarLocked] = useState(false);
   const [isAiMode, setIsAiMode] = useState(false);
   const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
   const [isTreeViewOpen, setIsTreeViewOpen] = useState(false);
   const prevExpandedStateRef = useRef<boolean>(true);
   const location = useLocation();
@@ -84,6 +87,8 @@ export const LayoutUIProvider = ({ children }: PropsWithChildren) => {
         setIsAiMode,
         isPromptOpen,
         setIsPromptOpen,
+        chatRoomId,
+        setChatRoomId,
         isTreeViewOpen,
         setIsTreeViewOpen,
       }}

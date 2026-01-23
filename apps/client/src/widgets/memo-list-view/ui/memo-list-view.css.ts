@@ -1,6 +1,8 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { slideInRight } from 'node_modules/@cds/ui/src/styles/animations.css';
+
 export const container = recipe({
   base: {
     display: 'flex',
@@ -63,4 +65,5 @@ export const aiPromptContainer = style({
   overflowY: 'auto',
   boxShadow: '0 0 12px 0 rgba(0, 0, 0, 0.15)',
   borderRadius: '16px',
+  animation: `${slideInRight} 0.3s cubic-bezier(0.4, 0, 0.2, 1)`,
 });
