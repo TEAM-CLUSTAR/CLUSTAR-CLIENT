@@ -1,3 +1,4 @@
+import { AllMemoEmptyView } from '@widgets/all-memo-empty-view';
 import {
   MemoListView,
   type MemoListViewHelpers,
@@ -23,7 +24,9 @@ const AllMemoPage = () => {
     helpers.setIsAiMode(true);
   };
 
-  return (
+  return totalCount === 0 ? (
+    <AllMemoEmptyView />
+  ) : (
     <MemoListView
       title="전체 메모"
       onAiCreateClick={handleAiCreateClick}

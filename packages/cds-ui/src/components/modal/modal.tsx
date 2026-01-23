@@ -51,7 +51,14 @@ const ModalContent = ({ children }: ModalContentProps) => {
     <Dialog.Portal>
       <ThemeProvider>
         <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={styles.content}>{children}</Dialog.Content>
+        <Dialog.Content
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+          }}
+          className={styles.content}
+        >
+          {children}
+        </Dialog.Content>
       </ThemeProvider>
     </Dialog.Portal>
   );

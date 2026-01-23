@@ -634,7 +634,7 @@ FSD 폴더 구조
     │   ├── ai-results/
     │   ├── login/
     │   ├── memo/
-    │   └── splash/
+    │   └── landing/
     ├── widgets/                // widgets 레이어: 여러 페이지에서 재사용되는 큰 UI 블록
     │   ├── header/
     │   ├── sidebar/

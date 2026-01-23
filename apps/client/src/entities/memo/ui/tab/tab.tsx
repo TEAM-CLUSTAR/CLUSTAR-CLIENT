@@ -21,7 +21,7 @@ interface TabProps {
 }
 
 const Tab = ({
-  title = 'untitled',
+  title,
   label,
   handleSelect,
   isSelected,

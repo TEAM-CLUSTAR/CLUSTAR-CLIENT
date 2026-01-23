@@ -1,5 +1,5 @@
 export const PATH = {
-  SPLASH: '/splash',
+  LANDING: '/landing',
   LOGIN: '/login',
   LOGIN_CALLBACK: '/oauth/callback',
   NEW_MEMO: '/',

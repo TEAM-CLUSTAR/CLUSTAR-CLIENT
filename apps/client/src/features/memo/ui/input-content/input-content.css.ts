@@ -11,6 +11,11 @@ export const editor = style({
   backgroundColor: themeVars.color.white,
   height: '44.5rem',
   overflow: 'auto',
+  selectors: {
+    '&:focus-within': {
+      borderColor: themeVars.color.blue400,
+    },
+  },
 });
 
 const Q = '[data-quill-scope]';

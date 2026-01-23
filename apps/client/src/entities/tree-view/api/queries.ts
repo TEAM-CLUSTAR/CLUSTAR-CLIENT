@@ -11,14 +11,14 @@ export interface SelectedMemoTypes {
   memoId: number;
   title: string;
   content: string;
-  images?: {
+  images: {
     imageId: number;
     imageUrl: string;
     imageName: string;
     imageExtension: string;
     imageSize: string;
   }[];
-  files?: {
+  files: {
     fileId: number;
     fileUrl: string;
     fileName: string;
@@ -31,7 +31,7 @@ export interface SelectedMemoTypes {
   }[];
   createdAt: string;
   isAiGenerated: boolean;
-  sourceMemoTitleList?: string[];
+  sourceMemoTitleList: string[];
 }
 
 interface useDetailMemoProps {

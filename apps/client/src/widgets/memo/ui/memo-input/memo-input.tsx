@@ -11,7 +11,7 @@ import { htmlToMarkdown } from '@features/memo/models/html-to-markdown';
 
 import { useCreateMemo } from '../../api/queries';
 import type { MemoCreateRequest } from '../../api/type';
-import { useNavigationBlocker } from './use-navigation-blocker';
+import { useNavigationBlocker } from '../../models/use-navigation-blocker';
 
 import * as styles from './memo-input.css';
 
@@ -36,7 +36,7 @@ export type MemoDraft = {
 export type DraftsById = Record<string, MemoDraft>;
 
 const MAX_TABS = 4;
-const DEFAULT_TITLE = 'untitled';
+const DEFAULT_TITLE = '제목없음';
 const DEFAULT_LABEL = '라벨없음' as LabelTextType;
 
 const createId = () => crypto.randomUUID();
@@ -146,13 +146,11 @@ const MemoInput = () => {
 
     const draft = draftsById[id];
 
-    // 선택한 탭에 작성된 내용이 없으면 모달 없이 바로 삭제
     if (!hasDraftChanges(draft)) {
       deleteTabById(id);
       return;
     }
 
-    // 내용이 있는 탭만 ConfirmModal 표시
     setTabToDeleteId(id);
     setIsHaveCancel(true);
     setIsConfirmModalOpen(true);
