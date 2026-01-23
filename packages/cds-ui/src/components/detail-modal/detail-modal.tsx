@@ -193,7 +193,7 @@ const DetailModal = ({
             <Modal.Close>
               <div className={styles.createAiMemoButton}>
                 <Button size="xl" onClick={handleClick}>
-                  AI 생성 하기
+                  AI로 정리하기
                 </Button>
               </div>
             </Modal.Close>
