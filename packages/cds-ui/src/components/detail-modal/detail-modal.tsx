@@ -108,7 +108,11 @@ const DetailModal = ({
         <Dialog.Description className={styles.visuallyHidden}>
           {content}
         </Dialog.Description>
-        <div className={styles.container}>
+        <div
+          className={styles.container({
+            isGenerateButton: !!onAiCreateClick,
+          })}
+        >
           <div className={styles.headerContainer}>
             <div>
               <LabelList
@@ -185,13 +189,15 @@ const DetailModal = ({
             </div>
           )}
 
-          <Modal.Close>
-            <div className={styles.createAiMemoButton}>
-              <Button size="xl" onClick={handleClick}>
-                AI 생성 하기
-              </Button>
-            </div>
-          </Modal.Close>
+          {onAiCreateClick && (
+            <Modal.Close>
+              <div className={styles.createAiMemoButton}>
+                <Button size="xl" onClick={handleClick}>
+                  AI 생성 하기
+                </Button>
+              </div>
+            </Modal.Close>
+          )}
         </div>
       </Modal.Content>
     </Modal>
