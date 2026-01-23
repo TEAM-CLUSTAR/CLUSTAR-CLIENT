@@ -31,7 +31,7 @@ const AiResultsPage = () => {
     <AiResultsEmptyView />
   ) : (
     <MemoListView
-      title="AI 결과물"
+      title="AI 기록"
       initialMemos={aiResultMemos}
       onAiCreateClick={handleAiCreateClick}
       hasNextPage={hasNextPage}

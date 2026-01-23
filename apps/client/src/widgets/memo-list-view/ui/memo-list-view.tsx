@@ -1,5 +1,7 @@
 import { AlertModal, FloatingButton } from '@cds/ui';
 
+import { useGetMemoTotalCount } from '@pages/all-memo/api/queries';
+
 import { AiPrompt } from '@widgets/ai-prompt';
 import { Header } from '@widgets/header';
 import { MemoCardGrid } from '@widgets/memo-list';
@@ -64,7 +66,15 @@ const MemoListView = ({
     onAiCreateClick,
   });
 
+  const { data: allMemoTotalCount } = useGetMemoTotalCount();
+
   const isCard = viewMode === 'card';
+  const isTree = viewMode === 'tree';
+
+  const displayTitle = isTree ? '전체 메모' : title;
+  const displayCount = isTree
+    ? (allMemoTotalCount ?? memoCount)
+    : (totalCount ?? memoCount);
 
   return (
     <div className={styles.container({ isPromptOpen })}>
@@ -75,8 +85,8 @@ const MemoListView = ({
         })}
       >
         <Header
-          title={title}
-          count={totalCount ?? memoCount}
+          title={displayTitle}
+          count={displayCount}
           inputValue={searchInput}
           handleChangeInput={handleChangeInput}
           viewMode={viewMode}

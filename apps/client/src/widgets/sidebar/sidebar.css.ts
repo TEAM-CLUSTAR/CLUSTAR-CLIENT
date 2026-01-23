@@ -230,8 +230,8 @@ export const floatingLabel = style({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: '-4rem',
-    width: '4rem',
+    left: '-2.5rem',
+    width: '2.5rem',
     backgroundColor: 'transparent',
   },
 

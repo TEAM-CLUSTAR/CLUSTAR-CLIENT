@@ -12,4 +12,13 @@ export const bubbleBox = style({
   backgroundColor: themeVars.color.white,
   animation: `${slideInUp} 0.7s ease-out`,
   ...themeVars.fontStyles.body_m_16,
+  maxWidth: '100%',
+  wordWrap: 'break-word',
+  overflowWrap: 'break-word',
+});
+
+export const content = style({
+  wordWrap: 'break-word',
+  overflowWrap: 'break-word',
+  whiteSpace: 'normal',
 });
