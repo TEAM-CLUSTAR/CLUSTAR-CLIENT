@@ -550,6 +550,24 @@ FSD 폴더 구조
 
 ## keunnnnnlobstar
 
-우리들은 큰랍스터의 자랑
-
-<img src="https://github.com/user-attachments/assets/880892ab-4b80-4f81-a713-b62ff9198c3d" width='400'/>
+<table>
+  <tr>
+    <td align="center" style="padding:10px">
+      <img src="https://github.com/user-attachments/assets/e3799287-791d-4b30-8200-50c7b876c7da" width="180"/><br/>
+      <strong>조혜린</strong>
+    </td>
+    <td align="center" style="padding:10px">
+      <img src="https://github.com/user-attachments/assets/00c88f27-266a-44a3-b4a3-58ba3cfa9fe7" width="180"/><br/>
+      <strong>백지연</strong>
+    </td>
+    <td align="center" style="padding:10px">
+      <img src="https://github.com/user-attachments/assets/a8a210d0-6e38-4eac-ab1a-eb032f3b4e0a" width="180"/><br/>
+      <strong>최윤하</strong>
+    </td>
+    <td align="center" style="padding:10px">
+      <img src="https://github.com/user-attachments/assets/5f155cc1-3153-4e34-861d-5e87768b1b66" width="180"/><br/>
+      <strong>임서준</strong>
+    </td>
+  </tr>
+  <tr>
+</table>
