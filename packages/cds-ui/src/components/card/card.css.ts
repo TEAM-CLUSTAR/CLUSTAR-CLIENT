@@ -25,6 +25,9 @@ export const cardContainer = recipe({
     position: 'relative',
     overflow: 'hidden',
 
+    display: 'flex',
+    flexDirection: 'column',
+
     backgroundColor: themeVars.color.white,
 
     transition: `background-color 300ms ${EASE_STANDARD}, border-radius 220ms ease-out`,
@@ -203,10 +206,11 @@ export const image = style({
 
 export const allContentsContainer = style({
   display: 'flex',
-  height: '100%',
+  flex: 1,
   flexDirection: 'column',
   justifyContent: 'space-between',
   padding: '2.2rem 2rem',
+  minHeight: 0,
 });
 
 export const textContent = recipe({
