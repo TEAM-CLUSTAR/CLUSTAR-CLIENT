@@ -4,17 +4,18 @@
 
 > 흩어진 메모를 빛나는 결과물로
 
-<p>
-  사용자가 남긴 모든 메모, 아이디어, 자료를 모아  
-  <strong>AI가 실제 결과물을 생성해주는</strong>  
-  <em>아웃풋 중심 메모 플랫폼</em>
-</p>
+<br/>
 
-기록을 단순 보관하는 도구가 아니라 사용자가 남긴 메모를 바로 생산성으로 전환하는 새로운 작업 공간입니다.
-정리 자체가 목적이 아니라, 기록을 실제 산출물로 변화시키는 데에 집중합니다.
-기록한 내용이 곧바로 결과물 생성의 재료가 되어, 적는 순간부터 작업이 앞으로 나아가는 흐름을 경험하게 합니다.
+<img width="7680" height="4320" alt="소개" src="https://github.com/user-attachments/assets/9f212427-6e11-42f8-9afc-472085664f99" />
+<img width="7680" height="4320" alt="클러스타" src="https://github.com/user-attachments/assets/ffb6f501-73f1-4766-a336-476e11a4025a" />
+<img width="7680" height="4320" alt="소개뷰1" src="https://github.com/user-attachments/assets/77378320-d27b-4bec-8f74-90a6a4e8d23b" />
+<img width="7680" height="4320" alt="소개뷰2" src="https://github.com/user-attachments/assets/fb37aa0a-72bb-46d0-9a30-822b6d27fcfa" />
+<img width="7680" height="4320" alt="소개뷰3" src="https://github.com/user-attachments/assets/a63277f5-3414-4c6a-a20a-69ae6432ee27" />
+<img width="7680" height="4320" alt="소개뷰4" src="https://github.com/user-attachments/assets/96b8790c-6b00-47bf-bca0-8e29a797fe77" />
 
 <br/>
+<br/>
+
 
 ## Clustar FE Developers
 
