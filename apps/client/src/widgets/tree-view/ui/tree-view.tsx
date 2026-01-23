@@ -68,6 +68,12 @@ const TreeView = () => {
           }}
           minZoom={ZOOM.MIN}
           maxZoom={ZOOM.MAX}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          onNodeClick={(e) => {
+            e.stopPropagation();
+          }}
+          nodeDragThreshold={100}
         >
           <Controls />
         </ReactFlow>

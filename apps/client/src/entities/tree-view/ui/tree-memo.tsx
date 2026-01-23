@@ -60,7 +60,15 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
       <button
         type="button"
         className={styles.container({ labelColor })}
-        onClick={handleClick}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleClick();
+        }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
       >
         <span className={styles.title}>{title}</span>
         <span className={styles.content}>{content}</span>
