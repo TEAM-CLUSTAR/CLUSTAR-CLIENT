@@ -12,10 +12,20 @@ export const gridContainer = recipe({
   variants: {
     hasAiComponent: {
       true: {
-        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        '@media': {
+          '(max-width: 1770px)': {
+            gridTemplateColumns: 'repeat(2, 1fr)',
+          },
+        },
       },
       false: {
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        '@media': {
+          '(max-width: 1770px)': {
+            gridTemplateColumns: 'repeat(3, 1fr)',
+          },
+        },
       },
     },
   },
