@@ -37,6 +37,8 @@ interface SidebarProps {
   onToggle: () => void;
   selectedId: string;
   onSelect: (id: string) => void;
+  setIsTreeViewOpen: (value: boolean) => void;
+  isTreeViewOpen: boolean;
 }
 
 const getIconState = (
@@ -53,6 +55,8 @@ const Sidebar = ({
   onToggle,
   selectedId,
   onSelect,
+  setIsTreeViewOpen,
+  isTreeViewOpen,
 }: SidebarProps) => {
   const [isHover, setIsHover] = useState(false);
   const { data: userInfo } = useGetUserInfo();
@@ -160,8 +164,13 @@ const Sidebar = ({
               isSelected={false}
               onClick={() => {
                 if (labelItems.length > 0) {
-                  onToggle();
-                  onSelect(labelItems[0].id);
+                  if (isTreeViewOpen) {
+                    setIsTreeViewOpen(false);
+                    onSelect(labelItems[0].id);
+                  } else {
+                    onToggle();
+                    onSelect(labelItems[0].id);
+                  }
                 }
               }}
               icon={<Icon name="ic_label" width={36} height={36} />}

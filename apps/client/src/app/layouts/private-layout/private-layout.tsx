@@ -30,7 +30,13 @@ function PrivateLayoutContent() {
   const location = useLocation();
   const navigate = useNavigate();
   const { labelId } = useParams<{ labelId?: string }>();
-  const { isExpanded, toggleSidebar, sidebarLocked } = useLayoutUI();
+  const {
+    isExpanded,
+    toggleSidebar,
+    sidebarLocked,
+    setIsTreeViewOpen,
+    isTreeViewOpen,
+  } = useLayoutUI();
 
   const selectedId = getMenuIdByPath(location.pathname, labelId);
   const effectiveExpanded = isExpanded && !sidebarLocked;
@@ -51,6 +57,8 @@ function PrivateLayoutContent() {
             onToggle={toggleSidebar}
             selectedId={selectedId}
             onSelect={handleSelect}
+            setIsTreeViewOpen={setIsTreeViewOpen}
+            isTreeViewOpen={isTreeViewOpen}
           />
         </div>
         <div className={styles.mainContent}>

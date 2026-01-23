@@ -32,6 +32,7 @@ export const useMemoListView = ({
     isPromptOpen,
     setIsPromptOpen,
     setIsTreeViewOpen,
+    isTreeViewOpen,
   } = useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
@@ -202,6 +203,13 @@ export const useMemoListView = ({
       setChatRoomId(null);
     }, 200);
   };
+
+  // 트리뷰가 닫히면 카드뷰로 전환
+  useEffect(() => {
+    if (!isTreeViewOpen && viewMode === 'tree') {
+      setViewMode('card');
+    }
+  }, [isTreeViewOpen, viewMode]);
 
   // 뷰 모드 변경 시 뷰 모드 설정
   const handleValueChange = (value: string) => {
