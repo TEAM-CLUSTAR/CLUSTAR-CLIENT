@@ -5,12 +5,19 @@
 > 흩어진 메모를 빛나는 결과물로
 
 <br/>
+<img width="7680" height="4320" alt="표지" src="https://github.com/user-attachments/assets/9fcd5070-16ea-4227-a430-90bd46dd6028" />
+<img width="7680" height="4320" alt="클러스타" src="https://github.com/user-attachments/assets/ffb6f501-73f1-4766-a336-476e11a4025a" />
+<img width="7680" height="4320" alt="소개뷰1" src="https://github.com/user-attachments/assets/77378320-d27b-4bec-8f74-90a6a4e8d23b" />
+<img width="7680" height="4320" alt="소개뷰2" src="https://github.com/user-attachments/assets/fb37aa0a-72bb-46d0-9a30-822b6d27fcfa" />
+<img width="7680" height="4320" alt="소개뷰3" src="https://github.com/user-attachments/assets/a63277f5-3414-4c6a-a20a-69ae6432ee27" />
+<img width="7680" height="4320" alt="소개뷰4" src="https://github.com/user-attachments/assets/96b8790c-6b00-47bf-bca0-8e29a797fe77" />
+<img width="7680" height="4320" alt="소개" src="https://github.com/user-attachments/assets/9f212427-6e11-42f8-9afc-472085664f99" />
 
 <br/>
 <br/>
 
 
-## Clustar FE Developers
+## CLUSTAR FE Developers
 
 <table>
   <tr>
