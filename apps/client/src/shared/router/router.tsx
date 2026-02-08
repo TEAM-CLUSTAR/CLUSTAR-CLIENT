@@ -5,29 +5,32 @@ import { createBrowserRouter } from 'react-router';
 
 import { NotFoundPage } from '@pages/not-found';
 
-import AuthGuard from './auth-guard';
-import { privateRoutes } from './routes/private-route';
-import { publicRoutes } from './routes/public-route';
+import { PrivateRouteGuard, PublicRouteGuard } from './auth-guard';
+import { routes } from './routes';
 
-const PrivateLayoutWithGuard = () => {
-  return (
-    <AuthGuard>
-      <PrivateLayout />
-    </AuthGuard>
-  );
-};
+const GuardedPublicLayout = () => (
+  <PublicRouteGuard>
+    <PublicLayout />
+  </PublicRouteGuard>
+);
+
+const GuardedPrivateLayout = () => (
+  <PrivateRouteGuard>
+    <PrivateLayout />
+  </PrivateRouteGuard>
+);
 
 export const router = createBrowserRouter([
   {
     Component: GlobalLayout,
     children: [
       {
-        Component: PublicLayout,
-        children: publicRoutes,
+        Component: GuardedPublicLayout,
+        children: routes.filter((r) => !r.auth),
       },
       {
-        Component: PrivateLayoutWithGuard,
-        children: privateRoutes,
+        Component: GuardedPrivateLayout,
+        children: routes.filter((r) => r.auth),
       },
       {
         path: '*',
