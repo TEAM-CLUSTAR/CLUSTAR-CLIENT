@@ -5,19 +5,25 @@ import { createBrowserRouter } from 'react-router';
 
 import { NotFoundPage } from '@pages/not-found';
 
-import { PrivateRouteGuard, PublicRouteGuard } from './auth-guard';
-import { routes } from './routes';
+import { RouteGuard } from './route-guard';
+import {
+  aiRoutes,
+  authRoutes,
+  fallbackRoutes,
+  labelRoutes,
+  memoRoutes,
+} from './routes';
 
 const GuardedPublicLayout = () => (
-  <PublicRouteGuard>
+  <RouteGuard>
     <PublicLayout />
-  </PublicRouteGuard>
+  </RouteGuard>
 );
 
 const GuardedPrivateLayout = () => (
-  <PrivateRouteGuard>
+  <RouteGuard requireAuth>
     <PrivateLayout />
-  </PrivateRouteGuard>
+  </RouteGuard>
 );
 
 export const router = createBrowserRouter([
@@ -26,16 +32,13 @@ export const router = createBrowserRouter([
     children: [
       {
         Component: GuardedPublicLayout,
-        children: routes.filter((r) => !r.auth),
+        children: authRoutes,
       },
       {
         Component: GuardedPrivateLayout,
-        children: routes.filter((r) => r.auth),
+        children: [...memoRoutes, ...aiRoutes, ...labelRoutes],
       },
-      {
-        path: '*',
-        Component: NotFoundPage,
-      },
+      ...fallbackRoutes,
     ],
     ErrorBoundary: NotFoundPage,
   },
