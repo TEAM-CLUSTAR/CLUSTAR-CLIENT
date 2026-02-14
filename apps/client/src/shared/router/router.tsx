@@ -15,7 +15,7 @@ import {
 } from './routes';
 
 const GuardedPublicLayout = () => (
-  <RouteGuard>
+  <RouteGuard guestOnly>
     <PublicLayout />
   </RouteGuard>
 );
