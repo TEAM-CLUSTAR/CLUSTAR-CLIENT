@@ -11,8 +11,7 @@ import { htmlToMarkdown } from '@pages/all-memo/components/memo/models/html-to-m
 
 import { LabelTextType } from '@shared/types/label-type';
 
-import { TabList, ToolBar } from '@entities/memo';
-
+import { TabList, ToolBar } from '../index';
 import { useCreateMemo } from './api/queries';
 import type { MemoCreateRequest } from './api/type';
 import { useNavigationBlocker } from './models/use-navigation-blocker';

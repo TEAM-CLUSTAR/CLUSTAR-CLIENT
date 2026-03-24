@@ -1,6 +1,6 @@
 import { Button } from '@cds/ui';
 
-import { AiMessageBubble } from '@entities/message';
+import AiMessageBubble from '../ai-message-bubble/ai-message-bubble';
 
 import * as styles from './ai-message.css';
 

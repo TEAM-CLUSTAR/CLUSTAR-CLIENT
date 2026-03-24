@@ -2,10 +2,9 @@ import { useEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import { UserMessageBubble } from '@entities/message';
-
 import { Message } from '../../model/types';
 import AiMessageItem from '../ai-message/ai-message';
+import UserMessageBubble from '../user-message-bubble/user-message-bubble';
 
 import * as styles from './prompt-messages-list.css';
 
