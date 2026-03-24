@@ -1,4 +1,4 @@
-import { MemoInput } from '@pages/new-memo/components/memo';
+import { MemoInput } from '@pages/new-memo/components/memo-input';
 
 import * as styles from './new-memo-page.css';
 

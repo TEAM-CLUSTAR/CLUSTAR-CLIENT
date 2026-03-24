@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
 
-import { useLayoutUI } from '@shared/layouts/layout-ui-context';
-
 import {
   TreeBaseMemoNode,
   TreeCustomEdgeLabel,
   TreeCustomEdgeNoLabel,
   TreeMemoListNode,
-} from '@features/tree-view';
+} from '@shared/features/memo-list-view/components/tree-view/components';
+import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
-import { useReadMemoStructure } from '../api/queries';
+import { useReadMemoStructure } from './api/queries';
 import {
   convertGroupToNodeEdgeData,
   groupByLabelName,
-} from '../model/convert-memos-data';
-import { createNodeEdge } from '../model/create-node-edge';
+} from './model/convert-memos-data';
+import { createNodeEdge } from './model/create-node-edge';
 
 import '@xyflow/react/dist/style.css';
 import * as styles from './tree-view.css';

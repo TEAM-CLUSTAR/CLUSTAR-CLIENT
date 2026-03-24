@@ -5,11 +5,10 @@ import { Card, DetailModal } from '@cds/ui';
 
 import { ALL_MEMO_KEY } from '@pages/all-memo/api/query-key';
 
+import type { MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
 import { useDetailMemo } from '@entities/tree-view/api/queries';
-
-import type { MockMemo } from '@widgets/memo-list/types/memo';
 
 import * as styles from './memo-card-grid.css';
 

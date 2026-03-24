@@ -4,9 +4,8 @@ import { useBlocker, useLocation, useNavigate } from 'react-router';
 
 import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 
+import { type MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
-
-import { type MockMemo } from '@widgets/memo-list/types/memo';
 
 import { useCreateChatRoom, useDeleteChatRoom } from '../api/queries';
 

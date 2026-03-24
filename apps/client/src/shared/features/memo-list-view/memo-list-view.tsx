@@ -4,10 +4,9 @@ import { useGetMemoTotalCount } from '@pages/all-memo/api/queries';
 
 import { Header } from '@shared/components/header';
 import { AiPrompt } from '@shared/features/ai-prompt';
-
-import { MemoCardGrid } from '@widgets/memo-list';
-import { type MockMemo } from '@widgets/memo-list/types/memo';
-import { TreeView } from '@widgets/tree-view';
+import { MemoCardGrid } from '@shared/features/memo-list-view/components/memo-list';
+import { type MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
+import { TreeView } from '@shared/features/memo-list-view/components/tree-view';
 
 import {
   type MemoListViewHelpers,

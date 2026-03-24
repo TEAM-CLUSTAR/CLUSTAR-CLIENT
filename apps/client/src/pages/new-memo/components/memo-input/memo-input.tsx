@@ -2,16 +2,20 @@ import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button, ConfirmModal } from '@cds/ui';
 
+import {
+  InputContent,
+  InputTitle,
+  LabelSelect,
+} from '@pages/all-memo/components/memo';
+import { htmlToMarkdown } from '@pages/all-memo/components/memo/models/html-to-markdown';
+
 import { LabelTextType } from '@shared/types/label-type';
 
 import { TabList, ToolBar } from '@entities/memo';
 
-import { InputContent, InputTitle, LabelSelect } from '@features/memo';
-import { htmlToMarkdown } from '@features/memo/models/html-to-markdown';
-
-import { useCreateMemo } from '../../api/queries';
-import type { MemoCreateRequest } from '../../api/type';
-import { useNavigationBlocker } from '../../models/use-navigation-blocker';
+import { useCreateMemo } from './api/queries';
+import type { MemoCreateRequest } from './api/type';
+import { useNavigationBlocker } from './models/use-navigation-blocker';
 
 import * as styles from './memo-input.css';
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { PATH } from '@router/path';
 import { useBlocker } from 'react-router';
 
-import type { DraftsById, MemoDraft } from '../ui/memo-input/memo-input';
+import type { DraftsById, MemoDraft } from '../memo-input';
 
 interface UseNavigationBlockerProps {
   draftsById: DraftsById;
