@@ -4,13 +4,12 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { AlertModal } from '@cds/ui';
 
+import Sidebar from '@shared/components/sidebar/sidebar';
 import { useDeleteChatRoom } from '@shared/features/memo-list-view/api/queries';
 import {
   LayoutUIProvider,
   useLayoutUI,
 } from '@shared/layouts/layout-ui-context';
-
-import Sidebar from '@widgets/sidebar/sidebar';
 
 import * as styles from './private-layout.css';
 

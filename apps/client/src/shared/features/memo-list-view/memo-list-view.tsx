@@ -2,9 +2,9 @@ import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { useGetMemoTotalCount } from '@pages/all-memo/api/queries';
 
+import { Header } from '@shared/components/header';
 import { AiPrompt } from '@shared/features/ai-prompt';
 
-import { Header } from '@widgets/header';
 import { MemoCardGrid } from '@widgets/memo-list';
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 import { TreeView } from '@widgets/tree-view';
