@@ -1,1 +1,1 @@
-export { default as NewMemoPage } from './ui/new-memo-page';
+export { default as NewMemoPage } from './new-memo-page';

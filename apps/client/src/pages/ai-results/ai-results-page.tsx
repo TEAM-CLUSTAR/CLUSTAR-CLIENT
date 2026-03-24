@@ -7,7 +7,7 @@ import {
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
-import { useGetAIMemo } from '../apis/queries';
+import { useGetAIMemo } from './apis/queries';
 
 const AiResultsPage = () => {
   const {

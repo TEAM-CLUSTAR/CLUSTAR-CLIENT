@@ -4,7 +4,7 @@ import {
   type MemoListViewHelpers,
 } from '@widgets/memo-list-view';
 
-import { useGetAllMemo, useGetMemoTotalCount } from '../api/queries';
+import { useGetAllMemo, useGetMemoTotalCount } from './api/queries';
 
 const AllMemoPage = () => {
   const {
