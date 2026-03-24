@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
+import { AiResultsEmptyView } from '@pages/ai-results/components/ai-results-empty-view';
+
 import {
   MemoListView,
   type MemoListViewHelpers,
 } from '@shared/features/memo-list-view';
 
-import { AiResultsEmptyView } from '@widgets/ai-results-empty-view';
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
