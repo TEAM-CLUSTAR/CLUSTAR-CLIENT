@@ -6,9 +6,8 @@ import { Card, DetailModal } from '@cds/ui';
 import { ALL_MEMO_KEY } from '@pages/all-memo/api/query-key';
 
 import type { MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
+import { useDetailMemo } from '@shared/features/memo-list-view/components/tree-view/components/tree-memo/api/queries';
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
-
-import { useDetailMemo } from '@entities/tree-view/api/queries';
 
 import * as styles from './memo-card-grid.css';
 

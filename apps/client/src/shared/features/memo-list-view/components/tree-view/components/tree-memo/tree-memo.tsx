@@ -7,7 +7,7 @@ import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
-import { useDetailMemo } from '../api/queries';
+import { useDetailMemo } from './api/queries';
 
 import * as styles from './tree-memo.css';
 
