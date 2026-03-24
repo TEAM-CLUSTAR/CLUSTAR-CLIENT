@@ -1,7 +1,7 @@
+import { PATH } from '@router/path';
 import { RouteObject } from 'react-router';
 
 import { AiResultsPage, AllMemoPage, LabelPage, NewMemoPage } from '../lazy';
-import { PATH } from '../path';
 
 export const privateRoutes: RouteObject[] = [
   {

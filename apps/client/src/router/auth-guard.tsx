@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
+import { PATH } from '@router/path';
 import { Navigate, useLocation } from 'react-router';
 
-import { getAccessToken } from '../storage/token-storage';
-import { PATH } from './path';
+import { getAccessToken } from '@shared/storage/token-storage';
 
 type AuthGuardProps = {
   children: ReactNode;

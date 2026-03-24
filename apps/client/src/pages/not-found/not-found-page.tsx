@@ -1,8 +1,7 @@
+import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
 import { Button } from '@cds/ui';
-
-import { PATH } from '@shared/router/path';
 
 import * as styles from './not-found-page.css';
 

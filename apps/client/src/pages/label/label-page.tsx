@@ -10,7 +10,7 @@ import {
 import {
   MemoListView,
   type MemoListViewHelpers,
-} from '@widgets/memo-list-view';
+} from '@shared/features/memo-list-view';
 
 const LabelPage = () => {
   const { labelId } = useParams<{ labelId?: string }>();

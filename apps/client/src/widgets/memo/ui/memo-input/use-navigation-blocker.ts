@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { PATH } from '@router/path';
 import { useBlocker } from 'react-router';
-
-import { PATH } from '@shared/router/path';
 
 import type { DraftsById, MemoDraft } from './memo-input';
 

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
+import { PATH } from '@router/path';
 import { Navigate, useLocation } from 'react-router';
-
-import { PATH } from '@shared/router/path';
 
 type OAuthRedirectGuardProps = {
   children: ReactNode;

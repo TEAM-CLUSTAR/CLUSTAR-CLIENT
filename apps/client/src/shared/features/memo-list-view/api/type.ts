@@ -1,6 +1,5 @@
+import { AiOption } from '@shared/features/ai-prompt/components';
 import { components, operations, paths } from '@shared/types/schema';
-
-import { AiOption } from '@features/ai-prompt';
 
 export type PromptCreateResponse =
   paths['/api/v1/chat-rooms']['post']['responses']['200']['content']['*/*'];

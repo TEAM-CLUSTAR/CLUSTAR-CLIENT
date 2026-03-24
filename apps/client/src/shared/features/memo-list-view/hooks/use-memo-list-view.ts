@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { PATH } from '@router/path';
 import { useBlocker, useLocation, useNavigate } from 'react-router';
 
 import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
-import { PATH } from '@shared/router/path';
 
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 

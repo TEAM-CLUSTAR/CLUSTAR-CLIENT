@@ -4,9 +4,8 @@ import { Icon } from '@cds/icon';
 
 import { UserMessageBubble } from '@entities/message';
 
-import AiMessageItem from '@features/ai-prompt/ui/ai-message/ai-message';
-
 import { Message } from '../../model/types';
+import AiMessageItem from '../ai-message/ai-message';
 
 import * as styles from './prompt-messages-list.css';
 

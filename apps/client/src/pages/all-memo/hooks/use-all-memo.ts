@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { SelectedMemo } from '@features/ai-prompt';
+import { SelectedMemo } from '@shared/features/ai-prompt/components/index';
 
 import { type MockMemo } from '@widgets/memo-list/types/memo';
 

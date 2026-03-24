@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoadingPage } from '@pages/loading';
 
-import { PATH } from '@shared/router/path';
 import { setAccessToken } from '@shared/storage/token-storage';
 
 import { exchangeGoogleCode } from '@features/auth/api/exchange-google-code';

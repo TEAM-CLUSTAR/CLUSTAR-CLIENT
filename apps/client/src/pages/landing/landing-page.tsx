@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { PATH } from '@router/path';
 import { Navigate, useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 
-import { PATH } from '@shared/router/path';
 import { getAccessToken } from '@shared/storage/token-storage';
 
 import * as styles from './landing-page.css';

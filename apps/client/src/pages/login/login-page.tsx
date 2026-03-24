@@ -1,3 +1,4 @@
+import { PATH } from '@router/path';
 import { Navigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
@@ -5,7 +6,6 @@ import { Icon } from '@cds/icon';
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
 import LoginButton from '@pages/login/components/login-button/login-button';
 
-import { PATH } from '@shared/router/path';
 import { getAccessToken } from '@shared/storage/token-storage';
 
 import * as styles from './login-page.css';
