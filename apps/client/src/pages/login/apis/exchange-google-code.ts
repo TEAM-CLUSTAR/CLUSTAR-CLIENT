@@ -1,6 +1,6 @@
 import { api } from '@shared/api/instance';
 
-import { END_POINT } from './end-point';
+import { LOGIN_END_POINT } from './end-point';
 
 export interface GoogleLoginResult {
   accessToken: string;
@@ -9,7 +9,7 @@ export interface GoogleLoginResult {
 export const exchangeGoogleCode = async (
   code: string,
 ): Promise<GoogleLoginResult> => {
-  const response = await api.get(END_POINT.LOGIN.EXCHANGE_GOOGLE_CODE, {
+  const response = await api.get(LOGIN_END_POINT.EXCHANGE_GOOGLE_CODE, {
     params: { code },
   });
 

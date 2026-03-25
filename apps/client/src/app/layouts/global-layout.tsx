@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-import OAuthRedirectGuard from '@features/auth/ui/oauth-redirect-guard';
+import OAuthRedirectGuard from '@pages/login/auth/oauth-redirect-guard';
 
 import GlobalErrorBoundary from '../providers/global-error-boundary';
 

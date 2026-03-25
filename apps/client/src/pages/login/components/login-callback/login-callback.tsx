@@ -3,10 +3,9 @@ import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoadingPage } from '@pages/loading';
+import { exchangeGoogleCode } from '@pages/login/apis/exchange-google-code';
 
 import { setAccessToken } from '@shared/storage/token-storage';
-
-import { exchangeGoogleCode } from '@features/auth/api/exchange-google-code';
 
 type LocationState = {
   from?: { pathname: string };
