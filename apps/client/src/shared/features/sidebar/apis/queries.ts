@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { api } from '@shared/api/instance';
+import { api } from '@shared/apis/instance';
 import { components } from '@shared/types/schema';
 
 import { USER_END_POINT } from './end-point';
