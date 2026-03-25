@@ -8,9 +8,6 @@
       "@app/*": ["src/app/*"],
       "@pages/*": ["src/pages/*"],
       "@router/*": ["src/router/*"],
-      "@widgets/*": ["src/widgets/*"],
-      "@features/*": ["src/features/*"],
-      "@entities/*": ["src/entities/*"],
       "@shared/*": ["src/shared/*"]
     }
   },
