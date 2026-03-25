@@ -1,4 +1,4 @@
-import { AiOption } from '@shared/features/ai-prompt/components';
+import { AiOption } from '@shared/features/ai-prompt/model/types';
 import { components, operations, paths } from '@shared/types/schema';
 
 export type PromptCreateResponse =

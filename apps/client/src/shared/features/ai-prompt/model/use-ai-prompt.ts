@@ -4,7 +4,7 @@ import {
   useCreateAiChat,
   useCreateChatRoom,
   useSaveAiMemo,
-} from '@shared/features/memo-list-view/api/queries';
+} from '@shared/features/memo-list-view/apis/queries';
 
 import { AiOption, Message, UseAiPromptProps } from './types';
 

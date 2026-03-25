@@ -9,7 +9,7 @@ import {
 } from '@shared/features/memo-list-view/components/tree-view/components';
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
-import { useReadMemoStructure } from './api/queries';
+import { useReadMemoStructure } from './apis/queries';
 import {
   convertGroupToNodeEdgeData,
   groupByLabelName,

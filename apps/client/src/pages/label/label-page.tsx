@@ -5,7 +5,7 @@ import {
   useGetAllMemo,
   useGetLabel,
   useGetMemoTotalCount,
-} from '@pages/all-memo/api/queries';
+} from '@pages/all-memo/apis/queries';
 
 import {
   MemoListView,

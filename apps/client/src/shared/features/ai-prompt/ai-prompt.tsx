@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { ConfirmModal } from '@cds/ui';
 
-import { useAiPrompt, UseAiPromptProps } from './components/index';
-import AiPromptHeader from './components/ui/prompt-header/prompt-header';
-import PromptInput from './components/ui/prompt-input/prompt-input';
-import AiMessagesList from './components/ui/prompt-messages-list/prompt-messages-list';
-import SelectedMemosList from './components/ui/selected-memo-section/selected-memo-section';
+import AiPromptHeader from './components/prompt-header/prompt-header';
+import PromptInput from './components/prompt-input/prompt-input';
+import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
+import SelectedMemosList from './components/selected-memo-section/selected-memo-section';
+import { UseAiPromptProps } from './model/types';
+import { useAiPrompt } from './model/use-ai-prompt';
 
 import * as styles from './ai-prompt.css';
 

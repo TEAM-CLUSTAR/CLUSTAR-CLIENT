@@ -10,7 +10,7 @@ import {
   SideBarProfile,
 } from '@cds/ui';
 
-import { useGetLabel } from '@pages/all-memo/api/queries';
+import { useGetLabel } from '@pages/all-memo/apis/queries';
 
 import { useGetUserInfo } from './apis/queries';
 

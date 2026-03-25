@@ -1,6 +1,6 @@
 import { AlertModal, FloatingButton } from '@cds/ui';
 
-import { useGetMemoTotalCount } from '@pages/all-memo/api/queries';
+import { useGetMemoTotalCount } from '@pages/all-memo/apis/queries';
 
 import { Header } from '@shared/components/header';
 import { AiPrompt } from '@shared/features/ai-prompt';

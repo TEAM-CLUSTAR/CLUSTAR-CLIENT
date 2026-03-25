@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { SelectedMemo } from '@shared/features/ai-prompt/components/index';
+import { SelectedMemo } from '@shared/features/ai-prompt/model/types';
 import { type MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
 
 // 검색 관련
