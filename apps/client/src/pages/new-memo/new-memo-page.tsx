@@ -1,4 +1,4 @@
-import { MemoInput } from './components/index';
+import MemoInput from './components/memo-input/memo-input';
 
 import * as styles from './new-memo-page.css';
 

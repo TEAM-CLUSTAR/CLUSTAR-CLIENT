@@ -1,11 +1,10 @@
-import { AllMemoEmptyView } from '@pages/all-memo/components/all-memo-empty-view';
-
 import {
   MemoListView,
   type MemoListViewHelpers,
 } from '@shared/features/memo-list-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './api/queries';
+import AllMemoEmptyView from './components/all-memo-empty-view/all-memo-empty-view';
 
 const AllMemoPage = () => {
   const {

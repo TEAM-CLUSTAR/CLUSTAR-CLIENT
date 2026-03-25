@@ -6,15 +6,15 @@ import {
   InputContent,
   InputTitle,
   LabelSelect,
-} from '@pages/all-memo/components/memo';
-import { htmlToMarkdown } from '@pages/all-memo/components/memo/models/html-to-markdown';
-
+} from '@shared/features/memo-editor/index';
+import { htmlToMarkdown } from '@shared/features/memo-editor/models/html-to-markdown';
 import { LabelTextType } from '@shared/types/label-type';
 
-import { TabList, ToolBar } from '../index';
-import { useCreateMemo } from './api/queries';
-import type { MemoCreateRequest } from './api/type';
-import { useNavigationBlocker } from './models/use-navigation-blocker';
+import { useCreateMemo } from '../../apis/queries';
+import type { MemoCreateRequest } from '../../apis/type';
+import { useNavigationBlocker } from '../../hooks/use-navigation-blocker';
+import TabList from '../tab-list/tab-list';
+import ToolBar from '../toolbar/toolbar';
 
 import * as styles from './memo-input.css';
 
