@@ -18,13 +18,13 @@ import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 
 const GuardedPublicLayout = () => (
-  <RouteGuard guestOnly>
+  <RouteGuard mode="public">
     <PublicLayout />
   </RouteGuard>
 );
 
 const GuardedPrivateLayout = () => (
-  <RouteGuard requireAuth>
+  <RouteGuard mode="private">
     <PrivateLayout />
   </RouteGuard>
 );
