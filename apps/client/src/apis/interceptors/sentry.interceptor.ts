@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react';
 import type { AxiosError, AxiosInstance } from 'axios';
 
-import { SENTRY_IGNORE_STATUSES } from '../config/status';
+import { SENTRY_IGNORE_STATUSES } from '../status';
 
 /**
  * /users/123 -> /users/{id}
