@@ -1,6 +1,6 @@
-import { formatDate } from '@shared/libs/format-date';
 import { LabelTextType } from '@shared/types/label-type';
 import { components } from '@shared/types/schema';
+import { formatDate } from '@shared/utils/format-date';
 
 interface LabelItem {
   id: string;

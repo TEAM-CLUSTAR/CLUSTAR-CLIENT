@@ -7,7 +7,10 @@ import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 import { type MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
-import { useCreateChatRoom, useDeleteChatRoom } from '../apis/queries';
+import {
+  useCreateChatRoom,
+  useDeleteChatRoom,
+} from '../../../apis/prompt/queries';
 
 export interface MemoListViewHelpers {
   setIsAiMode: (value: boolean) => void;

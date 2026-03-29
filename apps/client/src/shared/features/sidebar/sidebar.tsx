@@ -12,7 +12,7 @@ import {
 
 import { useGetLabel } from '@pages/all-memo/apis/queries';
 
-import { useGetUserInfo } from './apis/queries';
+import { useGetUserInfo } from '@shared/apis/user/queries';
 
 import * as styles from './sidebar.css';
 
