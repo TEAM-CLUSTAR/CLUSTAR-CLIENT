@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { LoadingPage } from '@pages/loading';
 import { exchangeGoogleCode } from '@pages/login/apis/exchange-google-code';
 
-import { setAccessToken } from '@shared/storage/token-storage';
+import { setAccessToken } from '@shared/utils/token-storage';
 
 type LocationState = {
   from?: { pathname: string };

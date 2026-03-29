@@ -6,7 +6,7 @@ import { Icon } from '@cds/icon';
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
 import LoginButton from '@pages/login/components/login-button/login-button';
 
-import { getAccessToken } from '@shared/storage/token-storage';
+import { getAccessToken } from '@shared/utils/token-storage';
 
 import * as styles from './login-page.css';
 

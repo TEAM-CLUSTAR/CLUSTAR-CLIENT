@@ -1,6 +1,6 @@
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-import { getAccessToken, removeAccessToken } from '../../storage/token-storage';
+import { getAccessToken, removeAccessToken } from '@shared/utils/token-storage';
 
 /**
  * 요청 전에 토큰을 확인하고 헤더에 추가하는 인터셉터

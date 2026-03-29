@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { ALL_MEMO_KEY } from '@pages/all-memo/apis/query-key';
 
-import { api } from '@shared/apis/instance';
-
+import { api } from '../instance';
 import { AI_END_POINT } from './end-point';
 import { PROMPT_END_POINT } from './end-point';
 import { AI_KEY } from './query-key';

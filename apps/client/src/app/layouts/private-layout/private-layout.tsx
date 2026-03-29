@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useDeleteChatRoom } from '@apis/prompt/queries';
 import { PATH } from '@router/path';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { AlertModal } from '@cds/ui';
 
-import { useDeleteChatRoom } from '@shared/apis/prompt/queries';
 import Sidebar from '@shared/components/sidebar/sidebar';
 import {
   LayoutUIProvider,

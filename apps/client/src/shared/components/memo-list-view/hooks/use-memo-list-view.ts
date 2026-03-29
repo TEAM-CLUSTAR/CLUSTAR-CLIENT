@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useCreateChatRoom, useDeleteChatRoom } from '@apis/prompt/queries';
 import { PATH } from '@router/path';
 import { useBlocker, useLocation, useNavigate } from 'react-router';
 
@@ -6,10 +7,6 @@ import { useAllMemo } from '@pages/all-memo/hooks/use-all-memo';
 
 import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
-import {
-  useCreateChatRoom,
-  useDeleteChatRoom,
-} from '../../../apis/prompt/queries';
 import { MockMemo } from '../../../types/memo';
 
 export interface MemoListViewHelpers {

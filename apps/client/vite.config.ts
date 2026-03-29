@@ -13,7 +13,9 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 export default defineConfig({
   resolve: {
     alias: {
+      '@apis': resolve(__dirname, 'src/apis'),
       '@app': resolve(__dirname, 'src/app'),
+      '@constants': resolve(__dirname, 'src/constants'),
       '@pages': resolve(__dirname, 'src/pages'),
       '@router': resolve(__dirname, 'src/router'),
       '@shared': resolve(__dirname, 'src/shared'),

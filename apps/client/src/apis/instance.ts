@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import { appConfig } from '../configs/app-config';
+import { appConfig } from '@shared/configs/app-config';
+
 import {
   handleCheckAndSetToken,
   handleUnauthorizedResponse,
