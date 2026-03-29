@@ -5,7 +5,7 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 import { AlertModal } from '@cds/ui';
 
 import { useDeleteChatRoom } from '@shared/apis/prompt/queries';
-import Sidebar from '@shared/features/sidebar/sidebar';
+import Sidebar from '@shared/components/sidebar/sidebar';
 import {
   LayoutUIProvider,
   useLayoutUI,

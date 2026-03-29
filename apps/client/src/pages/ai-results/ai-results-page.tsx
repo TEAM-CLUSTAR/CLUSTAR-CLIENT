@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import {
   MemoListView,
-  type MemoListViewHelpers,
-} from '@shared/features/memo-list-view';
-import { type MockMemo } from '@shared/features/memo-list-view/components/memo-list/types/memo';
+  MemoListViewHelpers,
+} from '@shared/components/memo-list-view';
+import { MockMemo } from '@shared/components/memo-list-view/components/memo-list/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
 import AiResultsEmptyView from './components/ai-results-empty-view/ai-results-empty-view';

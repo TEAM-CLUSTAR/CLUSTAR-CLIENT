@@ -1,7 +1,7 @@
 import {
   MemoListView,
-  type MemoListViewHelpers,
-} from '@shared/features/memo-list-view';
+  MemoListViewHelpers,
+} from '@shared/components/memo-list-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
 import AllMemoEmptyView from './components/all-memo-empty-view/all-memo-empty-view';

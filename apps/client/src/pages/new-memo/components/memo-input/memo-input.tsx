@@ -6,8 +6,8 @@ import {
   InputContent,
   InputTitle,
   LabelSelect,
-} from '@shared/features/memo-editor/index';
-import { htmlToMarkdown } from '@shared/features/memo-editor/models/html-to-markdown';
+} from '@shared/components/memo-editor';
+import { htmlToMarkdown } from '@shared/components/memo-editor/models/html-to-markdown';
 import { LabelTextType } from '@shared/types/label-type';
 
 import { useCreateMemo } from '../../apis/queries';
