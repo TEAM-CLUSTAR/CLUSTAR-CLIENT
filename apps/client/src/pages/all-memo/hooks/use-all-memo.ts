@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { SelectedMemo } from '@shared/components/ai-prompt/model/types';
-import { MockMemo } from '@shared/components/memo-list-view/components/memo-list/types/memo';
+import { SelectedMemo } from '@shared/components/ai-prompt/types/types';
+import { MockMemo } from '@shared/types/memo';
 
 // 검색 관련
 interface UseMemoSearchReturn {

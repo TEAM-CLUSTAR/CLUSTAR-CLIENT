@@ -10,7 +10,7 @@ import {
   useCreateChatRoom,
   useDeleteChatRoom,
 } from '../../../apis/prompt/queries';
-import { MockMemo } from '../components/memo-list/types/memo';
+import { MockMemo } from '../../../types/memo';
 
 export interface MemoListViewHelpers {
   setIsAiMode: (value: boolean) => void;

@@ -4,7 +4,7 @@ import {
   MemoListView,
   MemoListViewHelpers,
 } from '@shared/components/memo-list-view';
-import { MockMemo } from '@shared/components/memo-list-view/components/memo-list/types/memo';
+import { MockMemo } from '@shared/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
 import AiResultsEmptyView from './components/ai-results-empty-view/ai-results-empty-view';

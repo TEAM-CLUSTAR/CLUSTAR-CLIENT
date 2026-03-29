@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill-new';
 
-import './libs/quill-register';
-
-import { memoQuillFormats, memoQuillModules } from './libs/quill-config';
+import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
 
 import * as styles from './input-content.css';
 

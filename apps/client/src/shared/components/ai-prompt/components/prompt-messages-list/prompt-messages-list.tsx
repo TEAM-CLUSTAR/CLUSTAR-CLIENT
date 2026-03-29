@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import { Message } from '../../model/types';
+import { Message } from '../../types/types';
 import AiMessageItem from '../ai-message/ai-message';
 import UserMessageBubble from '../user-message-bubble/user-message-bubble';
 

@@ -6,7 +6,7 @@ import {
   useSaveAiMemo,
 } from '@shared/apis/prompt/queries';
 
-import { AiOption, Message, UseAiPromptProps } from './types';
+import { AiOption, Message, UseAiPromptProps } from '../types/types';
 
 const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE'] as const;
 

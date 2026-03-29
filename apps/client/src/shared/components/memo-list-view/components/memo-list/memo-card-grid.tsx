@@ -7,8 +7,8 @@ import { ALL_MEMO_KEY } from '@pages/all-memo/apis/query-key';
 
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 
+import { MockMemo } from '../../../../types/memo';
 import { useDetailMemo } from '../tree-view/components/tree-memo/apis/queries';
-import { MockMemo } from './types/memo';
 
 import * as styles from './memo-card-grid.css';
 

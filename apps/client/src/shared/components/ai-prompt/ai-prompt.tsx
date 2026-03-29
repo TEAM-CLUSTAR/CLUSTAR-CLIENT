@@ -6,8 +6,8 @@ import AiPromptHeader from './components/prompt-header/prompt-header';
 import PromptInput from './components/prompt-input/prompt-input';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
 import SelectedMemosList from './components/selected-memo-section/selected-memo-section';
-import { UseAiPromptProps } from './model/types';
-import { useAiPrompt } from './model/use-ai-prompt';
+import { useAiPrompt } from './hooks/use-ai-prompt';
+import { UseAiPromptProps } from './types/types';
 
 import * as styles from './ai-prompt.css';
 
