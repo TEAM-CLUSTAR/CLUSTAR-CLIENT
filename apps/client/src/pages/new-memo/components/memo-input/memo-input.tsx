@@ -2,7 +2,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button, ConfirmModal } from '@cds/ui';
 
-import { htmlToMarkdown } from '@pages/new-memo/components/input-content/utils/html-to-markdown';
+import { htmlToMarkdown } from '@pages/new-memo/utils/html-to-markdown';
 
 import { LabelTextType } from '@shared/types/label-type';
 
