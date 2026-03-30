@@ -13,8 +13,8 @@ import {
 import {
   convertGroupToNodeEdgeData,
   groupByLabelName,
-} from './model/convert-memos-data';
-import { createNodeEdge } from './model/create-node-edge';
+} from './utils/convert-memos-data';
+import { createNodeEdge } from './utils/create-node-edge';
 
 import '@xyflow/react/dist/style.css';
 import * as styles from './tree-view.css';
