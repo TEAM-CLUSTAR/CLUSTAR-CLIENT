@@ -1,1 +1,1 @@
-export { default as LoadingPage } from './ui/loading-page';
+export { default as LoadingPage } from './loading-page';

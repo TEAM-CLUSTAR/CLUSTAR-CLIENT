@@ -1,1 +1,1 @@
-export { default as MemoPage } from './ui/memo-page';
+export { default as MemoPage } from './memo-page';

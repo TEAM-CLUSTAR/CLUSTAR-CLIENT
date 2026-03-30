@@ -1,16 +1,15 @@
 import { useState } from 'react';
+import { PATH } from '@router/path';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { AlertModal } from '@cds/ui';
 
+import { useDeleteChatRoom } from '@shared/apis/prompt/queries';
+import Sidebar from '@shared/components/sidebar/sidebar';
 import {
   LayoutUIProvider,
   useLayoutUI,
 } from '@shared/layouts/layout-ui-context';
-import { PATH } from '@shared/router/path';
-
-import { useDeleteChatRoom } from '@widgets/memo-list-view/api/queries';
-import Sidebar from '@widgets/sidebar/sidebar';
 
 import * as styles from './private-layout.css';
 

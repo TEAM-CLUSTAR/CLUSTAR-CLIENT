@@ -1,1 +1,1 @@
-export { default as AiResultsPage } from './ui/ai-results-page';
+export { default as AiResultsPage } from './ai-results-page';

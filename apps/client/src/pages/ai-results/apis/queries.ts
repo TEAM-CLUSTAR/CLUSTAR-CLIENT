@@ -1,10 +1,8 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import { api } from '@shared/api/instance';
+import { api } from '@shared/apis/instance';
+import { mapApiMemoToMockMemo, MockMemo } from '@shared/types/memo';
 import { components } from '@shared/types/schema';
-
-import { type MockMemo } from '@widgets/memo-list/types/memo';
-import { mapApiMemoToMockMemo } from '@widgets/memo-list/types/memo';
 
 import { AI_END_POINT } from './end-point';
 import { AI_MEMO_KEY } from './query-key';

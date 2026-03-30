@@ -1,4 +1,4 @@
-import LoginCallback from '@features/auth/ui/login-callback';
+import LoginCallback from '@pages/login-callback/components/login-callback/login-callback';
 
 const LoginCallbackPage = () => {
   return <LoginCallback />;
