@@ -10,8 +10,8 @@ import { useCreateMemo } from '../../apis/queries';
 import type { MemoCreateRequest } from '../../apis/type';
 import { useNavigationBlocker } from '../../hooks/use-navigation-blocker';
 import InputContent from '../input-content/input-content';
+import InputTitle from '../input-title/input-title';
 import LabelSelect from '../label-select/label-select';
-import InputTitle from '../memo-title/input-title';
 import TabList from '../tab-list/tab-list';
 import ToolBar from '../toolbar/toolbar';
 
