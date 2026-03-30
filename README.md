@@ -412,50 +412,46 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
 
 ### 폴더 구조
 
-FSD 폴더 구조
-
 ```
 └── src/
-    ├── app/                    // app 레이어: 앱의 엔트리/조립/전역 설정
+    ├── app/
     │   ├── main.tsx
     │   └── App.tsx
-    ├── pages/                  // pages 레이어: 라우트 단위 화면(진입점)
-    │   ├── home/               // pages 내부에서도 ui/model/api를 나눠 화면
-    │   │   ├── ui
-    │   │   │  └── memo-page.tsx
-    │   │   └── index.ts
+    ├── pages/
+    │   ├── home/               // 페이지 단위 도메인 폴더
+    │   │   ├── apis/           // 도메인 관련 API
+    │   │   ├── components/     // 도메인 관련 컴포넌트
+    │   │   ├── utils/          // 도메인 관련 유틸 함수
+    │   │   ├── hooks/          // 도메인 관련 훅
+    │   │   └── home-page.tsx  // 도메인 UI
     │   ├── ai-results/
     │   ├── login/
     │   ├── memo/
-    │   └── landing/
-    ├── widgets/                // widgets 레이어: 여러 페이지에서 재사용되는 큰 UI 블록
-    │   ├── header/
-    │   ├── sidebar/
-    │   │   ├── api/
-    │   │   ├── ui/
-    │   │   ├── model/
-    │   │   └── ...
+    │   ├── landing/
     │   └── ...
-    ├── features/                // features 레이어: 유저 행동/기능 단위(로그인, 메모 생성, 요약 생성 등)
-    ├── entities/                // entities 레이어: 도메인 모델(메모, 사용자, AI결과물 등)
-    └── shared/                  // shared 레이어: 전 레이어에서 쓰는 범용 공통(순수/재사용)
-        ├── api/
+    ├── router/                  // 라우팅 설정
+    │   ├── path.ts
+    │   ├── lazy.ts
+    │   ├── router.ts
+    │   └── ...
+    └── shared/                  // 공통으로 사용되는 것들을 모아놓은 폴더
+        ├── api/                 // 공통 API 설정
+        │   ├── interceptor/     // Axios 인터셉터
         │   ├── instance.ts
-        │   └── configs/         // API 공통 설정(전역)
-        │           ├── end-point.ts
-        │           └── status.ts
-        ├── configs/
-        │   └── app-config.ts
-        ├── libs/               // 공통 라이브러리 래퍼/설정(외부 라이브러리 초기화 등)
-        │   ├── query-client.ts // TanStack Query QueryClient 설정(전역 공통)
-        │   └── sentry-init.ts  // Sentry init
-        ├── router/             // 라우팅
-        │   ├── routes/
-        │   ├── path.ts
-        │   ├── router.ts
+        │   └── status.ts
+        ├── components/         // 공통 컴포넌트
+        │   ├── header/
+        │   ├── sidebar/
         │   └── ...
+        ├── configs/            // 앱 전역 설정
+        ├── constants/          // 공통 상수
+        ├── hooks/              // 공통 커스텀 훅
+        ├── utils/              // 공통 유틸 함수
+        ├── libs/               // 공통 라이브러리 래퍼/설정(외부 라이브러리 초기화 등)
+        └── types/             // 공통 타입 정의
+
 └── packages/                  // 모노레포 워크스페이스: 앱과 공통 패키지를 분리해 재사용/버전관리
-    ├── cds-ui/
+    ├── cds-ui/                // Clustar 디자인 시스템
     │   └── src/
     |       ├── components
     |       ├── styles
