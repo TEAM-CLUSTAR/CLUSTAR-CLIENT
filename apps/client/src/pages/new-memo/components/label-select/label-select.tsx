@@ -1,9 +1,9 @@
 import { FocusEvent, useState } from 'react';
-import { LABEL_COLOR_BY_TEXT } from '@constants/label-match';
 
 import { Icon } from '@cds/icon';
 import { Label, LabelList } from '@cds/ui';
 
+import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './label-select.css';

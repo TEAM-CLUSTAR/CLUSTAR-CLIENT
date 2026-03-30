@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useGetUserInfo } from '@apis/user/queries';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
@@ -12,6 +11,8 @@ import {
 } from '@cds/ui';
 
 import { useGetLabel } from '@pages/all-memo/apis/queries';
+
+import { useGetUserInfo } from '@shared/apis/user/queries';
 
 import * as styles from './sidebar.css';
 

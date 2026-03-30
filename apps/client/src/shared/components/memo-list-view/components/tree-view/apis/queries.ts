@@ -1,6 +1,6 @@
-import { api } from '@apis/instance';
 import { useQuery } from '@tanstack/react-query';
 
+import { api } from '@shared/apis/instance';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import { STRUCTURE_MEMO_END_POINT } from './end-point';

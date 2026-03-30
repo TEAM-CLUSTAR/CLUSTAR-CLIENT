@@ -1,11 +1,11 @@
 import { CSSProperties } from 'react';
-import {
-  LABEL_COLOR_BY_TEXT,
-  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
-} from '@constants/label-match';
 
 import { Icon } from '@cds/icon';
 
+import {
+  LABEL_COLOR_BY_TEXT,
+  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
+} from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './tab.css';

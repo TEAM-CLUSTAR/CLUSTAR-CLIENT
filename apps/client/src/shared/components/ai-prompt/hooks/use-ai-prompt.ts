@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import {
   useCreateAiChat,
   useCreateChatRoom,
   useSaveAiMemo,
-} from '@apis/prompt/queries';
+} from '@shared/apis/prompt/queries';
 
 import { AiOption, Message, UseAiPromptProps } from '../types/types';
 

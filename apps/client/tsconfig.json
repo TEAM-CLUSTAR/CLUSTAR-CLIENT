@@ -5,9 +5,7 @@
     "plugins": [{ "name": "react" }],
     "types": ["vitest/globals", "vite/client"],
     "paths": {
-      "@apis/*": ["src/apis/*"],
       "@app/*": ["src/app/*"],
-      "@constants/*": ["src/constants/*"],
       "@pages/*": ["src/pages/*"],
       "@router/*": ["src/router/*"],
       "@shared/*": ["src/shared/*"]

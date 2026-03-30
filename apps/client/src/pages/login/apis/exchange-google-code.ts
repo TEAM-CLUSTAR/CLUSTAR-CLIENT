@@ -1,4 +1,4 @@
-import { api } from '@apis/instance';
+import { api } from '@shared/apis/instance';
 
 import { LOGIN_END_POINT } from './end-point';
 

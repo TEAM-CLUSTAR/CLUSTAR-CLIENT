@@ -1,8 +1,8 @@
 import { memo } from 'react';
-import { LABEL_COLOR_BY_TEXT } from '@constants/label-match';
 import type { Node, NodeProps } from '@xyflow/react';
 import { Handle, Position } from '@xyflow/react';
 
+import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 

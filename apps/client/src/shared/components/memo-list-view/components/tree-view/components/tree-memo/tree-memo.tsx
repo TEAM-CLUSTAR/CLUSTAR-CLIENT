@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { LABEL_COLOR_BY_TEXT } from '@constants/label-match';
 
 import { DetailModal } from '@cds/ui';
 
+import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
