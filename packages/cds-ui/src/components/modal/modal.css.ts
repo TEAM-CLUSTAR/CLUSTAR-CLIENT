@@ -25,8 +25,8 @@ const opacityShow = keyframes({
 });
 
 const opacityHide = keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 },
+  '0%': { opacity: 1 },
+  '100%': { opacity: 0 },
 });
 
 export const overlay = style({
