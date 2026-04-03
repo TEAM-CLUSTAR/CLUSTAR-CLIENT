@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import EmptyView from '@shared/components/empty-view/empty-view';
 import {
   MemoListView,
   MemoListViewHelpers,
@@ -7,7 +8,6 @@ import {
 import { MockMemo } from '@shared/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
-import AiResultsEmptyView from './components/ai-results-empty-view/ai-results-empty-view';
 
 const AiResultsPage = () => {
   const {
@@ -28,7 +28,10 @@ const AiResultsPage = () => {
   };
 
   return aiResultMemos.length === 0 ? (
-    <AiResultsEmptyView />
+    <EmptyView
+      title="저장된 AI 기록이 없습니다."
+      description="AI 기록을 생성해보세요."
+    />
   ) : (
     <MemoListView
       title="AI 기록"
