@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { themeVars } from '@cds/ui';
 
 export const container = style({
-  height: '100vh',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router';
-
 import { Button } from '@cds/ui';
 
 import * as styles from './empty-view.css';
@@ -9,7 +7,7 @@ interface EmptyViewProps {
   title: string;
   description: string;
   buttonText?: string;
-  buttonPath?: string;
+  onButtonClick?: () => void;
 }
 
 const EmptyView = ({
@@ -17,21 +15,19 @@ const EmptyView = ({
   title,
   description,
   buttonText,
-  buttonPath,
+  onButtonClick,
 }: EmptyViewProps) => {
-  const navigate = useNavigate();
-
   return (
     <div className={styles.container}>
       {imgSrc && (
-        <img src={imgSrc} alt={`${title} 이미지`} className={styles.img} />
+        <img src={imgSrc} alt={'empty 이미지'} className={styles.img} />
       )}
       <p className={styles.emptyTitle}>{title}</p>
       <p className={styles.description}>{description}</p>
 
-      {buttonText && buttonPath && (
+      {buttonText && onButtonClick && (
         <div className={styles.buttonContainer}>
-          <Button size="xl" onClick={() => navigate(buttonPath)}>
+          <Button size="xl" onClick={onButtonClick}>
             {buttonText}
           </Button>
         </div>

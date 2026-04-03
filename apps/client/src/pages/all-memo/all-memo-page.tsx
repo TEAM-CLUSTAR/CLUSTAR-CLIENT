@@ -1,4 +1,5 @@
 import { PATH } from '@router/path';
+import { useNavigate } from 'react-router';
 
 import EmptyView from '@shared/components/empty-view/empty-view';
 import {
@@ -28,13 +29,15 @@ const AllMemoPage = () => {
     helpers.setIsAiMode(true);
   };
 
+  const navigate = useNavigate();
+
   return totalCount === 0 ? (
     <EmptyView
       imgSrc={emptyImage}
       title="작성된 메모가 없습니다."
       description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
       buttonText="메모 작성하러 가기"
-      buttonPath={PATH.NEW_MEMO}
+      onButtonClick={() => navigate(PATH.NEW_MEMO)}
     />
   ) : (
     <MemoListView
