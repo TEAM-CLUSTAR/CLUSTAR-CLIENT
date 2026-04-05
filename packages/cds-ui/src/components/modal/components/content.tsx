@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 
 import { ThemeProvider } from '../../../providers/theme-provider';
-import { useFocusTrap } from '../hooks/use-focus-trap';
+import useFocusTrap from '../hooks/use-focus-trap';
 import { useModalContext } from '../modal-context';
 import Overlay from './overlay';
 import Portal from './portal';
@@ -16,13 +16,11 @@ export interface ContentProps {
 
 const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
   const { isOpen } = useModalContext();
-
   const [mounted, setMounted] = useState(false);
-  const ref = useFocusTrap(isOpen && mounted);
+  const focusTrapRef = useFocusTrap(isOpen);
+
   useEffect(() => {
-    if (isOpen) {
-      setMounted(true);
-    }
+    if (isOpen) setMounted(true);
   }, [isOpen]);
 
   const handleAnimationEnd = () => {
@@ -30,7 +28,6 @@ const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
   };
 
   if (!mounted) return null;
-
   return (
     <Portal>
       <ThemeProvider>
@@ -39,7 +36,7 @@ const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
           dataState={isOpen ? 'open' : 'closed'}
         />
         <div
-          ref={ref}
+          ref={focusTrapRef}
           role="dialog"
           aria-modal="true"
           aria-label={ariaLabel}

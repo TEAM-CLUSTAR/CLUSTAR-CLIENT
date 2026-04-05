@@ -7,7 +7,6 @@ export interface OverlayProps {
 
 const Overlay = ({ className, dataState }: OverlayProps) => {
   const { isOpen, onClose } = useModalContext();
-
   if (!isOpen) return null;
 
   return (
