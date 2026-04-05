@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 
 import { Icon } from '@cds/icon';
 
@@ -104,10 +103,6 @@ const DetailModal = ({
       {/* 부모 컴포넌트에서 open 상태를 제어하므로 Trigger로 감싸지 않고 그대로 렌더링 */}
       {children}
       <Modal.Content>
-        <Dialog.Title className={styles.visuallyHidden}>{title}</Dialog.Title>
-        <Dialog.Description className={styles.visuallyHidden}>
-          {content}
-        </Dialog.Description>
         <div
           className={styles.container({
             isGenerateButton: !!onAiCreateClick,
