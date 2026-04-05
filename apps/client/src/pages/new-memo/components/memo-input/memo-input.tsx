@@ -158,17 +158,6 @@ const MemoInput = () => {
     setIsConfirmModalOpen(true);
   };
 
-  const handleConfirmTabDelete = () => {
-    if (!tabToDeleteId) return;
-
-    const idToDelete = tabToDeleteId;
-    deleteTabById(idToDelete);
-
-    setIsConfirmModalOpen(false);
-    setTabToDeleteId(null);
-    setIsHaveCancel(false);
-  };
-
   const handleSelectTab = (id: string) => {
     setSelectedTabId(id);
   };
@@ -241,9 +230,21 @@ const MemoInput = () => {
     });
   };
 
+  const handleModalOpenChange = (open: boolean) => {
+    setIsConfirmModalOpen(open);
+    if (!open) {
+      setIsHaveCancel(false);
+      setTabToDeleteId(null);
+      if (pendingNavigation) handleNavigationCancel();
+    }
+  };
+
   const handleConfirmModalClose = () => {
     if (tabToDeleteId) {
-      handleConfirmTabDelete();
+      const idToDelete = tabToDeleteId;
+      deleteTabById(idToDelete);
+      setTabToDeleteId(null);
+      setIsHaveCancel(false);
       return;
     }
 
@@ -251,20 +252,8 @@ const MemoInput = () => {
       handleNavigationConfirm(() => {});
       return;
     }
-
-    setIsConfirmModalOpen(false);
   };
 
-  const handleModalOpenChange = (open: boolean) => {
-    setIsConfirmModalOpen(open);
-    if (!open) {
-      setIsHaveCancel(false);
-      setTabToDeleteId(null);
-      if (pendingNavigation) {
-        handleNavigationCancel();
-      }
-    }
-  };
   return (
     <div className={styles.memoInputContainer}>
       <TabList

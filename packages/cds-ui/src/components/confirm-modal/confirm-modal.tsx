@@ -1,5 +1,3 @@
-import * as Dialog from '@radix-ui/react-dialog';
-
 import Button from '../button/button';
 import Modal from '../modal/modal';
 
@@ -8,7 +6,7 @@ import * as styles from './confirm-modal.css';
 interface ConfirmModalProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  onCloseClick: () => void;
+  onCloseClick?: () => void;
   isHavedCancel: boolean;
 }
 
@@ -23,20 +21,20 @@ const ConfirmModal = ({
       <Modal.Content>
         <div className={styles.modalContainer}>
           <div className={styles.textContainer}>
-            <Dialog.Title className={styles.modalTitle}>
+            <span className={styles.modalTitle}>
               {isHavedCancel
                 ? '메모 입력을 취소하시겠습니까?'
                 : '메모 저장 완료'}
-            </Dialog.Title>
-            <Dialog.Description className={styles.modalContent}>
+            </span>
+            <span className={styles.modalContent}>
               {isHavedCancel
                 ? '입력한 내용이 삭제됩니다.'
                 : '성공적으로 저장되었습니다.'}
-            </Dialog.Description>
+            </span>
           </div>
-          <Modal.Close>
-            <div className={styles.buttonContainer}>
-              {isHavedCancel && (
+          <div className={styles.buttonContainer}>
+            {isHavedCancel && (
+              <Modal.Close>
                 <Button
                   size="lg"
                   onClick={() => onOpenChange?.(false)}
@@ -44,12 +42,14 @@ const ConfirmModal = ({
                 >
                   취소
                 </Button>
-              )}
+              </Modal.Close>
+            )}
+            <Modal.Close>
               <Button size="lg" onClick={onCloseClick}>
                 확인
               </Button>
-            </div>
-          </Modal.Close>
+            </Modal.Close>
+          </div>
         </div>
       </Modal.Content>
     </Modal>
