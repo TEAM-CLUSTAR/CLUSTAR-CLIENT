@@ -1,39 +1,6 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '../../styles';
-
-const opacityShow = keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 },
-});
-
-const opacityHide = keyframes({
-  '0%': { opacity: 1 },
-  '100%': { opacity: 0 },
-});
-
-export const overlay = style({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  zIndex: themeVars.zIndex.modalOverlay,
-
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: themeVars.color.opacity35,
-  selectors: {
-    '&[data-state="open"]': {
-      animation: `${opacityShow} 100ms ease-out`,
-    },
-    '&[data-state="closed"]': {
-      animation: `${opacityHide} 100ms ease-in forwards`,
-    },
-  },
-});
 
 export const container = style({
   position: 'relative',
