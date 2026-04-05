@@ -10,7 +10,6 @@ import { useModalContext } from '../modal-context';
 
 export interface TriggerProps {
   children: ReactNode;
-  asChild?: boolean;
 }
 export interface ChildTypes {
   onClick?: (e: MouseEvent) => void;
