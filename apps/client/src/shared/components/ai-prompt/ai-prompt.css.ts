@@ -1,8 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
-
-import { slideInRight } from 'node_modules/@cds/ui/src/styles/animations.css';
+import { slideInRight, themeVars } from '@cds/ui';
 
 export const container = style({
   display: 'flex',

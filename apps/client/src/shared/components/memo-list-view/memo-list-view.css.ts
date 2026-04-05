@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { slideInRight } from 'node_modules/@cds/ui/src/styles/animations.css';
+import { slideInRight } from '@cds/ui';
 
 export const container = recipe({
   base: {
