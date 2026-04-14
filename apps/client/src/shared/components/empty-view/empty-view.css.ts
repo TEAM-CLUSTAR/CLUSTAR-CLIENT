@@ -16,7 +16,7 @@ export const img = style({
   marginBottom: '6rem',
 });
 
-export const emptyTitle = style({
+export const title = style({
   ...themeVars.fontStyles.display_sb_36,
   color: themeVars.color.grey700,
   marginBottom: '1.2rem',

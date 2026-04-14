@@ -22,7 +22,7 @@ const EmptyView = ({
       {imgSrc && (
         <img src={imgSrc} alt={'empty 이미지'} className={styles.img} />
       )}
-      <p className={styles.emptyTitle}>{title}</p>
+      <p className={styles.title}>{title}</p>
       <p className={styles.description}>{description}</p>
 
       {buttonText && onButtonClick && (
