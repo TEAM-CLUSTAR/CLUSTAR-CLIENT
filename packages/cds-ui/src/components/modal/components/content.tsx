@@ -10,7 +10,6 @@ import * as styles from '../modal.css';
 
 export interface ContentProps {
   children: ReactNode;
-  className?: string;
   ariaLabel?: string;
 }
 

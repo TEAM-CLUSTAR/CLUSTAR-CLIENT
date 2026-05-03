@@ -10,7 +10,6 @@ import { useModalContext } from '../modal-context';
 
 export interface CloseProps {
   children: ReactNode;
-  className?: string;
 }
 export interface ChildTypes {
   onClick?: (e: MouseEvent) => void;
