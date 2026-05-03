@@ -10,7 +10,14 @@ const FOCUSABLE_SELECTOR = [
 ].join(', ');
 
 const getFocusableElements = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+  Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+  ).filter(
+    (el) =>
+      el.offsetWidth > 0 ||
+      el.offsetHeight > 0 ||
+      el.getClientRects().length > 0,
+  );
 
 const useFocusTrap = (isOpen: boolean) => {
   const focusRef = useRef<HTMLDivElement>(null);
@@ -27,10 +34,19 @@ const useFocusTrap = (isOpen: boolean) => {
     const container = focusRef.current;
     if (!container) return;
 
-    // 열릴 때 첫 번째 요소로 포커스 이동
-    const focusableElements = getFocusableElements(container);
-    if (focusableElements.length === 0) return;
-    focusableElements[0]?.focus();
+    let rafId: number;
+
+    // 브라우저의 레이아웃 계산과 페인트가 끝난 직후를 보장하기 위해 requestAnimationFrame 사용 (임의의 시간 지연 제거)
+    rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
+        const currentContainer = focusRef.current;
+        if (!currentContainer) return;
+        const focusableElements = getFocusableElements(currentContainer);
+        if (focusableElements.length > 0) {
+          focusableElements[0]?.focus();
+        }
+      });
+    });
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
@@ -42,6 +58,12 @@ const useFocusTrap = (isOpen: boolean) => {
       const firstElement = elements[0];
       const lastElement = elements[elements.length - 1];
 
+      if (!container.contains(document.activeElement)) {
+        e.preventDefault();
+        firstElement?.focus();
+        return;
+      }
+
       if (e.shiftKey && document.activeElement === firstElement) {
         e.preventDefault();
         lastElement?.focus();
@@ -51,10 +73,11 @@ const useFocusTrap = (isOpen: boolean) => {
       }
     };
 
-    container.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      container.removeEventListener('keydown', handleKeyDown);
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('keydown', handleKeyDown);
       // 닫힐 때 포커스 복원
       if (
         previousFocusRef.current &&

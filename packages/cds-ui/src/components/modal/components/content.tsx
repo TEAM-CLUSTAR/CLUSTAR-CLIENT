@@ -17,7 +17,7 @@ export interface ContentProps {
 const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
   const { isOpen } = useModalContext();
   const [mounted, setMounted] = useState(false);
-  const focusTrapRef = useFocusTrap(isOpen);
+  const focusTrapRef = useFocusTrap(isOpen && mounted);
 
   useEffect(() => {
     if (isOpen) setMounted(true);
