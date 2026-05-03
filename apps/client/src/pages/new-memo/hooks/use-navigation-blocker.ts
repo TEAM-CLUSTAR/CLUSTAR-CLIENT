@@ -84,7 +84,6 @@ export const useNavigationBlocker = ({
       onReset();
 
       setIsConfirmModalOpen(false);
-      setIsHaveCancel(false);
 
       const navFn = pendingNavigation;
       setPendingNavigation(null);

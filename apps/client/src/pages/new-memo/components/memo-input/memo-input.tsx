@@ -233,7 +233,6 @@ const MemoInput = () => {
   const handleModalOpenChange = (open: boolean) => {
     setIsConfirmModalOpen(open);
     if (!open) {
-      setIsHaveCancel(false);
       setTabToDeleteId(null);
       if (pendingNavigation) handleNavigationCancel();
     }
@@ -244,7 +243,6 @@ const MemoInput = () => {
       const idToDelete = tabToDeleteId;
       deleteTabById(idToDelete);
       setTabToDeleteId(null);
-      setIsHaveCancel(false);
       return;
     }
 
