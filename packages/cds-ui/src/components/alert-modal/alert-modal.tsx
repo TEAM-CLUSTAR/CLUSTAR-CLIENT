@@ -1,15 +1,17 @@
 import { Icon } from '@cds/icon';
 
 import Button from '../button/button';
+import Modal from '../modal/modal';
 
 import * as styles from './alert-modal.css';
 
 interface AlertModalProps {
   title: string;
   description: string;
-  onClose: () => void;
+  onClose?: () => void;
   onConfirm: () => void;
-  isClosing: boolean;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 const AlertModal = ({
@@ -17,31 +19,36 @@ const AlertModal = ({
   description,
   onClose,
   onConfirm,
-  isClosing,
+  open,
+  onOpenChange,
 }: AlertModalProps) => {
   return (
-    <div className={styles.overlay} data-state={isClosing ? 'closed' : 'open'}>
-      <div className={styles.container}>
-        <Icon
-          name="ic_close"
-          width={28}
-          height={28}
-          className={styles.close}
-          onClick={onClose}
-        />
-        <Icon name="ic_alert" width={56} height={56} />
-        <p className={styles.title}>{title}</p>
-        <p className={styles.description}>{description}</p>
-        <div className={styles.buttonContainer}>
-          <Button onClick={onClose} size="lg" variant="outlined">
-            취소
-          </Button>
-          <Button onClick={onConfirm} size="lg">
-            확인
-          </Button>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <Modal.Content>
+        <div className={styles.container}>
+          <Modal.Close>
+            <button type="button" className={styles.close} onClick={onClose}>
+              <Icon name="ic_close" width={28} height={28} />
+            </button>
+          </Modal.Close>
+          <Icon name="ic_alert" width={56} height={56} />
+          <span className={styles.title}>{title}</span>
+          <span className={styles.description}>{description}</span>
+          <div className={styles.buttonContainer}>
+            <Modal.Close>
+              <Button onClick={onClose} size="lg" variant="outlined">
+                취소
+              </Button>
+            </Modal.Close>
+            <Modal.Close>
+              <Button onClick={onConfirm} size="lg">
+                확인
+              </Button>
+            </Modal.Close>
+          </div>
         </div>
-      </div>
-    </div>
+      </Modal.Content>
+    </Modal>
   );
 };
 
