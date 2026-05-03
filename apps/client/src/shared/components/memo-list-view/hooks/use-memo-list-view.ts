@@ -21,12 +21,16 @@ interface UseMemoListViewProps {
   count?: number;
   initialMemos?: MockMemo[];
   onAiCreateClick?: (memoId: string, helpers: MemoListViewHelpers) => void;
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
 }
 
 export const useMemoListView = ({
   count,
   initialMemos,
   onAiCreateClick,
+  isModalOpen,
+  setIsModalOpen,
 }: UseMemoListViewProps) => {
   const {
     isAiMode,
@@ -40,7 +44,6 @@ export const useMemoListView = ({
   } = useLayoutUI();
   const [viewMode, setViewMode] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
-  const [showAlertModal, setShowAlertModal] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [pendingNavigation, setPendingNavigation] = useState<
     (() => void) | null
@@ -81,17 +84,17 @@ export const useMemoListView = ({
   useEffect(() => {
     if (
       blocker.state === 'blocked' &&
-      !showAlertModal &&
+      !isModalOpen &&
       !isResettingRef.current
     ) {
-      setShowAlertModal(true);
+      setIsModalOpen(true);
       setPendingNavigation(() => () => blocker.proceed());
     }
 
     if (blocker.state === 'unblocked' && isResettingRef.current) {
       isResettingRef.current = false;
     }
-  }, [blocker, showAlertModal]);
+  }, [blocker, isModalOpen, setIsModalOpen]);
 
   // 새로고침 감지
   useEffect(() => {
@@ -164,7 +167,7 @@ export const useMemoListView = ({
 
   // AI 프롬프트 닫기 시도 시 AlertModal 표시
   const handleCloseAiPrompt = () => {
-    setShowAlertModal(true);
+    setIsModalOpen(true);
   };
 
   const handleOpenTreeView = () => {
@@ -182,7 +185,7 @@ export const useMemoListView = ({
     setPendingNavigation(null);
 
     setTimeout(() => {
-      setShowAlertModal(false);
+      setIsModalOpen(false);
       setIsClosing(false);
     }, 200);
   };
@@ -190,19 +193,20 @@ export const useMemoListView = ({
   // AlertModal 확인 - 상태 초기화 및 페이지 이동 진행
   const handleConfirmAlertModal = () => {
     setIsClosing(true);
+
+    if (pendingNavigation) {
+      pendingNavigation();
+      setPendingNavigation(null);
+    }
+
     setTimeout(() => {
       if (chatRoomId) {
         deleteChatRoom({ chatRoomId });
       }
-      setShowAlertModal(false);
+      setIsModalOpen(false);
       setIsClosing(false);
       setIsPromptOpen(false);
       setIsAiMode(false);
-
-      if (pendingNavigation) {
-        pendingNavigation();
-        setPendingNavigation(null);
-      }
       setChatRoomId(null);
     }, 200);
   };
@@ -225,7 +229,6 @@ export const useMemoListView = ({
   return {
     viewMode,
     isLoading,
-    showAlertModal,
     isClosing,
     isPromptOpen,
     isAiMode,

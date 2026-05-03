@@ -46,8 +46,7 @@ function PrivateLayoutContent() {
     setChatRoomId,
   } = useLayoutUI();
 
-  const [showAlertModal, setShowAlertModal] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate: deleteChatRoom } = useDeleteChatRoom();
 
   const selectedId = getMenuIdByPath(location.pathname, labelId);
@@ -60,7 +59,7 @@ function PrivateLayoutContent() {
 
   const handleLogoClick = () => {
     if (isPromptOpen) {
-      setShowAlertModal(true);
+      handleModalOpenChange(true);
     } else {
       if (!isExpanded) {
         toggleSidebar();
@@ -68,26 +67,17 @@ function PrivateLayoutContent() {
     }
   };
 
-  const handleCloseAlertModal = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setShowAlertModal(false);
-      setIsClosing(false);
-    }, 200);
-  };
-
   const handleConfirmAlertModal = () => {
-    setIsClosing(true);
     setTimeout(() => {
-      if (chatRoomId) {
-        deleteChatRoom({ chatRoomId });
-      }
-      setShowAlertModal(false);
-      setIsClosing(false);
+      if (chatRoomId) deleteChatRoom({ chatRoomId });
       setIsPromptOpen(false);
       setIsAiMode(false);
       setChatRoomId(null);
     }, 200);
+  };
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open);
   };
 
   return (
@@ -111,15 +101,13 @@ function PrivateLayoutContent() {
         </div>
       </div>
 
-      {showAlertModal && (
-        <AlertModal
-          title="대화창을 닫으시겠습니까?"
-          description="대화창을 닫을시 모든 대화 내역은 삭제됩니다."
-          onClose={handleCloseAlertModal}
-          onConfirm={handleConfirmAlertModal}
-          isClosing={isClosing}
-        />
-      )}
+      <AlertModal
+        title="대화창을 닫으시겠습니까?"
+        description="대화창을 닫을시 모든 대화 내역은 삭제됩니다."
+        onConfirm={handleConfirmAlertModal}
+        open={isModalOpen}
+        onOpenChange={handleModalOpenChange}
+      />
     </div>
   );
 }

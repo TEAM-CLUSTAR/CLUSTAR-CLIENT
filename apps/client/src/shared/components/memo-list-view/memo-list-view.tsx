@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { AlertModal, FloatingButton } from '@cds/ui';
 
 import { useGetMemoTotalCount } from '@pages/all-memo/apis/queries';
@@ -36,11 +38,11 @@ const MemoListView = ({
   fetchNextPage,
   totalCount,
 }: MemoListViewProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     viewMode,
     isLoading,
-    showAlertModal,
-    isClosing,
     isPromptOpen,
     isAiMode,
     searchInput,
@@ -64,6 +66,8 @@ const MemoListView = ({
     count,
     initialMemos,
     onAiCreateClick,
+    isModalOpen,
+    setIsModalOpen,
   });
 
   const { data: allMemoTotalCount } = useGetMemoTotalCount();
@@ -75,6 +79,13 @@ const MemoListView = ({
   const displayCount = isTree
     ? (allMemoTotalCount ?? memoCount)
     : (totalCount ?? memoCount);
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open);
+    if (!open) {
+      handleCloseAlertModal();
+    }
+  };
 
   return (
     <div className={styles.container({ isPromptOpen })}>
@@ -143,15 +154,14 @@ const MemoListView = ({
         </div>
       )}
 
-      {showAlertModal && (
-        <AlertModal
-          title="대화창을 닫으시겠습니까?"
-          description="대화창을 닫을시 모든 대화 내역은 삭제됩니다."
-          onClose={handleCloseAlertModal}
-          onConfirm={handleConfirmAlertModal}
-          isClosing={isClosing}
-        />
-      )}
+      <AlertModal
+        title="대화창을 닫으시겠습니까?"
+        description="대화창을 닫을시 모든 대화 내역은 삭제됩니다."
+        onClose={handleCloseAlertModal}
+        onConfirm={handleConfirmAlertModal}
+        open={isModalOpen}
+        onOpenChange={handleModalOpenChange}
+      />
     </div>
   );
 };
