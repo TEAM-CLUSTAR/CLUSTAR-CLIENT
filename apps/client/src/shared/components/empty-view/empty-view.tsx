@@ -19,9 +19,7 @@ const EmptyView = ({
 }: EmptyViewProps) => {
   return (
     <div className={styles.container}>
-      {imgSrc && (
-        <img src={imgSrc} alt={'empty 이미지'} className={styles.img} />
-      )}
+      {imgSrc && <img src={imgSrc} alt="" className={styles.img} />}
       <p className={styles.title}>{title}</p>
       <p className={styles.description}>{description}</p>
 

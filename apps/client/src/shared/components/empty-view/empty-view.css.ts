@@ -11,8 +11,9 @@ export const container = style({
 });
 
 export const img = style({
-  minWidth: '39.2rem',
-  minHeight: '32.6rem',
+  width: '39.2rem',
+  height: '32.6rem',
+  objectFit: 'cover',
   marginBottom: '6rem',
 });
 
