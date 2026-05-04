@@ -25,7 +25,7 @@ const EmptyView = ({
 
       {buttonText && onButtonClick && (
         <div className={styles.buttonContainer}>
-          <Button size="xl" onClick={onButtonClick}>
+          <Button size="xl" textSize="lg" onClick={onButtonClick}>
             {buttonText}
           </Button>
         </div>
