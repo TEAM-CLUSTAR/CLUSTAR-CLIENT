@@ -4,7 +4,7 @@ import { themeVars } from '../../styles';
 
 export const container = style({
   width: '100%',
-  padding: '0 0.6rem',
+  padding: '0.8rem 1.2rem',
   borderRadius: '4px',
   ...themeVars.fontStyles.body_sb_14,
   color: themeVars.color.grey700,

@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react';
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
 import {
-  FloatingLabel,
   FloatingMenu,
   SidebarIcon,
   SidebarPannel,
   SideBarProfile,
+  Tooltip,
 } from '@cds/ui';
 
 import { useGetLabel } from '@pages/all-memo/apis/queries';
@@ -210,7 +210,7 @@ const Sidebar = ({
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
-              <FloatingLabel labels={FLOATING_LABEL_ITEMS} />
+              <Tooltip labels={FLOATING_LABEL_ITEMS} />
             </div>
           </div>
         )}

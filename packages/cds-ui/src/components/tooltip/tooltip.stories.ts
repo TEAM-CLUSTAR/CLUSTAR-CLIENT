@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FloatingLabel from './floating-label';
+import Tooltip from './tooltip';
 
-const meta: Meta<typeof FloatingLabel> = {
-  title: 'Components/FloatingLabel',
-  component: FloatingLabel,
+const meta: Meta<typeof Tooltip> = {
+  title: 'Components/Tooltip',
+  component: Tooltip,
   parameters: {
     layout: 'centered',
   },
@@ -14,7 +14,7 @@ const meta: Meta<typeof FloatingLabel> = {
       control: 'object',
     },
   },
-} satisfies Meta<typeof FloatingLabel>;
+} satisfies Meta<typeof Tooltip>;
 
 export default meta;
 
