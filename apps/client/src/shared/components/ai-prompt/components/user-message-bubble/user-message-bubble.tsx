@@ -20,6 +20,21 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
     }
   }, [content]);
 
+  const handleToggle = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    } else {
+      setIsExpanded(true);
+
+      setTimeout(() => {
+        contentRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      });
+    }
+  };
+
   return (
     <div className={styles.bubbleBox}>
       <p
@@ -33,7 +48,7 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
         <button
           type="button"
           className={styles.toggleBtn}
-          onClick={() => setIsExpanded((prev) => !prev)}
+          onClick={handleToggle}
         >
           {isExpanded ? (
             <>

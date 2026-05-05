@@ -21,9 +21,13 @@ export const collapsed = style({
   WebkitLineClamp: 5,
   overflow: 'hidden',
   whiteSpace: 'normal',
+  transition: 'max-height 0.35s ease-in-out',
 });
 
-export const fullText = style({ whiteSpace: 'normal' });
+export const fullText = style({
+  whiteSpace: 'normal',
+  transition: 'max-height 0.35s ease-in-out',
+});
 
 export const toggleBtn = style({
   display: 'flex',
