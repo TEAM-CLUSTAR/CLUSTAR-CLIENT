@@ -20,4 +20,3 @@ export { default as TextContent } from './text-content/text-content';
 export { default as Title } from './title/title';
 export { default as Toggle } from './toggle/toggle';
 export { default as Tooltip } from './tooltip/tooltip';
-export { default as TooltipTag } from './tooltip-tag/tooltip-tag';
