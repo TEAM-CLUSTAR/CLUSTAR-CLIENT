@@ -11,7 +11,7 @@ export const container = style({
   maxWidth: '60rem',
   height: '100%',
   maxHeight: '100%',
-  backgroundColor: themeVars.color.grey50,
+  backgroundColor: themeVars.color.white,
   padding: '0 2.4rem 2.4rem 2.4rem',
   borderRadius: '16px',
   border: `3px solid ${themeVars.color.white}`,
