@@ -5,7 +5,6 @@ export { default as ConfirmModal } from './confirm-modal/confirm-modal';
 export { default as DetailModal } from './detail-modal/detail-modal';
 export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
-export { default as FloatingMenu } from './floating-menu/floating-menu';
 export { default as ImageContainer } from './image-container/image-container';
 export { default as Label } from './label/label';
 export { default as LabelList } from './label-list/label-list';
