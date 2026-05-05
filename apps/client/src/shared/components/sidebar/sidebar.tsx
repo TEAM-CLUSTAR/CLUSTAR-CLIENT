@@ -2,13 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
-import {
-  FloatingMenu,
-  SidebarIcon,
-  SidebarPannel,
-  SideBarProfile,
-  Tooltip,
-} from '@cds/ui';
+import { SidebarIcon, SidebarPannel, SideBarProfile, Tooltip } from '@cds/ui';
 
 import { useGetLabel } from '@pages/all-memo/apis/queries';
 
@@ -146,7 +140,7 @@ const Sidebar = ({
           />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
-              <FloatingMenu menuName="사이드바 열기" />
+              <Tooltip>사이드바 열기</Tooltip>
             </div>
           )}
         </button>
@@ -172,7 +166,7 @@ const Sidebar = ({
                 icon={<Icon name={iconName} width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={label} />
+                <Tooltip>{label}</Tooltip>
               </div>
             </div>
           ),
@@ -210,7 +204,11 @@ const Sidebar = ({
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
-              <Tooltip labels={FLOATING_LABEL_ITEMS} />
+              <Tooltip className={styles.tooltipLabelList}>
+                {FLOATING_LABEL_ITEMS.map(({ name, id }) => (
+                  <button key={id}>{name}</button>
+                ))}
+              </Tooltip>
             </div>
           </div>
         )}
@@ -252,7 +250,7 @@ const Sidebar = ({
                 }
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName="휴지통" />
+                <Tooltip>휴지통</Tooltip>
               </div>
             </div>
             <div className={styles.iconContainer}>
@@ -260,7 +258,7 @@ const Sidebar = ({
                 icon={<Icon name="ic_profile" width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={userInfo?.name || '프로필'} />
+                <Tooltip>{userInfo?.name || '프로필'}</Tooltip>
               </div>
             </div>
           </>

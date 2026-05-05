@@ -242,3 +242,7 @@ export const floatingLabel = style({
     },
   },
 });
+
+export const tooltipLabelList = style({
+  gap: '1rem',
+});

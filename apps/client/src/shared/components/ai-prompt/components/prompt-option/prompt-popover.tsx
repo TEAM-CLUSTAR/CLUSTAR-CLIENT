@@ -1,3 +1,5 @@
+import { Tooltip } from '@cds/ui';
+
 import * as styles from './prompt-popover.css';
 
 interface PromptPopoverProps {
@@ -7,10 +9,10 @@ interface PromptPopoverProps {
 
 const PromptPopover = ({ title, description }: PromptPopoverProps) => {
   return (
-    <div className={styles.popoverContainer}>
+    <Tooltip>
       <strong className={styles.title}>{title}</strong>
-      <p className={styles.description}>{description}</p>
-    </div>
+      <span className={styles.description}>{description}</span>
+    </Tooltip>
   );
 };
 

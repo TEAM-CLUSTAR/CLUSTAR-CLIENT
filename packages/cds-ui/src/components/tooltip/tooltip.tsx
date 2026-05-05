@@ -1,25 +1,16 @@
-import TooltipTag from '../tooltip-tag/tooltip-tag';
+import { ReactNode } from 'react';
 
 import * as styles from './tooltip.css';
 
-// api에서 내려주는 라벨의 키값으로 변경 필요
-interface LabelTypes {
-  name: string;
-  id: string | number;
-}
-
 interface TooltipProps {
-  labels: LabelTypes[];
+  children: ReactNode;
+  className?: string;
 }
-
-const Tooltip = ({ labels }: TooltipProps) => {
+const Tooltip = ({ children, className }: TooltipProps) => {
   return (
-    <div className={styles.container}>
-      {labels.map(({ name, id }) => (
-        <TooltipTag key={id}>{name}</TooltipTag>
-      ))}
+    <div className={[styles.container, className].filter(Boolean).join(' ')}>
+      {children}
     </div>
   );
 };
-
 export default Tooltip;
