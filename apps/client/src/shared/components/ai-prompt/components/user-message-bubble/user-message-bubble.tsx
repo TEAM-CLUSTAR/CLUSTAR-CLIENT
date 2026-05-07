@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -14,15 +14,14 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
   const [showEllipsis, setShowEllipsis] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
-  useEffect(() => {
-    if (contentRef.current) {
-      const { scrollHeight, clientHeight } = contentRef.current;
-      const hasOverflow = scrollHeight > clientHeight;
+  useLayoutEffect(() => {
+    const textEl = contentRef.current;
+    if (!textEl) return;
 
-      setIsExpanded(false);
-      setIsShowMore(hasOverflow);
-      setShowEllipsis(hasOverflow);
-    }
+    const hasOverflow = textEl.scrollHeight > textEl.clientHeight;
+    setIsExpanded(false);
+    setIsShowMore(hasOverflow);
+    setShowEllipsis(hasOverflow);
   }, [content]);
 
   const handleToggle = () => {
@@ -60,6 +59,7 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
           type="button"
           className={styles.toggleBtn}
           onClick={handleToggle}
+          aria-expanded={isExpanded}
         >
           {isExpanded ? (
             <>
