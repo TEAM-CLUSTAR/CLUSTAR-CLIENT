@@ -15,18 +15,11 @@ export const bubbleBox = style({
   gap: '1rem',
 });
 
-export const collapsed = style({
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 5,
+export const textContent = style({
   overflow: 'hidden',
   whiteSpace: 'normal',
-  transition: 'max-height 0.35s ease-in-out',
-});
-
-export const fullText = style({
-  whiteSpace: 'normal',
-  transition: 'max-height 0.35s ease-in-out',
+  transition: 'max-height 0.35s ease',
+  maxHeight: '12rem',
 });
 
 export const toggleBtn = style({
