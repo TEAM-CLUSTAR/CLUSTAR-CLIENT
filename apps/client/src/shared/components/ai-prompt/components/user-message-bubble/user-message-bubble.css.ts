@@ -22,6 +22,12 @@ export const textContent = style({
   maxHeight: '12rem',
 });
 
+export const clamped = style({
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 5,
+});
+
 export const toggleBtn = style({
   display: 'flex',
   color: themeVars.color.grey500,

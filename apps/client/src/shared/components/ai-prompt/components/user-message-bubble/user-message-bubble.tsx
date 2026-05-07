@@ -11,20 +11,41 @@ interface UserMessageBubbleProps {
 const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isShowMore, setIsShowMore] = useState(false);
+  const [showEllipsis, setShowEllipsis] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (contentRef.current) {
       const { scrollHeight, clientHeight } = contentRef.current;
-      setIsShowMore(scrollHeight > clientHeight);
+      const hasOverflow = scrollHeight > clientHeight;
+
+      setIsExpanded(false);
+      setIsShowMore(hasOverflow);
+      setShowEllipsis(hasOverflow);
     }
   }, [content]);
+
+  const handleToggle = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    } else {
+      setShowEllipsis(false);
+      setIsExpanded(true);
+    }
+  };
+
+  const handleTransitionEnd = () => {
+    if (!isExpanded) {
+      setShowEllipsis(true);
+    }
+  };
 
   return (
     <div className={styles.bubbleBox}>
       <p
         ref={contentRef}
-        className={styles.textContent}
+        onTransitionEnd={handleTransitionEnd}
+        className={`${styles.textContent} ${showEllipsis ? styles.clamped : ''}`}
         style={
           isExpanded && contentRef.current
             ? { maxHeight: `${contentRef.current.scrollHeight}px` }
@@ -38,7 +59,7 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
         <button
           type="button"
           className={styles.toggleBtn}
-          onClick={() => setIsExpanded((prev) => !prev)}
+          onClick={handleToggle}
         >
           {isExpanded ? (
             <>
