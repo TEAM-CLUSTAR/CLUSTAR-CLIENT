@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
 import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
-
-import { useLayoutUI } from '@shared/layouts/layout-ui-context';
 
 import { useReadMemoStructure } from './apis/queries';
 import {
@@ -39,48 +36,27 @@ const TreeView = () => {
   const groupedMemos = groupByLabelName(memos);
   const sortedMemos = convertGroupToNodeEdgeData(groupedMemos);
   const { nodes, edges } = createNodeEdge(sortedMemos);
-  const { isExpanded, isTreeViewOpen } = useLayoutUI();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    if (isTreeViewOpen && !isExpanded) {
-      const timer = setTimeout(() => {
-        setIsReady(true);
-      }, 400);
-      return () => clearTimeout(timer);
-    } else {
-      setIsReady(false);
-    }
-  }, [isTreeViewOpen, isExpanded]);
 
   return (
     <div className={styles.container}>
-      {isReady ? (
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          fitView
-          fitViewOptions={{
-            padding: 0.2,
-          }}
-          minZoom={ZOOM.MIN}
-          maxZoom={ZOOM.MAX}
-          nodesDraggable={false}
-          nodesConnectable={false}
-          onNodeClick={(e) => {
-            e.stopPropagation();
-          }}
-          nodeDragThreshold={100}
-        >
-          <Controls />
-        </ReactFlow>
-      ) : (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner} />
-        </div>
-      )}
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        fitView
+        fitViewOptions={{ padding: 0.2 }}
+        minZoom={ZOOM.MIN}
+        maxZoom={ZOOM.MAX}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        onNodeClick={(e) => {
+          e.stopPropagation();
+        }}
+        nodeDragThreshold={100}
+      >
+        <Controls />
+      </ReactFlow>
     </div>
   );
 };

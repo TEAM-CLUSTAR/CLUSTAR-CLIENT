@@ -7,10 +7,7 @@ import {
   useGetMemoTotalCount,
 } from '@pages/all-memo/apis/queries';
 
-import {
-  MemoListView,
-  MemoListViewHelpers,
-} from '@shared/components/memo-list-view';
+import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 
 const LabelPage = () => {
   const { labelId } = useParams<{ labelId?: string }>();
@@ -42,23 +39,14 @@ const LabelPage = () => {
     labelMeta ? [labelMeta.id] : undefined,
   );
 
-  const handleAiCreateClick = (
-    memoId: string,
-    helpers: MemoListViewHelpers,
-  ) => {
-    helpers.selectFunction(memoId);
-    helpers.setIsAiMode(true);
-  };
-
   return (
     <MemoListView
       title={labelMeta?.text}
       initialMemos={labeledMemos}
-      onAiCreateClick={handleAiCreateClick}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
-      totalCount={totalCount}
+      totalCount={totalCount ?? 0}
     />
   );
 };

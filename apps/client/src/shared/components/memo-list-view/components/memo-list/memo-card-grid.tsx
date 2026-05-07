@@ -5,8 +5,6 @@ import { Card, DetailModal } from '@cds/ui';
 
 import { ALL_MEMO_KEY } from '@pages/all-memo/apis/query-key';
 
-import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
-
 import { MockMemo } from '../../../../types/memo';
 import { useDetailMemo } from '../tree-view/components/tree-memo/apis/queries';
 
@@ -14,21 +12,9 @@ import * as styles from './memo-card-grid.css';
 
 interface MemoCardItemProps {
   memo: MockMemo;
-  isAiMode: boolean;
-  isSelected: boolean;
-  disabled: boolean;
-  onAiSelectToggle: (id: string) => void;
-  onAiCreateClick?: (memoId: string) => void;
 }
 
-const MemoCardItem = ({
-  memo,
-  isAiMode,
-  isSelected,
-  disabled,
-  onAiSelectToggle,
-  onAiCreateClick,
-}: MemoCardItemProps) => {
+const MemoCardItem = ({ memo }: MemoCardItemProps) => {
   const {
     id,
     item,
@@ -46,7 +32,6 @@ const MemoCardItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  // 모달이 열릴 때만 API 호출
   const {
     data: memoDetail = {
       memoId: 0,
@@ -71,25 +56,8 @@ const MemoCardItem = ({
   const hasImage = !!imageUrl;
   const cardClassName = hasImage ? styles.gridItemWithImage : styles.gridItem;
 
-  const handleSelect = () => {
-    if (!disabled && isAiMode) {
-      onAiSelectToggle(id);
-    }
-  };
-
-  const handleModalOpen = () => {
+  const handleClick = () => {
     setIsModalOpen(true);
-  };
-
-  const handleClick = useSingleAndDoubleClick({
-    handleSingleClick: isAiMode ? handleSelect : handleModalOpen,
-    handleDoubleClick: handleModalOpen,
-  });
-
-  const handleAiCreateClick = (memoId: number) => {
-    if (onAiCreateClick) {
-      onAiCreateClick(String(memoId));
-    }
   };
 
   return (
@@ -99,7 +67,6 @@ const MemoCardItem = ({
         onOpenChange={handleModalOpenChange}
         id={Number(id)}
         data={memoDetail}
-        onAiCreateClick={handleAiCreateClick}
       >
         <Card
           item={item}
@@ -110,11 +77,9 @@ const MemoCardItem = ({
           date={date}
           imageUrl={imageUrl}
           imageAlt={imageAlt}
-          isAiMode={isAiMode}
-          isSelectedCard={isSelected}
           aiResult={aiResult}
           aiNewResult={aiNewResult}
-          onClick={disabled ? undefined : handleClick}
+          onClick={handleClick}
         />
       </DetailModal>
     </div>
@@ -123,12 +88,6 @@ const MemoCardItem = ({
 
 interface MemoCardGridProps {
   memoData: MockMemo[];
-  isAiMode: boolean;
-  selectedIds: Set<string>;
-  onAiSelectToggle: (id: string) => void;
-  hasAiComponent?: boolean;
-  disabled?: boolean;
-  onAiCreateClick?: (memoId: string) => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   onLoadMore?: () => void;
@@ -136,12 +95,6 @@ interface MemoCardGridProps {
 
 const MemoCardGrid = ({
   memoData,
-  isAiMode,
-  selectedIds,
-  onAiSelectToggle,
-  hasAiComponent = false,
-  disabled = false,
-  onAiCreateClick,
   hasNextPage = false,
   isFetchingNextPage = false,
   onLoadMore,
@@ -171,26 +124,11 @@ const MemoCardGrid = ({
   }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   return (
-    <div
-      ref={scrollContainerRef}
-      className={styles.scrollContainer({ hasAiComponent })}
-    >
-      <div className={styles.gridContainer({ hasAiComponent })}>
-        {memoData.map((memo) => {
-          const isSelected = selectedIds.has(memo.id);
-
-          return (
-            <MemoCardItem
-              key={memo.id}
-              memo={memo}
-              isAiMode={isAiMode}
-              isSelected={isSelected}
-              disabled={disabled}
-              onAiSelectToggle={onAiSelectToggle}
-              onAiCreateClick={onAiCreateClick}
-            />
-          );
-        })}
+    <div ref={scrollContainerRef} className={styles.scrollContainer}>
+      <div className={styles.gridContainer}>
+        {memoData.map((memo) => (
+          <MemoCardItem key={memo.id} memo={memo} />
+        ))}
       </div>
     </div>
   );
