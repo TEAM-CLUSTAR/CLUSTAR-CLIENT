@@ -24,8 +24,6 @@ const PromptOptionItem = ({
   handleLeave,
   disabled = false,
 }: PromptOptionItemProps) => {
-  const isActive = selected || hovered;
-
   return (
     <div className={styles.optionContainer}>
       <button
@@ -39,9 +37,9 @@ const PromptOptionItem = ({
         disabled={disabled}
       >
         <Icon
-          name={isActive ? option.iconOn : option.iconOff}
-          width={36}
-          height={36}
+          name={selected ? option.iconOn : option.iconOff}
+          width={32}
+          height={32}
         />
       </button>
 
