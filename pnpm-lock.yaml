@@ -273,6 +273,15 @@ importers:
         specifier: catalog:vite-core
         version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(tsx@4.21.0)
 
+  packages/cds-token:
+    dependencies:
+      '@clustar/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@clustar/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+
   packages/cds-ui:
     dependencies:
       '@cds/icon':

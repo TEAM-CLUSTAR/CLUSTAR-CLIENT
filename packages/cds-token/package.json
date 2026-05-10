@@ -1,0 +1,22 @@
+{
+  "name": "@cds/token",
+  "version": "1.0.0",
+  "private": true,
+  "types": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "vite build",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clustar/eslint-config": "workspace:*",
+    "@clustar/typescript-config": "workspace:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
