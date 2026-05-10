@@ -2,10 +2,7 @@ import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
 import EmptyView from '@shared/components/empty-view/empty-view';
-import {
-  MemoListView,
-  MemoListViewHelpers,
-} from '@shared/components/memo-list-view';
+import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
 
@@ -21,14 +18,6 @@ const AllMemoPage = () => {
 
   const { data: totalCount } = useGetMemoTotalCount();
 
-  const handleAiCreateClick = (
-    memoId: string,
-    helpers: MemoListViewHelpers,
-  ) => {
-    helpers.selectFunction(memoId);
-    helpers.setIsAiMode(true);
-  };
-
   const navigate = useNavigate();
 
   return totalCount === 0 ? (
@@ -42,12 +31,11 @@ const AllMemoPage = () => {
   ) : (
     <MemoListView
       title="전체 메모"
-      onAiCreateClick={handleAiCreateClick}
       initialMemos={filteredMemos}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
-      totalCount={totalCount}
+      totalCount={totalCount ?? 0}
     />
   );
 };

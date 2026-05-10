@@ -35,14 +35,12 @@ const defaultArgs = {
 export const Default: Story = {
   args: {
     ...defaultArgs,
-    isAiMode: false,
   },
 };
 
 export const WithImage: Story = {
   args: {
     ...defaultArgs,
-    isAiMode: false,
     imageUrl: 'https://picsum.photos/640/360',
     imageAlt: 'card image',
   },
@@ -51,7 +49,6 @@ export const WithImage: Story = {
 export const WithoutImage: Story = {
   args: {
     ...defaultArgs,
-    isAiMode: false,
     imageUrl: undefined,
   },
 };
@@ -59,7 +56,6 @@ export const WithoutImage: Story = {
 export const NewAiResultCard: Story = {
   args: {
     ...defaultArgs,
-    isAiMode: false,
     aiNewResult: true,
     imageUrl: 'https://picsum.photos/640/360?random=1',
     imageAlt: 'ai new result image',
@@ -69,28 +65,8 @@ export const NewAiResultCard: Story = {
 export const AiResultCard: Story = {
   args: {
     ...defaultArgs,
-    isAiMode: false,
     aiResult: true,
     imageUrl: 'https://picsum.photos/640/360?random=2',
     imageAlt: 'ai result image',
-  },
-};
-
-export const AiMode: Story = {
-  args: {
-    ...defaultArgs,
-    isAiMode: true,
-    imageUrl: 'https://picsum.photos/640/360?random=3',
-    imageAlt: 'ai mode image',
-  },
-};
-
-export const AiModeSelected: Story = {
-  args: {
-    ...defaultArgs,
-    isAiMode: true,
-    isSelectedCard: true,
-    imageUrl: 'https://picsum.photos/640/360?random=4',
-    imageAlt: 'ai mode selected image',
   },
 };

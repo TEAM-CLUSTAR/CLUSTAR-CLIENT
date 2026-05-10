@@ -1,10 +1,7 @@
 import { useMemo } from 'react';
 
 import EmptyView from '@shared/components/empty-view/empty-view';
-import {
-  MemoListView,
-  MemoListViewHelpers,
-} from '@shared/components/memo-list-view';
+import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 import { MockMemo } from '@shared/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
@@ -19,13 +16,6 @@ const AiResultsPage = () => {
   const aiResultMemos = useMemo<MockMemo[]>(() => {
     return aiMemos?.filter((memo) => memo.aiResult) ?? [];
   }, [aiMemos]);
-  const handleAiCreateClick = (
-    memoId: string,
-    helpers: MemoListViewHelpers,
-  ) => {
-    helpers.selectFunction(memoId);
-    helpers.setIsAiMode(true);
-  };
 
   return aiResultMemos.length === 0 ? (
     <EmptyView
@@ -36,7 +26,6 @@ const AiResultsPage = () => {
     <MemoListView
       title="AI 기록"
       initialMemos={aiResultMemos}
-      onAiCreateClick={handleAiCreateClick}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
