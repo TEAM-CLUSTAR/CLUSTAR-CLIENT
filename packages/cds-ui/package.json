@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
+    "@cds/token": "workspace:*",
     "@radix-ui/react-dialog": "^1.1.15",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core"

@@ -272,6 +272,9 @@ importers:
       '@cds/icon':
         specifier: workspace:*
         version: link:../cds-icon
+      '@cds/token':
+        specifier: workspace:*
+        version: link:../cds-token
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)

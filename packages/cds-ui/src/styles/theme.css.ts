@@ -1,5 +1,9 @@
 import { createTheme } from '@vanilla-extract/css';
 
-import { tokens } from '../token';
+import { color, fontStyles, zIndex } from '@cds/token';
 
-export const [themeClass, themeVars] = createTheme(tokens);
+export const [themeClass, themeVars] = createTheme({
+  color,
+  fontStyles,
+  zIndex,
+});
