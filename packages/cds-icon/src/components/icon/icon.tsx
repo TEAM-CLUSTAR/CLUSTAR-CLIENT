@@ -2,6 +2,9 @@ import { SVGProps } from 'react';
 
 import { IconName } from '../../icon-list';
 
+// TODO: color 타입을 tokens의 color 타입과 연동
+//import { tokens } from '@cds/token';
+
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   width?: number;
