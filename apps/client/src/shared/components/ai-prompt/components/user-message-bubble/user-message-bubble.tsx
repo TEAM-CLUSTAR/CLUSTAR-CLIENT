@@ -24,6 +24,12 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
     setShowEllipsis(hasOverflow);
   }, [content]);
 
+  const handleTransitionEnd = () => {
+    if (!isExpanded) {
+      setShowEllipsis(true);
+    }
+  };
+
   const handleToggle = () => {
     if (isExpanded) {
       setIsExpanded(false);
@@ -33,23 +39,18 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
     }
   };
 
-  const handleTransitionEnd = () => {
-    if (!isExpanded) {
-      setShowEllipsis(true);
-    }
-  };
+  const expandedStyle =
+    isExpanded && contentRef.current
+      ? { maxHeight: `${contentRef.current.scrollHeight}px` }
+      : undefined;
 
   return (
     <div className={styles.bubbleBox}>
       <p
         ref={contentRef}
         onTransitionEnd={handleTransitionEnd}
-        className={`${styles.textContent} ${showEllipsis ? styles.clamped : ''}`}
-        style={
-          isExpanded && contentRef.current
-            ? { maxHeight: `${contentRef.current.scrollHeight}px` }
-            : undefined
-        }
+        className={styles.textContent({ clamped: showEllipsis })}
+        style={expandedStyle}
       >
         {content}
       </p>
@@ -61,15 +62,12 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
           onClick={handleToggle}
           aria-expanded={isExpanded}
         >
-          {isExpanded ? (
-            <>
-              간략히 보기 <Icon name="ic_chevron_up" width={20} height={20} />
-            </>
-          ) : (
-            <>
-              전체보기 <Icon name="ic_chevron_down" width={20} height={20} />
-            </>
-          )}
+          {isExpanded ? '간략히 보기' : '전체보기'}
+          <Icon
+            name={isExpanded ? 'ic_chevron_up' : 'ic_chevron_down'}
+            width={20}
+            height={20}
+          />
         </button>
       )}
     </div>
