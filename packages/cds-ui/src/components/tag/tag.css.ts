@@ -4,24 +4,27 @@ import { themeVars } from '../../styles';
 
 const TAG_CONTAINER_COLORS = {
   blue: {
-    color: themeVars.color.label03,
-    backgroundColor: themeVars.color.label04,
+    color: themeVars.color.sub03,
+    backgroundColor: themeVars.color.sub04,
   },
   purple: {
-    color: themeVars.color.label01,
-    backgroundColor: themeVars.color.label02,
+    color: themeVars.color.sub01,
+    backgroundColor: themeVars.color.sub02,
   },
   green: {
-    color: themeVars.color.label05,
-    backgroundColor: themeVars.color.label06,
+    color: themeVars.color.sub05,
+    backgroundColor: themeVars.color.sub06,
   },
   pink: {
-    color: themeVars.color.label07,
-    backgroundColor: themeVars.color.label08,
+    color: themeVars.color.sub07,
+    backgroundColor: themeVars.color.sub08,
   },
   aiBlue: {
     color: themeVars.color.blue500,
-    backgroundColor: themeVars.color.blue50,
+    border: '1px solid transparent',
+    backgroundImage: `linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}), ${themeVars.color.gradient02}`,
+    backgroundOrigin: 'border-box',
+    backgroundClip: 'padding-box, border-box',
   },
   grey: {
     color: themeVars.color.grey700,
@@ -64,11 +67,19 @@ export const container = recipe({
       sm: {
         ...themeVars.fontStyles.label_m_12,
         height: '1.8rem',
+        lineHeight: 1,
         padding: '0 0.6rem',
+        textTransform: 'lowercase',
       },
     },
     color: TAG_CONTAINER_COLORS,
   },
+  compoundVariants: [
+    {
+      variants: { size: 'sm', color: 'aiBlue' },
+      style: { textTransform: 'none' },
+    },
+  ],
 });
 
 export const indicator = recipe({
