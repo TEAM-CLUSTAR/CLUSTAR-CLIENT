@@ -1,14 +1,15 @@
 import { SVGProps } from 'react';
 
+import { color as colorToken } from '@cds/token';
+
 import { IconName } from '../../icon-list';
 
-// TODO: color 타입을 tokens의 color 타입과 연동
-//import { tokens } from '@cds/token';
-
+type IconColor = keyof typeof colorToken;
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   width?: number;
   height?: number;
+  color?: IconColor;
   className?: string;
   ariaHidden?: boolean;
 }
@@ -17,6 +18,7 @@ export const Icon = ({
   name,
   width,
   height,
+  color,
   className,
   ariaHidden,
   ...rest
@@ -30,6 +32,9 @@ export const Icon = ({
     <svg
       width={toRem(computedWidth)}
       height={toRem(computedHeight)}
+      style={{
+        color: color ? colorToken[color] : colorToken.grey700,
+      }}
       className={className}
       aria-hidden={ariaHidden ?? true}
       {...rest}
