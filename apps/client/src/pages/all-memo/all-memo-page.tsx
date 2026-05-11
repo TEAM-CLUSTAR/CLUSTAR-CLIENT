@@ -1,10 +1,12 @@
-import {
-  MemoListView,
-  MemoListViewHelpers,
-} from '@shared/components/memo-list-view';
+import { PATH } from '@router/path';
+import { useNavigate } from 'react-router';
+
+import EmptyView from '@shared/components/empty-view/empty-view';
+import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
-import AllMemoEmptyView from './components/all-memo-empty-view/all-memo-empty-view';
+
+import emptyImage from '/empty.svg';
 
 const AllMemoPage = () => {
   const {
@@ -16,25 +18,24 @@ const AllMemoPage = () => {
 
   const { data: totalCount } = useGetMemoTotalCount();
 
-  const handleAiCreateClick = (
-    memoId: string,
-    helpers: MemoListViewHelpers,
-  ) => {
-    helpers.selectFunction(memoId);
-    helpers.setIsAiMode(true);
-  };
+  const navigate = useNavigate();
 
   return totalCount === 0 ? (
-    <AllMemoEmptyView />
+    <EmptyView
+      imgSrc={emptyImage}
+      title="작성된 메모가 없습니다."
+      description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
+      buttonText="메모 작성하러 가기"
+      onButtonClick={() => navigate(PATH.NEW_MEMO)}
+    />
   ) : (
     <MemoListView
       title="전체 메모"
-      onAiCreateClick={handleAiCreateClick}
       initialMemos={filteredMemos}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
-      totalCount={totalCount}
+      totalCount={totalCount ?? 0}
     />
   );
 };
