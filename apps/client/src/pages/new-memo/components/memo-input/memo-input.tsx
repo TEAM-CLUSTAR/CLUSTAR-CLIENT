@@ -65,7 +65,7 @@ const MemoInput = () => {
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [tabToDeleteId, setTabToDeleteId] = useState<string | null>(null);
-  const [isHaveCancel, setIsHaveCancel] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
   const { mutate: createMemo } = useCreateMemo();
 
   const { pendingNavigation, handleNavigationConfirm, handleNavigationCancel } =
@@ -74,7 +74,7 @@ const MemoInput = () => {
       isConfirmModalOpen,
       tabToDeleteId,
       setIsConfirmModalOpen,
-      setIsHaveCancel,
+      setIsCancel,
     });
 
   const selectedDraft = draftsById[selectedTabId];
@@ -154,7 +154,7 @@ const MemoInput = () => {
     }
 
     setTabToDeleteId(id);
-    setIsHaveCancel(true);
+    setIsCancel(true);
     setIsConfirmModalOpen(true);
   };
 
@@ -193,7 +193,7 @@ const MemoInput = () => {
 
     createMemo(request, {
       onSuccess: () => {
-        setIsHaveCancel(false);
+        setIsCancel(false);
         setIsConfirmModalOpen(true);
 
         const currentTabId = selectedTabId;
@@ -297,7 +297,7 @@ const MemoInput = () => {
           open={isConfirmModalOpen}
           onOpenChange={handleModalOpenChange}
           onCloseClick={handleConfirmModalClose}
-          isHavedCancel={isHaveCancel}
+          isCancel={isCancel}
         />
       </div>
     </div>

@@ -7,14 +7,14 @@ interface ConfirmModalProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   onCloseClick?: () => void;
-  isHavedCancel: boolean;
+  isCancel: boolean;
 }
 
 const ConfirmModal = ({
   open,
   onOpenChange,
   onCloseClick,
-  isHavedCancel,
+  isCancel,
 }: ConfirmModalProps) => {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
@@ -22,18 +22,16 @@ const ConfirmModal = ({
         <div className={styles.modalContainer}>
           <div className={styles.textContainer}>
             <span className={styles.modalTitle}>
-              {isHavedCancel
-                ? '메모 입력을 취소하시겠습니까?'
-                : '메모 저장 완료'}
+              {isCancel ? '메모 입력을 취소하시겠습니까?' : '메모 저장 완료'}
             </span>
             <span className={styles.modalContent}>
-              {isHavedCancel
+              {isCancel
                 ? '입력한 내용이 삭제됩니다.'
                 : '성공적으로 저장되었습니다.'}
             </span>
           </div>
           <div className={styles.buttonContainer}>
-            {isHavedCancel && (
+            {isCancel && (
               <Modal.Close>
                 <Button
                   size="lg"
