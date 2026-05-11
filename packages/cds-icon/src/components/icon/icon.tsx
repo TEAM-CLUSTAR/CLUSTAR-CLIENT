@@ -25,8 +25,8 @@ export const Icon = ({
   ariaHidden,
   ...rest
 }: IconProps) => {
-  const computedWidth = width ?? size ?? 24;
-  const computedHeight = height ?? size ?? 24;
+  const computedWidth = width ?? size ?? 32;
+  const computedHeight = height ?? size ?? 32;
 
   const toRem = (px: number, base = 10) => `${Number(px / base)}rem`;
 
