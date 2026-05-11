@@ -7,6 +7,7 @@ import { IconName } from '../../icon-list';
 type IconColor = keyof typeof colorToken;
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
+  size?: number;
   width?: number;
   height?: number;
   color?: IconColor;
@@ -16,6 +17,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
 
 export const Icon = ({
   name,
+  size,
   width,
   height,
   color,
@@ -23,8 +25,8 @@ export const Icon = ({
   ariaHidden,
   ...rest
 }: IconProps) => {
-  const computedWidth = width ?? 24;
-  const computedHeight = height ?? 24;
+  const computedWidth = width ?? size ?? 24;
+  const computedHeight = height ?? size ?? 24;
 
   const toRem = (px: number, base = 10) => `${Number(px / base)}rem`;
 
