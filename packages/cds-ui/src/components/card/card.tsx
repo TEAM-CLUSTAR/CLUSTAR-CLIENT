@@ -89,12 +89,7 @@ const Card = ({
           <div className={styles.textContent({ aiResult, aiNewResult })}>
             <div className={styles.titleContainer({ aiResult })}>
               {aiResult && (
-                <Icon
-                  name="ic_ai_gra"
-                  width={36}
-                  height={36}
-                  className={styles.icon}
-                />
+                <Icon name="ic_ai_gra" size={36} className={styles.icon} />
               )}
               <Title title={title} />
             </div>
@@ -106,11 +101,11 @@ const Card = ({
           <div className={styles.footerContenContainer}>
             <div className={styles.fileInfoContainer}>
               <div className={styles.fileInfo}>
-                <Icon name="ic_file_24" width={24} height={24} />
+                <Icon name="ic_file_24" size={24} />
                 <span>{fileCount}</span>
               </div>
               <div className={styles.fileInfo}>
-                <Icon name="ic_img_24" width={24} height={24} />
+                <Icon name="ic_img_24" size={24} />
                 <span>{imageCount}</span>
               </div>
             </div>

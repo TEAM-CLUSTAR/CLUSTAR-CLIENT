@@ -57,7 +57,7 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
         className={styles.selectBox({ isOpen: isOpen })}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Icon name="ic_label" width={36} height={36} />
+        <Icon name="ic_label" size={36} />
 
         {selectedItems.length > 0 ? (
           <div className={styles.chipContainer}>

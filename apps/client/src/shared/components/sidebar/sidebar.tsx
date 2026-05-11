@@ -113,8 +113,7 @@ const Sidebar = () => {
             >
               <Icon
                 name="ic_logo_symbol"
-                width={36}
-                height={36}
+                size={36}
                 style={{ pointerEvents: 'none' }}
               />
             </div>
@@ -141,8 +140,7 @@ const Sidebar = () => {
         >
           <Icon
             name={isExpanded || isHover ? 'ic_folding' : 'ic_logo_symbol'}
-            width={36}
-            height={36}
+            size={36}
           />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
@@ -160,7 +158,7 @@ const Sidebar = () => {
               key={id}
               isSelected={isActive}
               onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              icon={<Icon name={iconName} size={36} />}
             >
               {label}
             </SidebarPannel>
@@ -169,7 +167,7 @@ const Sidebar = () => {
               <SidebarIcon
                 isSelected={isActive}
                 onClick={() => handleSelect(id)}
-                icon={<Icon name={iconName} width={36} height={36} />}
+                icon={<Icon name={iconName} size={36} />}
               />
               <div className={styles.floatingMenu}>
                 <FloatingMenu menuName={label} />
@@ -187,7 +185,7 @@ const Sidebar = () => {
               key={id}
               isSelected={isActive}
               onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              icon={<Icon name={iconName} size={36} />}
             >
               {label}
             </SidebarPannel>
@@ -201,7 +199,7 @@ const Sidebar = () => {
                   handleSelect(labelItems[0].id);
                 }
               }}
-              icon={<Icon name="ic_label" width={36} height={36} />}
+              icon={<Icon name="ic_label" size={36} />}
             />
             <div className={styles.floatingLabel}>
               <FloatingLabel labels={FLOATING_LABEL_ITEMS} />
@@ -217,9 +215,9 @@ const Sidebar = () => {
               isSelected={selectedId === 'trash'}
               icon={
                 selectedId === 'trash' ? (
-                  <Icon name="ic_trash_blue" width={36} height={36} />
+                  <Icon name="ic_trash_blue" size={36} />
                 ) : (
-                  <Icon name="ic_trash" width={36} height={36} />
+                  <Icon name="ic_trash" size={36} />
                 )
               }
             >
@@ -239,9 +237,9 @@ const Sidebar = () => {
               <SidebarIcon
                 icon={
                   selectedId === 'trash' ? (
-                    <Icon name="ic_trash_blue" width={36} height={36} />
+                    <Icon name="ic_trash_blue" size={36} />
                   ) : (
-                    <Icon name="ic_trash" width={36} height={36} />
+                    <Icon name="ic_trash" size={36} />
                   )
                 }
               />
@@ -250,9 +248,7 @@ const Sidebar = () => {
               </div>
             </div>
             <div className={styles.iconContainer}>
-              <SidebarIcon
-                icon={<Icon name="ic_profile" width={36} height={36} />}
-              />
+              <SidebarIcon icon={<Icon name="ic_profile" size={36} />} />
               <div className={styles.floatingMenu}>
                 <FloatingMenu menuName={userInfo?.name || '프로필'} />
               </div>

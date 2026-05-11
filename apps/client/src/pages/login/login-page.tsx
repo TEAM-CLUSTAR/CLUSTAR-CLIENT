@@ -25,7 +25,7 @@ const LoginPage = () => {
   return (
     <>
       <div className={styles.header}>
-        <Icon name="ic_logo_symbol" width={44} height={44} />
+        <Icon name="ic_logo_symbol" size={44} />
         <Icon name="ic_logo_type" width={108} height={14} />
       </div>
 

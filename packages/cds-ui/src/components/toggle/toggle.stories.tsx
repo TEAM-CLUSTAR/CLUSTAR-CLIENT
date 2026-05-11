@@ -30,15 +30,13 @@ const DefaultToggle = () => {
       <Toggle.Item itemValue="tree">
         <Icon
           name={viewMode === 'tree' ? 'ic_treeview_on' : 'ic_treeview_off'}
-          width={28}
-          height={28}
+          size={28}
         />
       </Toggle.Item>
       <Toggle.Item itemValue="card">
         <Icon
           name={viewMode === 'card' ? 'ic_cardview_on' : 'ic_cardview_off'}
-          width={28}
-          height={28}
+          size={28}
         />
       </Toggle.Item>
     </Toggle>
