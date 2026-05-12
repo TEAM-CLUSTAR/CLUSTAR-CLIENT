@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
 
-import {
-  MemoListView,
-  MemoListViewHelpers,
-} from '@shared/components/memo-list-view';
+import EmptyView from '@shared/components/empty-view/empty-view';
+import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 import { MockMemo } from '@shared/types/memo';
 
 import { useGetAIMemo } from './apis/queries';
-import AiResultsEmptyView from './components/ai-results-empty-view/ai-results-empty-view';
 
 const AiResultsPage = () => {
   const {
@@ -19,21 +16,16 @@ const AiResultsPage = () => {
   const aiResultMemos = useMemo<MockMemo[]>(() => {
     return aiMemos?.filter((memo) => memo.aiResult) ?? [];
   }, [aiMemos]);
-  const handleAiCreateClick = (
-    memoId: string,
-    helpers: MemoListViewHelpers,
-  ) => {
-    helpers.selectFunction(memoId);
-    helpers.setIsAiMode(true);
-  };
 
   return aiResultMemos.length === 0 ? (
-    <AiResultsEmptyView />
+    <EmptyView
+      title="저장된 AI 기록이 없습니다."
+      description="AI 기록을 생성해보세요."
+    />
   ) : (
     <MemoListView
       title="AI 기록"
       initialMemos={aiResultMemos}
-      onAiCreateClick={handleAiCreateClick}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}

@@ -8,8 +8,6 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "build": "vite build",
-    "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -26,7 +24,6 @@
     "@storybook/react": "^8.6.15",
     "@storybook/react-vite": "^8.6.15",
     "@storybook/test": "^8.6.15",
-    "@turbo/gen": "^1.12.4",
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
@@ -43,6 +40,7 @@
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
+    "@cds/token": "workspace:*",
     "@radix-ui/react-dialog": "^1.1.15",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core"

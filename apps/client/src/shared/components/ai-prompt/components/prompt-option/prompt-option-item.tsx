@@ -36,11 +36,7 @@ const PromptOptionItem = ({
         aria-label={option.title}
         disabled={disabled}
       >
-        <Icon
-          name={selected ? option.iconOn : option.iconOff}
-          width={32}
-          height={32}
-        />
+        <Icon name={selected ? option.iconOn : option.iconOff} size={36} />
       </button>
 
       {hovered && (

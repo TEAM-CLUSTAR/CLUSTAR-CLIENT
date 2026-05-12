@@ -21,7 +21,7 @@ const FloatingButton = ({
       onClick={handleClick}
       className={styles.button({ isActive, disabled })}
     >
-      <Icon name="ic_ai_white" width={36} height={36} />
+      <Icon name="ic_ai_white" size={36} />
       <span>{children}</span>
     </button>
   );

@@ -5,7 +5,7 @@ import { themeVars } from '../../styles';
 
 export const container = recipe({
   base: {
-    width: themeVars.width.full,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -70,7 +70,7 @@ export const aiSummary = style({
 });
 
 export const content = style({
-  width: themeVars.width.full,
+  width: '100%',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
 });

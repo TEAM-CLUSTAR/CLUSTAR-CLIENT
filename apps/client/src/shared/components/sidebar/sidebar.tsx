@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { PATH } from '@router/path';
+import { matchPath, useLocation, useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
@@ -32,15 +34,11 @@ const MENU_ITEMS = [
   { id: 'ai', label: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
 ] as const;
 
-interface SidebarProps {
-  isExpanded: boolean;
-  onToggle: () => void;
-  selectedId: string;
-  onSelect: (id: string) => void;
-  setIsTreeViewOpen: (value: boolean) => void;
-  isTreeViewOpen: boolean;
-  onLogoClick?: () => void;
-}
+const MENU_PATH: Record<string, string> = {
+  new: PATH.NEW_MEMO,
+  all: PATH.ALL_MEMO,
+  ai: PATH.AI_RESULTS,
+};
 
 const getIconState = (
   item: { id: string; icon: IconName; activeIcon: IconName },
@@ -51,18 +49,32 @@ const getIconState = (
   return { isActive, iconName };
 };
 
-const Sidebar = ({
-  isExpanded,
-  onToggle,
-  selectedId,
-  onSelect,
-  setIsTreeViewOpen,
-  isTreeViewOpen,
-  onLogoClick,
-}: SidebarProps) => {
+const Sidebar = () => {
   const [isHover, setIsHover] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const { data: userInfo } = useGetUserInfo();
   const { data: labels = [] } = useGetLabel();
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const selectedId = useMemo(() => {
+    if (pathname === PATH.NEW_MEMO) return 'new';
+    if (pathname.startsWith(PATH.AI_RESULTS)) return 'ai';
+    if (pathname.startsWith(PATH.ALL_MEMO)) return 'all';
+    const labelMatch = matchPath(PATH.LABEL, pathname);
+    if (labelMatch?.params.labelId) return labelMatch.params.labelId;
+    return '';
+  }, [pathname]);
+
+  const handleSelect = (id: string) => {
+    const path = MENU_PATH[id] ?? `/label/${id}`;
+    navigate(path);
+  };
+
+  const handleLogoClick = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   const labelItems = useMemo(() => {
     return labels.map((label) => ({
@@ -97,20 +109,17 @@ const Sidebar = ({
           <>
             <div
               className={styles.logo({ expanded: isExpanded })}
-              onClick={onLogoClick}
-              style={{ cursor: onLogoClick ? 'pointer' : 'default' }}
+              onClick={handleLogoClick}
             >
               <Icon
                 name="ic_logo_symbol"
-                width={36}
-                height={36}
+                size={36}
                 style={{ pointerEvents: 'none' }}
               />
             </div>
             <span
               className={styles.title({ expanded: isExpanded })}
-              onClick={onLogoClick}
-              style={{ cursor: onLogoClick ? 'pointer' : 'default' }}
+              onClick={handleLogoClick}
             >
               <Icon
                 name="ic_logo_type"
@@ -124,25 +133,14 @@ const Sidebar = ({
 
         <button
           type="button"
-          onClick={() => {
-            if (!isExpanded) {
-              if (onLogoClick) {
-                onLogoClick();
-              } else {
-                onToggle();
-              }
-            } else {
-              onToggle();
-            }
-          }}
+          onClick={() => setIsExpanded((prev) => !prev)}
           className={styles.foldingBtn}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         >
           <Icon
             name={isExpanded || isHover ? 'ic_folding' : 'ic_logo_symbol'}
-            width={36}
-            height={36}
+            size={36}
           />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
@@ -159,8 +157,8 @@ const Sidebar = ({
             <SidebarPannel
               key={id}
               isSelected={isActive}
-              onClick={() => onSelect(id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              onClick={() => handleSelect(id)}
+              icon={<Icon name={iconName} size={36} />}
             >
               {label}
             </SidebarPannel>
@@ -168,8 +166,8 @@ const Sidebar = ({
             <div key={id} className={styles.iconContainer}>
               <SidebarIcon
                 isSelected={isActive}
-                onClick={() => onSelect(id)}
-                icon={<Icon name={iconName} width={36} height={36} />}
+                onClick={() => handleSelect(id)}
+                icon={<Icon name={iconName} size={36} />}
               />
               <div className={styles.floatingMenu}>
                 <FloatingMenu menuName={label} />
@@ -186,8 +184,8 @@ const Sidebar = ({
             <SidebarPannel
               key={id}
               isSelected={isActive}
-              onClick={() => onSelect(id)}
-              icon={<Icon name={iconName} width={36} height={36} />}
+              onClick={() => handleSelect(id)}
+              icon={<Icon name={iconName} size={36} />}
             >
               {label}
             </SidebarPannel>
@@ -198,16 +196,10 @@ const Sidebar = ({
               isSelected={false}
               onClick={() => {
                 if (labelItems.length > 0) {
-                  if (isTreeViewOpen) {
-                    setIsTreeViewOpen(false);
-                    onSelect(labelItems[0].id);
-                  } else {
-                    onToggle();
-                    onSelect(labelItems[0].id);
-                  }
+                  handleSelect(labelItems[0].id);
                 }
               }}
-              icon={<Icon name="ic_label" width={36} height={36} />}
+              icon={<Icon name="ic_label" size={36} />}
             />
             <div className={styles.floatingLabel}>
               <FloatingLabel labels={FLOATING_LABEL_ITEMS} />
@@ -223,9 +215,9 @@ const Sidebar = ({
               isSelected={selectedId === 'trash'}
               icon={
                 selectedId === 'trash' ? (
-                  <Icon name="ic_trash_blue" width={36} height={36} />
+                  <Icon name="ic_trash_blue" size={36} />
                 ) : (
-                  <Icon name="ic_trash" width={36} height={36} />
+                  <Icon name="ic_trash" size={36} />
                 )
               }
             >
@@ -245,9 +237,9 @@ const Sidebar = ({
               <SidebarIcon
                 icon={
                   selectedId === 'trash' ? (
-                    <Icon name="ic_trash_blue" width={36} height={36} />
+                    <Icon name="ic_trash_blue" size={36} />
                   ) : (
-                    <Icon name="ic_trash" width={36} height={36} />
+                    <Icon name="ic_trash" size={36} />
                   )
                 }
               />
@@ -256,9 +248,7 @@ const Sidebar = ({
               </div>
             </div>
             <div className={styles.iconContainer}>
-              <SidebarIcon
-                icon={<Icon name="ic_profile" width={36} height={36} />}
-              />
+              <SidebarIcon icon={<Icon name="ic_profile" size={36} />} />
               <div className={styles.floatingMenu}>
                 <FloatingMenu menuName={userInfo?.name || '프로필'} />
               </div>

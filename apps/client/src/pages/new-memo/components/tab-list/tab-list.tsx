@@ -35,7 +35,7 @@ const TabList = ({
   return (
     <div className={styles.tabListContainer}>
       <div className={styles.memoMarker}>
-        <Icon name="ic_memo_36" width={36} height={36} />
+        <Icon name="ic_memo_36" size={36} />
       </div>
       {items.map(({ id, title, label }) => (
         <Tab
@@ -56,7 +56,7 @@ const TabList = ({
           className={styles.addButton}
           aria-label="탭 추가"
         >
-          <Icon name="ic_plus" width={28} height={28} />
+          <Icon name="ic_plus" size={28} />
         </button>
       )}
     </div>

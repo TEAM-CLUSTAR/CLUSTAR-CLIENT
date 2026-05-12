@@ -28,14 +28,14 @@ type Story = StoryObj<typeof SidebarIcon>;
 
 export const Default: Story = {
   args: {
-    icon: <Icon name="ic_newmemo" width={36} height={36} />,
+    icon: <Icon name="ic_newmemo" size={36} />,
     isSelected: false,
   },
 };
 
 export const Selected: Story = {
   args: {
-    icon: <Icon name="ic_newmemo_blue" width={36} height={36} />,
+    icon: <Icon name="ic_newmemo_blue" size={36} />,
     isSelected: true,
   },
 };
@@ -52,25 +52,25 @@ export const List: Story = {
       <SidebarIcon
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_newmemo" width={36} height={36} />}
+        icon={<Icon name="ic_newmemo" size={36} />}
       />
 
       <SidebarIcon
         {...args}
         isSelected={true}
-        icon={<Icon name="ic_allmemo_blue" width={36} height={36} />}
+        icon={<Icon name="ic_allmemo_blue" size={36} />}
       />
 
       <SidebarIcon
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_ai" width={36} height={36} />}
+        icon={<Icon name="ic_ai" size={36} />}
       />
 
       <SidebarIcon
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_label" width={36} height={36} />}
+        icon={<Icon name="ic_label" size={36} />}
       />
     </div>
   ),
