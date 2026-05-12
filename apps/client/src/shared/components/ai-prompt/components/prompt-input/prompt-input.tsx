@@ -76,7 +76,7 @@ const PromptInput = ({
           size="sm"
           disabled={!hasValue || disabled || !hasSelectedMemos}
         >
-          <Icon name="ic_send" width={36} height={36} />
+          <Icon name="ic_send" size={36} />
         </Button>
       </div>
     </div>

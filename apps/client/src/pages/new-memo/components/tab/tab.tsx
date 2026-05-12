@@ -55,12 +55,7 @@ const Tab = ({
           type="button"
           aria-label="탭 닫기"
         >
-          <Icon
-            name="ic_close"
-            width={28}
-            height={28}
-            onClick={handleDeleteClick}
-          />
+          <Icon name="ic_close" size={28} onClick={handleDeleteClick} />
         </button>
       )}
     </div>

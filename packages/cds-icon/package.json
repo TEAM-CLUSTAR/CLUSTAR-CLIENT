@@ -12,6 +12,7 @@
     "generate:icons": "tsx src/scripts/generate-icon-list.ts"
   },
   "devDependencies": {
+    "@cds/token": "workspace:*",
     "@clustar/eslint-config": "workspace:*",
     "@clustar/typescript-config": "workspace:*",
     "@types/node": "catalog:typescript-core",

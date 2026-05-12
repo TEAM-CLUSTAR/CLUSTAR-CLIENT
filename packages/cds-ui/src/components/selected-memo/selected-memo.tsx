@@ -9,7 +9,7 @@ export interface SelectedMemoProps {
 const SelectedMemo = ({ memoName }: SelectedMemoProps) => {
   return (
     <div className={styles.container}>
-      <Icon name="ic_memo_blue" width={24} height={24} />
+      <Icon name="ic_memo_blue" size={24} />
       <span className={styles.name}>{memoName}</span>
     </div>
   );
