@@ -36,9 +36,11 @@ export const optionItem = recipe({
         border: `1px solid ${themeVars.color.grey300}`,
         backgroundColor: themeVars.color.white,
         boxShadow: '0 0 4px rgba(0, 0, 0, 0.05)',
+      },
+      false: {
         selectors: {
           '&:hover': {
-            backgroundColor: themeVars.color.white,
+            backgroundColor: themeVars.color.grey200,
           },
         },
       },
