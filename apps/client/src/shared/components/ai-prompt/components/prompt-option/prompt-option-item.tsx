@@ -26,7 +26,11 @@ const PromptOptionItem = ({
       aria-label={option.title}
       disabled={disabled}
     >
-      <Icon name={selected ? option.iconOn : option.iconOff} size={36} />
+      <Icon
+        name={option.iconName}
+        size={32}
+        color={selected ? 'grey800' : 'grey500'}
+      />
     </button>
   );
 };
