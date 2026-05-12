@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { IconName } from '@cds/icon';
 
 import PromptOptionItem from './prompt-option-item';
+import PromptPopover from './prompt-popover';
 
 import * as styles from './prompt-option.css';
 
@@ -59,18 +60,34 @@ const PromptOption = ({
 
   return (
     <div className={styles.container}>
-      {OPTIONS.map((option) => (
-        <PromptOptionItem
-          key={option.id}
-          option={option}
-          selected={selectedOptionId === option.id}
-          hovered={hoveredId === option.id}
-          handleSelect={() => handleSelect(option.id)}
-          handleHover={() => setHoveredId(option.id)}
-          handleLeave={() => setHoveredId(null)}
-          disabled={disabled}
-        />
-      ))}
+      {OPTIONS.map((option) => {
+        const isHovered = hoveredId === option.id;
+        return (
+          <div
+            key={option.id}
+            className={styles.optionContainer}
+            onMouseEnter={() => setHoveredId(option.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            <PromptOptionItem
+              option={option}
+              selected={selectedOptionId === option.id}
+              handleSelect={() => handleSelect(option.id)}
+              disabled={disabled}
+            />
+
+            {/* TODO: ToolTip 컴포넌트 구현 후 PromptPopover와 교체, PromptPopover 컴포넌트도 함께 제거부탁드립니다! */}
+            {isHovered && (
+              <div className={styles.popoverContainer}>
+                <PromptPopover
+                  title={option.title}
+                  description={option.description}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
