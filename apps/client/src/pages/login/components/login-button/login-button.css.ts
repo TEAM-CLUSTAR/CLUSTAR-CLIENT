@@ -8,7 +8,7 @@ export const container = style({
   justifyContent: 'center',
   gap: '1.6rem',
 
-  width: themeVars.width.full,
+  width: '100%',
   height: '4.8rem',
   borderRadius: '12px',
 

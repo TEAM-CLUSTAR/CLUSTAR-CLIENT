@@ -55,7 +55,7 @@ export const imageInnerContainer = style({
   alignItems: 'center',
   gap: '1.4rem',
   overflowX: 'auto',
-  maxWidth: themeVars.width.full,
+  maxWidth: '100%',
   margin: '-0.5rem 0rem',
   padding: '0.5rem 2rem 0.5rem 0.5rem',
   scrollbarWidth: 'none',
@@ -90,7 +90,7 @@ export const fileInnerContainer = style({
   alignItems: 'center',
   gap: '1.4rem',
   overflowX: 'auto',
-  maxWidth: themeVars.width.full,
+  maxWidth: '100%',
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
 });
@@ -107,7 +107,7 @@ export const selectedMemoContentContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   overflowX: 'auto',
-  maxWidth: themeVars.width.full,
+  maxWidth: '100%',
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
 });

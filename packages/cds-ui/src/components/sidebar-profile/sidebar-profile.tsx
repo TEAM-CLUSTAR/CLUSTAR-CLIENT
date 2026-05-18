@@ -28,7 +28,7 @@ const SidebarProfile = ({
           className={styles.profileImage}
         />
       ) : (
-        <Icon name="ic_profile" width={36} height={36} />
+        <Icon name="ic_profile" size={36} />
       )}
       <div className={styles.userInfoTextContainer}>
         {name && <span className={styles.userId}>{name}</span>}

@@ -39,7 +39,7 @@ const TriggerButton = (
       }}
     >
       <span>모달 열기</span>
-      <Icon name="ic_ai_gra" width={20} height={20} />
+      <Icon name="ic_ai_gra" size={20} />
     </button>
   </Modal.Trigger>
 );

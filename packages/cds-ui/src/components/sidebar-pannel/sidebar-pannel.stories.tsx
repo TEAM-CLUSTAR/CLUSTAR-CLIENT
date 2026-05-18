@@ -28,7 +28,7 @@ type Story = StoryObj<typeof SidebarPannel>;
 
 export const Default: Story = {
   args: {
-    icon: <Icon name="ic_newmemo" width={36} height={36} />,
+    icon: <Icon name="ic_newmemo" size={36} />,
     isSelected: false,
     children: '새 메모',
   },
@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const Selected: Story = {
   args: {
-    icon: <Icon name="ic_newmemo_blue" width={36} height={36} />,
+    icon: <Icon name="ic_newmemo_blue" size={36} />,
     isSelected: true,
     children: '새 메모',
   },
@@ -56,7 +56,7 @@ export const List: Story = {
       <SidebarPannel
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_newmemo" width={36} height={36} />}
+        icon={<Icon name="ic_newmemo" size={36} />}
       >
         새 메모
       </SidebarPannel>
@@ -64,7 +64,7 @@ export const List: Story = {
       <SidebarPannel
         {...args}
         isSelected={true}
-        icon={<Icon name="ic_allmemo_blue" width={36} height={36} />}
+        icon={<Icon name="ic_allmemo_blue" size={36} />}
       >
         전체 메모
       </SidebarPannel>
@@ -72,7 +72,7 @@ export const List: Story = {
       <SidebarPannel
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_ai" width={36} height={36} />}
+        icon={<Icon name="ic_ai" size={36} />}
       >
         AI 기록
       </SidebarPannel>
@@ -80,7 +80,7 @@ export const List: Story = {
       <SidebarPannel
         {...args}
         isSelected={false}
-        icon={<Icon name="ic_label" width={36} height={36} />}
+        icon={<Icon name="ic_label" size={36} />}
       >
         Label
       </SidebarPannel>

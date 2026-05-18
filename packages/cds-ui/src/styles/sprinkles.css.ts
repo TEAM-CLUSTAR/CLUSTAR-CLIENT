@@ -1,9 +1,13 @@
 import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles';
 
-import { tokens } from '../token';
+import { color, fontStyles, zIndex } from '@cds/token';
 
 const properties = defineProperties({
-  properties: tokens,
+  properties: {
+    color,
+    fontStyles,
+    zIndex,
+  },
 });
 
 export const sprinkles = createSprinkles(properties);
