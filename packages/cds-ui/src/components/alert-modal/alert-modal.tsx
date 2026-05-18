@@ -8,7 +8,6 @@ import * as styles from './alert-modal.css';
 interface AlertModalProps {
   title: string;
   description: string;
-  onClose?: () => void;
   onConfirm: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -17,7 +16,6 @@ interface AlertModalProps {
 const AlertModal = ({
   title,
   description,
-  onClose,
   onConfirm,
   open,
   onOpenChange,
@@ -27,7 +25,7 @@ const AlertModal = ({
       <Modal.Content>
         <div className={styles.container}>
           <Modal.Close>
-            <button type="button" className={styles.close} onClick={onClose}>
+            <button type="button" className={styles.close}>
               <Icon name="ic_close" width={28} height={28} />
             </button>
           </Modal.Close>
@@ -36,7 +34,7 @@ const AlertModal = ({
           <span className={styles.description}>{description}</span>
           <div className={styles.buttonContainer}>
             <Modal.Close>
-              <Button onClick={onClose} size="lg" variant="outlined">
+              <Button size="lg" variant="outlined">
                 취소
               </Button>
             </Modal.Close>
