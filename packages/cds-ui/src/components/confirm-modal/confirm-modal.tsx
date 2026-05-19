@@ -6,14 +6,14 @@ import * as styles from './confirm-modal.css';
 interface ConfirmModalProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  onCloseClick?: () => void;
+  onConfirm?: () => void;
   isCancel: boolean;
 }
 
 const ConfirmModal = ({
   open,
   onOpenChange,
-  onCloseClick,
+  onConfirm,
   isCancel,
 }: ConfirmModalProps) => {
   return (
@@ -43,7 +43,7 @@ const ConfirmModal = ({
               </Modal.Close>
             )}
             <Modal.Close>
-              <Button size="lg" onClick={onCloseClick}>
+              <Button size="lg" onClick={onConfirm}>
                 확인
               </Button>
             </Modal.Close>
