@@ -1,16 +1,20 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { ThemeProvider } from '../../../providers/theme-provider';
 import useFocusTrap from '../hooks/use-focus-trap';
 import { useModalContext } from '../modal-context';
 import Overlay from './overlay';
-import Portal from './portal';
 
 import * as styles from '../modal.css';
 
 export interface ContentProps {
   children: ReactNode;
   ariaLabel?: string;
+}
+interface PortalProps {
+  children: ReactNode;
+  container?: HTMLElement;
 }
 
 const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
@@ -48,6 +52,11 @@ const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
       </ThemeProvider>
     </Portal>
   );
+};
+
+const Portal = ({ children, container }: PortalProps) => {
+  if (typeof document === 'undefined') return null;
+  return createPortal(children, container ?? document.body);
 };
 
 export default Content;
