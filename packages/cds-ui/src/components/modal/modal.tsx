@@ -21,12 +21,12 @@ const ModalRoot = ({
   defaultOpen = false,
 }: ModalRootProps) => {
   const isControlled = open !== undefined;
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
-  const isOpen = isControlled ? open : internalOpen;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isOpen = isControlled ? open : uncontrolledOpen;
 
   const handleOpenChange = useCallback(
     (nextOpen: boolean) => {
-      if (!isControlled) setInternalOpen(nextOpen);
+      if (!isControlled) setUncontrolledOpen(nextOpen);
       onOpenChange?.(nextOpen);
     },
     [isControlled, onOpenChange],

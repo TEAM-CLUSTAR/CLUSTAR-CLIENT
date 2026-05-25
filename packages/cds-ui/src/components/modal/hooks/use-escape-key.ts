@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-interface useEscapeKeyTypes {
+interface UseEscapeKeyTypes {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const useEscapeKey = ({ isOpen, onClose }: useEscapeKeyTypes) => {
+const useEscapeKey = ({ isOpen, onClose }: UseEscapeKeyTypes) => {
   useEffect(() => {
     if (!isOpen) return;
 
