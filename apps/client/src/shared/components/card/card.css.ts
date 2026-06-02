@@ -45,6 +45,27 @@ export const cardContainer = recipe({
       },
       false: {},
     },
+    isAiResult: {
+      true: {
+        position: 'relative',
+        border: '1px solid transparent',
+        background: themeVars.color.gradient03,
+        selectors: {
+          '&:hover': {
+            background: themeVars.color.gradient03,
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: '-2px',
+            borderRadius: '13px',
+            background: themeVars.color.gradient01,
+            zIndex: -1,
+          },
+        },
+      },
+      false: {},
+    },
   },
 });
 
