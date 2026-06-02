@@ -108,6 +108,9 @@ importers:
       '@cds/icon':
         specifier: workspace:*
         version: link:../../packages/cds-icon
+      '@cds/token':
+        specifier: workspace:*
+        version: link:../../packages/cds-token
       '@cds/ui':
         specifier: workspace:*
         version: link:../../packages/cds-ui
