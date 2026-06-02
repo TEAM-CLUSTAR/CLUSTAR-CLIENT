@@ -5,8 +5,8 @@ import * as styles from './card.css';
 
 // TODO: Tag 백엔드 타입에 맞게 변경
 type TagType = {
-  id: number;
-  text: string;
+  labelId: number;
+  name: string;
 };
 interface CardProps {
   tagList: TagType[];
@@ -15,6 +15,7 @@ interface CardProps {
   fileCount: number;
   imageCount: number;
   date: string;
+  isSelected: boolean;
   handleCardClick: () => void;
 }
 
@@ -25,20 +26,24 @@ const Card = ({
   fileCount,
   imageCount,
   date,
+  isSelected,
   handleCardClick,
 }: CardProps) => {
   return (
-    <article className={styles.cardContainer} onClick={handleCardClick}>
+    <article
+      className={styles.cardContainer({ isSelected })}
+      onClick={handleCardClick}
+    >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
           {/* TODO: Label 리디자인 반영 후 수정 (현재 임시 Label로 구현)*/}
           {tagList.length > 0 ? (
             tagList.map((tag) => (
               <Label
-                key={tag.id}
+                key={tag.labelId}
                 labelSize="sm"
                 labelColor="blue"
-                labelText={tag.text}
+                labelText={tag.name}
               />
             ))
           ) : (

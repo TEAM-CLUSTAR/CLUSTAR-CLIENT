@@ -1,24 +1,36 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const cardContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  gap: '1.8rem',
+export const cardContainer = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    gap: '1.8rem',
 
-  padding: '2.4rem',
-  width: '34rem',
-  height: '22rem',
-  borderRadius: '12px',
-  backgroundColor: themeVars.color.white,
-  border: `1px solid ${themeVars.color.grey200}`,
-  boxShadow: '0 0 24px 0 rgba(0, 0, 0, 0.03)',
+    padding: '2.4rem',
+    width: '34rem',
+    height: '22rem',
+    borderRadius: '12px',
+    backgroundColor: themeVars.color.white,
+    border: `1px solid ${themeVars.color.grey200}`,
+    boxShadow: '0 0 24px 0 rgba(0, 0, 0, 0.03)',
 
-  ':hover': {
-    backgroundColor: themeVars.color.grey100,
-    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: themeVars.color.grey100,
+      cursor: 'pointer',
+    },
+  },
+  variants: {
+    isSelected: {
+      true: {
+        border: `1px solid ${themeVars.color.grey400}`,
+        backgroundColor: themeVars.color.grey100,
+      },
+      false: {},
+    },
   },
 });
 
