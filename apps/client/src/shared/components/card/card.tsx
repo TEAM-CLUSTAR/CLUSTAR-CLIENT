@@ -16,6 +16,7 @@ interface CardProps {
   imageCount: number;
   date: string;
   isSelected: boolean;
+  isDragging?: boolean;
   handleCardClick: () => void;
 }
 
@@ -27,11 +28,13 @@ const Card = ({
   imageCount,
   date,
   isSelected,
+  isDragging = false,
   handleCardClick,
 }: CardProps) => {
   return (
     <article
-      className={styles.cardContainer({ isSelected })}
+      className={styles.cardContainer({ isSelected, isDragging })}
+      draggable
       onClick={handleCardClick}
     >
       <div className={styles.mainInfoContainer}>

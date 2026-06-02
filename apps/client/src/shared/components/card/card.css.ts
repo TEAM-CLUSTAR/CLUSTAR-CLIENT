@@ -31,6 +31,20 @@ export const cardContainer = recipe({
       },
       false: {},
     },
+    isDragging: {
+      true: {
+        border: `1px solid ${themeVars.color.blue400}`,
+        backgroundColor: themeVars.color.blue50,
+        cursor: 'grabbing',
+        selectors: {
+          '&:hover': {
+            backgroundColor: themeVars.color.blue50,
+            cursor: 'grabbing',
+          },
+        },
+      },
+      false: {},
+    },
   },
 });
 
