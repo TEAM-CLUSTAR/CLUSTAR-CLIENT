@@ -1,115 +1,67 @@
-import { CSSProperties } from 'react';
-
 import { Icon } from '@cds/icon';
-import { LabelList, themeVars, Title } from '@cds/ui';
-
-import {
-  LABEL_COLOR_BY_TEXT,
-  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
-} from '@shared/constants/label-match';
-import { LabelTextType } from '@shared/types/label-type';
+import { Label, Title } from '@cds/ui';
 
 import * as styles from './card.css';
 
-interface LabelItem {
-  id: string;
-  text: LabelTextType;
-}
-
+// TODO: Tag 백엔드 타입에 맞게 변경
+type TagType = {
+  id: number;
+  text: string;
+};
 interface CardProps {
-  item: LabelItem[];
-  imageUrl?: string;
-  imageAlt?: string;
+  tagList: TagType[];
   title: string;
-  contents: string;
+  content: string;
   fileCount: number;
   imageCount: number;
   date: string;
-  isSelectedCard?: boolean;
-  aiResult?: boolean;
-  aiNewResult?: boolean;
-  onClick?: () => void;
+  handleCardClick: () => void;
 }
 
 const Card = ({
-  item,
-  imageUrl,
-  imageAlt,
+  tagList,
   title,
-  contents,
+  content,
   fileCount,
   imageCount,
   date,
-  isSelectedCard,
-  aiResult,
-  aiNewResult,
-  onClick,
+  handleCardClick,
 }: CardProps) => {
-  const primaryLabelColor = item[0]
-    ? LABEL_COLOR_BY_TEXT[item[0].text]
-    : 'grey';
-  const primaryColorValue =
-    primaryLabelColor === 'grey'
-      ? `${themeVars.color.grey600}`
-      : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
-
-  const isDefault = !aiNewResult && !isSelectedCard;
-
   return (
-    <article
-      className={styles.cardContainer({
-        isDefault,
-        aiNewResult,
-        isSelectedCard,
-        imageUrl: !!imageUrl,
-        isClickable: !!onClick,
-      })}
-      style={
-        {
-          [styles.PRIMARY_COLOR_VAR]: primaryColorValue,
-        } as CSSProperties
-      }
-      onClick={onClick}
-    >
-      {imageUrl && (
-        <div className={styles.imageContainer}>
-          <img src={imageUrl} alt={imageAlt ?? ''} className={styles.image} />
+    <article className={styles.cardContainer} onClick={handleCardClick}>
+      <div className={styles.mainInfoContainer}>
+        <div className={styles.tagContainer}>
+          {/* TODO: Label 리디자인 반영 후 수정 (현재 임시 Label로 구현)*/}
+          {tagList.length > 0 ? (
+            tagList.map((tag) => (
+              <Label
+                key={tag.id}
+                labelSize="sm"
+                labelColor="blue"
+                labelText={tag.text}
+              />
+            ))
+          ) : (
+            <Label labelSize="sm" labelColor="grey" labelText="라벨없음" />
+          )}
         </div>
-      )}
-
-      <div className={styles.allContentsContainer}>
-        <div>
-          <div className={styles.labelListContainer}>
-            <LabelList listType="card" labelItems={item} labelSize="sm" />
-            {aiNewResult && <p className={styles.aiNewResult}>NEW</p>}
+        <div className={styles.contentsContainer}>
+          <Title title={title} />
+          <p className={styles.content}>{content}</p>
+        </div>
+      </div>
+      <div className={styles.subInfoContainer}>
+        <div className={styles.countContainer}>
+          <div className={styles.count}>
+            <Icon name="ic_file" size={28} color="grey500" />
+            <span>{fileCount}</span>
           </div>
-
-          <div className={styles.textContent({ aiResult, aiNewResult })}>
-            <div className={styles.titleContainer({ aiResult })}>
-              {aiResult && (
-                <Icon name="ic_ai_gra" size={36} className={styles.icon} />
-              )}
-              <Title title={title} />
-            </div>
-            <p className={styles.content}>{contents}</p>
+          <div className={styles.count}>
+            <Icon name="ic_img" size={28} color="grey500" />
+            <span>{imageCount}</span>
           </div>
         </div>
-
-        <div>
-          <div className={styles.footerContenContainer}>
-            <div className={styles.fileInfoContainer}>
-              <div className={styles.fileInfo}>
-                <Icon name="ic_file_24" size={24} />
-                <span>{fileCount}</span>
-              </div>
-              <div className={styles.fileInfo}>
-                <Icon name="ic_img_24" size={24} />
-                <span>{imageCount}</span>
-              </div>
-            </div>
-            <span>{date}</span>
-          </div>
-        </div>
+        <p>{date}</p>
       </div>
     </article>
   );
