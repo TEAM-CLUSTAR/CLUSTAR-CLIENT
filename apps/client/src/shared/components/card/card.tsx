@@ -1,15 +1,13 @@
 import { CSSProperties } from 'react';
 
 import { Icon } from '@cds/icon';
+import { LabelList, themeVars, Title } from '@cds/ui';
 
 import {
   LABEL_COLOR_BY_TEXT,
-  LabelTextType,
   PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
-} from '../../constants/label-color-map';
-import { themeVars } from '../../styles';
-import LabelList from '../label-list/label-list';
-import Title from '../title/title';
+} from '@shared/constants/label-match';
+import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './card.css';
 
