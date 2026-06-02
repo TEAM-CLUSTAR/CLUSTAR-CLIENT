@@ -1,4 +1,5 @@
-import { MockMemo } from '../../types/memo';
+import { components } from '@shared/types/schema';
+
 import Header from '../header/header';
 import MemoCardGrid from './components/memo-list/memo-card-grid';
 
@@ -6,7 +7,7 @@ import * as styles from './memo-list-view.css';
 
 export interface MemoListViewProps {
   title?: string;
-  initialMemos?: MockMemo[];
+  initialMemos?: components['schemas']['MemoDashboardResponse'][];
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   fetchNextPage?: () => void;

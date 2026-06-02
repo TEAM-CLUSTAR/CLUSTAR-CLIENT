@@ -5,8 +5,8 @@ import * as styles from './card.css';
 
 // TODO: Tag 백엔드 타입에 맞게 변경
 type TagType = {
-  labelId: number;
-  name: string;
+  labelId?: number;
+  name?: string;
 };
 
 type CardInfoType = {
@@ -40,14 +40,14 @@ const Card = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {/* TODO: Label 리디자인 반영 후 수정 (현재 임시 Label로 구현)*/}
+          {/* TODO: Label 리디자인 반영 후 수정 (현재는 임시 Label로 구현)*/}
           {tagList.length > 0 ? (
             tagList.map((tag) => (
               <Label
                 key={tag.labelId}
                 labelSize="sm"
                 labelColor="blue"
-                labelText={tag.name}
+                labelText={tag.name ?? ''}
               />
             ))
           ) : (

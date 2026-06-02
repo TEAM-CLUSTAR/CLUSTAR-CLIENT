@@ -1,7 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/apis/instance';
-import { mapApiMemoToMockMemo, MockMemo } from '@shared/types/memo';
 import { components, paths } from '@shared/types/schema';
 
 import { ALL_MEMO_END_POIINT, LABEL_END_POINT } from './end-point';
@@ -72,7 +71,7 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
   return useInfiniteQuery<
     AllMemoResponse,
     Error,
-    MockMemo[],
+    MemoDashboardResponse[],
     ReturnType<typeof ALL_MEMO_KEY.GET>,
     MemoCursor
   >({
@@ -90,16 +89,8 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
       };
     },
     initialPageParam: undefined,
-    refetchOnMount: 'always', // 페이지로 돌아왔을 때 항상 refetch (staleTime 무시)
-    select: (data) => {
-      const flatApiMemos: MemoDashboardResponse[] = data.pages.flatMap((p) =>
-        getMemosFromResponse(p),
-      );
-      const result: MockMemo[] = flatApiMemos.map(
-        (memo: MemoDashboardResponse) => mapApiMemoToMockMemo(memo),
-      );
-      return result;
-    },
+    staleTime: 0,
+    select: (data) => data.pages.flatMap((p) => getMemosFromResponse(p)),
   });
 };
 

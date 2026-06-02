@@ -1,26 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Card from '@shared/components/card/card';
+import { components } from '@shared/types/schema';
 
 import * as styles from './memo-card-grid.css';
 
-type TagType = {
-  labelId: number;
-  name: string;
-};
-
-type CardInfoType = {
-  id: number;
-  tagList?: TagType[];
-  title: string;
-  content: string;
-  fileCount: number;
-  imageCount: number;
-  date: string;
-};
-
 interface MemoCardItemProps {
-  memo: CardInfoType;
+  memo: components['schemas']['MemoDashboardResponse'];
   isSelected: boolean;
   isDragging: boolean;
   onSelect: (id: number) => void;
@@ -36,10 +22,18 @@ const MemoCardItem = ({
   onDragStart,
   onDragEnd,
 }: MemoCardItemProps) => {
-  const { id, tagList, title, content, fileCount, imageCount, date } = memo;
+  const {
+    memoId,
+    labelList,
+    title,
+    content,
+    fileCount,
+    imageCount,
+    createdAt,
+  } = memo;
 
   const handleDragStart = () => {
-    setTimeout(() => onDragStart(id), 0);
+    setTimeout(() => onDragStart(memoId ?? 0), 0);
   };
 
   return (
@@ -51,23 +45,23 @@ const MemoCardItem = ({
     >
       <Card
         card={{
-          tagList,
-          title,
-          content,
-          fileCount,
-          imageCount,
-          date,
+          tagList: labelList ?? [],
+          title: title ?? '',
+          content: content ?? '',
+          fileCount: fileCount ?? 0,
+          imageCount: imageCount ?? 0,
+          date: createdAt ?? '',
         }}
         isSelected={isSelected}
         isDragging={isDragging}
-        handleCardClick={() => onSelect(id)}
+        handleCardClick={() => onSelect(memoId ?? 0)}
       />
     </div>
   );
 };
 
 interface MemoCardGridProps {
-  memoData: CardInfoType[];
+  memoData: components['schemas']['MemoDashboardResponse'][];
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   onLoadMore?: () => void;
@@ -110,10 +104,10 @@ const MemoCardGrid = ({
       <div className={styles.gridContainer}>
         {memoData.map((memo) => (
           <MemoCardItem
-            key={memo.id}
+            key={memo.memoId}
             memo={memo}
-            isSelected={selectedId === memo.id}
-            isDragging={draggingId === memo.id}
+            isSelected={selectedId === memo.memoId}
+            isDragging={draggingId === memo.memoId}
             onSelect={setSelectedId}
             onDragStart={setDraggingId}
             onDragEnd={() => setDraggingId(null)}

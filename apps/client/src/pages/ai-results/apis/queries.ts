@@ -1,7 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/apis/instance';
-import { mapApiMemoToMockMemo, MockMemo } from '@shared/types/memo';
 import { components } from '@shared/types/schema';
 
 import { AI_END_POINT } from './end-point';
@@ -69,7 +68,7 @@ export const useGetAIMemo = (size = 20) => {
   return useInfiniteQuery<
     AiMemoResponse,
     Error,
-    MockMemo[],
+    MemoDashboardResponse[],
     ReturnType<typeof AI_MEMO_KEY.GET>,
     MemoCursor
   >({
@@ -87,14 +86,7 @@ export const useGetAIMemo = (size = 20) => {
       };
     },
     initialPageParam: undefined,
-    select: (data) => {
-      const flatApiMemos: MemoDashboardResponse[] = data.pages.flatMap((p) =>
-        getMemosFromResponse(p),
-      );
-      const result: MockMemo[] = flatApiMemos.map(
-        (memo: MemoDashboardResponse) => mapApiMemoToMockMemo(memo),
-      );
-      return result;
-    },
+    staleTime: 0,
+    select: (data) => data.pages.flatMap((p) => getMemosFromResponse(p)),
   });
 };
