@@ -10,7 +10,7 @@ type TagType = {
 };
 
 type CardInfoType = {
-  tagList: TagType[];
+  tagList?: TagType[];
   title: string;
   content: string;
   fileCount: number;
@@ -26,7 +26,7 @@ interface CardProps {
 }
 
 const Card = ({
-  card: { tagList, title, content, fileCount, imageCount, date },
+  card: { tagList = [], title, content, fileCount, imageCount, date },
   isSelected = false,
   isDragging = false,
   isAiResult = false,
