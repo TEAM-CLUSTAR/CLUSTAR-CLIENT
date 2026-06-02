@@ -1,71 +1,71 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { zIndex } from '@cds/token';
 import { themeVars } from '@cds/ui';
 
-export const cardContainer = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    gap: '1.8rem',
+const baseStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  gap: '1.8rem',
 
-    padding: '2.4rem',
-    width: '34rem',
-    height: '22rem',
-    borderRadius: '12px',
-    backgroundColor: themeVars.color.white,
-    border: `1px solid ${themeVars.color.grey200}`,
-    boxShadow: '0 0 24px 0 rgba(0, 0, 0, 0.03)',
+  padding: '2.4rem',
+  width: '34rem',
+  height: '22rem',
+  borderRadius: '12px',
+  backgroundColor: themeVars.color.white,
+  border: `1px solid ${themeVars.color.grey200}`,
+  boxShadow: '0 0 24px 0 rgba(0, 0, 0, 0.03)',
 
-    ':hover': {
-      backgroundColor: themeVars.color.grey100,
-      cursor: 'pointer',
+  ':hover': {
+    backgroundColor: themeVars.color.grey100,
+    cursor: 'pointer',
+  },
+} as const;
+
+const selectedStyle = {
+  border: `1px solid ${themeVars.color.grey400}`,
+  backgroundColor: themeVars.color.grey100,
+} as const;
+
+const draggingStyle = {
+  border: `1px solid ${themeVars.color.blue400}`,
+  backgroundColor: themeVars.color.blue50,
+  cursor: 'grabbing',
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.blue50,
+      cursor: 'grabbing',
     },
   },
+} as const;
+
+const aiResultStyle = {
+  position: 'relative',
+  border: '1px solid transparent',
+  background: themeVars.color.gradient03,
+  selectors: {
+    '&:hover': {
+      background: themeVars.color.gradient03,
+    },
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: '-2px',
+      borderRadius: '13px',
+      background: themeVars.color.gradient01,
+      zIndex: zIndex.back,
+    },
+  },
+} as const;
+
+export const cardContainer = recipe({
+  base: baseStyle,
   variants: {
-    isSelected: {
-      true: {
-        border: `1px solid ${themeVars.color.grey400}`,
-        backgroundColor: themeVars.color.grey100,
-      },
-      false: {},
-    },
-    isDragging: {
-      true: {
-        border: `1px solid ${themeVars.color.blue400}`,
-        backgroundColor: themeVars.color.blue50,
-        cursor: 'grabbing',
-        selectors: {
-          '&:hover': {
-            backgroundColor: themeVars.color.blue50,
-            cursor: 'grabbing',
-          },
-        },
-      },
-      false: {},
-    },
-    isAiResult: {
-      true: {
-        position: 'relative',
-        border: '1px solid transparent',
-        background: themeVars.color.gradient03,
-        selectors: {
-          '&:hover': {
-            background: themeVars.color.gradient03,
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            inset: '-2px',
-            borderRadius: '13px',
-            background: themeVars.color.gradient01,
-            zIndex: -1,
-          },
-        },
-      },
-      false: {},
-    },
+    isSelected: { true: selectedStyle, false: {} },
+    isDragging: { true: draggingStyle, false: {} },
+    isAiResult: { true: aiResultStyle, false: {} },
   },
 });
 
