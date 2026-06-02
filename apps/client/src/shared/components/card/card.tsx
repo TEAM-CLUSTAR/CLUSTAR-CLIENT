@@ -8,13 +8,17 @@ type TagType = {
   labelId: number;
   name: string;
 };
-interface CardProps {
+
+type CardInfoType = {
   tagList: TagType[];
   title: string;
   content: string;
   fileCount: number;
   imageCount: number;
   date: string;
+};
+interface CardProps {
+  card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
   isAiResult?: boolean;
@@ -22,12 +26,7 @@ interface CardProps {
 }
 
 const Card = ({
-  tagList,
-  title,
-  content,
-  fileCount,
-  imageCount,
-  date,
+  card: { tagList, title, content, fileCount, imageCount, date },
   isSelected = false,
   isDragging = false,
   isAiResult = false,
