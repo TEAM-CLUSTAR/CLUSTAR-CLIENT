@@ -13,6 +13,13 @@ export const cardContainer = style({
   height: '22rem',
   borderRadius: '12px',
   backgroundColor: themeVars.color.white,
+  border: `1px solid ${themeVars.color.grey200}`,
+  boxShadow: '0 0 24px 0 rgba(0, 0, 0, 0.03)',
+
+  ':hover': {
+    backgroundColor: themeVars.color.grey100,
+    cursor: 'pointer',
+  },
 });
 
 export const mainInfoContainer = style({
