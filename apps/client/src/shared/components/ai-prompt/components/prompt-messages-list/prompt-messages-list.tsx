@@ -72,7 +72,7 @@ const AiMessagesList = ({
 
       {isLoading && (
         <div className={styles.loadingSection}>
-          <Icon name="ic_ai_gra" width={36} height={36} />
+          <Icon name="ic_ai_gra" size={36} />
           <span className={styles.loadingText}>
             {selectedMemosCount}개의 메모를 바탕으로 결과물을 생성중이에요.
           </span>

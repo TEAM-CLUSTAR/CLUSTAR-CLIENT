@@ -128,7 +128,7 @@ const DetailModal = ({
 
             <Modal.Close>
               <button className={styles.closeButtonContainer} type="button">
-                <Icon name="ic_close" width={28} height={28} />
+                <Icon name="ic_close" size={28} />
               </button>
             </Modal.Close>
           </div>

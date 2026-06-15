@@ -1,0 +1,7 @@
+{
+  "extends": "@clustar/typescript-config/react-library.json",
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
+}

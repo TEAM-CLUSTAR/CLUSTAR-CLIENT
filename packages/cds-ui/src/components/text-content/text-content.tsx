@@ -182,12 +182,7 @@ const TextContent = ({
     <article className={styles.container({ type: mode })}>
       {isAiResult ? (
         <div className={styles.headerContainer}>
-          <Icon
-            name="ic_ai_blue_40"
-            width={40}
-            height={40}
-            className={styles.icon}
-          />
+          <Icon name="ic_ai_blue_40" size={40} className={styles.icon} />
           <div className={styles.titleWrapper}>
             <p className={styles.aiSummary}>AI 결과</p>
             <Title title={title} />

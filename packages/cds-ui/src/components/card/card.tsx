@@ -27,7 +27,6 @@ interface CardProps {
   fileCount: number;
   imageCount: number;
   date: string;
-  isAiMode: boolean;
   isSelectedCard?: boolean;
   aiResult?: boolean;
   aiNewResult?: boolean;
@@ -43,7 +42,6 @@ const Card = ({
   fileCount,
   imageCount,
   date,
-  isAiMode,
   isSelectedCard,
   aiResult,
   aiNewResult,
@@ -57,20 +55,16 @@ const Card = ({
       ? `${themeVars.color.grey600}`
       : PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[primaryLabelColor];
 
-  const isDefault = !isAiMode && !aiNewResult && !isSelectedCard;
-  const isNewAiSelected = !!aiNewResult && isAiMode && !!isSelectedCard;
+  const isDefault = !aiNewResult && !isSelectedCard;
 
   return (
     <article
       className={styles.cardContainer({
         isDefault,
         aiNewResult,
-        isAiMode,
-        aiNewResultAndAiMode: aiNewResult && isAiMode,
-        isSelectedCard: isSelectedCard && isAiMode,
+        isSelectedCard,
         imageUrl: !!imageUrl,
         isClickable: !!onClick,
-        aiNewResultAndAiModeAndSelected: isNewAiSelected,
       })}
       style={
         {
@@ -80,7 +74,7 @@ const Card = ({
       onClick={onClick}
     >
       {imageUrl && (
-        <div className={styles.imageContainer({ isAiMode })}>
+        <div className={styles.imageContainer}>
           <img src={imageUrl} alt={imageAlt ?? ''} className={styles.image} />
         </div>
       )}
@@ -95,12 +89,7 @@ const Card = ({
           <div className={styles.textContent({ aiResult, aiNewResult })}>
             <div className={styles.titleContainer({ aiResult })}>
               {aiResult && (
-                <Icon
-                  name="ic_ai_gra"
-                  width={36}
-                  height={36}
-                  className={styles.icon}
-                />
+                <Icon name="ic_ai_gra" size={36} className={styles.icon} />
               )}
               <Title title={title} />
             </div>
@@ -112,11 +101,11 @@ const Card = ({
           <div className={styles.footerContenContainer}>
             <div className={styles.fileInfoContainer}>
               <div className={styles.fileInfo}>
-                <Icon name="ic_file_24" width={24} height={24} />
+                <Icon name="ic_file_24" size={24} />
                 <span>{fileCount}</span>
               </div>
               <div className={styles.fileInfo}>
-                <Icon name="ic_img_24" width={24} height={24} />
+                <Icon name="ic_img_24" size={24} />
                 <span>{imageCount}</span>
               </div>
             </div>
