@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -9,53 +9,29 @@ interface UserMessageBubbleProps {
 }
 
 const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
+  const [showToggle, setShowToggle] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isShowMore, setIsShowMore] = useState(false);
-  const [showEllipsis, setShowEllipsis] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const textEl = contentRef.current;
     if (!textEl) return;
 
-    const hasOverflow = textEl.scrollHeight > textEl.clientHeight;
+    setShowToggle(textEl.scrollHeight > textEl.clientHeight);
     setIsExpanded(false);
-    setIsShowMore(hasOverflow);
-    setShowEllipsis(hasOverflow);
   }, [content]);
 
-  const handleTransitionEnd = () => {
-    if (!isExpanded) {
-      setShowEllipsis(true);
-    }
-  };
-
   const handleToggle = () => {
-    if (isExpanded) {
-      setIsExpanded(false);
-    } else {
-      setShowEllipsis(false);
-      setIsExpanded(true);
-    }
+    setIsExpanded((prev) => !prev);
   };
-
-  const expandedStyle =
-    isExpanded && contentRef.current
-      ? { maxHeight: `${contentRef.current.scrollHeight}px` }
-      : undefined;
 
   return (
     <div className={styles.bubbleBox}>
-      <p
-        ref={contentRef}
-        onTransitionEnd={handleTransitionEnd}
-        className={styles.textContent({ clamped: showEllipsis })}
-        style={expandedStyle}
-      >
+      <p ref={contentRef} className={styles.textContent({ isExpanded })}>
         {content}
       </p>
 
-      {isShowMore && (
+      {showToggle && (
         <button
           type="button"
           className={styles.toggleBtn}
@@ -65,8 +41,8 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
           {isExpanded ? '간략히 보기' : '전체보기'}
           <Icon
             name={isExpanded ? 'ic_chevron_up' : 'ic_chevron_down'}
-            width={20}
-            height={20}
+            color="grey500"
+            size={20}
           />
         </button>
       )}

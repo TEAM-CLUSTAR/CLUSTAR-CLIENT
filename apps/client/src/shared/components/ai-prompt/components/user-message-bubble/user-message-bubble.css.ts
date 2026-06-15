@@ -20,24 +20,16 @@ export const textContent = recipe({
   base: {
     overflow: 'hidden',
     whiteSpace: 'normal',
-    transition: 'max-height 0.35s ease',
-    maxHeight: '12rem',
   },
   variants: {
-    clamped: {
-      true: {
+    isExpanded: {
+      false: {
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
         WebkitLineClamp: 5,
       },
     },
   },
-});
-
-export const clamped = style({
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 5,
 });
 
 export const toggleBtn = style({
