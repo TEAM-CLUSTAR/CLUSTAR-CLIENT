@@ -23,15 +23,10 @@ export const optionItem = recipe({
     borderRadius: '4px',
     border: '1px solid transparent',
     transition: 'background-color 0.3s ease, box-shadow 0.4s ease',
-    selectors: {
-      '&:hover': {
-        backgroundColor: themeVars.color.grey200,
-      },
-    },
   },
 
   variants: {
-    active: {
+    isSelected: {
       true: {
         border: `1px solid ${themeVars.color.grey300}`,
         backgroundColor: themeVars.color.white,
