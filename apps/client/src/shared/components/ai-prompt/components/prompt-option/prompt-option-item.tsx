@@ -1,35 +1,29 @@
-import { Icon } from '@cds/icon';
+import { ButtonHTMLAttributes } from 'react';
 
-import { PromptOptionType } from './prompt-option';
+import { Icon, IconName } from '@cds/icon';
 
 import * as styles from './prompt-option.css';
 
-interface PromptOptionItemProps {
-  option: PromptOptionType;
-  selected: boolean;
-  handleSelect: () => void;
-  disabled?: boolean;
+interface PromptOptionItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  iconName: IconName;
+  isSelected: boolean;
 }
 
 const PromptOptionItem = ({
-  option,
-  selected,
-  handleSelect,
-  disabled = false,
+  iconName,
+  isSelected,
+  ...props
 }: PromptOptionItemProps) => {
   return (
     <button
       type="button"
-      className={styles.optionItem({ active: selected })}
-      onClick={handleSelect}
-      aria-pressed={selected}
-      aria-label={option.title}
-      disabled={disabled}
+      className={styles.optionItem({ isSelected })}
+      {...props}
     >
       <Icon
-        name={option.iconName}
+        name={iconName}
         size={32}
-        color={selected ? 'grey800' : 'grey500'}
+        color={isSelected ? 'grey800' : 'grey500'}
       />
     </button>
   );

@@ -57,23 +57,21 @@ const PromptOption = ({
   return (
     <div className={styles.container}>
       {OPTIONS.map((option) => {
-        const isHovered = hoveredId === option.id;
         return (
-          <div
-            key={option.id}
-            className={styles.optionContainer}
-            onMouseEnter={() => setHoveredId(option.id)}
-            onMouseLeave={() => setHoveredId(null)}
-          >
+          <div key={option.id} className={styles.optionContainer}>
             <PromptOptionItem
-              option={option}
-              selected={selectedOptionId === option.id}
-              handleSelect={() => handleSelect(option.id)}
+              iconName={option.iconName}
+              isSelected={selectedOptionId === option.id}
+              onClick={() => handleSelect(option.id)}
+              onMouseEnter={() => setHoveredId(option.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              aria-pressed={selectedOptionId === option.id}
+              aria-label={option.title}
               disabled={disabled}
             />
 
             {/* TODO: ToolTip 컴포넌트 구현 후 PromptPopover와 교체, PromptPopover 컴포넌트도 함께 제거부탁드립니다! */}
-            {isHovered && (
+            {hoveredId === option.id && (
               <div className={styles.popoverContainer}>
                 <PromptPopover
                   title={option.title}
