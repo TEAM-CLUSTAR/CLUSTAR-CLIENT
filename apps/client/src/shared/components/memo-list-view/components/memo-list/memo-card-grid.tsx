@@ -54,7 +54,7 @@ const MemoCardItem = ({
         }}
         isSelected={isSelected}
         isDragging={isDragging}
-        handleCardClick={() => onSelect(memoId ?? 0)}
+        onClick={() => onSelect(memoId ?? 0)}
       />
     </div>
   );

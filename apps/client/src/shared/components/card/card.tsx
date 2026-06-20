@@ -1,3 +1,5 @@
+import { ComponentProps } from 'react';
+
 import { Icon } from '@cds/icon';
 import { Label, Title } from '@cds/ui';
 
@@ -17,12 +19,11 @@ type CardInfoType = {
   imageCount: number;
   date: string;
 };
-interface CardProps {
+interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
   isAiResult?: boolean;
-  handleCardClick: () => void;
 }
 
 const Card = ({
@@ -30,13 +31,13 @@ const Card = ({
   isSelected = false,
   isDragging = false,
   isAiResult = false,
-  handleCardClick,
+  ...props
 }: CardProps) => {
   return (
     <article
       className={styles.cardContainer({ isSelected, isDragging, isAiResult })}
       draggable
-      onClick={handleCardClick}
+      {...props}
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
