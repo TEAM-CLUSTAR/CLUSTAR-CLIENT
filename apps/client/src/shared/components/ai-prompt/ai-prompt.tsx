@@ -86,7 +86,7 @@ const AiPrompt = ({
       <ConfirmModal
         open={isSaveConfirmModalOpen}
         onOpenChange={handleSaveModalOpenChange}
-        isCancel={false}
+        hasCancel={false}
       />
     </div>
   );

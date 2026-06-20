@@ -297,7 +297,7 @@ const MemoInput = () => {
           open={isConfirmModalOpen}
           onOpenChange={handleModalOpenChange}
           onConfirm={handleConfirmModalClose}
-          isCancel={isCancel}
+          hasCancel={isCancel}
         />
       </div>
     </div>
