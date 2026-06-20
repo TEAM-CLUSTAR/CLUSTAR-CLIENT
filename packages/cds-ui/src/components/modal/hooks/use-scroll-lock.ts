@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 
 import * as styles from '../modal.css';
 
+// iOS Safari는 overflow: hidden만으로 스크롤이 막히지 않아 position: fixed 방식 사용
 const useScrollLock = (isOpen: boolean) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    // 현재 스크롤 위치 저장
     const scrollY = window.scrollY;
 
     // 스크롤 잠금
