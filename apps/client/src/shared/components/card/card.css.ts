@@ -113,4 +113,5 @@ export const countContainer = style({
 export const count = style({
   display: 'flex',
   alignItems: 'center',
+  gap: '0.2rem',
 });
