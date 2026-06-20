@@ -65,3 +65,9 @@ export const content = style({
     },
   },
 });
+
+export const scrollLocked = style({
+  overflow: 'hidden',
+  position: 'fixed',
+  width: '100%',
+});
