@@ -50,8 +50,7 @@ export const content = style({
   left: '50%',
   transform: 'translate(-50%, -50%)',
 
-  backgroundColor: themeVars.color.grey50,
-  border: `1px solid ${themeVars.color.white}`,
+  backgroundColor: themeVars.color.white,
   borderRadius: '16px',
 
   zIndex: themeVars.zIndex.modalContent,
