@@ -9,6 +9,7 @@ interface MemoCardItemProps {
   memo: components['schemas']['MemoDashboardResponse'];
   isSelected: boolean;
   isDragging: boolean;
+  isAiResult: boolean;
   onSelect: (id: number) => void;
   onDragStart: (id: number) => void;
   onDragEnd: () => void;
@@ -18,6 +19,7 @@ const MemoCardItem = ({
   memo,
   isSelected,
   isDragging,
+  isAiResult,
   onSelect,
   onDragStart,
   onDragEnd,
@@ -50,8 +52,9 @@ const MemoCardItem = ({
           content: content ?? '',
           fileCount: fileCount ?? 0,
           imageCount: imageCount ?? 0,
-          date: createdAt ?? '',
+          createAt: createdAt ?? '',
         }}
+        isAiResult={isAiResult}
         isSelected={isSelected}
         isDragging={isDragging}
         onClick={() => onSelect(memoId ?? 0)}
@@ -108,6 +111,7 @@ const MemoCardGrid = ({
             memo={memo}
             isSelected={selectedId === memo.memoId}
             isDragging={draggingId === memo.memoId}
+            isAiResult={memo.isAiGenerated ?? false}
             onSelect={setSelectedId}
             onDragStart={setDraggingId}
             onDragEnd={() => setDraggingId(null)}

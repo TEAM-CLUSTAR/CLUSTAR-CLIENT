@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { zIndex } from '@cds/token';
 import { themeVars } from '@cds/ui';
 
 const baseStyle = {
@@ -42,20 +41,16 @@ const draggingStyle = {
 } as const;
 
 const aiResultStyle = {
-  position: 'relative',
   border: '1px solid transparent',
-  background: themeVars.color.gradient03,
+  background: `
+    ${themeVars.color.gradient03} padding-box,
+    ${themeVars.color.gradient01} border-box
+  `,
   selectors: {
     '&:hover': {
-      background: themeVars.color.gradient03,
-    },
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      inset: '-2px',
-      borderRadius: '13px',
-      background: themeVars.color.gradient01,
-      zIndex: zIndex.back,
+      background: 'none',
+      backgroundColor: `${themeVars.color.blue50}`,
+      border: `1px solid ${themeVars.color.blue400}`,
     },
   },
 } as const;
