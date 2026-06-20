@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { DetailModal } from '@cds/ui';
-
+import DetailModal from '@shared/components/modals/detail-modal/detail-modal';
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { LabelTextType } from '@shared/types/label-type';

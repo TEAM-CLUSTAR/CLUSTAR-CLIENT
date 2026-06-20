@@ -12,7 +12,7 @@ interface UseNavigationBlockerProps {
   isConfirmModalOpen: boolean;
   tabToDeleteId: string | null;
   setIsConfirmModalOpen: (open: boolean) => void;
-  setIsHaveCancel: (value: boolean) => void;
+  setIsCancel: (value: boolean) => void;
 }
 
 interface UseNavigationBlockerReturn {
@@ -26,7 +26,7 @@ export const useNavigationBlocker = ({
   isConfirmModalOpen,
   tabToDeleteId,
   setIsConfirmModalOpen,
-  setIsHaveCancel,
+  setIsCancel,
 }: UseNavigationBlockerProps): UseNavigationBlockerReturn => {
   const [pendingNavigation, setPendingNavigation] = useState<
     (() => void) | null
@@ -63,7 +63,7 @@ export const useNavigationBlocker = ({
       !tabToDeleteId &&
       !isResettingRef.current
     ) {
-      setIsHaveCancel(true);
+      setIsCancel(true);
       setPendingNavigation(() => () => blocker.proceed());
       setIsConfirmModalOpen(true);
     }
@@ -75,7 +75,7 @@ export const useNavigationBlocker = ({
     blocker,
     isConfirmModalOpen,
     tabToDeleteId,
-    setIsHaveCancel,
+    setIsCancel,
     setIsConfirmModalOpen,
   ]);
 
@@ -84,7 +84,6 @@ export const useNavigationBlocker = ({
       onReset();
 
       setIsConfirmModalOpen(false);
-      setIsHaveCancel(false);
 
       const navFn = pendingNavigation;
       setPendingNavigation(null);

@@ -1,5 +1,4 @@
-import { style } from '@vanilla-extract/css';
-import { keyframes } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
 import { themeVars } from '../../styles';
 
@@ -25,14 +24,14 @@ const opacityShow = keyframes({
 });
 
 const opacityHide = keyframes({
-  '0%': { opacity: 0 },
-  '100%': { opacity: 1 },
+  '0%': { opacity: 1 },
+  '100%': { opacity: 0 },
 });
 
 export const overlay = style({
   position: 'fixed',
   inset: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+  backgroundColor: themeVars.color.opacity35,
 
   zIndex: themeVars.zIndex.modalOverlay,
   selectors: {
@@ -51,8 +50,7 @@ export const content = style({
   left: '50%',
   transform: 'translate(-50%, -50%)',
 
-  backgroundColor: themeVars.color.grey50,
-  border: `1px solid ${themeVars.color.white}`,
+  backgroundColor: themeVars.color.white,
   borderRadius: '16px',
 
   zIndex: themeVars.zIndex.modalContent,
@@ -66,4 +64,10 @@ export const content = style({
       animation: `${contentHide} 100ms ease-in forwards`,
     },
   },
+});
+
+export const scrollLocked = style({
+  overflow: 'hidden',
+  position: 'fixed',
+  width: '100%',
 });

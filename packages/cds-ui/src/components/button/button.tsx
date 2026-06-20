@@ -7,7 +7,7 @@ export type ButtonVariantType = 'solid' | 'outlined';
 export type ButtonTextSizeType = 'sm' | 'lg';
 export interface ButtonProps {
   children?: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   size: ButtonSizeType;
   variant?: ButtonVariantType;
   disabled?: boolean;

@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { IconName } from '@cds/icon';
 
 import PromptOptionItem from './prompt-option-item';
+import PromptPopover from './prompt-popover';
 
 import * as styles from './prompt-option.css';
 
 export interface PromptOptionType {
   id: string;
-  iconOn: IconName;
-  iconOff: IconName;
+  iconName: IconName;
   title: string;
   description: string;
 }
@@ -17,22 +17,19 @@ export interface PromptOptionType {
 const OPTIONS: PromptOptionType[] = [
   {
     id: 'MERGE',
-    iconOn: 'ic_breif_on',
-    iconOff: 'ic_breif_off',
+    iconName: 'ic_breif',
     title: '정리본',
     description: '여러 메모를 하나의 문서로 정리',
   },
   {
     id: 'SUMMARY',
-    iconOn: 'ic_summary_on',
-    iconOff: 'ic_summary_off',
+    iconName: 'ic_summary',
     title: '요약본',
     description: '핵심만 간단 정리',
   },
   {
     id: 'STRUCTURE',
-    iconOn: 'ic_structure_on',
-    iconOff: 'ic_structure_off',
+    iconName: 'ic_structure',
     title: '구조화',
     description: '아웃라인과 논리 구조 설계',
   },
@@ -59,18 +56,32 @@ const PromptOption = ({
 
   return (
     <div className={styles.container}>
-      {OPTIONS.map((option) => (
-        <PromptOptionItem
-          key={option.id}
-          option={option}
-          selected={selectedOptionId === option.id}
-          hovered={hoveredId === option.id}
-          handleSelect={() => handleSelect(option.id)}
-          handleHover={() => setHoveredId(option.id)}
-          handleLeave={() => setHoveredId(null)}
-          disabled={disabled}
-        />
-      ))}
+      {OPTIONS.map((option) => {
+        return (
+          <div key={option.id} className={styles.optionContainer}>
+            <PromptOptionItem
+              iconName={option.iconName}
+              isSelected={selectedOptionId === option.id}
+              onClick={() => handleSelect(option.id)}
+              onMouseEnter={() => setHoveredId(option.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              aria-pressed={selectedOptionId === option.id}
+              aria-label={option.title}
+              disabled={disabled}
+            />
+
+            {/* TODO: ToolTip 컴포넌트 구현 후 PromptPopover와 교체, PromptPopover 컴포넌트도 함께 제거부탁드립니다! */}
+            {hoveredId === option.id && (
+              <div className={styles.popoverContainer}>
+                <PromptPopover
+                  title={option.title}
+                  description={option.description}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

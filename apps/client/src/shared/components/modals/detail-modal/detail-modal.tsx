@@ -1,18 +1,21 @@
 import { ReactNode } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 
 import { Icon } from '@cds/icon';
+import {
+  Button,
+  File,
+  ImageContainer,
+  LabelList,
+  Modal,
+  SelectedMemo,
+  TextContent,
+} from '@cds/ui';
 
-import { LabelTextType } from '../../constants/label-color-map';
-import Button from '../button/button';
-import File from '../file/file';
-import ImageContainer from '../image-container/image-container';
-import LabelList from '../label-list/label-list';
-import Modal from '../modal/modal';
-import SelectedMemo from '../selected-memo/selected-memo';
-import TextContent from '../text-content/text-content';
+import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './detail-modal.css';
+
+// TODO: 이 모달과 관련된 작업 진행 시 이 컴포넌트를 삭제
 
 const formatDateTime = (dateString: string): string => {
   if (!dateString) return '';
@@ -104,10 +107,6 @@ const DetailModal = ({
       {/* 부모 컴포넌트에서 open 상태를 제어하므로 Trigger로 감싸지 않고 그대로 렌더링 */}
       {children}
       <Modal.Content>
-        <Dialog.Title className={styles.visuallyHidden}>{title}</Dialog.Title>
-        <Dialog.Description className={styles.visuallyHidden}>
-          {content}
-        </Dialog.Description>
         <div
           className={styles.container({
             isGenerateButton: !!onAiCreateClick,

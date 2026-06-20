@@ -1,8 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
-
-import { slideInRight } from 'node_modules/@cds/ui/src/styles/animations.css';
+import { slideInRight, themeVars } from '@cds/ui';
 
 export const container = style({
   display: 'flex',
@@ -11,7 +9,7 @@ export const container = style({
   maxWidth: '60rem',
   height: '100%',
   maxHeight: '100%',
-  backgroundColor: themeVars.color.grey50,
+  backgroundColor: themeVars.color.white,
   padding: '0 2.4rem 2.4rem 2.4rem',
   borderRadius: '16px',
   border: `3px solid ${themeVars.color.white}`,
