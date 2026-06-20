@@ -1,8 +1,5 @@
-export { default as AlertModal } from './alert-modal/alert-modal';
 export { default as Button } from './button/button';
 export { default as Card } from './card/card';
-export { default as ConfirmModal } from './confirm-modal/confirm-modal';
-export { default as DetailModal } from './detail-modal/detail-modal';
 export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
 export { default as FloatingLabel } from './floating-label/floating-label';

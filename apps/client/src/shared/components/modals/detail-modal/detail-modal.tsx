@@ -2,16 +2,18 @@ import { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import { LabelTextType } from '../../constants/label-color-map';
-import Button from '../button/button';
-import File from '../file/file';
-import ImageContainer from '../image-container/image-container';
-import LabelList from '../label-list/label-list';
-import Modal from '../modal/modal';
-import SelectedMemo from '../selected-memo/selected-memo';
-import TextContent from '../text-content/text-content';
+import Button from '../../../../../../../packages/cds-ui/src/components/button/button';
+import File from '../../../../../../../packages/cds-ui/src/components/file/file';
+import ImageContainer from '../../../../../../../packages/cds-ui/src/components/image-container/image-container';
+import LabelList from '../../../../../../../packages/cds-ui/src/components/label-list/label-list';
+import Modal from '../../../../../../../packages/cds-ui/src/components/modal/modal';
+import SelectedMemo from '../../../../../../../packages/cds-ui/src/components/selected-memo/selected-memo';
+import TextContent from '../../../../../../../packages/cds-ui/src/components/text-content/text-content';
+import { LabelTextType } from '../../../../../../../packages/cds-ui/src/constants/label-color-map';
 
 import * as styles from './detail-modal.css';
+
+// TODO: 이 모달과 관련된 작업 진행 시 이 컴포넌트를 삭제
 
 const formatDateTime = (dateString: string): string => {
   if (!dateString) return '';

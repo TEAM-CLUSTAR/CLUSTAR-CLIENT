@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '../../styles';
+import { themeVars } from '../../../../../../../packages/cds-ui/src/styles';
 
 export const modalContainer = style({
   width: '40rem',

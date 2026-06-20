@@ -1,7 +1,9 @@
-import Button from '../button/button';
-import Modal from '../modal/modal';
+import Button from '../../../../../../../packages/cds-ui/src/components/button/button';
+import Modal from '../../../../../../../packages/cds-ui/src/components/modal/modal';
 
 import * as styles from './confirm-modal.css';
+
+// TODO: 이 모달과 관련된 작업 진행 시 이 컴포넌트를 삭제
 
 interface ConfirmModalProps {
   open?: boolean;

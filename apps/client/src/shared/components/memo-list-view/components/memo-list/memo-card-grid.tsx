@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, DetailModal } from '@cds/ui';
+import { Card } from '@cds/ui';
 
 import { ALL_MEMO_KEY } from '@pages/all-memo/apis/query-key';
+
+import DetailModal from '@shared/components/modals/detail-modal/detail-modal';
 
 import { MockMemo } from '../../../../types/memo';
 import { useDetailMemo } from '../tree-view/components/tree-memo/apis/queries';
 
 import * as styles from './memo-card-grid.css';
-
 interface MemoCardItemProps {
   memo: MockMemo;
 }
