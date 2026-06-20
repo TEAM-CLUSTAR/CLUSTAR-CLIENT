@@ -3,6 +3,8 @@ import { ComponentProps } from 'react';
 import { Icon } from '@cds/icon';
 import { Label, Title } from '@cds/ui';
 
+import { formatDate } from '@shared/utils/format-date';
+
 import * as styles from './card.css';
 
 // TODO: Tag 백엔드 타입에 맞게 변경
@@ -17,7 +19,7 @@ type CardInfoType = {
   content: string;
   fileCount: number;
   imageCount: number;
-  date: string;
+  createAt: string;
 };
 interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
@@ -27,7 +29,7 @@ interface CardProps extends ComponentProps<'article'> {
 }
 
 const Card = ({
-  card: { tagList = [], title, content, fileCount, imageCount, date },
+  card: { tagList = [], title, content, fileCount, imageCount, createAt },
   isSelected = false,
   isDragging = false,
   isAiResult = false,
@@ -71,7 +73,7 @@ const Card = ({
             <span>{imageCount}</span>
           </div>
         </div>
-        <p>{date}</p>
+        <time>{formatDate(createAt)}</time>
       </div>
     </article>
   );
