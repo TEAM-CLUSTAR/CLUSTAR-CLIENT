@@ -8,14 +8,19 @@ import Overlay from './overlay';
 
 import * as styles from '../modal.css';
 
-export interface ContentProps {
-  children: ReactNode;
-  ariaLabel?: string;
-}
 interface PortalProps {
   children: ReactNode;
   container?: HTMLElement;
 }
+export interface ContentProps {
+  children: ReactNode;
+  ariaLabel?: string;
+}
+
+const Portal = ({ children, container }: PortalProps) => {
+  if (typeof document === 'undefined') return null;
+  return createPortal(children, container ?? document.body);
+};
 
 const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
   const { isOpen } = useModalContext();
@@ -52,11 +57,6 @@ const Content = ({ children, ariaLabel = 'modal' }: ContentProps) => {
       </ThemeProvider>
     </Portal>
   );
-};
-
-const Portal = ({ children, container }: PortalProps) => {
-  if (typeof document === 'undefined') return null;
-  return createPortal(children, container ?? document.body);
 };
 
 export default Content;

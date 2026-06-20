@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import Close from './components/close';
 import Content from './components/content';
@@ -24,25 +24,19 @@ const ModalRoot = ({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const isOpen = isControlled ? open : uncontrolledOpen;
 
-  const handleOpenChange = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) setUncontrolledOpen(nextOpen);
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!isControlled) setUncontrolledOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  };
 
   useScrollLock(isOpen);
   useEscapeKey({ isOpen, onClose: () => handleOpenChange(false) });
 
-  const contextValue = useMemo(
-    () => ({
-      isOpen,
-      onOpen: () => handleOpenChange(true),
-      onClose: () => handleOpenChange(false),
-    }),
-    [isOpen, handleOpenChange],
-  );
+  const contextValue = {
+    isOpen,
+    onOpen: () => handleOpenChange(true),
+    onClose: () => handleOpenChange(false),
+  };
 
   return (
     <ModalContext.Provider value={contextValue}>
