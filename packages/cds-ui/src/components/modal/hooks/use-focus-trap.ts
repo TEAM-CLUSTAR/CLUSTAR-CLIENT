@@ -36,6 +36,7 @@ const useFocusTrap = (isOpen: boolean) => {
 
     let rafId: number;
 
+    // TODO: 타이밍 의존적인 로직 변경 필요
     // 브라우저의 레이아웃 계산과 페인트가 끝난 직후를 보장하기 위해 requestAnimationFrame 사용 (임의의 시간 지연 제거)
     rafId = requestAnimationFrame(() => {
       rafId = requestAnimationFrame(() => {
