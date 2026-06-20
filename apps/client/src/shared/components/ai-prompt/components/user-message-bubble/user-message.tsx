@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
-import * as styles from './user-message-bubble.css';
+import * as styles from './user-message.css';
 
-interface UserMessageBubbleProps {
+interface UserMessageProps {
   content: string;
 }
 
-const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
-  const [showToggle, setShowToggle] = useState(false);
+const UserMessage = ({ content }: UserMessageProps) => {
+  const [isToggle, setIsToggle] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
@@ -17,7 +17,7 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
     const textEl = contentRef.current;
     if (!textEl) return;
 
-    setShowToggle(textEl.scrollHeight > textEl.clientHeight);
+    setIsToggle(textEl.scrollHeight > textEl.clientHeight);
     setIsExpanded(false);
   }, [content]);
 
@@ -31,7 +31,7 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
         {content}
       </p>
 
-      {showToggle && (
+      {isToggle && (
         <button
           type="button"
           className={styles.toggleBtn}
@@ -50,4 +50,4 @@ const UserMessageBubble = ({ content }: UserMessageBubbleProps) => {
   );
 };
 
-export default UserMessageBubble;
+export default UserMessage;

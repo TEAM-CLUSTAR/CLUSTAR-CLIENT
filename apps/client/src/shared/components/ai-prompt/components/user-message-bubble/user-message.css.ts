@@ -9,7 +9,7 @@ export const bubbleBox = style({
   padding: '1.6rem 1.8rem',
   borderRadius: '12px 4px 12px 12px',
   backgroundColor: themeVars.color.grey50,
-  animation: `${slideInUp} 0.7s ease-out`,
+  animation: `${slideInUp} 0.5s ease-out`,
   ...themeVars.fontStyles.body_m_16,
   maxWidth: '36rem',
   color: themeVars.color.grey800,
