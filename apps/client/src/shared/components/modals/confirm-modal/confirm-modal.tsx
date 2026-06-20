@@ -1,5 +1,4 @@
-import Button from '../../../../../../../packages/cds-ui/src/components/button/button';
-import Modal from '../../../../../../../packages/cds-ui/src/components/modal/modal';
+import { Button, Modal } from '@cds/ui';
 
 import * as styles from './confirm-modal.css';
 

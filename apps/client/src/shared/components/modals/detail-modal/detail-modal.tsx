@@ -1,15 +1,17 @@
 import { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
+import {
+  Button,
+  File,
+  ImageContainer,
+  LabelList,
+  Modal,
+  SelectedMemo,
+  TextContent,
+} from '@cds/ui';
 
-import Button from '../../../../../../../packages/cds-ui/src/components/button/button';
-import File from '../../../../../../../packages/cds-ui/src/components/file/file';
-import ImageContainer from '../../../../../../../packages/cds-ui/src/components/image-container/image-container';
-import LabelList from '../../../../../../../packages/cds-ui/src/components/label-list/label-list';
-import Modal from '../../../../../../../packages/cds-ui/src/components/modal/modal';
-import SelectedMemo from '../../../../../../../packages/cds-ui/src/components/selected-memo/selected-memo';
-import TextContent from '../../../../../../../packages/cds-ui/src/components/text-content/text-content';
-import { LabelTextType } from '../../../../../../../packages/cds-ui/src/constants/label-color-map';
+import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './detail-modal.css';
 
