@@ -4,7 +4,7 @@ import { Icon } from '@cds/icon';
 
 import { Message } from '../../types/types';
 import AiMessageItem from '../ai-message/ai-message';
-import UserMessage from '../user-message-bubble/user-message';
+import UserMessage from '../user-message/user-message';
 
 import * as styles from './prompt-messages-list.css';
 

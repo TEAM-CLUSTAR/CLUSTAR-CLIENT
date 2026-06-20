@@ -9,7 +9,7 @@ interface UserMessageProps {
 }
 
 const UserMessage = ({ content }: UserMessageProps) => {
-  const [isToggle, setIsToggle] = useState(false);
+  const [showToggle, setShowToggle] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
@@ -17,7 +17,7 @@ const UserMessage = ({ content }: UserMessageProps) => {
     const textEl = contentRef.current;
     if (!textEl) return;
 
-    setIsToggle(textEl.scrollHeight > textEl.clientHeight);
+    setShowToggle(textEl.scrollHeight > textEl.clientHeight);
     setIsExpanded(false);
   }, [content]);
 
@@ -31,7 +31,7 @@ const UserMessage = ({ content }: UserMessageProps) => {
         {content}
       </p>
 
-      {isToggle && (
+      {showToggle && (
         <button
           type="button"
           className={styles.toggleBtn}
