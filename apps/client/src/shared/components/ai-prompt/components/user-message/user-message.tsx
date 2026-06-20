@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -13,7 +13,7 @@ const UserMessage = ({ content }: UserMessageProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const textEl = contentRef.current;
     if (!textEl) return;
 
