@@ -31,7 +31,7 @@ const opacityHide = keyframes({
 export const overlay = style({
   position: 'fixed',
   inset: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+  backgroundColor: themeVars.color.opacity35,
 
   zIndex: themeVars.zIndex.modalOverlay,
   selectors: {
