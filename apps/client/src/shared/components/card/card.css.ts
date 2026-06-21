@@ -10,7 +10,8 @@ const baseStyle = {
   gap: '1.8rem',
 
   padding: '2.4rem',
-  width: '34rem',
+  width: '38rem',
+  minWidth: '34rem',
   height: '22rem',
   borderRadius: '12px',
   backgroundColor: themeVars.color.white,
@@ -29,18 +30,22 @@ const selectedStyle = {
 } as const;
 
 const draggingStyle = {
-  border: `1px solid ${themeVars.color.blue400}`,
   backgroundColor: themeVars.color.blue50,
   cursor: 'grabbing',
+} as const;
+
+const isNewAiSelectedStyle = {
+  border: `1px solid ${themeVars.color.grey400}`,
+  background: themeVars.color.grey100,
   selectors: {
     '&:hover': {
-      backgroundColor: themeVars.color.blue50,
-      cursor: 'grabbing',
+      border: `1px solid ${themeVars.color.grey400}`,
+      background: themeVars.color.grey100,
     },
   },
 } as const;
 
-const aiResultStyle = {
+const isNewAiStyle = {
   border: '1px solid transparent',
   background: `
     ${themeVars.color.gradient03} padding-box,
@@ -60,8 +65,14 @@ export const cardContainer = recipe({
   variants: {
     isSelected: { true: selectedStyle, false: {} },
     isDragging: { true: draggingStyle, false: {} },
-    isAiResult: { true: aiResultStyle, false: {} },
+    isNewAi: { true: isNewAiStyle, false: {} },
   },
+  compoundVariants: [
+    {
+      variants: { isNewAi: true, isSelected: true },
+      style: isNewAiSelectedStyle,
+    },
+  ],
 });
 
 export const mainInfoContainer = style({

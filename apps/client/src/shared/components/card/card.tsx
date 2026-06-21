@@ -25,19 +25,19 @@ interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
-  isAiResult?: boolean;
+  isNewAi?: boolean;
 }
 
 const Card = ({
   card: { tagList = [], title, content, fileCount, imageCount, createAt },
   isSelected = false,
   isDragging = false,
-  isAiResult = false,
+  isNewAi = false,
   ...props
 }: CardProps) => {
   return (
     <article
-      className={styles.cardContainer({ isSelected, isDragging, isAiResult })}
+      className={styles.cardContainer({ isSelected, isDragging, isNewAi })}
       draggable
       {...props}
     >
