@@ -1,7 +1,7 @@
 import { Icon } from '@cds/icon';
+import { Tooltip } from '@cds/ui';
 
 import { PromptOptionType } from './prompt-option';
-import PromptPopover from './prompt-popover';
 
 import * as styles from './prompt-option.css';
 
@@ -47,10 +47,7 @@ const PromptOptionItem = ({
 
       {hovered && (
         <div className={styles.popoverContainer}>
-          <PromptPopover
-            title={option.title}
-            description={option.description}
-          />
+          <Tooltip title={option.title} description={option.description} />
         </div>
       )}
     </div>

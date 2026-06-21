@@ -67,13 +67,6 @@ const Sidebar = ({
     }));
   }, [labels]);
 
-  const FLOATING_LABEL_ITEMS = useMemo(() => {
-    return labelItems.map((item) => ({
-      id: item.id,
-      name: item.label,
-    }));
-  }, [labelItems]);
-
   const processedMenuItems = MENU_ITEMS.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
@@ -140,7 +133,7 @@ const Sidebar = ({
           />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
-              <Tooltip>사이드바 열기</Tooltip>
+              <Tooltip title="사이드바 열기" />
             </div>
           )}
         </button>
@@ -166,7 +159,7 @@ const Sidebar = ({
                 icon={<Icon name={iconName} width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <Tooltip>{label}</Tooltip>
+                <Tooltip title={label} />
               </div>
             </div>
           ),
@@ -203,12 +196,8 @@ const Sidebar = ({
               }}
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
-            <div className={styles.floatingLabel}>
-              <Tooltip>
-                {FLOATING_LABEL_ITEMS.map(({ name, id }) => (
-                  <button key={id}>{name}</button>
-                ))}
-              </Tooltip>
+            <div className={styles.floatingMenu}>
+              <Tooltip title="태그" />
             </div>
           </div>
         )}
@@ -250,7 +239,7 @@ const Sidebar = ({
                 }
               />
               <div className={styles.floatingMenu}>
-                <Tooltip>휴지통</Tooltip>
+                <Tooltip title="휴지통" />
               </div>
             </div>
             <div className={styles.iconContainer}>
@@ -258,7 +247,7 @@ const Sidebar = ({
                 icon={<Icon name="ic_profile" width={36} height={36} />}
               />
               <div className={styles.floatingMenu}>
-                <Tooltip>{userInfo?.name || '프로필'}</Tooltip>
+                <Tooltip title={userInfo?.name || '프로필'} />
               </div>
             </div>
           </>

@@ -1,11 +1,15 @@
-import { ReactNode } from 'react';
-
 import * as styles from './tooltip.css';
 
 interface TooltipProps {
-  children: ReactNode;
+  title: string;
+  description?: string;
 }
-const Tooltip = ({ children }: TooltipProps) => {
-  return <div className={styles.container}>{children}</div>;
+const Tooltip = ({ title, description }: TooltipProps) => {
+  return (
+    <div className={styles.container}>
+      <span className={styles.title}>{title}</span>
+      {description && <span className={styles.description}>{description}</span>}
+    </div>
+  );
 };
 export default Tooltip;

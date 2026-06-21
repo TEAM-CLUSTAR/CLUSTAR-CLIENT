@@ -212,33 +212,3 @@ export const sidebarBottom = recipe({
     },
   },
 });
-
-export const floatingLabel = style({
-  visibility: 'hidden',
-  position: 'absolute',
-  top: '50%',
-  left: 'calc(100% + 1.4rem)',
-  marginLeft: '1.2rem',
-  zIndex: themeVars.zIndex.button,
-
-  transform: 'translateY(-17%)',
-  opacity: 0,
-  transition: 'opacity 0.2s ease',
-
-  '::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: '-2.5rem',
-    width: '2.5rem',
-    backgroundColor: 'transparent',
-  },
-
-  selectors: {
-    [`${labelContainer}:hover &`]: {
-      visibility: 'visible',
-      opacity: 1,
-    },
-  },
-});

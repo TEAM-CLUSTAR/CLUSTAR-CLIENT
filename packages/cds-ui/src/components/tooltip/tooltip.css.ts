@@ -10,7 +10,15 @@ export const container = style({
   border: `1px solid ${themeVars.color.grey200}`,
   borderRadius: '8px',
   backgroundColor: themeVars.color.grey700,
+  boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.10)',
+});
+
+export const title = style({
   ...themeVars.fontStyles.body_sb_14,
   color: themeVars.color.white,
-  boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.10)',
+});
+
+export const description = style({
+  ...themeVars.fontStyles.label_m_12,
+  color: themeVars.color.grey200,
 });
