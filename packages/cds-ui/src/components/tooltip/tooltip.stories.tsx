@@ -14,10 +14,6 @@ const meta: Meta<typeof Tooltip> = {
       control: 'text',
       description: '툴팁 내부에 표시될 내용',
     },
-    className: {
-      control: false,
-      description: '추가 커스텀 클래스',
-    },
   },
 };
 
