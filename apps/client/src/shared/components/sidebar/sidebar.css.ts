@@ -133,6 +133,17 @@ export const iconContainer = style({
   position: 'relative',
 });
 
+export const labelContainer = style({
+  position: 'relative',
+  width: '3.6rem',
+  height: '3.6rem',
+  borderRadius: '8px',
+
+  ':hover': {
+    backgroundColor: themeVars.color.grey200,
+  },
+});
+
 export const floatingMenu = style({
   visibility: 'hidden',
   position: 'absolute',
@@ -146,10 +157,11 @@ export const floatingMenu = style({
   opacity: 0,
 
   selectors: {
-    [`${iconContainer}:hover &, ${foldingBtn}:hover &`]: {
-      visibility: 'visible',
-      opacity: 1,
-    },
+    [`${iconContainer}:hover &, ${foldingBtn}:hover &, ${labelContainer}:hover &`]:
+      {
+        visibility: 'visible',
+        opacity: 1,
+      },
   },
 });
 
@@ -180,17 +192,6 @@ export const labelList = recipe({
       true: { gap: '1.2rem', animation: fadeInAnimation },
       false: { paddingTop: '1.6rem' },
     },
-  },
-});
-
-export const labelContainer = style({
-  position: 'relative',
-  width: '3.6rem',
-  height: '3.6rem',
-  borderRadius: '8px',
-
-  ':hover': {
-    backgroundColor: themeVars.color.grey200,
   },
 });
 
