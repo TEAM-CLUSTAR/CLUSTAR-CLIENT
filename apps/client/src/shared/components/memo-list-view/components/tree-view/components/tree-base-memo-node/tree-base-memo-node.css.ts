@@ -15,5 +15,5 @@ export const text = style({
   ...themeVars.fontStyles.body_sb_16,
   color: themeVars.color.grey700,
   textAlign: 'left',
-  width: themeVars.width.full,
+  width: '100%',
 });

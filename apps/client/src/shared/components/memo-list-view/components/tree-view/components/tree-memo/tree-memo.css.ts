@@ -34,7 +34,7 @@ export const container = recipe({
 });
 
 export const title = style({
-  width: themeVars.width.full,
+  width: '100%',
   overflow: 'hidden',
   ...themeVars.fontStyles.body_sb_16,
   color: themeVars.color.grey900,
@@ -44,7 +44,7 @@ export const title = style({
 });
 
 export const content = style({
-  width: themeVars.width.full,
+  width: '100%',
   overflow: 'hidden',
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey700,

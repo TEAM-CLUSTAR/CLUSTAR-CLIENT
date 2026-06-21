@@ -4,7 +4,7 @@ import { Icon } from '@cds/icon';
 
 import { Message } from '../../types/types';
 import AiMessageItem from '../ai-message/ai-message';
-import UserMessageBubble from '../user-message-bubble/user-message-bubble';
+import UserMessage from '../user-message/user-message';
 
 import * as styles from './prompt-messages-list.css';
 
@@ -48,7 +48,7 @@ const AiMessagesList = ({
         if (message.type === 'user') {
           return (
             <div key={message.id} className={styles.messageContainer}>
-              <UserMessageBubble content={message.text} />
+              <UserMessage content={message.text} />
             </div>
           );
         }
@@ -72,7 +72,7 @@ const AiMessagesList = ({
 
       {isLoading && (
         <div className={styles.loadingSection}>
-          <Icon name="ic_ai_gra" width={36} height={36} />
+          <Icon name="ic_ai_gra" size={36} />
           <span className={styles.loadingText}>
             {selectedMemosCount}개의 메모를 바탕으로 결과물을 생성중이에요.
           </span>

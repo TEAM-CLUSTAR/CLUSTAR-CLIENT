@@ -1,73 +1,54 @@
-import { ReactNode } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
+import { ReactNode, useState } from 'react';
 
-import { ThemeProvider } from '../../providers/theme-provider';
-
-import * as styles from './modal.css';
+import Close from './components/close';
+import Content from './components/content';
+import Trigger from './components/trigger';
+import useEscapeKey from './hooks/use-escape-key';
+import useScrollLock from './hooks/use-scroll-lock';
+import { ModalContext } from './modal-context';
 
 interface ModalRootProps {
-  defaultOpen?: boolean;
+  children: ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  children: ReactNode;
-}
-interface ModalTriggerProps {
-  children: ReactNode;
-}
-interface ModalCloseProps {
-  children: ReactNode;
-}
-interface ModalContentProps {
-  children: ReactNode;
+  defaultOpen?: boolean;
 }
 
 const ModalRoot = ({
-  defaultOpen,
+  children,
   open,
   onOpenChange,
-  children,
+  defaultOpen = false,
 }: ModalRootProps) => {
+  const isControlled = open !== undefined;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isOpen = isControlled ? open : uncontrolledOpen;
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!isControlled) setUncontrolledOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  };
+
+  useScrollLock(isOpen);
+  useEscapeKey({ isOpen, onClose: () => handleOpenChange(false) });
+
+  const contextValue = {
+    isOpen,
+    onOpen: () => handleOpenChange(true),
+    onClose: () => handleOpenChange(false),
+  };
+
   return (
-    <Dialog.Root
-      open={open}
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}
-    >
+    <ModalContext.Provider value={contextValue}>
       {children}
-    </Dialog.Root>
-  );
-};
-
-const ModalTrigger = ({ children }: ModalTriggerProps) => {
-  return <Dialog.Trigger asChild>{children}</Dialog.Trigger>;
-};
-
-const ModalClose = ({ children }: ModalCloseProps) => {
-  return <Dialog.Close asChild>{children}</Dialog.Close>;
-};
-
-const ModalContent = ({ children }: ModalContentProps) => {
-  return (
-    <Dialog.Portal>
-      <ThemeProvider>
-        <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content
-          onOpenAutoFocus={(event) => {
-            event.preventDefault();
-          }}
-          className={styles.content}
-        >
-          {children}
-        </Dialog.Content>
-      </ThemeProvider>
-    </Dialog.Portal>
+    </ModalContext.Provider>
   );
 };
 
 const Modal = Object.assign(ModalRoot, {
-  Trigger: ModalTrigger,
-  Close: ModalClose,
-  Content: ModalContent,
+  Trigger,
+  Content,
+  Close,
 });
 
 export default Modal;
