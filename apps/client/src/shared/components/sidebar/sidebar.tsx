@@ -204,7 +204,7 @@ const Sidebar = ({
               icon={<Icon name="ic_label" width={36} height={36} />}
             />
             <div className={styles.floatingLabel}>
-              <Tooltip className={styles.tooltipLabelList}>
+              <Tooltip>
                 {FLOATING_LABEL_ITEMS.map(({ name, id }) => (
                   <button key={id}>{name}</button>
                 ))}

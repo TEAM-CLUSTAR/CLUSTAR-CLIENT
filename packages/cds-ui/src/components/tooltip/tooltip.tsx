@@ -4,13 +4,8 @@ import * as styles from './tooltip.css';
 
 interface TooltipProps {
   children: ReactNode;
-  className?: string;
 }
-const Tooltip = ({ children, className }: TooltipProps) => {
-  return (
-    <div className={[styles.container, className].filter(Boolean).join(' ')}>
-      {children}
-    </div>
-  );
+const Tooltip = ({ children }: TooltipProps) => {
+  return <div className={styles.container}>{children}</div>;
 };
 export default Tooltip;
