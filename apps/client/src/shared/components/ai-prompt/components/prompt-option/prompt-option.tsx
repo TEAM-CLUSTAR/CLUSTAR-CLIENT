@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import { IconName } from '@cds/icon';
+import { Tooltip } from '@cds/ui';
 
 import PromptOptionItem from './prompt-option-item';
-import PromptPopover from './prompt-popover';
 
 import * as styles from './prompt-option.css';
 
@@ -70,10 +70,9 @@ const PromptOption = ({
               disabled={disabled}
             />
 
-            {/* TODO: ToolTip 컴포넌트 구현 후 PromptPopover와 교체, PromptPopover 컴포넌트도 함께 제거부탁드립니다! */}
             {hoveredId === option.id && (
               <div className={styles.popoverContainer}>
-                <PromptPopover
+                <Tooltip
                   title={option.title}
                   description={option.description}
                 />
