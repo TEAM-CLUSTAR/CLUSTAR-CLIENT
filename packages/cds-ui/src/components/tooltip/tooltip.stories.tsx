@@ -10,9 +10,13 @@ const meta: Meta<typeof Tooltip> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    children: {
+    title: {
       control: 'text',
-      description: '툴팁 내부에 표시될 내용',
+      description: '툴팁 제목',
+    },
+    description: {
+      control: 'text',
+      description: '툴팁 설명 (선택)',
     },
   },
 };
@@ -21,28 +25,21 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// 1. 기본 텍스트
 export const Default: Story = {
   args: {
-    children: '기본 툴팁입니다',
+    title: '기본 툴팁입니다',
   },
 };
 
-// 2. 멀티 라인
-export const MultiLine: Story = {
+export const WithDescription: Story = {
   args: {
-    children: (
-      <>
-        <div>첫 번째 라인</div>
-        <div>두 번째 라인</div>
-      </>
-    ),
+    title: '툴팁 제목',
+    description: '툴팁 설명입니다',
   },
 };
 
-// 3. Empty 상태
-export const Empty: Story = {
+export const TitleOnly: Story = {
   args: {
-    children: null,
+    title: '설명 없는 툴팁',
   },
 };
