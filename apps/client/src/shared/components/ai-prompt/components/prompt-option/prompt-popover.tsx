@@ -10,7 +10,7 @@ interface PromptPopoverProps {
 const PromptPopover = ({ title, description }: PromptPopoverProps) => {
   return (
     <Tooltip>
-      <strong className={styles.title}>{title}</strong>
+      <span className={styles.title}>{title}</span>
       <span className={styles.description}>{description}</span>
     </Tooltip>
   );
