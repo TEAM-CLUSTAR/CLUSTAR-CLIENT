@@ -3,7 +3,7 @@ import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoadingPage } from '@pages/loading';
-import { exchangeGoogleCode } from '@pages/login/apis/exchange-google-code';
+import { exchangeGoogleCode } from '@pages/login-callback/apis/exchange-google-code';
 
 import { setAccessToken } from '@shared/utils/token-storage';
 
