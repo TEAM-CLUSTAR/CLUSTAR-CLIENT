@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from 'react-router';
+import { createBrowserRouter } from 'react-router';
 
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
@@ -18,34 +18,27 @@ import { RouteGuard } from './route-guard';
 
 export const router = createBrowserRouter([
   {
+    element: <RouteGuard mode="public" />,
     children: [
       {
-        element: (
-          <RouteGuard mode="public">
-            <Outlet />
-          </RouteGuard>
-        ),
-        children: [
-          {
-            path: PATH.LANDING,
-            Component: LandingPage,
-          },
-          {
-            path: PATH.LOGIN,
-            Component: LoginPage,
-          },
-          {
-            path: PATH.LOGIN_CALLBACK,
-            Component: LoginCallbackPage,
-          },
-        ],
+        path: PATH.LANDING,
+        Component: LandingPage,
       },
       {
-        element: (
-          <RouteGuard mode="private">
-            <DashboardLayout />
-          </RouteGuard>
-        ),
+        path: PATH.LOGIN,
+        Component: LoginPage,
+      },
+      {
+        path: PATH.LOGIN_CALLBACK,
+        Component: LoginCallbackPage,
+      },
+    ],
+  },
+  {
+    element: <RouteGuard mode="private" />,
+    children: [
+      {
+        Component: DashboardLayout,
         children: [
           {
             path: PATH.NEW_MEMO,
@@ -65,11 +58,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: '*',
-        Component: NotFoundPage,
-      },
     ],
-    ErrorBoundary: NotFoundPage,
+  },
+  {
+    path: '*',
+    Component: NotFoundPage,
   },
 ]);
