@@ -1,11 +1,10 @@
-import GlobalLayout from '@app/layouts/global-layout';
-import PrivateLayout from '@app/layouts/private-layout/private-layout';
-import PublicLayout from '@app/layouts/public-layout';
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, Outlet } from 'react-router';
 
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { NotFoundPage } from '@pages/not-found';
+
+import DashboardLayout from '@shared/components/layouts/dashboard-layout/dashboard-layout';
 
 import {
   AiResultsPage,
@@ -17,24 +16,15 @@ import {
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 
-const GuardedPublicLayout = () => (
-  <RouteGuard mode="public">
-    <PublicLayout />
-  </RouteGuard>
-);
-
-const GuardedPrivateLayout = () => (
-  <RouteGuard mode="private">
-    <PrivateLayout />
-  </RouteGuard>
-);
-
 export const router = createBrowserRouter([
   {
-    Component: GlobalLayout,
     children: [
       {
-        Component: GuardedPublicLayout,
+        element: (
+          <RouteGuard mode="public">
+            <Outlet />
+          </RouteGuard>
+        ),
         children: [
           {
             path: PATH.LANDING,
@@ -51,7 +41,11 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        Component: GuardedPrivateLayout,
+        element: (
+          <RouteGuard mode="private">
+            <DashboardLayout />
+          </RouteGuard>
+        ),
         children: [
           {
             path: PATH.NEW_MEMO,
