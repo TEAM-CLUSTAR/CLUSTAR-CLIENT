@@ -14,14 +14,14 @@ function App() {
   const [client] = useState(() => createQueryClient());
 
   return (
-    <GlobalErrorBoundary>
-      <ThemeProvider>
+    <ThemeProvider>
+      <GlobalErrorBoundary>
         <QueryClientProvider client={client}>
           <RouterProvider router={router} />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
-      </ThemeProvider>
-    </GlobalErrorBoundary>
+      </GlobalErrorBoundary>
+    </ThemeProvider>
   );
 }
 
