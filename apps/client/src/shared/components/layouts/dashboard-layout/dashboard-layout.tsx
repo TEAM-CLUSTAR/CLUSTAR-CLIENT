@@ -7,8 +7,6 @@ import * as styles from './dashboard-layout.css';
 export default function DashboardLayout() {
   return (
     <div className={styles.root}>
-      <div className={styles.bgLayer} aria-hidden />
-      <div className={styles.overlay} aria-hidden />
       <div className={styles.content}>
         <div className={styles.sidebarContainer}>
           <Sidebar />
