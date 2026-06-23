@@ -2,9 +2,9 @@ import { Outlet } from 'react-router';
 
 import Sidebar from '@shared/components/sidebar/sidebar';
 
-import * as styles from './private-layout.css';
+import * as styles from './dashboard-layout.css';
 
-export default function PrivateLayout() {
+export default function DashboardLayout() {
   return (
     <div className={styles.root}>
       <div className={styles.bgLayer} aria-hidden />
