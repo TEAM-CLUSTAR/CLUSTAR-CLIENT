@@ -142,8 +142,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0(quill-delta@5.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-router:
-        specifier: ^7.11.0
-        version: 7.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^7.18.0
+        version: 7.18.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       turndown:
         specifier: ^7.2.2
         version: 7.2.2
@@ -5800,10 +5800,10 @@ packages:
       '@types/react':
         optional: true
 
-  react-router@7.12.0:
+  react-router@7.18.0:
     resolution:
       {
-        integrity: sha512-kTPDYPFzDVGIIGNLS5VJykK0HfHLY5MF3b+xj0/tTyNYL1gF1qs7u67Z9jEhQk2sQ98SUaHxlG31g1JtF7IfVw==,
+        integrity: sha512-pTTGt8J+ji1NOmYnjzT+bAJy/1zD+Jp4ziO6cL7T3ZLvXKtusO7BpFqlRXitqpcPVqllsIXFHRMt+2/k3Xn6HQ==,
       }
     engines: { node: '>=20.0.0' }
     peerDependencies:
@@ -10382,7 +10382,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
 
-  react-router@7.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  react-router@7.18.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       cookie: 1.1.1
       react: 19.2.0

@@ -27,7 +27,7 @@
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",
     "react-quill-new": "^3.7.0",
-    "react-router": "^7.11.0",
+    "react-router": "^7.18.0",
     "turndown": "^7.2.2",
     "turndown-plugin-gfm": "^1.0.2"
   },
