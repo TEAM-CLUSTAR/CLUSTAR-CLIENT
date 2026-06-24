@@ -1,55 +1,31 @@
-import { Icon } from '@cds/icon';
+import { ButtonHTMLAttributes } from 'react';
 
-import { PromptOptionType } from './prompt-option';
-import PromptPopover from './prompt-popover';
+import { Icon, IconName } from '@cds/icon';
 
 import * as styles from './prompt-option.css';
 
-interface PromptOptionItemProps {
-  option: PromptOptionType;
-  selected: boolean;
-  hovered: boolean;
-  handleSelect: () => void;
-  handleHover: () => void;
-  handleLeave: () => void;
-  disabled?: boolean;
+interface PromptOptionItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  iconName: IconName;
+  isSelected: boolean;
 }
 
 const PromptOptionItem = ({
-  option,
-  selected,
-  hovered,
-  handleSelect,
-  handleHover,
-  handleLeave,
-  disabled = false,
+  iconName,
+  isSelected,
+  ...props
 }: PromptOptionItemProps) => {
-  const isActive = selected || hovered;
-
   return (
-    <div className={styles.optionContainer}>
-      <button
-        type="button"
-        className={styles.optionItem({ active: selected })}
-        onClick={handleSelect}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleLeave}
-        aria-pressed={selected}
-        aria-label={option.title}
-        disabled={disabled}
-      >
-        <Icon name={isActive ? option.iconOn : option.iconOff} size={36} />
-      </button>
-
-      {hovered && (
-        <div className={styles.popoverContainer}>
-          <PromptPopover
-            title={option.title}
-            description={option.description}
-          />
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      className={styles.optionItem({ isSelected })}
+      {...props}
+    >
+      <Icon
+        name={iconName}
+        size={32}
+        color={isSelected ? 'grey800' : 'grey500'}
+      />
+    </button>
   );
 };
 

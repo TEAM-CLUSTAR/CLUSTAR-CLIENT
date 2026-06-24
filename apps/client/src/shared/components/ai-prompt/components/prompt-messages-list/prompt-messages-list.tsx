@@ -4,7 +4,7 @@ import { Icon } from '@cds/icon';
 
 import { Message } from '../../types/types';
 import AiMessageItem from '../ai-message/ai-message';
-import UserMessageBubble from '../user-message-bubble/user-message-bubble';
+import UserMessage from '../user-message/user-message';
 
 import * as styles from './prompt-messages-list.css';
 
@@ -48,7 +48,7 @@ const AiMessagesList = ({
         if (message.type === 'user') {
           return (
             <div key={message.id} className={styles.messageContainer}>
-              <UserMessageBubble content={message.text} />
+              <UserMessage content={message.text} />
             </div>
           );
         }

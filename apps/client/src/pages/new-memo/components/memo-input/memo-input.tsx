@@ -1,9 +1,10 @@
 import { ChangeEvent, useMemo, useState } from 'react';
 
-import { Button, ConfirmModal } from '@cds/ui';
+import { Button } from '@cds/ui';
 
 import { htmlToMarkdown } from '@pages/new-memo/utils/html-to-markdown';
 
+import ConfirmModal from '@shared/components/modals/confirm-modal/confirm-modal';
 import { LabelTextType } from '@shared/types/label-type';
 
 import { useCreateMemo } from '../../apis/queries';
@@ -65,7 +66,7 @@ const MemoInput = () => {
   const [draftsById, setDraftsById] = useState<DraftsById>(initDraftsById);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [tabToDeleteId, setTabToDeleteId] = useState<string | null>(null);
-  const [isHaveCancel, setIsHaveCancel] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
   const { mutate: createMemo } = useCreateMemo();
 
   const { pendingNavigation, handleNavigationConfirm, handleNavigationCancel } =
@@ -74,7 +75,7 @@ const MemoInput = () => {
       isConfirmModalOpen,
       tabToDeleteId,
       setIsConfirmModalOpen,
-      setIsHaveCancel,
+      setIsCancel,
     });
 
   const selectedDraft = draftsById[selectedTabId];
@@ -154,19 +155,8 @@ const MemoInput = () => {
     }
 
     setTabToDeleteId(id);
-    setIsHaveCancel(true);
+    setIsCancel(true);
     setIsConfirmModalOpen(true);
-  };
-
-  const handleConfirmTabDelete = () => {
-    if (!tabToDeleteId) return;
-
-    const idToDelete = tabToDeleteId;
-    deleteTabById(idToDelete);
-
-    setIsConfirmModalOpen(false);
-    setTabToDeleteId(null);
-    setIsHaveCancel(false);
   };
 
   const handleSelectTab = (id: string) => {
@@ -204,7 +194,7 @@ const MemoInput = () => {
 
     createMemo(request, {
       onSuccess: () => {
-        setIsHaveCancel(false);
+        setIsCancel(false);
         setIsConfirmModalOpen(true);
 
         const currentTabId = selectedTabId;
@@ -241,9 +231,19 @@ const MemoInput = () => {
     });
   };
 
+  const handleModalOpenChange = (open: boolean) => {
+    setIsConfirmModalOpen(open);
+    if (!open) {
+      setTabToDeleteId(null);
+      if (pendingNavigation) handleNavigationCancel();
+    }
+  };
+
   const handleConfirmModalClose = () => {
     if (tabToDeleteId) {
-      handleConfirmTabDelete();
+      const idToDelete = tabToDeleteId;
+      deleteTabById(idToDelete);
+      setTabToDeleteId(null);
       return;
     }
 
@@ -251,20 +251,8 @@ const MemoInput = () => {
       handleNavigationConfirm(() => {});
       return;
     }
-
-    setIsConfirmModalOpen(false);
   };
 
-  const handleModalOpenChange = (open: boolean) => {
-    setIsConfirmModalOpen(open);
-    if (!open) {
-      setIsHaveCancel(false);
-      setTabToDeleteId(null);
-      if (pendingNavigation) {
-        handleNavigationCancel();
-      }
-    }
-  };
   return (
     <div className={styles.memoInputContainer}>
       <TabList
@@ -309,8 +297,8 @@ const MemoInput = () => {
         <ConfirmModal
           open={isConfirmModalOpen}
           onOpenChange={handleModalOpenChange}
-          onCloseClick={handleConfirmModalClose}
-          isHavedCancel={isHaveCancel}
+          onConfirm={handleConfirmModalClose}
+          hasCancel={isCancel}
         />
       </div>
     </div>

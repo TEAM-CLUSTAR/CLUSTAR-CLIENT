@@ -1,13 +1,6 @@
-export { default as AlertModal } from './alert-modal/alert-modal';
 export { default as Button } from './button/button';
-export { default as Card } from './card/card';
-export { default as ConfirmModal } from './confirm-modal/confirm-modal';
-export { default as DetailModal } from './detail-modal/detail-modal';
 export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
-export { default as FloatingLabel } from './floating-label/floating-label';
-export { default as FloatingLabelToken } from './floating-label-token/floating-label-token';
-export { default as FloatingMenu } from './floating-menu/floating-menu';
 export { default as ImageContainer } from './image-container/image-container';
 export { default as Label } from './label/label';
 export { default as LabelList } from './label-list/label-list';
@@ -22,3 +15,4 @@ export { default as Tag } from './tag/tag';
 export { default as TextContent } from './text-content/text-content';
 export { default as Title } from './title/title';
 export { default as Toggle } from './toggle/toggle';
+export { default as Tooltip } from './tooltip/tooltip';

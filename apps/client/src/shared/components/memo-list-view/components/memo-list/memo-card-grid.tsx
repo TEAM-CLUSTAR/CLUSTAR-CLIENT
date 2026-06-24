@@ -1,93 +1,70 @@
 import { useEffect, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
-import { Card, DetailModal } from '@cds/ui';
-
-import { ALL_MEMO_KEY } from '@pages/all-memo/apis/query-key';
-
-import { MockMemo } from '../../../../types/memo';
-import { useDetailMemo } from '../tree-view/components/tree-memo/apis/queries';
+import Card from '@shared/components/card/card';
+import { components } from '@shared/types/schema';
 
 import * as styles from './memo-card-grid.css';
 
 interface MemoCardItemProps {
-  memo: MockMemo;
+  memo: components['schemas']['MemoDashboardResponse'];
+  isSelected: boolean;
+  isDragging: boolean;
+  isNewAi: boolean;
+  onSelect: (id: number) => void;
+  onDragStart: (id: number) => void;
+  onDragEnd: () => void;
 }
 
-const MemoCardItem = ({ memo }: MemoCardItemProps) => {
+const MemoCardItem = ({
+  memo,
+  isSelected,
+  isDragging,
+  isNewAi,
+  onSelect,
+  onDragStart,
+  onDragEnd,
+}: MemoCardItemProps) => {
   const {
-    id,
-    item,
+    memoId,
+    labelList,
     title,
-    contents,
+    content,
     fileCount,
     imageCount,
-    date,
-    imageUrl,
-    imageAlt,
-    aiResult,
-    aiNewResult,
+    createdAt,
   } = memo;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const queryClient = useQueryClient();
-
-  const {
-    data: memoDetail = {
-      memoId: 0,
-      title: '',
-      content: '',
-      images: [],
-      files: [],
-      labelList: [],
-      createdAt: '',
-      isAiGenerated: false,
-      sourceMemoTitleList: [],
-    },
-  } = useDetailMemo({ memoId: Number(id), enabled: isModalOpen });
-
-  const handleModalOpenChange = (open: boolean) => {
-    setIsModalOpen(open);
-    if (!open) {
-      queryClient.invalidateQueries({ queryKey: ALL_MEMO_KEY.ALL });
-    }
-  };
-
-  const hasImage = !!imageUrl;
-  const cardClassName = hasImage ? styles.gridItemWithImage : styles.gridItem;
-
-  const handleClick = () => {
-    setIsModalOpen(true);
+  const handleDragStart = () => {
+    setTimeout(() => onDragStart(memoId ?? 0), 0);
   };
 
   return (
-    <div className={cardClassName}>
-      <DetailModal
-        open={isModalOpen}
-        onOpenChange={handleModalOpenChange}
-        id={Number(id)}
-        data={memoDetail}
-      >
-        <Card
-          item={item}
-          title={title}
-          contents={contents}
-          fileCount={fileCount}
-          imageCount={imageCount}
-          date={date}
-          imageUrl={imageUrl}
-          imageAlt={imageAlt}
-          aiResult={aiResult}
-          aiNewResult={aiNewResult}
-          onClick={handleClick}
-        />
-      </DetailModal>
+    <div
+      className={styles.gridItem}
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={onDragEnd}
+    >
+      <Card
+        card={{
+          tagList: labelList ?? [],
+          title: title ?? '',
+          content: content ?? '',
+          fileCount: fileCount ?? 0,
+          imageCount: imageCount ?? 0,
+          createAt: createdAt ?? '',
+        }}
+        isNewAi={isNewAi}
+        isSelected={isSelected}
+        isDragging={isDragging}
+        onClick={() => onSelect(memoId ?? 0)}
+      />
     </div>
   );
 };
 
 interface MemoCardGridProps {
-  memoData: MockMemo[];
+  memoData: components['schemas']['MemoDashboardResponse'][];
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   onLoadMore?: () => void;
@@ -100,6 +77,8 @@ const MemoCardGrid = ({
   onLoadMore,
 }: MemoCardGridProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [draggingId, setDraggingId] = useState<number | null>(null);
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
@@ -127,7 +106,16 @@ const MemoCardGrid = ({
     <div ref={scrollContainerRef} className={styles.scrollContainer}>
       <div className={styles.gridContainer}>
         {memoData.map((memo) => (
-          <MemoCardItem key={memo.id} memo={memo} />
+          <MemoCardItem
+            key={memo.memoId}
+            memo={memo}
+            isSelected={selectedId === memo.memoId}
+            isDragging={draggingId === memo.memoId}
+            isNewAi={memo.isNew ?? false}
+            onSelect={setSelectedId}
+            onDragStart={setDraggingId}
+            onDragEnd={() => setDraggingId(null)}
+          />
         ))}
       </div>
     </div>

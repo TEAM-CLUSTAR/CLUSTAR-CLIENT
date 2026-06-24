@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ConfirmModal } from '@cds/ui';
-
+import ConfirmModal from '../modals/confirm-modal/confirm-modal';
 import AiPromptHeader from './components/prompt-header/prompt-header';
 import PromptInput from './components/prompt-input/prompt-input';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
@@ -57,10 +56,6 @@ const AiPrompt = ({
     }
   };
 
-  const handleSaveConfirmModalClose = () => {
-    setIsSaveConfirmModalOpen(false);
-  };
-
   const handleSaveModalOpenChange = (open: boolean) => {
     setIsSaveConfirmModalOpen(open);
   };
@@ -90,8 +85,7 @@ const AiPrompt = ({
       <ConfirmModal
         open={isSaveConfirmModalOpen}
         onOpenChange={handleSaveModalOpenChange}
-        onCloseClick={handleSaveConfirmModalClose}
-        isHavedCancel={false}
+        hasCancel={false}
       />
     </div>
   );

@@ -4,13 +4,7 @@ import { matchPath, useLocation, useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
-import {
-  FloatingLabel,
-  FloatingMenu,
-  SidebarIcon,
-  SidebarPannel,
-  SideBarProfile,
-} from '@cds/ui';
+import { SidebarIcon, SidebarPannel, SideBarProfile, Tooltip } from '@cds/ui';
 
 import { useGetLabel } from '@pages/all-memo/apis/queries';
 
@@ -85,13 +79,6 @@ const Sidebar = () => {
     }));
   }, [labels]);
 
-  const FLOATING_LABEL_ITEMS = useMemo(() => {
-    return labelItems.map((item) => ({
-      id: item.id,
-      name: item.label,
-    }));
-  }, [labelItems]);
-
   const processedMenuItems = MENU_ITEMS.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
@@ -144,7 +131,7 @@ const Sidebar = () => {
           />
           {!isExpanded && (
             <div className={styles.floatingMenu}>
-              <FloatingMenu menuName="사이드바 열기" />
+              <Tooltip title="사이드바 열기" />
             </div>
           )}
         </button>
@@ -170,7 +157,7 @@ const Sidebar = () => {
                 icon={<Icon name={iconName} size={36} />}
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={label} />
+                <Tooltip title={label} />
               </div>
             </div>
           ),
@@ -201,8 +188,8 @@ const Sidebar = () => {
               }}
               icon={<Icon name="ic_label" size={36} />}
             />
-            <div className={styles.floatingLabel}>
-              <FloatingLabel labels={FLOATING_LABEL_ITEMS} />
+            <div className={styles.floatingMenu}>
+              <Tooltip title="태그" />
             </div>
           </div>
         )}
@@ -244,13 +231,13 @@ const Sidebar = () => {
                 }
               />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName="휴지통" />
+                <Tooltip title="휴지통" />
               </div>
             </div>
             <div className={styles.iconContainer}>
               <SidebarIcon icon={<Icon name="ic_profile" size={36} />} />
               <div className={styles.floatingMenu}>
-                <FloatingMenu menuName={userInfo?.name || '프로필'} />
+                <Tooltip title={userInfo?.name || '프로필'} />
               </div>
             </div>
           </>
