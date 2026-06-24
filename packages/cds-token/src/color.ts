@@ -44,17 +44,35 @@ export const color = {
   label08: '#FFE3EC',
 
   // Sub colors
-  sub01: '#8259FF',
-  sub02: '#E7DEFF',
+  sub_red_100: '#FFDBDC',
+  sub_red_500: '#E63639',
 
-  sub03: '#2194FF',
-  sub04: '#D9ECFF',
+  sub_blue_100: '#D1DEFF',
+  sub_blue_500: '#3A50E0',
 
-  sub05: '#02A9A9',
-  sub06: '#D0F5F5',
+  sub_cyan_100: '#D0F5F5',
+  sub_cyan_500: '#02A9A9',
 
-  sub07: '#FF4E89',
-  sub08: '#FFE3EC',
+  sub_magenta_100: '#EFD3FF',
+  sub_magenta_500: '#D93FDB',
+
+  sub_orange_100: '#FFD9C6',
+  sub_orange_500: '#FF6200',
+
+  sub_lightBlue_100: '#D9ECFF',
+  sub_lightBlue_500: '#2194FF',
+
+  sub_green_100: '#D2FFD5',
+  sub_green_500: '#02B50E',
+
+  sub_pink_100: '#FFE3EC',
+  sub_pink_500: '#FF4E89',
+
+  sub_yellow_100: '#FFEFC7',
+  sub_yellow_500: '#F99E00',
+
+  sub_purple_100: '#E7DEFF',
+  sub_purple_500: '#8259FF',
 
   // Gradient Colors
   gradient01: 'linear-gradient(92deg, #5D6AFF 0%, #9679FF 93.32%)',
