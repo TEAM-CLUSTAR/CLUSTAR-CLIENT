@@ -29,6 +29,7 @@ const FilterListItem = ({
         name={checked ? 'ic_checkbox_on' : 'ic_checkbox_off'}
         className={styles.icon}
         size={24}
+        aria-hidden="true"
       />
       <span className={styles.tag}>{tag}</span>
     </label>
