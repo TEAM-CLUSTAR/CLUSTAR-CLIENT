@@ -1,4 +1,4 @@
-import type { Edge, Node } from '@xyflow/react';
+import { type BuiltInEdge, type Edge, type Node } from '@xyflow/react';
 
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
@@ -13,7 +13,6 @@ const DISCOUNT = {
   IS_NO_LABEL: 2,
   IS_LABEL: 1,
 };
-
 const X_SPACING = 400;
 const Y_SPACING = 300;
 
@@ -26,7 +25,7 @@ export const createNodeEdge = (data: NodeEdgeTypes[]) => {
       type: 'baseMemo',
     },
   ];
-  const edges: Edge[] = [];
+  const edges: (Edge | BuiltInEdge)[] = [];
 
   const isNoLabel = data.some(({ labelName }) => labelName === NO_LABEL);
   const sortedData = data.sort((a, b) => {
@@ -59,7 +58,7 @@ export const createNodeEdge = (data: NodeEdgeTypes[]) => {
       id: `e-baseNode-${labelName}`,
       source: 'baseNode',
       target: labelName,
-      type: isNoLabelMemo ? 'custom-edge-no-label' : 'custom-edge-label',
+      type: isNoLabelMemo ? 'custom-edge-no-label' : 'smoothstep',
       sourceHandle: isNoLabelMemo ? 'baseRight' : 'baseBottom',
     });
   });
