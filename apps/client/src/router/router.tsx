@@ -5,8 +5,6 @@ import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { NotFoundPage } from '@pages/not-found';
 
-import DashboardLayout from '@shared/components/layouts/dashboard-layout/dashboard-layout';
-
 import {
   AiResultsPage,
   AllMemoPage,
@@ -17,6 +15,8 @@ import {
 import { PATH } from './path';
 import RootLayout from './root-layout';
 import { RouteGuard } from './route-guard';
+import AuthRoute from './routes/auth-route';
+import DashboardRoute from './routes/dashboard-route';
 
 export const router = createBrowserRouter([
   {
@@ -27,12 +27,17 @@ export const router = createBrowserRouter([
         element: <RouteGuard mode="public" />,
         children: [
           {
-            path: PATH.LANDING,
-            Component: LandingPage,
-          },
-          {
-            path: PATH.LOGIN,
-            Component: LoginPage,
+            Component: AuthRoute,
+            children: [
+              {
+                path: PATH.LANDING,
+                Component: LandingPage,
+              },
+              {
+                path: PATH.LOGIN,
+                Component: LoginPage,
+              },
+            ],
           },
           {
             path: PATH.LOGIN_CALLBACK,
@@ -44,7 +49,7 @@ export const router = createBrowserRouter([
         element: <RouteGuard mode="private" />,
         children: [
           {
-            Component: DashboardLayout,
+            Component: DashboardRoute,
             children: [
               {
                 path: PATH.NEW_MEMO,
