@@ -1,8 +1,6 @@
 import { PATH } from '@router/path';
 import { Navigate } from 'react-router';
 
-import { Icon } from '@cds/icon';
-
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
 import LoginButton from '@pages/login/components/login-button/login-button';
 
@@ -24,11 +22,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <Icon name="ic_logo_symbol" size={44} />
-        <Icon name="ic_logo_type" width={108} height={14} />
-      </div>
-
       <div className={styles.content}>
         <p className={styles.welcome}>반가워요.</p>
         <p className={styles.description}>
