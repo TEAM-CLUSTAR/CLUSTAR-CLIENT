@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { PATH } from '@router/path';
 import { Navigate, useNavigate } from 'react-router';
 
-import { Icon } from '@cds/icon';
-
 import { getAccessToken } from '@shared/utils/token-storage';
 
 import * as styles from './landing-page.css';
