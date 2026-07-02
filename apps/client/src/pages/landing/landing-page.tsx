@@ -45,20 +45,12 @@ const LandingPage = () => {
     <div ref={containerRef} className={styles.container}>
       <div className={styles.contentContainer}>
         <div className={styles.content01}>
-          <header className={styles.headerContainer}>
-            <div className={styles.headerContent}>
-              <Icon name="ic_logo_symbol" size={42.67} />
-              <Icon name="ic_logo_type" width={106.5} height={13.84} />
-            </div>
-            <a href={PATH.LOGIN} className={styles.loginLink}>
-              로그인
-            </a>
-          </header>
           <img
             src="/landing_graphic.png"
             alt="landing graphic"
             width={525}
             height={357}
+            className={styles.landingImage}
           />
           <div className={styles.content01Content}>
             <div className={styles.content01ContentText}>
