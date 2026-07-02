@@ -51,7 +51,7 @@ export const icon = style({
   margin: '0.4rem',
 });
 
-export const tag = style({
+export const tagText = style({
   width: '100%',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,

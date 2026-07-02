@@ -6,14 +6,14 @@ type RelationTypes = 'parent' | 'child' | 'descendant';
 
 interface FilterListItemProps {
   relation: RelationTypes;
-  tag: string;
+  tagText: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
 }
 
 const FilterListItem = ({
   relation,
-  tag,
+  tagText,
   checked,
   onChange,
 }: FilterListItemProps) => {
@@ -31,7 +31,7 @@ const FilterListItem = ({
         size={24}
         aria-hidden="true"
       />
-      <span className={styles.tag}>{tag}</span>
+      <span className={styles.tagText}>{tagText}</span>
     </label>
   );
 };
