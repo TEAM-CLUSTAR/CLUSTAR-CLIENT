@@ -28,9 +28,7 @@ export const createNodeEdge = (data: NodeEdgeTypes[]) => {
   ];
   const edges: Edge[] = [];
 
-  const isNoLabel = data.some(({ labelName }) => labelName === NO_LABEL)
-    ? true
-    : false;
+  const isNoLabel = data.some(({ labelName }) => labelName === NO_LABEL);
   const sortedData = data.sort((a, b) => {
     if (a.labelName === NO_LABEL) return 1;
     if (b.labelName === NO_LABEL) return -1;
