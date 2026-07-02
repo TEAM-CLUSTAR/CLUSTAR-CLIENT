@@ -3,7 +3,7 @@ import { Outlet } from 'react-router';
 
 import { LoadingPage } from '@pages/loading';
 
-const RootLayout = () => {
+const RootRoute = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Outlet />
@@ -11,4 +11,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default RootRoute;

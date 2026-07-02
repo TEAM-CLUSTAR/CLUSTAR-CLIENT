@@ -13,14 +13,14 @@ import {
   NewMemoPage,
 } from './lazy';
 import { PATH } from './path';
-import RootLayout from './root-layout';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
 import DashboardRoute from './routes/dashboard-route';
+import RootRoute from './routes/root-route';
 
 export const router = createBrowserRouter([
   {
-    Component: RootLayout,
+    Component: RootRoute,
     ErrorBoundary: ErrorPage,
     children: [
       {
