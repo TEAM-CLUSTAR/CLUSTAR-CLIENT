@@ -1,3 +1,4 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
@@ -78,6 +79,8 @@ export const container = recipe({
     gap: '0.4rem',
     borderRadius: '4px',
     width: 'fit-content',
+    flexShrink: 0,
+    userSelect: 'none',
   },
   variants: {
     clickable: {
@@ -113,6 +116,9 @@ export const container = recipe({
 });
 
 export const indicator = recipe({
+  base: {
+    flexShrink: 0,
+  },
   variants: {
     size: {
       lg: {
@@ -128,4 +134,13 @@ export const indicator = recipe({
     },
     color: TAG_INDICATOR_COLORS,
   },
+});
+
+export const removeButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 0,
+  border: 'none',
+  background: 'none',
 });
