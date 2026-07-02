@@ -1,38 +1,41 @@
-import {
-  TAG_COLOR_BY_TEXT,
-  TagColorType,
-  TagTextType,
-} from '../../constants/tag-type';
+import { Icon } from '@cds/icon';
+
+import { TagColorType } from '../../constants/tag-type';
 
 import * as styles from './tag.css';
 
-export type TagSizeType = 'sm' | 'lg';
+type TagSizeType = 'sm' | 'lg';
 
 export interface TagProps {
   size: TagSizeType;
   color: TagColorType;
   text: string;
-  onClick?: () => void;
+  onRemove?: () => void;
 }
 
-const Tag = ({ size, color, text, onClick }: TagProps) => {
-  const tagColor =
-    TAG_COLOR_BY_TEXT[text as TagTextType] ?? (color as TagColorType);
-
+const Tag = ({ size, color, text, onRemove }: TagProps) => {
   return (
     <div
       className={styles.container({
         size,
-        color: tagColor,
-        clickable: !!onClick,
+        color,
       })}
-      onClick={onClick}
     >
-      <div
-        className={styles.indicator({ size, color: tagColor })}
-        aria-hidden="true"
-      />
+      <div className={styles.indicator({ size, color })} aria-hidden="true" />
       <p>{text}</p>
+      {onRemove && (
+        <button
+          type="button"
+          className={styles.removeButton}
+          onClick={(event) => {
+            event.stopPropagation();
+            onRemove();
+          }}
+          aria-label="태그 삭제"
+        >
+          <Icon name="ic_delete" size={20} color="grey500" />
+        </button>
+      )}
     </div>
   );
 };
