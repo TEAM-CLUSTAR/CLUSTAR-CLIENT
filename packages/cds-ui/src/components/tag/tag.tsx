@@ -1,10 +1,22 @@
 import { Icon } from '@cds/icon';
 
-import { TagColorType } from '../../constants/tag-type';
-
 import * as styles from './tag.css';
 
 type TagSizeType = 'sm' | 'lg';
+
+type TagColorType =
+  | 'pink'
+  | 'red'
+  | 'orange'
+  | 'yellow'
+  | 'green'
+  | 'cyan'
+  | 'lightBlue'
+  | 'blue'
+  | 'purple'
+  | 'magenta'
+  | 'gradient'
+  | 'grey';
 
 export interface TagProps {
   size: TagSizeType;
