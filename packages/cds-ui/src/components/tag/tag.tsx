@@ -26,7 +26,6 @@ const Tag = ({ size, color, text, onRemove }: TagProps) => {
       {onRemove && (
         <button
           type="button"
-          className={styles.removeButton}
           onClick={(event) => {
             event.stopPropagation();
             onRemove();
