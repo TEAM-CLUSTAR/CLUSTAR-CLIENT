@@ -3,84 +3,83 @@ import { type BuiltInEdge, type Edge, type Node } from '@xyflow/react';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
-interface NodeEdgeTypes {
+interface TreeSourceTypes {
   labelName: LabelTextType;
   memos: StructureMemoTypes[];
 }
 
-const NO_LABEL = '라벨없음';
+const NO_TAG = '라벨없음';
 const DISCOUNT = {
-  IS_NO_LABEL: 2,
-  IS_LABEL: 1,
+  IS_NO_TAG: 2,
+  IS_TAG: 1,
+};
+const BASE_NODE_POSITION = {
+  X: 34,
+  Y: 0,
 };
 const X_SPACING = 400;
 const Y_SPACING = 300;
 
 export const buildTreeGraph = (memos: StructureMemoTypes[]) => {
-  const grouped = groupByLabelName(memos);
-  const converted = convertGroupToNodeEdgeData(grouped);
+  const grouped = groupByTagName(memos);
+  const converted = convertMemoToTreeData(grouped);
   return createNodeEdge(converted);
 };
 
-const groupByLabelName = (memos: StructureMemoTypes[]) => {
+const groupByTagName = (memos: StructureMemoTypes[]) => {
   return memos.reduce<Record<string, StructureMemoTypes[]>>((acc, memo) => {
-    if (!memo.labelList || memo.labelList.length === 0) {
-      // labelList가 없거나 빈 배열일 때는 '라벨없음'으로 그룹화
-      if (!acc['라벨없음']) {
-        acc['라벨없음'] = [];
-      }
-      acc['라벨없음'].push(memo);
-    } else {
-      memo.labelList.forEach((label) => {
-        if (!acc[label.name]) {
-          acc[label.name] = [];
-        }
-        acc[label.name].push(memo);
-      });
-    }
+    const tagNames = memo.labelList?.length
+      ? memo.labelList.map((tag) => tag.name)
+      : [NO_TAG];
+
+    tagNames.forEach((name) => {
+      (acc[name] ??= []).push(memo);
+    });
+
     return acc;
   }, {});
 };
 
-const convertGroupToNodeEdgeData = (
+const convertMemoToTreeData = (
   grouped: Record<string, StructureMemoTypes[]>,
-): NodeEdgeTypes[] => {
+): TreeSourceTypes[] => {
   return Object.entries(grouped).map(([labelName, memos]) => ({
     labelName: labelName as LabelTextType,
     memos,
   }));
 };
 
-const createNodeEdge = (data: NodeEdgeTypes[]) => {
+const createNodeEdge = (data: TreeSourceTypes[]) => {
   const nodes: Node[] = [
     {
       id: 'baseNode',
-      position: { x: 34, y: 0 },
+      position: { x: BASE_NODE_POSITION.X, y: BASE_NODE_POSITION.Y },
       data: {},
       type: 'baseMemo',
     },
   ];
   const edges: (Edge | BuiltInEdge)[] = [];
 
-  const isNoLabel = data.some(({ labelName }) => labelName === NO_LABEL);
-  const sortedData = data.sort((a, b) => {
-    if (a.labelName === NO_LABEL) return 1;
-    if (b.labelName === NO_LABEL) return -1;
+  const isNoTag = data.some(({ labelName }) => labelName === NO_TAG);
+  const sortedData = [...data].sort((a, b) => {
+    if (a.labelName === NO_TAG) return 1;
+    if (b.labelName === NO_TAG) return -1;
     return 0;
   });
   const dataCount = sortedData.length;
+  const discounter = isNoTag ? DISCOUNT.IS_NO_TAG : DISCOUNT.IS_TAG;
+  const centerOffset = (dataCount - discounter) / 2;
 
   sortedData.forEach(({ labelName, memos }, index) => {
-    const isNoLabelMemo = index === dataCount - 1 && isNoLabel;
-    const discountNoLabel = isNoLabel
-      ? DISCOUNT.IS_NO_LABEL
-      : DISCOUNT.IS_LABEL;
+    // sortedData는 라벨없음 그룹이 항상 마지막에 오도록 정렬되어 있음 → 마지막 노드만 커스텀 엣지로 연결
+    const isNoTagMemo = index === dataCount - 1 && isNoTag;
+    const centeredX = (index - centerOffset) * X_SPACING;
 
     nodes.push({
       id: labelName,
       type: 'treeMemo',
       position: {
-        x: (index - (dataCount - discountNoLabel) / 2) * X_SPACING,
+        x: centeredX,
         y: Y_SPACING,
       },
       data: {
@@ -93,8 +92,8 @@ const createNodeEdge = (data: NodeEdgeTypes[]) => {
       id: `e-baseNode-${labelName}`,
       source: 'baseNode',
       target: labelName,
-      type: isNoLabelMemo ? 'custom-edge-no-label' : 'smoothstep',
-      sourceHandle: isNoLabelMemo ? 'baseRight' : 'baseBottom',
+      type: isNoTagMemo ? 'customEdge' : 'smoothstep',
+      sourceHandle: isNoTagMemo ? 'baseRight' : 'baseBottom',
     });
   });
 

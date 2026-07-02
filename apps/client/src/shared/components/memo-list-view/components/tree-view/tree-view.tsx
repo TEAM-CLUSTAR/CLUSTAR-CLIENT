@@ -26,7 +26,7 @@ const nodeTypes: NodeTypes = {
   baseMemo: TreeBaseMemoNode,
 };
 const edgeTypes: EdgeTypes = {
-  'custom-edge-no-label': CustomEdge,
+  customEdge: CustomEdge,
 };
 const defaultEdgeOptions: DefaultEdgeOptions | Partial<BuiltInEdge> = {
   type: 'smoothstep',
