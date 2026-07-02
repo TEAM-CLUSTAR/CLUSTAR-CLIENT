@@ -16,7 +16,42 @@ const DISCOUNT = {
 const X_SPACING = 400;
 const Y_SPACING = 300;
 
-export const createNodeEdge = (data: NodeEdgeTypes[]) => {
+export const buildTreeGraph = (memos: StructureMemoTypes[]) => {
+  const grouped = groupByLabelName(memos);
+  const converted = convertGroupToNodeEdgeData(grouped);
+  return createNodeEdge(converted);
+};
+
+const groupByLabelName = (memos: StructureMemoTypes[]) => {
+  return memos.reduce<Record<string, StructureMemoTypes[]>>((acc, memo) => {
+    if (!memo.labelList || memo.labelList.length === 0) {
+      // labelList가 없거나 빈 배열일 때는 '라벨없음'으로 그룹화
+      if (!acc['라벨없음']) {
+        acc['라벨없음'] = [];
+      }
+      acc['라벨없음'].push(memo);
+    } else {
+      memo.labelList.forEach((label) => {
+        if (!acc[label.name]) {
+          acc[label.name] = [];
+        }
+        acc[label.name].push(memo);
+      });
+    }
+    return acc;
+  }, {});
+};
+
+const convertGroupToNodeEdgeData = (
+  grouped: Record<string, StructureMemoTypes[]>,
+): NodeEdgeTypes[] => {
+  return Object.entries(grouped).map(([labelName, memos]) => ({
+    labelName: labelName as LabelTextType,
+    memos,
+  }));
+};
+
+const createNodeEdge = (data: NodeEdgeTypes[]) => {
   const nodes: Node[] = [
     {
       id: 'baseNode',

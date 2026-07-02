@@ -11,11 +11,7 @@ import { themeVars } from '@cds/ui';
 
 import { useReadMemoStructure } from './apis/queries';
 import { CustomEdge, TreeBaseMemoNode, TreeMemoListNode } from './components';
-import {
-  convertGroupToNodeEdgeData,
-  groupByLabelName,
-} from './utils/convert-memos-data';
-import { createNodeEdge } from './utils/create-node-edge';
+import { buildTreeGraph } from './utils/build-tree-graph';
 
 import '@xyflow/react/dist/style.css';
 import * as styles from './tree-view.css';
@@ -40,9 +36,7 @@ const defaultEdgeOptions: DefaultEdgeOptions | Partial<BuiltInEdge> = {
 
 const TreeView = () => {
   const { data: memos = [] } = useReadMemoStructure();
-  const groupedMemos = groupByLabelName(memos);
-  const sortedMemos = convertGroupToNodeEdgeData(groupedMemos);
-  const { nodes, edges } = createNodeEdge(sortedMemos);
+  const { nodes, edges } = buildTreeGraph(memos);
 
   return (
     <div className={styles.container}>
