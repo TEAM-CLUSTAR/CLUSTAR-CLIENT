@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import Sidebar from '@shared/components/sidebar/sidebar';
+import Sidebar from '../sidebar/sidebar';
 
 import * as styles from './dashboard-layout.css';
 
