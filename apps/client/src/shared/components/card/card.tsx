@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Label, Title } from '@cds/ui';
+import { Tag, Title } from '@cds/ui';
 
 import { formatDate } from '@shared/utils/format-date';
 
@@ -43,19 +43,14 @@ const Card = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {/* TODO: Label 리디자인 반영 후 수정 (현재는 임시 Label로 구현)*/}
-          {tagList.length > 0 ? (
-            tagList.map((tag) => (
-              <Label
-                key={tag.labelId}
-                labelSize="sm"
-                labelColor="blue"
-                labelText={tag.name ?? ''}
-              />
-            ))
-          ) : (
-            <Label labelSize="sm" labelColor="grey" labelText="라벨없음" />
-          )}
+          {tagList.map((tag) => (
+            <Tag
+              key={tag.labelId}
+              size="sm"
+              color="blue"
+              text={tag.name ?? ''}
+            />
+          ))}
         </div>
         <div className={styles.contentsContainer}>
           <Title title={title} />
