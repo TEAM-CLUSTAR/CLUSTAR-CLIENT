@@ -2,23 +2,13 @@ import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '@cds/ui';
 
-export const header = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1.2rem',
-  height: '10.3rem',
-  padding: '0 10rem',
-  borderBottom: `1px solid ${themeVars.color.grey300}`,
-  backgroundColor: themeVars.color.grey100,
-});
-
 export const content = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   height: 'calc(100vh - 10.3rem)',
-  backgroundColor: themeVars.color.grey100,
+  backgroundColor: themeVars.color.blue25,
 });
 
 export const welcome = style({
