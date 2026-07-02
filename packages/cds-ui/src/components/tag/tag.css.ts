@@ -102,17 +102,10 @@ export const container = recipe({
         height: '1.8rem',
         lineHeight: 1,
         padding: '0 0.6rem',
-        textTransform: 'lowercase',
       },
     },
     color: TAG_CONTAINER_COLORS,
   },
-  compoundVariants: [
-    {
-      variants: { size: 'sm', color: 'gradient' },
-      style: { textTransform: 'none' },
-    },
-  ],
 });
 
 export const indicator = recipe({
