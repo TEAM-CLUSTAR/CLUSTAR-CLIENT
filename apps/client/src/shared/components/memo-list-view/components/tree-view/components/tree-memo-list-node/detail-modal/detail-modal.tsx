@@ -11,7 +11,7 @@ import {
   TextContent,
 } from '@cds/ui';
 
-import { LabelTextType } from '@shared/types/label-type';
+import { SelectedMemoTypes } from '../tree-memo/apis/queries';
 
 import * as styles from './detail-modal.css';
 
@@ -36,33 +36,6 @@ const formatDateTime = (dateString: string): string => {
     return dateString;
   }
 };
-
-export interface SelectedMemoTypes {
-  memoId: number;
-  title: string;
-  content: string;
-  images: {
-    imageId: number;
-    imageUrl: string;
-    imageName: string;
-    imageExtension: string;
-    imageSize: string;
-  }[];
-  files: {
-    fileId: number;
-    fileUrl: string;
-    fileName: string;
-    fileExtension: string;
-    fileSize: string;
-  }[];
-  labelList: {
-    labelId: number;
-    name: LabelTextType;
-  }[];
-  createdAt: string;
-  isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
-}
 
 interface DetailModalProps {
   children: ReactNode;
