@@ -17,3 +17,15 @@ export const text = style({
   textAlign: 'left',
   width: '100%',
 });
+
+export const handle = style({
+  selectors: {
+    '&.react-flow__handle': {
+      width: '1.2rem',
+      height: '1.2rem',
+      borderRadius: '50%',
+      backgroundColor: themeVars.color.white,
+      border: `2px solid ${themeVars.color.grey300}`,
+    },
+  },
+});

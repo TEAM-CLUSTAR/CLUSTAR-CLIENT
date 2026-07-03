@@ -6,8 +6,9 @@ import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
-import TreeCustomHandle from '../tree-custom-handle/tree-custom-handle';
-import TreeMemoList from '../tree-memo-list/tree-memo-list';
+import TreeMemo from '../tree-memo/tree-memo';
+
+import * as styles from './tree-memo-list-node.css';
 
 type TreeMemoListNodeDataTypes = Node<
   {
@@ -31,17 +32,16 @@ const TreeMemoListNode = ({
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
-        style={{
-          background: 'none',
-          border: 'none',
-          width: 'min-content',
-          height: 'min-content',
-        }}
-      >
-        <TreeCustomHandle labelColor={labelColor} />
-      </Handle>
-
-      <TreeMemoList labelName={labelName} memos={memos} />
+        className={styles.handle({ labelColor })}
+      />
+      <div className={styles.container({ labelColor })}>
+        <span className={styles.title({ labelColor })}>{labelName}</span>
+        <div className={styles.memosContainer}>
+          {memos.map((memo) => (
+            <TreeMemo key={memo.memoId} memo={memo} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
