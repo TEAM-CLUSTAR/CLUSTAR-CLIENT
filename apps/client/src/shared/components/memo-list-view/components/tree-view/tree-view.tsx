@@ -10,7 +10,7 @@ import {
 import { themeVars } from '@cds/ui';
 
 import { useReadMemoStructure } from './apis/queries';
-import { CustomEdge, TreeBaseMemoNode, TreeMemoListNode } from './components';
+import { CustomEdge, TreeMemoBaseNode, TreeMemoListNode } from './components';
 import { buildTreeGraph } from './utils/build-tree-graph';
 
 import '@xyflow/react/dist/style.css';
@@ -23,7 +23,7 @@ const ZOOM = {
 
 const nodeTypes: NodeTypes = {
   treeMemo: TreeMemoListNode,
-  baseMemo: TreeBaseMemoNode,
+  baseMemo: TreeMemoBaseNode,
 };
 const edgeTypes: EdgeTypes = {
   customEdge: CustomEdge,

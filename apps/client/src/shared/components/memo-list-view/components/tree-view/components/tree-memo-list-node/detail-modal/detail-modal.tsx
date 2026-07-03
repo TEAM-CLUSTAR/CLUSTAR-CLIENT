@@ -69,10 +69,6 @@ interface DetailModalProps {
   data: SelectedMemoTypes;
   id: number;
   onAiCreateClick?: (memoId: number) => void;
-  /**
-   * 모달 open 상태를 제어하기 위한 제어형 props
-   * - 전달하지 않으면 Radix 내부 상태로만 제어됩니다.
-   */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }

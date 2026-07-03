@@ -2,14 +2,14 @@ import { memo } from 'react';
 import type { Node, NodeProps } from '@xyflow/react';
 import { Handle, Position } from '@xyflow/react';
 
-import * as styles from './tree-base-memo-node.css';
+import * as styles from './tree-memo-base-node.css';
 
 type EmptyNodeDataTypes = Record<string, never>;
-type TreeBaseMemoNodeDataTypes = Node<EmptyNodeDataTypes, 'initial'>;
+type TreeMemoBaseNodeDataTypes = Node<EmptyNodeDataTypes, 'initial'>;
 
-const TreeBaseMemoNode = ({
+const TreeMemoBaseNode = ({
   isConnectable,
-}: NodeProps<TreeBaseMemoNodeDataTypes>) => {
+}: NodeProps<TreeMemoBaseNodeDataTypes>) => {
   return (
     <div>
       <div className={styles.container}>
@@ -35,4 +35,4 @@ const TreeBaseMemoNode = ({
   );
 };
 
-export default memo(TreeBaseMemoNode);
+export default memo(TreeMemoBaseNode);
