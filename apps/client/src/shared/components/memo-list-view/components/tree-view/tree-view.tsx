@@ -35,7 +35,9 @@ const defaultEdgeOptions: DefaultEdgeOptions | Partial<BuiltInEdge> = {
 };
 
 const TreeView = () => {
-  const { data: memos = [] } = useReadMemoStructure();
+  const { data: memos, isPending } = useReadMemoStructure();
+  if (isPending || !memos) return null;
+
   const { nodes, edges } = buildTreeGraph(memos);
 
   return (
