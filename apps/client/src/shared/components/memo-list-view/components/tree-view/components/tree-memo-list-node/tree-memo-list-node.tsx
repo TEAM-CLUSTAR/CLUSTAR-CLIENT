@@ -6,7 +6,7 @@ import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
-import TreeMemo from './tree-memo/tree-memo';
+import TreeMemo from './components/tree-memo/tree-memo';
 
 import * as styles from './tree-memo-list-node.css';
 
