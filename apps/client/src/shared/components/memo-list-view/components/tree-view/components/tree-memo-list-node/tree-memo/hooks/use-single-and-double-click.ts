@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface UseSingleAndDoubleClickProps {
   handleSingleClick: () => void;
@@ -12,6 +12,14 @@ function useSingleAndDoubleClick({
   delay = 200,
 }: UseSingleAndDoubleClickProps) {
   const clickTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (clickTimeout.current) {
+        clearTimeout(clickTimeout.current);
+      }
+    };
+  }, []);
 
   const handleClick = () => {
     if (clickTimeout.current) {

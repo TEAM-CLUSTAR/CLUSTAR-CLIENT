@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
-import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import DetailModal from '../detail-modal/detail-modal';
 import { useDetailMemo } from './apis/queries';
+import useSingleAndDoubleClick from './hooks/use-single-and-double-click';
 
 import * as styles from './tree-memo.css';
 
