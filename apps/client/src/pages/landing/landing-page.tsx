@@ -30,7 +30,7 @@ const LandingPage = () => {
   }, [accessToken]);
 
   if (accessToken) {
-    return <Navigate to={PATH.NEW_MEMO} replace />;
+    return <Navigate to={PATH.ROOT} replace />;
   }
 
   const scrollToTop = () => {
