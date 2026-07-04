@@ -1,248 +1,155 @@
-import { useMemo, useState } from 'react';
 import { PATH } from '@router/path';
-import { matchPath, useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-import { Icon } from '@cds/icon';
-import { IconName } from '@cds/icon';
-import { SidebarIcon, SidebarPannel, SideBarProfile, Tooltip } from '@cds/ui';
+import { Icon, IconName } from '@cds/icon';
 
-import { useGetLabel } from '@pages/all-memo/apis/queries';
-
-import { useGetUserInfo } from '@shared/apis/user/queries';
+import { buildTagTree } from '../../../utils/tag/build-tag-tree';
+import { useSidebar } from './sidebar-context';
+import SidebarItem from './sidebar-item/sidebar-item';
+import SidebarTagItem from './sidebar-tag-item/sidebar-tag-item';
+import { MOCK_TAG } from './tag-mock-data';
 
 import * as styles from './sidebar.css';
 
-const MENU_ITEMS = [
+const MENU_ITEMS: {
+  id: string;
+  iconName: IconName;
+  text: string;
+  path?: string;
+}[] = [
   {
-    id: 'new',
-    label: '새 메모',
-    icon: 'ic_newmemo',
-    activeIcon: 'ic_newmemo_blue',
+    id: 'search',
+    iconName: 'ic_search',
+    text: '검색',
   },
   {
-    id: 'all',
-    label: '전체 메모',
-    icon: 'ic_allmemo',
-    activeIcon: 'ic_allmemo_blue',
+    id: 'new-memo',
+    iconName: 'ic_newmemo',
+    text: '새메모',
+    path: PATH.NEW_MEMO,
   },
-  { id: 'ai', label: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
-] as const;
+  {
+    id: 'all-memo',
+    iconName: 'ic_allmemo',
+    text: '전체메모',
+    path: PATH.ROOT,
+  },
+  {
+    id: 'structure',
+    iconName: 'ic_treeview',
+    text: '구조화뷰',
+    path: PATH.STRUCTURE,
+  },
+];
 
-const MENU_PATH: Record<string, string> = {
-  new: PATH.NEW_MEMO,
-  all: PATH.ALL_MEMO,
-  ai: PATH.AI_RESULTS,
-};
+/**
+ * 현재 URL을 기준으로 선택된 사이드바 식별자
+ */
+const getSelectedIdFromUrl = (
+  pathname: string,
+  search: string,
+): string | number | null => {
+  const tag = new URLSearchParams(search).get('tag');
+  if (tag) return Number(tag);
 
-const getIconState = (
-  item: { id: string; icon: IconName; activeIcon: IconName },
-  currentSelectedId: string,
-) => {
-  const isActive = currentSelectedId === item.id;
-  const iconName = isActive ? item.activeIcon : item.icon;
-  return { isActive, iconName };
+  if (pathname === PATH.ROOT) return PATH.ROOT;
+
+  const menu = MENU_ITEMS.find((item) => item.path === pathname);
+  return menu?.path ?? null;
 };
 
 const Sidebar = () => {
-  const [isHover, setIsHover] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { data: userInfo } = useGetUserInfo();
-  const { data: labels = [] } = useGetLabel();
-
+  const location = useLocation();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
-  const selectedId = useMemo(() => {
-    if (pathname === PATH.NEW_MEMO) return 'new';
-    if (pathname.startsWith(PATH.AI_RESULTS)) return 'ai';
-    if (pathname.startsWith(PATH.ALL_MEMO)) return 'all';
-    const labelMatch = matchPath(PATH.LABEL, pathname);
-    if (labelMatch?.params.labelId) return labelMatch.params.labelId;
-    return '';
-  }, [pathname]);
+  const { isExpanded, toggle, setExpanded } = useSidebar();
+  const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
+  // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
+  const tagTree = buildTagTree(MOCK_TAG.tags);
 
-  const handleSelect = (id: string) => {
-    const path = MENU_PATH[id] ?? `/label/${id}`;
-    navigate(path);
+  const handleClickItem = (seletedId?: string) => {
+    if (seletedId) navigate(seletedId);
+    setExpanded(true);
   };
-
-  const handleLogoClick = () => {
-    setIsExpanded((prev) => !prev);
-  };
-
-  const labelItems = useMemo(() => {
-    return labels.map((label) => ({
-      id: String(label.labelId ?? ''),
-      label: label.name ?? '',
-      icon: 'ic_label' as IconName,
-      activeIcon: 'ic_label_blue' as IconName,
-    }));
-  }, [labels]);
-
-  const processedMenuItems = MENU_ITEMS.map((item) => ({
-    ...item,
-    ...getIconState(item, selectedId),
-  }));
-
-  const processedLabelItems = labelItems.map((item) => ({
-    ...item,
-    ...getIconState(item, selectedId),
-  }));
 
   return (
-    <nav className={styles.container({ expanded: isExpanded })}>
-      <div className={styles.header}>
-        {isExpanded && (
-          <>
-            <div
-              className={styles.logo({ expanded: isExpanded })}
-              onClick={handleLogoClick}
-            >
-              <Icon
-                name="ic_logo_symbol"
-                size={36}
-                style={{ pointerEvents: 'none' }}
-              />
-            </div>
-            <span
-              className={styles.title({ expanded: isExpanded })}
-              onClick={handleLogoClick}
-            >
-              <Icon
-                name="ic_logo_type"
-                width={92.3}
-                height={12}
-                style={{ pointerEvents: 'none' }}
-              />
-            </span>
-          </>
-        )}
-
+    <nav className={styles.sidebar} data-expanded={isExpanded}>
+      {/* header */}
+      <header className={styles.header}>
         <button
-          type="button"
-          onClick={() => setIsExpanded((prev) => !prev)}
-          className={styles.foldingBtn}
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
+          className={styles.logoButton}
+          onClick={toggle}
+          disabled={isExpanded}
+          aria-label="사이드바 토글"
         >
+          <Icon name="ic_logo_symbol" size={32} className={styles.logoSymbol} />
           <Icon
-            name={isExpanded || isHover ? 'ic_folding' : 'ic_logo_symbol'}
-            size={36}
+            name="ic_logo_type"
+            width={82}
+            height={11}
+            className={styles.logoType}
           />
-          {!isExpanded && (
-            <div className={styles.floatingMenu}>
-              <Tooltip title="사이드바 열기" />
-            </div>
-          )}
         </button>
-      </div>
+        <button
+          className={styles.foldButton}
+          onClick={toggle}
+          aria-label="사이드바 접기"
+        >
+          <Icon name="ic_folding" size={32} color="grey600" />
+        </button>
+      </header>
 
-      <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
-      <div className={styles.menuList({ expanded: isExpanded })}>
-        {processedMenuItems.map(({ id, label, isActive, iconName }) =>
-          isExpanded ? (
-            <SidebarPannel
-              key={id}
-              isSelected={isActive}
-              onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} size={36} />}
-            >
-              {label}
-            </SidebarPannel>
-          ) : (
-            <div key={id} className={styles.iconContainer}>
-              <SidebarIcon
-                isSelected={isActive}
-                onClick={() => handleSelect(id)}
-                icon={<Icon name={iconName} size={36} />}
+      {/* 메뉴 */}
+      <section className={styles.menuSection}>
+        <span className={styles.sectionTitle}>메뉴</span>
+        <ul className={styles.pannelList}>
+          {MENU_ITEMS.map(({ id, iconName, text, path }) => (
+            <li key={id} className={styles.pannelItem}>
+              <SidebarItem
+                iconName={iconName}
+                content={text}
+                isSelected={selectedId === path}
+                onClick={() => handleClickItem(path)}
               />
-              <div className={styles.floatingMenu}>
-                <Tooltip title={label} />
-              </div>
-            </div>
-          ),
-        )}
-      </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <span className={styles.label({ expanded: isExpanded })}>라벨</span>
-      <div className={styles.labelList({ expanded: isExpanded })}>
+      {/* 태그: 펼침 = 트리 / 접힘 = 아이콘 1개 (트리는 비용이 커 접힘 시 렌더하지 않도록) */}
+      <section className={styles.tagSection}>
+        <span className={styles.sectionTitle}>태그</span>
+        <hr className={styles.collapsedDivider} />
         {isExpanded ? (
-          processedLabelItems.map(({ id, label, isActive, iconName }) => (
-            <SidebarPannel
-              key={id}
-              isSelected={isActive}
-              onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} size={36} />}
-            >
-              {label}
-            </SidebarPannel>
-          ))
-        ) : (
-          <div className={styles.labelContainer}>
-            <SidebarIcon
-              isSelected={false}
-              onClick={() => {
-                if (labelItems.length > 0) {
-                  handleSelect(labelItems[0].id);
-                }
-              }}
-              icon={<Icon name="ic_label" size={36} />}
-            />
-            <div className={styles.floatingMenu}>
-              <Tooltip title="태그" />
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.sidebarBottom({ expanded: isExpanded })}>
-        {isExpanded ? (
-          <>
-            <SidebarPannel
-              isSelected={selectedId === 'trash'}
-              icon={
-                selectedId === 'trash' ? (
-                  <Icon name="ic_trash_blue" size={36} />
-                ) : (
-                  <Icon name="ic_trash" size={36} />
-                )
-              }
-            >
-              휴지통
-            </SidebarPannel>
-            <div className={styles.profileWrapper}>
-              <SideBarProfile
-                name={userInfo?.name}
-                email={userInfo?.email}
-                profileImageUrl={userInfo?.profileImageUrl}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.iconContainer}>
-              <SidebarIcon
-                icon={
-                  selectedId === 'trash' ? (
-                    <Icon name="ic_trash_blue" size={36} />
-                  ) : (
-                    <Icon name="ic_trash" size={36} />
-                  )
+          <ul>
+            {tagTree.map((tag) => (
+              <SidebarTagItem
+                key={tag.tagId}
+                tag={tag}
+                selectedTagId={Number(selectedId)}
+                onClick={(tagId) =>
+                  handleClickItem(`${PATH.ROOT}?tag=${tagId}`)
                 }
               />
-              <div className={styles.floatingMenu}>
-                <Tooltip title="휴지통" />
-              </div>
-            </div>
-            <div className={styles.iconContainer}>
-              <SidebarIcon icon={<Icon name="ic_profile" size={36} />} />
-              <div className={styles.floatingMenu}>
-                <Tooltip title={userInfo?.name || '프로필'} />
-              </div>
-            </div>
-          </>
+            ))}
+          </ul>
+        ) : (
+          <ul className={styles.pannelList}>
+            <li className={styles.pannelItem}>
+              <SidebarItem
+                iconName="ic_tag"
+                isSelected={typeof selectedId === 'number'}
+                onClick={() => setExpanded(true)}
+              />
+            </li>
+          </ul>
         )}
-      </div>
+      </section>
+
+      {/* 마이페이지 */}
+      <section className={styles.mypageSection}>
+        <SidebarItem iconName="ic_profile" content="마이페이지" disabled />
+      </section>
     </nav>
   );
 };

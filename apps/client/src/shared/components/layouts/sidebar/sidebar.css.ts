@@ -1,213 +1,121 @@
 import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
 
-import { fadeIn, themeVars } from '@cds/ui';
+import { themeVars } from '@cds/ui';
 
-const smoothTransition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-
-const fadeInAnimation = `${fadeIn} 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
-
-export const container = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-
-    height: '100%',
-
-    borderRadius: '16px',
-    border: `2px solid ${themeVars.color.white}`,
-    boxShadow: '0px 0px 12px 0px rgba(0, 0, 0, 0.1)',
-    backgroundColor: themeVars.color.grey50,
-
-    whiteSpace: 'nowrap',
-    transition: smoothTransition,
-  },
-  variants: {
-    expanded: {
-      true: {
-        width: '26rem',
-        padding: '2.4rem 2rem',
-        overflow: 'hidden',
-      },
-      false: {
-        width: '6.4rem',
-        padding: '2.4rem 1.4rem',
-        overflow: 'visible',
-      },
-    },
+export const sidebar = style({
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: themeVars.color.grey50,
+  // border 대신 inset box-shadow로 오른쪽 구분선을 그려 콘텐츠 폭이 1px 줄지 않게 함
+  // (border-right는 border-box에서 콘텐츠 폭을 40→39px로 만들어 아이콘 정렬이 반픽셀로 깨짐)
+  boxShadow: `inset -1px 0 0 ${themeVars.color.grey200}`,
+  padding: '2rem',
+  height: '100vh',
+  flexShrink: '0',
+  transition: 'width 0.2s ease',
+  selectors: {
+    '&[data-expanded="true"]': { width: '26rem' },
+    '&[data-expanded="false"]': { width: '8rem' },
   },
 });
 
+/* ── header ── */
 export const header = style({
   display: 'flex',
   alignItems: 'center',
-  paddingBottom: '5.4rem',
+  justifyContent: 'space-between',
 });
 
-export const logo = recipe({
-  base: {
-    transition: smoothTransition,
-  },
-  variants: {
-    expanded: {
-      true: {
-        opacity: 1,
-      },
-      false: {
-        width: 0,
-        opacity: 0,
-      },
-    },
-  },
+export const logoButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
 });
 
-export const title = recipe({
-  base: {
-    paddingLeft: '1rem',
-  },
-  variants: {
-    expanded: {
-      true: {
-        opacity: 1,
-        transition: smoothTransition,
-      },
-      false: {
-        opacity: 0,
-        paddingLeft: 0,
-        width: 0,
-      },
-    },
-  },
-});
-
-export const foldingBtn = style({
-  position: 'relative',
-  marginLeft: 'auto',
-  borderRadius: '8px',
-  ':hover': { backgroundColor: themeVars.color.grey200 },
-});
-
-const textBaseStyle = {
-  ...themeVars.fontStyles.body_m_16,
-  color: themeVars.color.grey600,
-  transition: smoothTransition,
-};
-
-export const menu = recipe({
-  base: {
-    ...textBaseStyle,
-    paddingBottom: '1.2rem',
-  },
-  variants: {
-    expanded: {
-      true: {
-        height: 'auto',
-        opacity: 1,
-      },
-      false: {
-        opacity: 0,
-        paddingBottom: 0,
-        height: 0,
-      },
-    },
-  },
-});
-
-export const menuList = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    transition: smoothTransition,
-  },
-  variants: {
-    expanded: {
-      true: { gap: '0.8rem', animation: fadeInAnimation },
-      false: { gap: '1.6rem' },
-    },
-  },
-});
-
-export const iconContainer = style({
-  position: 'relative',
-});
-
-export const labelContainer = style({
-  position: 'relative',
-  width: '3.6rem',
-  height: '3.6rem',
-  borderRadius: '8px',
-
-  ':hover': {
-    backgroundColor: themeVars.color.grey200,
-  },
-});
-
-export const floatingMenu = style({
-  visibility: 'hidden',
-  position: 'absolute',
-  top: '45%',
-  left: 'calc(100% + 1.4rem)',
-  zIndex: themeVars.zIndex.sidebar,
-
-  marginLeft: '1.2rem',
-
-  transform: 'translateY(-50%)',
-  opacity: 0,
-
+// 접힘: 심볼 40px / 펼침: 타입 로고 옆에 맞춰 32px
+export const logoSymbol = style({
   selectors: {
-    [`${iconContainer}:hover &, ${foldingBtn}:hover &, ${labelContainer}:hover &`]:
-      {
-        visibility: 'visible',
-        opacity: 1,
-      },
-  },
-});
-
-export const label = recipe({
-  base: {
-    ...textBaseStyle,
-    padding: '5.6rem 0 1.2rem 0',
-  },
-  variants: {
-    expanded: {
-      true: {
-        height: 'auto',
-        opacity: 1,
-      },
-      false: { height: 0, padding: 0, opacity: 0 },
+    [`${sidebar}[data-expanded="false"] &`]: {
+      width: '4rem',
+      height: '4rem',
     },
   },
 });
 
-export const labelList = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    transition: smoothTransition,
-  },
-  variants: {
-    expanded: {
-      true: { gap: '1.2rem', animation: fadeInAnimation },
-      false: { paddingTop: '1.6rem' },
+export const logoType = style({
+  transition: 'opacity 0.2s ease',
+  selectors: {
+    [`${sidebar}[data-expanded="false"] &`]: {
+      display: 'none',
     },
   },
 });
 
-export const profileWrapper = style({
-  animation: fadeInAnimation,
-});
-
-export const sidebarBottom = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: 'auto',
-    transition: smoothTransition,
-  },
-  variants: {
-    expanded: {
-      true: { gap: '3rem', animation: fadeInAnimation },
-      false: { gap: '0.8rem' },
+export const foldButton = style({
+  selectors: {
+    [`${sidebar}[data-expanded="false"] &`]: {
+      display: 'none',
     },
   },
+});
+
+/* ── sections ── */
+export const menuSection = style({
+  selectors: {
+    [`${sidebar}[data-expanded="true"] &`]: { marginTop: '4rem' },
+    [`${sidebar}[data-expanded="false"] &`]: { marginTop: '5.7rem' },
+  },
+});
+
+export const tagSection = style({
+  selectors: {
+    // 접힘 상태에서는 divider의 margin이 간격을 담당
+    [`${sidebar}[data-expanded="true"] &`]: { marginTop: '2.4rem' },
+  },
+});
+
+// 펼침에서만 보이는 섹션 제목
+export const sectionTitle = style({
+  ...themeVars.fontStyles.body_m_14,
+  color: themeVars.color.grey500,
+  selectors: {
+    [`${sidebar}[data-expanded="false"] &`]: {
+      display: 'none',
+    },
+  },
+});
+
+// 접힘에서만 보이는 구분선(제목 자리를 대체)
+export const collapsedDivider = style({
+  color: themeVars.color.grey300,
+  height: '0.1rem',
+  width: '4rem',
+  margin: '2.6rem 0',
+  display: 'none',
+  selectors: {
+    [`${sidebar}[data-expanded="false"] &`]: {
+      display: 'block',
+    },
+  },
+});
+
+export const pannelList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.8rem',
+  selectors: {
+    [`${sidebar}[data-expanded="true"] &`]: {
+      marginTop: '0.4rem',
+    },
+  },
+});
+
+// 각 항목(li)이 사이드바 폭을 꽉 채우도록 (버튼의 width:100% 기준이 됨)
+export const pannelItem = style({
+  width: '100%',
+});
+
+// 마이페이지: nav(flex column)의 남는 세로 공간을 마진으로 밀어 맨 아래로 배치
+export const mypageSection = style({
+  marginTop: 'auto',
 });

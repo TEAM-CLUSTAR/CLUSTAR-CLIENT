@@ -13,10 +13,6 @@ export const content = style({
   display: 'flex',
 });
 
-export const sidebarContainer = style({
-  padding: '2rem 0 2rem 2rem',
-});
-
 export const mainContent = style({
   flexGrow: 1,
   overflow: 'auto',
