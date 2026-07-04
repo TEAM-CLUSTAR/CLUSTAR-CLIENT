@@ -35,6 +35,7 @@ export const Icon = ({
       width={toRem(computedWidth)}
       height={toRem(computedHeight)}
       style={{
+        flexShrink: 0,
         color: color ? colorToken[color] : colorToken.grey700,
       }}
       className={className}
