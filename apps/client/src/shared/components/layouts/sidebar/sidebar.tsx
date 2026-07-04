@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { Icon, IconName } from '@cds/icon';
+import { Tooltip } from '@cds/ui';
 
 import { buildTagTree } from '../../../utils/tag/build-tag-tree';
 import { useSidebar } from './sidebar-context';
@@ -63,6 +65,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const { isExpanded, toggle, setExpanded } = useSidebar();
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
   // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
   const tagTree = buildTagTree(MOCK_TAG.tags);
@@ -104,13 +107,23 @@ const Sidebar = () => {
         <span className={styles.sectionTitle}>메뉴</span>
         <ul className={styles.pannelList}>
           {MENU_ITEMS.map(({ id, iconName, text, path }) => (
-            <li key={id} className={styles.pannelItem}>
+            <li
+              key={id}
+              className={styles.pannelItem}
+              onMouseEnter={() => setHoveredId(id)}
+              onMouseLeave={() => setHoveredId(null)}
+            >
               <SidebarItem
                 iconName={iconName}
                 content={text}
                 isSelected={selectedId === path}
                 onClick={() => handleClickItem(path)}
               />
+              {!isExpanded && hoveredId === id && (
+                <div className={styles.tooltip}>
+                  <Tooltip title={text} />
+                </div>
+              )}
             </li>
           ))}
         </ul>
@@ -135,12 +148,21 @@ const Sidebar = () => {
           </ul>
         ) : (
           <ul className={styles.pannelList}>
-            <li className={styles.pannelItem}>
+            <li
+              className={styles.pannelItem}
+              onMouseEnter={() => setHoveredId('태그')}
+              onMouseLeave={() => setHoveredId(null)}
+            >
               <SidebarItem
                 iconName="ic_tag"
                 isSelected={typeof selectedId === 'number'}
                 onClick={() => setExpanded(true)}
               />
+              {!isExpanded && hoveredId === '태그' && (
+                <div className={styles.tooltip}>
+                  <Tooltip title="태그" />
+                </div>
+              )}
             </li>
           </ul>
         )}
