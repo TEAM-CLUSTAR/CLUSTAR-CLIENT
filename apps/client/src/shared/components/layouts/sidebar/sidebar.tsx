@@ -3,7 +3,7 @@ import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { Icon, IconName } from '@cds/icon';
-import { Tooltip } from '@cds/ui';
+import { Modal, Tooltip } from '@cds/ui';
 
 import { buildTagTree } from '../../../utils/tag/build-tag-tree';
 import { useSidebar } from './sidebar-context';
@@ -20,20 +20,15 @@ const MENU_ITEMS: {
   path?: string;
 }[] = [
   {
-    id: 'search',
-    iconName: 'ic_search',
-    text: '검색',
-  },
-  {
     id: 'new-memo',
     iconName: 'ic_newmemo',
-    text: '새메모',
+    text: '새 메모',
     path: PATH.NEW_MEMO,
   },
   {
     id: 'all-memo',
     iconName: 'ic_allmemo',
-    text: '전체메모',
+    text: '모든 메모',
     path: PATH.ROOT,
   },
   {
@@ -106,6 +101,28 @@ const Sidebar = () => {
       <section className={styles.menuSection}>
         <span className={styles.sectionTitle}>메뉴</span>
         <ul className={styles.pannelList}>
+          <Modal>
+            <Modal.Trigger>
+              <li
+                key="search"
+                className={styles.pannelItem}
+                onMouseEnter={() => setHoveredId('search')}
+                onMouseLeave={() => setHoveredId(null)}
+              >
+                <SidebarItem
+                  iconName="ic_search"
+                  content="검색"
+                  onClick={() => setExpanded(true)}
+                />
+                {!isExpanded && hoveredId === 'search' && (
+                  <div className={styles.tooltip}>
+                    <Tooltip title="검색" />
+                  </div>
+                )}
+              </li>
+            </Modal.Trigger>
+            <Modal.Content>임시 모달</Modal.Content>
+          </Modal>
           {MENU_ITEMS.map(({ id, iconName, text, path }) => (
             <li
               key={id}
@@ -119,6 +136,11 @@ const Sidebar = () => {
                 isSelected={selectedId === path}
                 onClick={() => handleClickItem(path)}
               />
+              {!isExpanded && hoveredId === id && (
+                <div className={styles.tooltip}>
+                  <Tooltip title={text} />
+                </div>
+              )}
               {!isExpanded && hoveredId === id && (
                 <div className={styles.tooltip}>
                   <Tooltip title={text} />
