@@ -36,7 +36,7 @@ export const logoButton = style({
 
 export const logoSymbol = style({
   selectors: {
-    [collapsedSidebar]: {
+    [`${collapsedSidebar} &`]: {
       width: '4rem',
       height: '4rem',
     },
@@ -46,7 +46,7 @@ export const logoSymbol = style({
 export const logoType = style({
   transition: 'opacity 0.2s ease',
   selectors: {
-    [collapsedSidebar]: {
+    [`${collapsedSidebar} &`]: {
       display: 'none',
     },
   },
@@ -54,7 +54,7 @@ export const logoType = style({
 
 export const foldButton = style({
   selectors: {
-    [collapsedSidebar]: {
+    [`${collapsedSidebar} &`]: {
       display: 'none',
     },
   },
@@ -63,14 +63,14 @@ export const foldButton = style({
 /* ── sections ── */
 export const menuSection = style({
   selectors: {
-    [expandedSidebar]: { marginTop: '4rem' },
-    [collapsedSidebar]: { marginTop: '5.7rem' },
+    [`${expandedSidebar} &`]: { marginTop: '4rem' },
+    [`${collapsedSidebar} &`]: { marginTop: '5.7rem' },
   },
 });
 
 export const tagSection = style({
   selectors: {
-    [expandedSidebar]: { marginTop: '2.4rem' },
+    [`${expandedSidebar} &`]: { marginTop: '2.4rem' },
   },
 });
 
@@ -78,7 +78,7 @@ export const sectionTitle = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey500,
   selectors: {
-    [collapsedSidebar]: {
+    [`${collapsedSidebar} &`]: {
       display: 'none',
     },
   },
@@ -91,7 +91,7 @@ export const collapsedDivider = style({
   margin: '2.6rem 0',
   display: 'none',
   selectors: {
-    [collapsedSidebar]: {
+    [`${collapsedSidebar} &`]: {
       display: 'block',
     },
   },
@@ -102,7 +102,7 @@ export const pannelList = style({
   flexDirection: 'column',
   gap: '0.8rem',
   selectors: {
-    [expandedSidebar]: {
+    [`${expandedSidebar} &`]: {
       marginTop: '0.4rem',
     },
   },
