@@ -114,6 +114,7 @@ export const pannelItem = style({
 });
 
 export const tooltip = style({
+  display: 'none',
   position: 'absolute',
   top: '45%',
   left: 'calc(100% + 1.4rem)',
@@ -123,6 +124,12 @@ export const tooltip = style({
   zIndex: zIndex.sidebar,
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
+
+  selectors: {
+    [`${collapsedSidebar} ${pannelItem}:hover &`]: {
+      display: 'block',
+    },
+  },
 });
 
 export const mypageSection = style({

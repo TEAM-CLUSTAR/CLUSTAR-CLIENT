@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -60,7 +59,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const { isExpanded, toggle, setExpanded } = useSidebar();
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
   // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
   const tagTree = buildTagTree(MOCK_TAG.tags);
@@ -103,49 +101,30 @@ const Sidebar = () => {
         <ul className={styles.pannelList}>
           <Modal>
             <Modal.Trigger>
-              <li
-                key="search"
-                className={styles.pannelItem}
-                onMouseEnter={() => setHoveredId('search')}
-                onMouseLeave={() => setHoveredId(null)}
-              >
+              <li key="search" className={styles.pannelItem}>
                 <SidebarItem
                   iconName="ic_search"
                   content="검색"
                   onClick={() => setExpanded(true)}
                 />
-                {!isExpanded && hoveredId === 'search' && (
-                  <div className={styles.tooltip}>
-                    <Tooltip title="검색" />
-                  </div>
-                )}
+                <div className={styles.tooltip}>
+                  <Tooltip title="검색" />
+                </div>
               </li>
             </Modal.Trigger>
             <Modal.Content>임시 모달</Modal.Content>
           </Modal>
           {MENU_ITEMS.map(({ id, iconName, text, path }) => (
-            <li
-              key={id}
-              className={styles.pannelItem}
-              onMouseEnter={() => setHoveredId(id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
+            <li key={id} className={styles.pannelItem}>
               <SidebarItem
                 iconName={iconName}
                 content={text}
                 isSelected={selectedId === path}
                 onClick={() => handleClickItem(path)}
               />
-              {!isExpanded && hoveredId === id && (
-                <div className={styles.tooltip}>
-                  <Tooltip title={text} />
-                </div>
-              )}
-              {!isExpanded && hoveredId === id && (
-                <div className={styles.tooltip}>
-                  <Tooltip title={text} />
-                </div>
-              )}
+              <div className={styles.tooltip}>
+                <Tooltip title={text} />
+              </div>
             </li>
           ))}
         </ul>
@@ -170,21 +149,15 @@ const Sidebar = () => {
           </ul>
         ) : (
           <ul className={styles.pannelList}>
-            <li
-              className={styles.pannelItem}
-              onMouseEnter={() => setHoveredId('태그')}
-              onMouseLeave={() => setHoveredId(null)}
-            >
+            <li className={styles.pannelItem}>
               <SidebarItem
                 iconName="ic_tag"
                 isSelected={typeof selectedId === 'number'}
                 onClick={() => setExpanded(true)}
               />
-              {!isExpanded && hoveredId === '태그' && (
-                <div className={styles.tooltip}>
-                  <Tooltip title="태그" />
-                </div>
-              )}
+              <div className={styles.tooltip}>
+                <Tooltip title="태그" />
+              </div>
             </li>
           </ul>
         )}
@@ -192,7 +165,14 @@ const Sidebar = () => {
 
       {/* 마이페이지 */}
       <section className={styles.mypageSection}>
-        <SidebarItem iconName="ic_profile" content="마이페이지" disabled />
+        <ul className={styles.pannelList}>
+          <li className={styles.pannelItem}>
+            <SidebarItem iconName="ic_profile" content="마이페이지" disabled />
+            <div className={styles.tooltip}>
+              <Tooltip title="마이페이지" />
+            </div>
+          </li>
+        </ul>
       </section>
     </nav>
   );
