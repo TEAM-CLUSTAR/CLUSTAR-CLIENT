@@ -132,6 +132,6 @@ export const tooltip = style({
   },
 });
 
-export const mypageSection = style({
+export const footerSection = style({
   marginTop: 'auto',
 });
