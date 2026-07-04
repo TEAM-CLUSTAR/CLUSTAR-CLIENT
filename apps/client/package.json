@@ -12,7 +12,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run --passWithNoTests",
-    "generate:types": "openapi-typescript https://dev.clustar.cloud/v3/api-docs -o ./src/shared/types/schema.d.ts"
+    "generate:types": "dotenv -- sh -c 'set -eu; F=$(mktemp); trap \"rm -f $F\" EXIT; curl --fail --silent --show-error -u \"$SWAGGER_USERNAME:$SWAGGER_PASSWORD\" \"${VITE_API_BASE_URL%/}/v3/api-docs\" -o \"$F\"; openapi-typescript \"$F\" -o ./src/shared/types/schema.d.ts'"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",

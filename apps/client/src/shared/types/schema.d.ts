@@ -4,6 +4,31 @@
  */
 
 export interface paths {
+  '/api/v1/label/{labelId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * 태그 수정
+     * @description 태그 이름을 수정합니다.
+     */
+    put: operations['updateLabel'];
+    post?: never;
+    /**
+     * 태그 삭제
+     * @description 태그를 삭제합니다.
+     *     태그에 연결된 메모-태그 관계도 함께 정리합니다.
+     */
+    delete: operations['deleteLabel'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/oauth/reissue': {
     parameters: {
       query?: never;
@@ -72,6 +97,27 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memo/recommendations': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * AI 추천 메모
+     * @description 선택한 메모들과 의미적으로 유사한 메모를 최대 3개 추천합니다.
+     *     유사한 메모가 없을 경우 빈 결과와 안내 메시지를 반환합니다.
+     */
+    post: operations['recommendMemos'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memo/presigned-urls': {
     parameters: {
       query?: never;
@@ -116,6 +162,32 @@ export interface paths {
      *     제목과 본문을 분리해서 전달해야 합니다.
      */
     post: operations['createAiMemo'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/label': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * [Legacy] 라벨 전체 조회
+     * @description 사용자가 생성한 모든 라벨 목록을 조회합니다.
+     *     메모에 사용된 라벨과 미사용 라벨을 모두 포함합니다.
+     */
+    get: operations['getAllLabels'];
+    put?: never;
+    /**
+     * 태그 생성
+     * @description 태그를 생성합니다.
+     *     parentLabelId가 있으면 하위 태그로 생성하고, 없으면 부모 태그로 생성합니다.
+     */
+    post: operations['createLabel'];
     delete?: never;
     options?: never;
     head?: never;
@@ -262,8 +334,8 @@ export interface paths {
     };
     /**
      * 구글 인증서버 토큰 검증 API
-     * @description 리다이렉트에서 AccessCode를 가지고 서버로 돌아오기 위한 엔드포인트입니다
-     *     해당 코드를 이용해서 사용자 정보를 파싱하고 액세스 토큰는 헤더에, 리프레시 토큰은 쿠키에 담아 반환합니다
+     * @description 구글 콜백에서 받은 인가코드로 로그인 처리를 한 뒤
+     *     프론트엔드의 콜백 URL로 code만 전달해 리다이렉트합니다.
      */
     get: operations['callback'];
     put?: never;
@@ -341,7 +413,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/label': {
+  '/api/v1/memo/search': {
     parameters: {
       query?: never;
       header?: never;
@@ -349,11 +421,52 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 라벨 전체 조회
-     * @description 사용자가 생성한 모든 라벨 목록을 조회합니다.
-     *     메모에 사용된 라벨과 미사용 라벨을 모두 포함합니다.
+     * 메모 검색
+     * @description 검색어를 입력하면 최대 5개의 메모를 반환합니다.
+     *     - 텍스트 매칭(제목/본문/라벨) 최대 3개
+     *     - 의미 기반 벡터 검색 최대 2개
      */
-    get: operations['getAllLabels'];
+    get: operations['searchMemos'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/label/parents': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 부모 태그 최대 10개 조회
+     * @description 사용자의 부모 태그 최대 10개를 생성일 내림차순으로 조회합니다.
+     */
+    get: operations['getParentLabels'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/label/parents/{parentLabelId}/children': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 부모 태그 기반 하위 태그 조회
+     * @description 부모 태그를 기준으로 자식 태그와 손자 태그를 계층 구조로 조회합니다.
+     */
+    get: operations['getChildAndGrandChildLabels'];
     put?: never;
     post?: never;
     delete?: never;
@@ -426,6 +539,25 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    LabelUpdateRequest: {
+      /**
+       * @description 태그 이름
+       * @example SOPT
+       */
+      name: string;
+    };
+    ApiResponseLabelSummaryResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['LabelSummaryResponse'];
+    };
+    LabelSummaryResponse: {
+      /** Format: int64 */
+      labelId?: number;
+      name?: string;
+      colorHex?: string;
+    };
     ApiResponseVoid: {
       /** Format: int32 */
       code?: number;
@@ -547,6 +679,24 @@ export interface components {
        */
       createdAt?: string;
     };
+    MemoRecommendationRequest: {
+      memoIds: number[];
+    };
+    ApiResponseMemoRecommendationResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['MemoRecommendationResponse'];
+    };
+    MemoRecommendationItemResponse: {
+      /** Format: int64 */
+      memoId?: number;
+      title?: string;
+    };
+    MemoRecommendationResponse: {
+      results?: components['schemas']['MemoRecommendationItemResponse'][];
+      message?: string;
+    };
     /** @description 메모 이미지/파일 업로드용 presigned URL 발급 요청 */
     MemoPresignedUrlRequest: {
       /**
@@ -629,6 +779,19 @@ export interface components {
       title: string;
       content: string;
       sourceMemoIds: number[];
+    };
+    LabelCreateRequest: {
+      /**
+       * @description 태그 이름
+       * @example SOPT
+       */
+      name: string;
+      /**
+       * Format: int64
+       * @description 부모 태그 ID
+       * @example 1
+       */
+      parentLabelId?: number;
     };
     ApiResponseCreateChatRoomResponse: {
       /** Format: int32 */
@@ -744,6 +907,7 @@ export interface components {
       /** Format: int64 */
       labelId?: number;
       name?: string;
+      colorHex?: string;
     };
     MemoDashboardResponse: {
       /** Format: int64 */
@@ -898,6 +1062,26 @@ export interface components {
       /** @description 메모에 딸린 라벨 목록 */
       labelList?: components['schemas']['LabelResponse'][];
     };
+    ApiResponseMemoSearchResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['MemoSearchResponse'];
+    };
+    MemoSearchItemResponse: {
+      /** Format: int64 */
+      memoId?: number;
+      title?: string;
+      content?: string;
+      labelList?: components['schemas']['LabelResponse'][];
+      /** Format: date-time */
+      createdAt?: string;
+      /** @enum {string} */
+      searchType?: 'TEXT' | 'SEMANTIC';
+    };
+    MemoSearchResponse: {
+      results?: components['schemas']['MemoSearchItemResponse'][];
+    };
     ApiResponseLabelListResponse: {
       /** Format: int32 */
       code?: number;
@@ -906,6 +1090,31 @@ export interface components {
     };
     LabelListResponse: {
       labels?: components['schemas']['LabelResponse'][];
+    };
+    ApiResponseLabelParentListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['LabelParentListResponse'];
+    };
+    LabelParentListResponse: {
+      labels?: components['schemas']['LabelSummaryResponse'][];
+    };
+    ApiResponseLabelHierarchyResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['LabelHierarchyResponse'];
+    };
+    LabelHierarchyResponse: {
+      parentLabel?: components['schemas']['LabelSummaryResponse'];
+      childLabels?: components['schemas']['LabelTreeResponse'][];
+    };
+    LabelTreeResponse: {
+      /** Format: int64 */
+      labelId?: number;
+      name?: string;
+      colorHex?: string;
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
@@ -937,6 +1146,54 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  updateLabel: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        labelId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LabelUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseLabelSummaryResponse'];
+        };
+      };
+    };
+  };
+  deleteLabel: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        labelId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseString'];
+        };
+      };
+    };
+  };
   reissueToken: {
     parameters: {
       query?: never;
@@ -1226,6 +1483,30 @@ export interface operations {
       };
     };
   };
+  recommendMemos: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoRecommendationRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoRecommendationResponse'];
+        };
+      };
+    };
+  };
   issuePresignedUrls: {
     parameters: {
       query?: never;
@@ -1451,6 +1732,50 @@ export interface operations {
       };
     };
   };
+  getAllLabels: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseLabelListResponse'];
+        };
+      };
+    };
+  };
+  createLabel: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LabelCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseLabelSummaryResponse'];
+        };
+      };
+    };
+  };
   getChatRooms: {
     parameters: {
       query?: never;
@@ -1612,7 +1937,9 @@ export interface operations {
   callback: {
     parameters: {
       query: {
-        code: string;
+        params: {
+          [key: string]: string;
+        };
       };
       header?: never;
       path?: never;
@@ -1626,7 +1953,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseVoid'];
+          '*/*': Record<string, never>;
         };
       };
       400: {
@@ -1875,7 +2202,29 @@ export interface operations {
       };
     };
   };
-  getAllLabels: {
+  searchMemos: {
+    parameters: {
+      query: {
+        query: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoSearchResponse'];
+        };
+      };
+    };
+  };
+  getParentLabels: {
     parameters: {
       query?: never;
       header?: never;
@@ -1890,7 +2239,29 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseLabelListResponse'];
+          '*/*': components['schemas']['ApiResponseLabelParentListResponse'];
+        };
+      };
+    };
+  };
+  getChildAndGrandChildLabels: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        parentLabelId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseLabelHierarchyResponse'];
         };
       };
     };
