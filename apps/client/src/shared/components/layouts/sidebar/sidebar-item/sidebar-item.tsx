@@ -6,13 +6,13 @@ import * as styles from './sidebar-item.css';
 
 interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconName: IconName;
-  itemText?: string;
+  content?: string;
   isSelected?: boolean;
 }
 
 const SidebarItem = ({
   iconName,
-  itemText,
+  content,
   isSelected,
   ...props
 }: SidebarItemProps) => {
@@ -23,7 +23,7 @@ const SidebarItem = ({
       {...props}
     >
       <Icon name={iconName} size={32} />
-      <span className={styles.text}>{itemText}</span>
+      <span className={styles.text}>{content}</span>
     </button>
   );
 };
