@@ -96,11 +96,11 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
 
 type LabelListResponse = components['schemas']['LabelListResponse'];
 type ApiLabelResponse =
-  paths['/api/v1/label']['get']['responses']['200']['content']['*/*'];
+  paths['/api/v1/tag']['get']['responses']['200']['content']['*/*'];
 
-const getAllLabels = async (): Promise<LabelListResponse['labels']> => {
+const getAllLabels = async (): Promise<LabelListResponse['tags']> => {
   const response = await api.get<ApiLabelResponse>(LABEL_END_POINT.GET);
-  return response.data.data?.labels ?? [];
+  return response.data.data?.tags ?? [];
 };
 
 export const useGetLabel = () => {

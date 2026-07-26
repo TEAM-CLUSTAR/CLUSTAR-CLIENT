@@ -3,5 +3,5 @@ export const ALL_MEMO_END_POIINT = {
 };
 
 export const LABEL_END_POINT = {
-  GET: 'api/v1/label',
+  GET: 'api/v1/tag',
 };
