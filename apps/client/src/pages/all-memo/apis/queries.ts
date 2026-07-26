@@ -4,7 +4,7 @@ import { api } from '@shared/apis/instance';
 import { components, paths } from '@shared/types/schema';
 
 import { ALL_MEMO_END_POIINT, LABEL_END_POINT } from './end-point';
-import { ALL_MEMO_KEY, LABEL_KEY } from './query-key';
+import { ALL_MEMO_KEY, TAG_KEY } from './query-key';
 import { type AllMemoResponse } from './type';
 
 type MemoCursor =
@@ -105,7 +105,7 @@ const getAllLabels = async (): Promise<LabelListResponse['tags']> => {
 
 export const useGetLabel = () => {
   return useQuery({
-    queryKey: LABEL_KEY.GET(),
+    queryKey: TAG_KEY.GET(),
     queryFn: () => getAllLabels(),
   });
 };
