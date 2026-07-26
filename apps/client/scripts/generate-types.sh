@@ -7,7 +7,7 @@ set -eu
 : "${VITE_API_BASE_URL:?VITE_API_BASE_URL이 .env에 필요합니다}"
 
 DOCS_URL="${VITE_API_BASE_URL%/}/v3/api-docs"
-OUTPUT="src/shared/apis/schema.d.ts"
+OUTPUT="src/shared/types/schema.d.ts"
 
 #종료 시 임시 파일 삭제
 TMP_FILE=$(mktemp)
