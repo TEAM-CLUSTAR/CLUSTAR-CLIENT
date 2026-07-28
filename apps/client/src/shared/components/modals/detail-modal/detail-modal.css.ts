@@ -95,33 +95,6 @@ export const fileInnerContainer = style({
   msOverflowStyle: 'none',
 });
 
-export const selectedMemoContainer = style({
-  padding: '2.2rem 4.4rem 0.8rem 4.4rem',
-  gap: '1.1rem',
-  display: 'flex',
-  flexDirection: 'column',
-});
-
-export const selectedMemoContentContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  overflowX: 'auto',
-  maxWidth: '100%',
-  scrollbarWidth: 'none',
-  msOverflowStyle: 'none',
-});
-
-export const selectedMemoCountContainer = style({
-  ...themeVars.fontStyles.body_m_14,
-  color: themeVars.color.grey600,
-});
-
-export const selectedMemoContentInnerContainer = style({
-  display: 'flex',
-  gap: '1.2rem',
-});
-
 export const createAiMemoButton = style({
   margin: '2.4rem 4.4rem 4.6rem 4.4rem',
 });

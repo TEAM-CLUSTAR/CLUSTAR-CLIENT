@@ -7,7 +7,6 @@ import {
   ImageContainer,
   LabelList,
   Modal,
-  SelectedMemo,
   TextContent,
 } from '@cds/ui';
 
@@ -61,7 +60,6 @@ export interface SelectedMemoTypes {
   }[];
   createdAt: string;
   isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
 }
 
 interface DetailModalProps {
@@ -85,16 +83,8 @@ const DetailModal = ({
   open,
   onOpenChange,
 }: DetailModalProps) => {
-  const {
-    title,
-    content,
-    images,
-    files,
-    labelList,
-    createdAt,
-    isAiGenerated,
-    sourceMemoTitleList,
-  } = data;
+  const { title, content, images, files, labelList, createdAt, isAiGenerated } =
+    data;
 
   const handleClick = () => {
     if (id && onAiCreateClick) {
@@ -159,20 +149,6 @@ const DetailModal = ({
               />
             </div>
           </div>
-          {sourceMemoTitleList?.length > 0 && (
-            <div className={styles.selectedMemoContainer}>
-              <p className={styles.selectedMemoCountContainer}>
-                사용된 메모 ({sourceMemoTitleList?.length})
-              </p>
-              <div className={styles.selectedMemoContentContainer}>
-                <div className={styles.selectedMemoContentInnerContainer}>
-                  {sourceMemoTitleList?.map((name, idx) => (
-                    <SelectedMemo key={idx} memoName={name} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
           {files?.length > 0 && (
             <div className={styles.fileContainer}>
               <div className={styles.fileInnerContainer}>
