@@ -1,9 +1,9 @@
 export const ALL_MEMO_KEY = {
   ALL: ['all/memos'],
-  GET: (labelIds?: number[]) => [
+  GET: (tagIds?: number[]) => [
     ...ALL_MEMO_KEY.ALL,
     'get',
-    ...(labelIds ? [{ labelIds }] : []),
+    ...(tagIds ? [{ tagIds }] : []),
   ],
 };
 

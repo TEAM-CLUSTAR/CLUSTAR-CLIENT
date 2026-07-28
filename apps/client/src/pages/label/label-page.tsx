@@ -3,46 +3,46 @@ import { useParams } from 'react-router';
 
 import {
   useGetAllMemo,
-  useGetLabel,
   useGetMemoTotalCount,
+  useGetTag,
 } from '@pages/all-memo/apis/queries';
 
 import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 
-const LabelPage = () => {
-  const { labelId } = useParams<{ labelId?: string }>();
-  const { data: labels = [] } = useGetLabel();
+const TagPage = () => {
+  const { tagId } = useParams<{ tagId?: string }>();
+  const { data: tags = [] } = useGetTag();
 
-  const labelMeta = useMemo(() => {
-    if (!labelId) return undefined;
+  const tagMeta = useMemo(() => {
+    if (!tagId) return undefined;
 
-    const numericLabelId = Number(labelId);
-    if (isNaN(numericLabelId)) return undefined;
+    const numericTagId = Number(tagId);
+    if (isNaN(numericTagId)) return undefined;
 
-    const label = labels.find((l) => l.labelId === numericLabelId);
-    if (!label) return undefined;
+    const tag = tags.find((t) => t.tagId === numericTagId);
+    if (!tag) return undefined;
 
     return {
-      id: label.labelId ?? 0,
-      text: label.name ?? '',
+      id: tag.tagId ?? 0,
+      text: tag.name ?? '',
     };
-  }, [labelId, labels]);
+  }, [tagId, tags]);
 
   const {
-    data: labeledMemos,
+    data: taggedMemos,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(labelMeta ? [labelMeta.id] : undefined);
+  } = useGetAllMemo(tagMeta ? [tagMeta.id] : undefined);
 
   const { data: totalCount } = useGetMemoTotalCount(
-    labelMeta ? [labelMeta.id] : undefined,
+    tagMeta ? [tagMeta.id] : undefined,
   );
 
   return (
     <MemoListView
-      title={labelMeta?.text}
-      initialMemos={labeledMemos}
+      title={tagMeta?.text}
+      initialMemos={taggedMemos}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
@@ -51,4 +51,4 @@ const LabelPage = () => {
   );
 };
 
-export default LabelPage;
+export default TagPage;

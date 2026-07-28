@@ -3,7 +3,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { api } from '@shared/apis/instance';
 import { components, paths } from '@shared/types/schema';
 
-import { ALL_MEMO_END_POIINT, LABEL_END_POINT } from './end-point';
+import { ALL_MEMO_END_POIINT, TAG_END_POINT } from './end-point';
 import { ALL_MEMO_KEY, TAG_KEY } from './query-key';
 import { type AllMemoResponse } from './type';
 
@@ -28,13 +28,13 @@ const getMemosFromResponse = (
 };
 
 const getAllMemo = async (
-  labelIds?: number[],
+  tagIds?: number[],
   cursor?: MemoCursor,
   size = 20,
 ): Promise<AllMemoResponse> => {
   const response = await api.get<AllMemoResponse>(ALL_MEMO_END_POIINT.GET, {
     params: {
-      labelIds,
+      tagIds,
       cursorCreatedAt: cursor?.cursorCreatedAt,
       cursorMemoId: cursor?.cursorMemoId,
       size,
@@ -44,30 +44,30 @@ const getAllMemo = async (
 };
 
 const getMemoTotalCount = async (
-  labelIds?: number[],
+  tagIds?: number[],
 ): Promise<number | undefined> => {
   const response = await api.get<AllMemoResponse>(ALL_MEMO_END_POIINT.GET, {
     params: {
-      labelIds,
+      tagIds,
       size: 1,
     },
   });
   return response.data.data?.totalCount;
 };
 
-export const useGetMemoTotalCount = (labelIds?: number[]) => {
+export const useGetMemoTotalCount = (tagIds?: number[]) => {
   return useQuery({
     queryKey: [
       ...ALL_MEMO_KEY.ALL,
       'totalCount',
-      ...(labelIds ? [{ labelIds }] : []),
+      ...(tagIds ? [{ tagIds }] : []),
     ],
-    queryFn: () => getMemoTotalCount(labelIds),
+    queryFn: () => getMemoTotalCount(tagIds),
     refetchOnMount: 'always', // 페이지로 돌아왔을 때 항상 refetch (staleTime 무시)
   });
 };
 
-export const useGetAllMemo = (labelIds?: number[], size = 20) => {
+export const useGetAllMemo = (tagIds?: number[], size = 20) => {
   return useInfiniteQuery<
     AllMemoResponse,
     Error,
@@ -75,8 +75,8 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
     ReturnType<typeof ALL_MEMO_KEY.GET>,
     MemoCursor
   >({
-    queryKey: ALL_MEMO_KEY.GET(labelIds),
-    queryFn: ({ pageParam }) => getAllMemo(labelIds, pageParam, size),
+    queryKey: ALL_MEMO_KEY.GET(tagIds),
+    queryFn: ({ pageParam }) => getAllMemo(tagIds, pageParam, size),
     getNextPageParam: (lastPage) => {
       const memos = getMemosFromResponse(lastPage);
       const last = memos[memos.length - 1];
@@ -94,18 +94,18 @@ export const useGetAllMemo = (labelIds?: number[], size = 20) => {
   });
 };
 
-type LabelListResponse = components['schemas']['LabelListResponse'];
-type ApiLabelResponse =
+type TagListResponse = components['schemas']['TagListResponse'];
+type ApiTagResponse =
   paths['/api/v1/tag']['get']['responses']['200']['content']['*/*'];
 
-const getAllLabels = async (): Promise<LabelListResponse['tags']> => {
-  const response = await api.get<ApiLabelResponse>(LABEL_END_POINT.GET);
+const getAllTags = async (): Promise<TagListResponse['tags']> => {
+  const response = await api.get<ApiTagResponse>(TAG_END_POINT.GET);
   return response.data.data?.tags ?? [];
 };
 
-export const useGetLabel = () => {
+export const useGetTag = () => {
   return useQuery({
     queryKey: TAG_KEY.GET(),
-    queryFn: () => getAllLabels(),
+    queryFn: () => getAllTags(),
   });
 };

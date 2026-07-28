@@ -131,7 +131,7 @@ export const iconContainer = style({
   position: 'relative',
 });
 
-export const labelContainer = style({
+export const tagContainer = style({
   position: 'relative',
   width: '3.6rem',
   height: '3.6rem',
@@ -155,7 +155,7 @@ export const floatingMenu = style({
   opacity: 0,
 
   selectors: {
-    [`${iconContainer}:hover &, ${foldingBtn}:hover &, ${labelContainer}:hover &`]:
+    [`${iconContainer}:hover &, ${foldingBtn}:hover &, ${tagContainer}:hover &`]:
       {
         visibility: 'visible',
         opacity: 1,
@@ -163,7 +163,7 @@ export const floatingMenu = style({
   },
 });
 
-export const label = recipe({
+export const tag = recipe({
   base: {
     ...textBaseStyle,
     padding: '5.6rem 0 1.2rem 0',
@@ -179,7 +179,7 @@ export const label = recipe({
   },
 });
 
-export const labelList = recipe({
+export const tagList = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',

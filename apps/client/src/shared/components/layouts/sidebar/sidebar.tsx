@@ -6,7 +6,7 @@ import { Icon } from '@cds/icon';
 import { IconName } from '@cds/icon';
 import { SidebarIcon, SidebarPannel, SideBarProfile, Tooltip } from '@cds/ui';
 
-import { useGetLabel } from '@pages/all-memo/apis/queries';
+import { useGetTag } from '@pages/all-memo/apis/queries';
 
 import { useGetUserInfo } from '@shared/apis/user/queries';
 
@@ -15,17 +15,17 @@ import * as styles from './sidebar.css';
 const MENU_ITEMS = [
   {
     id: 'new',
-    label: '새 메모',
+    tag: '새 메모',
     icon: 'ic_newmemo',
     activeIcon: 'ic_newmemo_blue',
   },
   {
     id: 'all',
-    label: '전체 메모',
+    tag: '전체 메모',
     icon: 'ic_allmemo',
     activeIcon: 'ic_allmemo_blue',
   },
-  { id: 'ai', label: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
+  { id: 'ai', tag: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
 ] as const;
 
 const MENU_PATH: Record<string, string> = {
@@ -47,7 +47,7 @@ const Sidebar = () => {
   const [isHover, setIsHover] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const { data: userInfo } = useGetUserInfo();
-  const { data: labels = [] } = useGetLabel();
+  const { data: tags = [] } = useGetTag();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -56,13 +56,13 @@ const Sidebar = () => {
     if (pathname === PATH.NEW_MEMO) return 'new';
     if (pathname.startsWith(PATH.AI_RESULTS)) return 'ai';
     if (pathname.startsWith(PATH.ALL_MEMO)) return 'all';
-    const labelMatch = matchPath(PATH.LABEL, pathname);
-    if (labelMatch?.params.labelId) return labelMatch.params.labelId;
+    const tagMatch = matchPath(PATH.TAG, pathname);
+    if (tagMatch?.params.tagId) return tagMatch.params.tagId;
     return '';
   }, [pathname]);
 
   const handleSelect = (id: string) => {
-    const path = MENU_PATH[id] ?? `/label/${id}`;
+    const path = MENU_PATH[id] ?? `/tag/${id}`;
     navigate(path);
   };
 
@@ -70,21 +70,21 @@ const Sidebar = () => {
     setIsExpanded((prev) => !prev);
   };
 
-  const labelItems = useMemo(() => {
-    return labels.map((label) => ({
-      id: String(label.labelId ?? ''),
-      label: label.name ?? '',
+  const tagItems = useMemo(() => {
+    return tags.map((tag) => ({
+      id: String(tag.tagId ?? ''),
+      tag: tag.name ?? '',
       icon: 'ic_label' as IconName,
       activeIcon: 'ic_label_blue' as IconName,
     }));
-  }, [labels]);
+  }, [tags]);
 
   const processedMenuItems = MENU_ITEMS.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
   }));
 
-  const processedLabelItems = labelItems.map((item) => ({
+  const processedTagItems = tagItems.map((item) => ({
     ...item,
     ...getIconState(item, selectedId),
   }));
@@ -139,7 +139,7 @@ const Sidebar = () => {
 
       <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
       <div className={styles.menuList({ expanded: isExpanded })}>
-        {processedMenuItems.map(({ id, label, isActive, iconName }) =>
+        {processedMenuItems.map(({ id, tag, isActive, iconName }) =>
           isExpanded ? (
             <SidebarPannel
               key={id}
@@ -147,7 +147,7 @@ const Sidebar = () => {
               onClick={() => handleSelect(id)}
               icon={<Icon name={iconName} size={36} />}
             >
-              {label}
+              {tag}
             </SidebarPannel>
           ) : (
             <div key={id} className={styles.iconContainer}>
@@ -157,33 +157,33 @@ const Sidebar = () => {
                 icon={<Icon name={iconName} size={36} />}
               />
               <div className={styles.floatingMenu}>
-                <Tooltip title={label} />
+                <Tooltip title={tag} />
               </div>
             </div>
           ),
         )}
       </div>
 
-      <span className={styles.label({ expanded: isExpanded })}>라벨</span>
-      <div className={styles.labelList({ expanded: isExpanded })}>
+      <span className={styles.tag({ expanded: isExpanded })}>라벨</span>
+      <div className={styles.tagList({ expanded: isExpanded })}>
         {isExpanded ? (
-          processedLabelItems.map(({ id, label, isActive, iconName }) => (
+          processedTagItems.map(({ id, tag, isActive, iconName }) => (
             <SidebarPannel
               key={id}
               isSelected={isActive}
               onClick={() => handleSelect(id)}
               icon={<Icon name={iconName} size={36} />}
             >
-              {label}
+              {tag}
             </SidebarPannel>
           ))
         ) : (
-          <div className={styles.labelContainer}>
+          <div className={styles.tagContainer}>
             <SidebarIcon
               isSelected={false}
               onClick={() => {
-                if (labelItems.length > 0) {
-                  handleSelect(labelItems[0].id);
+                if (tagItems.length > 0) {
+                  handleSelect(tagItems[0].id);
                 }
               }}
               icon={<Icon name="ic_label" size={36} />}
