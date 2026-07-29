@@ -39,7 +39,12 @@ const Card = ({
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
           {tagList.map((tag) => (
-            <Tag key={tag.tagId} size="lg" color="blue" text={tag.name ?? ''} />
+            <Tag
+              key={tag.tagId}
+              size="lg"
+              color={tag.colorHex ?? ''}
+              text={tag.name ?? ''}
+            />
           ))}
         </div>
         <div className={styles.contentsContainer}>
