@@ -1,19 +1,10 @@
-import { CSSProperties } from 'react';
-
 import { Icon } from '@cds/icon';
-
-import {
-  LABEL_COLOR_BY_TEXT,
-  PRIMARY_COLOR_VALUE_BY_LABEL_COLOR,
-} from '@shared/constants/label-match';
-import { LabelTextType } from '@shared/types/label-type';
 
 import * as styles from './tab.css';
 
 interface TabProps {
   id: string;
   title?: string;
-  label: LabelTextType;
   handleDelete: () => void;
   handleSelect: () => void;
   isSelected: boolean;
@@ -22,25 +13,18 @@ interface TabProps {
 
 const Tab = ({
   title,
-  label,
   handleSelect,
   isSelected,
   handleDelete,
   isDefault,
 }: TabProps) => {
-  const labelColor = LABEL_COLOR_BY_TEXT[label];
-  const primaryColorValue = PRIMARY_COLOR_VALUE_BY_LABEL_COLOR[labelColor];
-
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     handleDelete();
   };
 
   return (
-    <div
-      className={styles.tabContainer({ isSelected })}
-      style={{ [styles.PRIMARY_COLOR_VAR]: primaryColorValue } as CSSProperties}
-    >
+    <div className={styles.tabContainer({ isSelected })}>
       <button
         type="button"
         className={styles.buttonTextContainer}
