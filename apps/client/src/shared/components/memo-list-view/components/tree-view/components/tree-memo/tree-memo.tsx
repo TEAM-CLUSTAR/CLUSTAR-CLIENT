@@ -15,7 +15,7 @@ interface TreeMemoProps {
 }
 
 const TreeMemo = ({ memo }: TreeMemoProps) => {
-  const { memoId, title, content, labelList } = memo;
+  const { memoId, title, content, tagList } = memo;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,13 +27,13 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
       content: '',
       images: [],
       files: [],
-      labelList: [],
+      tagList: [],
       createdAt: '',
       isAiGenerated: false,
       sourceMemoTitleList: [],
     },
   } = useDetailMemo({ memoId, enabled: isModalOpen });
-  const labelName = labelList[0]?.name ?? ('라벨없음' as LabelTextType);
+  const labelName = tagList[0]?.name ?? ('라벨없음' as LabelTextType);
   const labelColor = LABEL_COLOR_BY_TEXT[labelName as LabelTextType];
 
   const handleModalOpenChange = (open: boolean) => {
