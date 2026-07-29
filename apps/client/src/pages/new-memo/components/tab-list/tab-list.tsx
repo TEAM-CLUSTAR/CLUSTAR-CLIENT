@@ -1,7 +1,5 @@
 import { Icon } from '@cds/icon';
 
-import { LabelTextType } from '@shared/types/label-type';
-
 import Tab from '../tab/tab';
 
 import * as styles from './tab-list.css';
@@ -9,7 +7,6 @@ import * as styles from './tab-list.css';
 interface TabItemType {
   id: string;
   title?: string;
-  label: LabelTextType;
 }
 
 interface TabListProps {
@@ -37,12 +34,11 @@ const TabList = ({
       <div className={styles.memoMarker}>
         <Icon name="ic_memo_36" size={36} />
       </div>
-      {items.map(({ id, title, label }) => (
+      {items.map(({ id, title }) => (
         <Tab
           key={id}
           id={id}
           title={title}
-          label={label}
           isSelected={id === selectedTabId}
           handleSelect={() => handleSelectTab(id)}
           handleDelete={() => handleDeleteTab(id)}
