@@ -9,7 +9,7 @@ import * as styles from './card.css';
 
 // TODO: Tag 백엔드 타입에 맞게 변경
 type TagType = {
-  labelId?: number;
+  tagId?: number;
   name?: string;
 };
 
@@ -44,12 +44,7 @@ const Card = ({
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
           {tagList.map((tag) => (
-            <Tag
-              key={tag.labelId}
-              size="sm"
-              color="blue"
-              text={tag.name ?? ''}
-            />
+            <Tag key={tag.tagId} size="sm" color="blue" text={tag.name ?? ''} />
           ))}
         </div>
         <div className={styles.contentsContainer}>

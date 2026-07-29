@@ -64,7 +64,7 @@ export const router = createBrowserRouter([
                 Component: AiResultsPage,
               },
               {
-                path: PATH.LABEL,
+                path: PATH.TAG,
                 Component: LabelPage,
               },
             ],
