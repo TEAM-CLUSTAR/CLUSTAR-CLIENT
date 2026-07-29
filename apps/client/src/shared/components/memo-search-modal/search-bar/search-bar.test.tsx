@@ -53,6 +53,7 @@ describe('SearchBar', () => {
     await user.keyboard('{Enter}');
 
     expect(handleEnter).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('searchbox')).not.toHaveFocus();
   });
 
   it('does not call onEnter when Enter is pressed with an empty value', async () => {

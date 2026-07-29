@@ -39,6 +39,7 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
 
     setIsClearButtonVisible(true);
     onEnter();
+    inputRef.current?.blur();
   };
 
   const handleClear = () => {
