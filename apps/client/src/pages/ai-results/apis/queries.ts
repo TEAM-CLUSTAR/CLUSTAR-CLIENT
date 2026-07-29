@@ -42,25 +42,25 @@ const getAIMemo = async (
 };
 
 const getMemoTotalCount = async (
-  labelIds?: number[],
+  tagIds?: number[],
 ): Promise<number | undefined> => {
   const response = await api.get<AiMemoResponse>(AI_END_POINT.GET, {
     params: {
-      labelIds,
+      tagIds,
       size: 1,
     },
   });
   return response.data.data?.totalCount;
 };
 
-export const useGetMemoTotalCount = (labelIds?: number[]) => {
+export const useGetMemoTotalCount = (tagIds?: number[]) => {
   return useQuery({
     queryKey: [
       ...AI_MEMO_KEY.ALL,
       'totalCount',
-      ...(labelIds ? [{ labelIds }] : []),
+      ...(tagIds ? [{ tagIds }] : []),
     ],
-    queryFn: () => getMemoTotalCount(labelIds),
+    queryFn: () => getMemoTotalCount(tagIds),
   });
 };
 
