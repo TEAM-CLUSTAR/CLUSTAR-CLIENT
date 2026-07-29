@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/apis/instance';
-import { LabelTextType } from '@shared/types/label-type';
+import { LabelTextType } from '@shared/types/label-type'; //추후 삭제할 타입이기에 현재는 유지
 
 import { MEMO_MODAL_END_POINT } from './end-point';
 import { MEMO_MODAL_KEY } from './query-key';
@@ -25,8 +25,8 @@ export interface SelectedMemoTypes {
     fileExtension: string;
     fileSize: string;
   }[];
-  labelList: {
-    labelId: number;
+  tagList: {
+    tagId: number;
     name: LabelTextType;
   }[];
   createdAt: string;
@@ -72,9 +72,9 @@ export const useDetailMemo = ({ memoId, enabled }: useDetailMemoProps) => {
           fileExtension: file.fileExtension ?? '',
           fileSize: file.fileSize ?? '',
         })),
-        labelList: (response.data?.labelList ?? []).map((label) => ({
-          labelId: label.labelId ?? 0,
-          name: (label.name ?? '') as LabelTextType,
+        tagList: (response.data?.tagList ?? []).map((tag) => ({
+          tagId: tag.tagId ?? 0,
+          name: (tag.name ?? '') as LabelTextType,
         })),
         createdAt: response.data?.createdAt ?? '',
         isAiGenerated: response.data?.isAiGenerated ?? false,

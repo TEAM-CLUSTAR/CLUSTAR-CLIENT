@@ -24,15 +24,8 @@ const MemoCardItem = ({
   onDragStart,
   onDragEnd,
 }: MemoCardItemProps) => {
-  const {
-    memoId,
-    labelList,
-    title,
-    content,
-    fileCount,
-    imageCount,
-    createdAt,
-  } = memo;
+  const { memoId, tagList, title, content, fileCount, imageCount, createdAt } =
+    memo;
 
   const handleDragStart = () => {
     setTimeout(() => onDragStart(memoId ?? 0), 0);
@@ -47,7 +40,7 @@ const MemoCardItem = ({
     >
       <Card
         card={{
-          tagList: labelList ?? [],
+          tagList: tagList ?? [],
           title: title ?? '',
           content: content ?? '',
           fileCount: fileCount ?? 0,
