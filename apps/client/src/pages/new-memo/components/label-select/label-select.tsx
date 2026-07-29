@@ -1,29 +1,18 @@
 import { FocusEvent, useState } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Label, LabelList } from '@cds/ui';
+import { Tag } from '@cds/ui';
 
-import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
-import { LabelTextType } from '@shared/types/label-type';
+import { components } from '@shared/types/schema';
 
 import * as styles from './label-select.css';
 
-interface LabelItem {
-  id: string;
-  text: LabelTextType;
-}
+type TagItem = components['schemas']['TagResponse'];
 
 interface LabelSelectProps {
-  selectedItems: LabelItem[];
-  onSelect: (items: LabelItem[]) => void;
+  selectedItems: TagItem[];
+  onSelect: (items: TagItem[]) => void;
 }
-
-const dropdownItems: LabelItem[] = [
-  { id: 'project', text: '졸업 프로젝트' },
-  { id: 'general', text: '교양' },
-  { id: 'sopt', text: 'SOPT' },
-  { id: 'reference', text: '레퍼런스' },
-];
 
 const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,17 +23,12 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
     }
   };
 
-  const handleLabelChipClick = (item: LabelItem) => (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    handleSelect(item);
-  };
-
-  const handleSelect = (item: LabelItem) => {
+  const handleSelect = (item: TagItem) => {
     const isAlreadySelected = selectedItems.some(
-      (select) => select.id === item.id,
+      (select) => select.tagId === item.tagId,
     );
     const newItems = isAlreadySelected
-      ? selectedItems.filter((select) => select.id !== item.id)
+      ? selectedItems.filter((select) => select.tagId !== item.tagId)
       : [...selectedItems, item];
 
     onSelect(newItems);
@@ -62,12 +46,12 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
         {selectedItems.length > 0 ? (
           <div className={styles.chipContainer}>
             {selectedItems.map((item) => (
-              <Label
-                key={item.id}
-                labelSize="lg"
-                labelColor={LABEL_COLOR_BY_TEXT[item.text]}
-                labelText={item.text}
-                onClick={isOpen ? handleLabelChipClick(item) : undefined}
+              <Tag
+                key={item.tagId}
+                size="lg"
+                color={item.colorHex ?? ''}
+                text={item.name ?? ''}
+                onRemove={isOpen ? () => handleSelect(item) : undefined}
               />
             ))}
           </div>
@@ -79,12 +63,6 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
       {isOpen && (
         <div className={styles.dropdown}>
           <span className={styles.labelText}>라벨 선택</span>
-          <LabelList
-            listType="card"
-            labelSize="lg"
-            labelItems={dropdownItems}
-            onItemClick={handleSelect}
-          />
         </div>
       )}
     </div>

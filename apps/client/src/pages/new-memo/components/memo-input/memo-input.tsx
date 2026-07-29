@@ -5,7 +5,7 @@ import { Button } from '@cds/ui';
 import { htmlToMarkdown } from '@pages/new-memo/utils/html-to-markdown';
 
 import ConfirmModal from '@shared/components/modals/confirm-modal/confirm-modal';
-import { LabelTextType } from '@shared/types/label-type';
+import { components } from '@shared/types/schema';
 
 import { useCreateMemo } from '../../apis/queries';
 import type { MemoCreateRequest } from '../../apis/type';
@@ -18,29 +18,24 @@ import ToolBar from '../toolbar/toolbar';
 
 import * as styles from './memo-input.css';
 
+type TagItem = components['schemas']['TagResponse'];
+
 type TabItem = {
   id: string;
   title?: string;
-  label: LabelTextType;
-};
-
-type LabelItem = {
-  id: string;
-  text: LabelTextType;
 };
 
 export type MemoDraft = {
   id: string;
   title: string;
   contents: string;
-  labels: LabelItem[];
+  labels: TagItem[];
 };
 
 export type DraftsById = Record<string, MemoDraft>;
 
 const MAX_TABS = 4;
 const DEFAULT_TITLE = '제목없음';
-const DEFAULT_LABEL = '라벨없음' as LabelTextType;
 
 const createId = () => crypto.randomUUID();
 const createEmptyDraft = (id: string): MemoDraft => ({
@@ -53,7 +48,7 @@ const createEmptyDraft = (id: string): MemoDraft => ({
 const MemoInput = () => {
   const [{ initTabs, initSelectedId, initDraftsById }] = useState(() => {
     const id = createId();
-    const tab: TabItem = { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL };
+    const tab: TabItem = { id, title: DEFAULT_TITLE };
     return {
       initTabs: [tab],
       initSelectedId: id,
@@ -84,12 +79,10 @@ const MemoInput = () => {
     return tabs.map((tab) => {
       const draft = draftsById[tab.id];
       const title = draft?.title?.trim();
-      const firstLabel = draft?.labels?.[0]?.text;
 
       return {
         ...tab,
         title: title && title.length > 0 ? title : DEFAULT_TITLE,
-        label: firstLabel ?? DEFAULT_LABEL,
       };
     });
   }, [tabs, draftsById]);
@@ -99,10 +92,7 @@ const MemoInput = () => {
 
     const id = createId();
 
-    setTabs((prevTabs) => [
-      ...prevTabs,
-      { id, title: DEFAULT_TITLE, label: DEFAULT_LABEL },
-    ]);
+    setTabs((prevTabs) => [...prevTabs, { id, title: DEFAULT_TITLE }]);
 
     setDraftsById((prevDrafts) => ({
       ...prevDrafts,
@@ -181,7 +171,7 @@ const MemoInput = () => {
     patchSelectedDraft({ contents });
   };
 
-  const handleChangeLabels = (labels: LabelItem[]) => {
+  const handleChangeLabels = (labels: TagItem[]) => {
     patchSelectedDraft({ labels });
   };
 
@@ -189,7 +179,7 @@ const MemoInput = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
       content: htmlToMarkdown(selectedDraft.contents),
-      tagNames: selectedDraft.labels.map((l) => l.text),
+      tagNames: selectedDraft.labels.map((l) => l.name ?? ''),
     };
 
     createMemo(request, {
