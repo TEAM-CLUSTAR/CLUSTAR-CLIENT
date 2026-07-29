@@ -1,13 +1,13 @@
 export const ALL_MEMO_KEY = {
   ALL: ['all/memos'],
-  GET: (labelIds?: number[]) => [
+  GET: (tagIds?: number[]) => [
     ...ALL_MEMO_KEY.ALL,
     'get',
-    ...(labelIds ? [{ labelIds }] : []),
+    ...(tagIds ? [{ tagIds }] : []),
   ],
 };
 
-export const LABEL_KEY = {
-  ALL: ['labels'],
-  GET: () => [...LABEL_KEY.ALL, 'get'],
+export const TAG_KEY = {
+  ALL: ['tags'],
+  GET: () => [...TAG_KEY.ALL, 'get'],
 };

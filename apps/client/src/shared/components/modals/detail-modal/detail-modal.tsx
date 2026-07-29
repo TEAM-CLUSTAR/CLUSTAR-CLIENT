@@ -54,8 +54,8 @@ export interface SelectedMemoTypes {
     fileExtension: string;
     fileSize: string;
   }[];
-  labelList: {
-    labelId: number;
+  tagList: {
+    tagId: number;
     name: LabelTextType;
   }[];
   createdAt: string;
@@ -83,7 +83,7 @@ const DetailModal = ({
   open,
   onOpenChange,
 }: DetailModalProps) => {
-  const { title, content, images, files, labelList, createdAt, isAiGenerated } =
+  const { title, content, images, files, tagList, createdAt, isAiGenerated } =
     data;
 
   const handleClick = () => {
@@ -106,9 +106,9 @@ const DetailModal = ({
             <div>
               <LabelList
                 listType="modal"
-                labelItems={labelList.map((label) => ({
-                  id: String(label.labelId),
-                  text: label.name,
+                labelItems={tagList.map((tag) => ({
+                  id: String(tag.tagId),
+                  text: tag.name,
                 }))}
                 dateText={formatDateTime(createdAt)}
                 labelSize="lg"
