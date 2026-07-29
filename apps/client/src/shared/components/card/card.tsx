@@ -3,18 +3,13 @@ import { ComponentProps } from 'react';
 import { Icon } from '@cds/icon';
 import { Tag, Title } from '@cds/ui';
 
+import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
 import * as styles from './card.css';
 
-// TODO: Tag 백엔드 타입에 맞게 변경
-type TagType = {
-  tagId?: number;
-  name?: string;
-};
-
 type CardInfoType = {
-  tagList?: TagType[];
+  tagList?: components['schemas']['TagResponse'][];
   title: string;
   content: string;
   fileCount: number;
@@ -44,12 +39,7 @@ const Card = ({
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
           {tagList.map((tag) => (
-            <Tag
-              key={tag.tagId}
-              size="sm"
-              color="blue"
-              text={tag.name ?? ''}
-            />
+            <Tag key={tag.tagId} size="lg" color="blue" text={tag.name ?? ''} />
           ))}
         </div>
         <div className={styles.contentsContainer}>
