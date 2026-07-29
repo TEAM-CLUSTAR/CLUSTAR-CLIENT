@@ -2,75 +2,6 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
 
-const TAG_CONTAINER_COLORS = {
-  pink: {
-    color: themeVars.color.sub_pink_500,
-    backgroundColor: themeVars.color.sub_pink_100,
-  },
-  red: {
-    color: themeVars.color.sub_red_500,
-    backgroundColor: themeVars.color.sub_red_100,
-  },
-  orange: {
-    color: themeVars.color.sub_orange_500,
-    backgroundColor: themeVars.color.sub_orange_100,
-  },
-  yellow: {
-    color: themeVars.color.sub_yellow_500,
-    backgroundColor: themeVars.color.sub_yellow_100,
-  },
-  green: {
-    color: themeVars.color.sub_green_500,
-    backgroundColor: themeVars.color.sub_green_100,
-  },
-  cyan: {
-    color: themeVars.color.sub_cyan_500,
-    backgroundColor: themeVars.color.sub_cyan_100,
-  },
-  lightBlue: {
-    color: themeVars.color.sub_lightBlue_500,
-    backgroundColor: themeVars.color.sub_lightBlue_100,
-  },
-  blue: {
-    color: themeVars.color.sub_blue_500,
-    backgroundColor: themeVars.color.sub_blue_100,
-  },
-  purple: {
-    color: themeVars.color.sub_purple_500,
-    backgroundColor: themeVars.color.sub_purple_100,
-  },
-  magenta: {
-    color: themeVars.color.sub_magenta_500,
-    backgroundColor: themeVars.color.sub_magenta_100,
-  },
-  gradient: {
-    color: themeVars.color.blue500,
-    border: '1px solid transparent',
-    backgroundImage: `linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}), ${themeVars.color.gradient02}`,
-    backgroundOrigin: 'border-box',
-    backgroundClip: 'padding-box, border-box',
-  },
-  grey: {
-    color: themeVars.color.grey700,
-    backgroundColor: themeVars.color.grey200,
-  },
-} as const;
-
-const TAG_INDICATOR_COLORS = {
-  pink: { backgroundColor: themeVars.color.sub_pink_500 },
-  red: { backgroundColor: themeVars.color.sub_red_500 },
-  orange: { backgroundColor: themeVars.color.sub_orange_500 },
-  yellow: { backgroundColor: themeVars.color.sub_yellow_500 },
-  green: { backgroundColor: themeVars.color.sub_green_500 },
-  cyan: { backgroundColor: themeVars.color.sub_cyan_500 },
-  lightBlue: { backgroundColor: themeVars.color.sub_lightBlue_500 },
-  blue: { backgroundColor: themeVars.color.sub_blue_500 },
-  purple: { backgroundColor: themeVars.color.sub_purple_500 },
-  magenta: { backgroundColor: themeVars.color.sub_magenta_500 },
-  gradient: { backgroundColor: themeVars.color.blue500 },
-  grey: { display: 'none' },
-} as const;
-
 export const container = recipe({
   base: {
     display: 'flex',
@@ -104,7 +35,6 @@ export const container = recipe({
         padding: '0 0.6rem',
       },
     },
-    color: TAG_CONTAINER_COLORS,
   },
 });
 
@@ -122,6 +52,5 @@ export const indicator = recipe({
         borderRadius: '1px',
       },
     },
-    color: TAG_INDICATOR_COLORS,
   },
 });

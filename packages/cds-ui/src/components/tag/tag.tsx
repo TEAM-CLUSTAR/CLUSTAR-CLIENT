@@ -2,25 +2,9 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './tag.css';
 
-type TagSizeType = 'sm' | 'lg';
-
-type TagColorType =
-  | 'pink'
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'cyan'
-  | 'lightBlue'
-  | 'blue'
-  | 'purple'
-  | 'magenta'
-  | 'gradient'
-  | 'grey';
-
 export interface TagProps {
-  size: TagSizeType;
-  color: TagColorType;
+  size: 'sm' | 'lg';
+  color: string;
   text: string;
   onRemove?: () => void;
 }
@@ -28,12 +12,10 @@ export interface TagProps {
 const Tag = ({ size, color, text, onRemove }: TagProps) => {
   return (
     <div
-      className={styles.container({
-        size,
-        color,
-      })}
+      className={styles.container({ size })}
+      style={{ backgroundColor: color }}
     >
-      <div className={styles.indicator({ size, color })} aria-hidden="true" />
+      <div className={styles.indicator({ size })} aria-hidden="true" />
       <p>{text}</p>
       {onRemove && (
         <button
