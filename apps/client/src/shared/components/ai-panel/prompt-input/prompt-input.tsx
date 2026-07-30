@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, KeyboardEvent, useLayoutEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
@@ -39,9 +39,19 @@ const PromptInput = ({
   selectedMemos = [],
   onRemoveMemo,
 }: PromptInputProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
   };
+
+  useLayoutEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }, [value]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key !== 'Enter' || e.shiftKey) return;
@@ -80,6 +90,7 @@ const PromptInput = ({
         </div>
       )}
       <textarea
+        ref={textareaRef}
         className={styles.textarea}
         value={value}
         onChange={handleChange}

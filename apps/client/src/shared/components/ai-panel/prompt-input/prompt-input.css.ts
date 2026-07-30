@@ -5,6 +5,7 @@ import { themeVars } from '@cds/ui';
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
+  gap: '1rem',
   backgroundColor: themeVars.color.white,
   borderRadius: '12px',
   padding: '1.6rem 1.8rem',
@@ -22,12 +23,12 @@ export const memoList = style({
   flexWrap: 'wrap',
   gap: '0.8rem',
   width: '100%',
-  marginBottom: '1rem',
 });
 
 export const textarea = style({
   width: '100%',
-  height: '7.6rem',
+  minHeight: '6.6rem',
+  maxHeight: '19.2rem',
   border: 'none',
   outline: 'none',
   resize: 'none',
