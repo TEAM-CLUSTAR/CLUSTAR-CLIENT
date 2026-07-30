@@ -31,13 +31,11 @@ export const container = recipe({
       lg: {
         ...themeVars.fontStyles.body_m_14,
         height: '2.4rem',
-        lineHeight: 1,
         padding: '0 0.8rem',
       },
       sm: {
         ...themeVars.fontStyles.label_m_12,
         height: '1.8rem',
-        lineHeight: 1,
         padding: '0 0.6rem',
       },
     },
