@@ -13,19 +13,10 @@ export const container = recipe({
     userSelect: 'none',
   },
   variants: {
-    clickable: {
-      true: {
-        cursor: 'pointer',
-      },
-      false: {
-        cursor: 'default',
-      },
-    },
     removable: {
       true: {
         border: `1px solid ${themeVars.color.grey300}`,
       },
-      false: {},
     },
     size: {
       lg: {
