@@ -29,20 +29,20 @@ const OPTIONS = [
 
 interface PromptOptionProps {
   selectedOptionId: string | null;
-  handleOptionSelect: (optionId: string | null) => void;
+  onOptionSelect: (optionId: string | null) => void;
   disabled?: boolean;
 }
 
 const PromptOption = ({
   selectedOptionId,
-  handleOptionSelect,
+  onOptionSelect,
   disabled = false,
 }: PromptOptionProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
     if (disabled || selectedOptionId === id) return;
-    handleOptionSelect(id);
+    onOptionSelect(id);
   };
 
   return (

@@ -23,7 +23,7 @@ interface PromptInputProps {
   onChange: (text: string) => void;
   selectedOptionId: string | null;
   onOptionSelect: (optionId: string | null) => void;
-  handleSubmit: (value: PromptInputValueType) => void;
+  onSubmit: (value: PromptInputValueType) => void;
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
   onRemoveMemo?: (id: string) => void;
@@ -34,7 +34,7 @@ const PromptInput = ({
   onChange,
   selectedOptionId,
   onOptionSelect,
-  handleSubmit,
+  onSubmit,
   disabled = false,
   selectedMemos = [],
   onRemoveMemo,
@@ -73,7 +73,7 @@ const PromptInput = ({
       selectedOptionId,
     };
 
-    handleSubmit(submitValue);
+    onSubmit(submitValue);
   };
 
   return (
@@ -101,7 +101,7 @@ const PromptInput = ({
       <div className={styles.footer}>
         <PromptOption
           selectedOptionId={selectedOptionId}
-          handleOptionSelect={onOptionSelect}
+          onOptionSelect={onOptionSelect}
           disabled={disabled}
         />
         <Button onClick={handleSend} size="sm" disabled={!canSend}>
