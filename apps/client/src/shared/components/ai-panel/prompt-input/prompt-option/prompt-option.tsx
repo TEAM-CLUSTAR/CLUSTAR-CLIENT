@@ -1,20 +1,12 @@
 import { useState } from 'react';
 
-import { IconName } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
 import PromptOptionItem from './prompt-option-item';
 
 import * as styles from './prompt-option.css';
 
-export interface PromptOptionType {
-  id: string;
-  iconName: IconName;
-  title: string;
-  description: string;
-}
-
-const OPTIONS: PromptOptionType[] = [
+const OPTIONS = [
   {
     id: 'MERGE',
     iconName: 'ic_breif',
@@ -49,9 +41,8 @@ const PromptOption = ({
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
-    if (disabled) return;
-    const newSelectedId = selectedOptionId === id ? null : id;
-    handleOptionSelect(newSelectedId);
+    if (disabled || selectedOptionId === id) return;
+    handleOptionSelect(id);
   };
 
   return (
