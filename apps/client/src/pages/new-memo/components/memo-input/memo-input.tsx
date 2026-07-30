@@ -12,8 +12,8 @@ import type { MemoCreateRequest } from '../../apis/type';
 import { useNavigationBlocker } from '../../hooks/use-navigation-blocker';
 import InputContent from '../input-content/input-content';
 import InputTitle from '../input-title/input-title';
-import LabelSelect from '../label-select/label-select';
 import TabList from '../tab-list/tab-list';
+import TagSelect from '../tag-select/tag-select';
 import ToolBar from '../toolbar/toolbar';
 
 import * as styles from './memo-input.css';
@@ -29,7 +29,7 @@ export type MemoDraft = {
   id: string;
   title: string;
   contents: string;
-  labels: TagItem[];
+  tags: TagItem[];
 };
 
 export type DraftsById = Record<string, MemoDraft>;
@@ -42,7 +42,7 @@ const createEmptyDraft = (id: string): MemoDraft => ({
   id,
   title: '',
   contents: '',
-  labels: [],
+  tags: [],
 });
 
 const MemoInput = () => {
@@ -106,8 +106,8 @@ const MemoInput = () => {
     if (!draft) return false;
     const hasTitle = draft.title.trim().length > 0;
     const hasContents = draft.contents.trim().length > 0;
-    const hasLabels = draft.labels.length > 0;
-    return hasTitle || hasContents || hasLabels;
+    const hasTags = draft.tags.length > 0;
+    return hasTitle || hasContents || hasTags;
   };
 
   const deleteTabById = (idToDelete: string) => {
@@ -171,15 +171,15 @@ const MemoInput = () => {
     patchSelectedDraft({ contents });
   };
 
-  const handleChangeLabels = (labels: TagItem[]) => {
-    patchSelectedDraft({ labels });
+  const handleChangeTags = (tags: TagItem[]) => {
+    patchSelectedDraft({ tags });
   };
 
   const handleSubmit = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
       content: htmlToMarkdown(selectedDraft.contents),
-      tagNames: selectedDraft.labels.map((l) => l.name ?? ''),
+      tagNames: selectedDraft.tags.map((l) => l.name ?? ''),
     };
 
     createMemo(request, {
@@ -255,9 +255,9 @@ const MemoInput = () => {
       />
       <div className={styles.inputContainer}>
         <div className={styles.contentsContainer}>
-          <LabelSelect
-            selectedItems={selectedDraft.labels}
-            onSelect={handleChangeLabels}
+          <TagSelect
+            selectedItems={selectedDraft.tags}
+            onSelect={handleChangeTags}
           />
 
           <InputTitle
