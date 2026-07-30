@@ -1,0 +1,60 @@
+import { useState } from 'react';
+
+import { Icon } from '@cds/icon';
+
+import * as styles from './memo-tab.css';
+
+interface MemoTabProps {
+  memoTitle: string;
+  isSelected: boolean;
+  onSelectTab: () => void;
+  onCloseTab: () => void;
+}
+
+const MemoTab = ({
+  memoTitle,
+  isSelected,
+  onSelectTab,
+  onCloseTab,
+}: MemoTabProps) => {
+  // TODO: Icon 컴포넌트를 className cn 방식으로 -> hover 등을 class로 조정
+  const [isHovered, setIsHovered] = useState(false);
+  const isHoverActive = isHovered && !isSelected;
+  const iconColor = isHoverActive
+    ? 'grey600'
+    : isSelected
+      ? 'blue500'
+      : 'grey500';
+
+  return (
+    <div
+      onClick={onSelectTab}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={styles.container({ isSelected })}
+      role="button"
+    >
+      <div className={styles.memoContainer}>
+        <Icon
+          name="ic_memo"
+          size={32}
+          color={iconColor}
+          className={styles.icon}
+        />
+        <span className={styles.memoTitle({ isSelected })}>{memoTitle}</span>
+      </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onCloseTab();
+        }}
+        type="button"
+        className={styles.closeMemo}
+      >
+        <Icon name="ic_delete" size={32} />
+      </button>
+    </div>
+  );
+};
+
+export default MemoTab;
