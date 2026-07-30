@@ -20,9 +20,10 @@ export const container = style({
 
 export const memoList = style({
   display: 'flex',
-  flexWrap: 'wrap',
+  flexWrap: 'nowrap',
   gap: '0.8rem',
   width: '100%',
+  overflowX: 'auto',
 });
 
 export const textarea = style({
