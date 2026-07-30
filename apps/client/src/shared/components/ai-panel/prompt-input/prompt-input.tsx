@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent } from 'react';
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
 
-import PromptOption from '../prompt-option/prompt-option';
+import PromptOption from './prompt-option/prompt-option';
 
 import * as styles from './prompt-input.css';
 
