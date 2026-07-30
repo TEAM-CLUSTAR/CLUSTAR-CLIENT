@@ -19,7 +19,7 @@ const Tag = ({
 }: TagProps) => {
   return (
     <div
-      className={styles.container({ size })}
+      className={styles.container({ size, removable: !!onRemove })}
       style={{ backgroundColor, color: textColor }}
     >
       <div

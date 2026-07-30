@@ -21,6 +21,12 @@ export const container = recipe({
         cursor: 'default',
       },
     },
+    removable: {
+      true: {
+        border: `1px solid ${themeVars.color.grey300}`,
+      },
+      false: {},
+    },
     size: {
       lg: {
         ...themeVars.fontStyles.body_m_14,
