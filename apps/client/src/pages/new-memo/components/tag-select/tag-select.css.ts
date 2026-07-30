@@ -75,7 +75,7 @@ export const dropdown = style({
   animation: `${fadeIn} 0.2s ease-out`,
 });
 
-export const labelText = style({
+export const dropdownTitle = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey500,
 });

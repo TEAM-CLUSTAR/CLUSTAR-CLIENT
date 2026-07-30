@@ -42,7 +42,8 @@ const Card = ({
             <Tag
               key={tag.tagId}
               size="lg"
-              color={tag.colorHex ?? ''}
+              backgroundColor={tag.backgroundColorHex ?? ''}
+              textColor={tag.textColorHex ?? ''}
               text={tag.name ?? ''}
             />
           ))}

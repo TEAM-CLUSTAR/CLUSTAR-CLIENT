@@ -4,18 +4,29 @@ import * as styles from './tag.css';
 
 export interface TagProps {
   size: 'sm' | 'lg';
-  color: string;
+  backgroundColor: string;
+  textColor: string;
   text: string;
   onRemove?: () => void;
 }
 
-const Tag = ({ size, color, text, onRemove }: TagProps) => {
+const Tag = ({
+  size,
+  backgroundColor,
+  textColor,
+  text,
+  onRemove,
+}: TagProps) => {
   return (
     <div
       className={styles.container({ size })}
-      style={{ backgroundColor: color }}
+      style={{ backgroundColor, color: textColor }}
     >
-      <div className={styles.indicator({ size })} aria-hidden="true" />
+      <div
+        className={styles.indicator({ size })}
+        style={{ backgroundColor: textColor }}
+        aria-hidden="true"
+      />
       <p>{text}</p>
       {onRemove && (
         <button

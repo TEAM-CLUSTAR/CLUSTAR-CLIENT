@@ -5,20 +5,23 @@ import { Tag } from '@cds/ui';
 
 import { components } from '@shared/types/schema';
 
-import * as styles from './label-select.css';
+import * as styles from './tag-select.css';
 
 type TagItem = components['schemas']['TagResponse'];
 
-interface LabelSelectProps {
+interface TagSelectProps {
   selectedItems: TagItem[];
   onSelect: (items: TagItem[]) => void;
 }
 
-const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
+const TagSelect = ({ selectedItems, onSelect }: TagSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleBlur = (e: FocusEvent<HTMLElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+  const handleBlur = ({
+    currentTarget,
+    relatedTarget,
+  }: FocusEvent<HTMLElement>) => {
+    if (!currentTarget.contains(relatedTarget)) {
       setIsOpen(false);
     }
   };
@@ -41,7 +44,7 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
         className={styles.selectBox({ isOpen: isOpen })}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Icon name="ic_label" size={36} />
+        <Icon name="ic_tag" size={36} />
 
         {selectedItems.length > 0 ? (
           <div className={styles.chipContainer}>
@@ -49,24 +52,25 @@ const LabelSelect = ({ selectedItems, onSelect }: LabelSelectProps) => {
               <Tag
                 key={item.tagId}
                 size="lg"
-                color={item.colorHex ?? ''}
+                backgroundColor={item.backgroundColorHex ?? ''}
+                textColor={item.textColorHex ?? ''}
                 text={item.name ?? ''}
                 onRemove={isOpen ? () => handleSelect(item) : undefined}
               />
             ))}
           </div>
         ) : (
-          <span className={styles.placeholder}>라벨을 선택하세요.</span>
+          <span className={styles.placeholder}>태그를 선택하세요.</span>
         )}
       </button>
 
       {isOpen && (
         <div className={styles.dropdown}>
-          <span className={styles.labelText}>라벨 선택</span>
+          <span className={styles.dropdownTitle}>태그 선택</span>
         </div>
       )}
     </div>
   );
 };
 
-export default LabelSelect;
+export default TagSelect;
