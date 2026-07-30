@@ -80,11 +80,11 @@ const PromptInput = ({
     <div className={styles.container}>
       {hasSelectedMemos && (
         <div className={styles.memoList}>
-          {selectedMemos.map((memo) => (
+          {selectedMemos.map(({ id, title }) => (
             <SelectedMemo
-              key={memo.id}
-              title={memo.title}
-              onRemove={() => onRemoveMemo?.(memo.id)}
+              key={id}
+              title={title}
+              onRemove={() => onRemoveMemo?.(id)}
             />
           ))}
         </div>
