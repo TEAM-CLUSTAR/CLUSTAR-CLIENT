@@ -18,6 +18,16 @@ export const container = recipe({
         border: `1px solid ${themeVars.color.grey300}`,
       },
     },
+    ai: {
+      true: {
+        border: '1px solid transparent',
+        background: `
+          linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}) padding-box,
+          ${themeVars.color.gradient02} border-box
+        `,
+        color: themeVars.color.blue500,
+      },
+    },
     size: {
       lg: {
         ...themeVars.fontStyles.body_m_14,
@@ -31,10 +41,27 @@ export const container = recipe({
       },
     },
   },
+  compoundVariants: [
+    {
+      variants: { ai: true, removable: true },
+      style: {
+        border: '1px solid transparent',
+        background: `
+          linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}) padding-box,
+          ${themeVars.color.gradient02} border-box
+        `,
+      },
+    },
+  ],
 });
 
 export const indicator = recipe({
   variants: {
+    ai: {
+      true: {
+        backgroundColor: themeVars.color.blue500,
+      },
+    },
     size: {
       lg: {
         width: '0.8rem',
