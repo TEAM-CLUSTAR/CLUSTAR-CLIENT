@@ -15,29 +15,41 @@ type CardInfoType = {
   fileCount: number;
   imageCount: number;
   createAt: string;
+  isAiGenerated?: boolean;
 };
 interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
-  isNewAi?: boolean;
 }
 
 const Card = ({
-  card: { tagList = [], title, content, fileCount, imageCount, createAt },
+  card: {
+    tagList = [],
+    title,
+    content,
+    fileCount,
+    imageCount,
+    createAt,
+    isAiGenerated = false,
+  },
   isSelected = false,
   isDragging = false,
-  isNewAi = false,
   ...props
 }: CardProps) => {
   return (
     <article
-      className={styles.cardContainer({ isSelected, isDragging, isNewAi })}
+      className={styles.cardContainer({
+        isSelected,
+        isDragging,
+        isAiGenerated,
+      })}
       draggable
       {...props}
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
+          {isAiGenerated && <Tag size="lg" variant="ai" text="AI 결과물" />}
           {tagList.map((tag) => (
             <Tag
               key={tag.tagId}
