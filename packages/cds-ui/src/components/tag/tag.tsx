@@ -32,7 +32,7 @@ const Tag = ({
         aria-hidden="true"
       />
       <p>{text}</p>
-      {onRemove && (
+      {!isAi && onRemove && (
         <button
           type="button"
           onClick={(event) => {
