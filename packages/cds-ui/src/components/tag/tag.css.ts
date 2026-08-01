@@ -41,18 +41,6 @@ export const container = recipe({
       },
     },
   },
-  compoundVariants: [
-    {
-      variants: { ai: true, removable: true },
-      style: {
-        border: '1px solid transparent',
-        background: `
-          linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}) padding-box,
-          ${themeVars.color.gradient02} border-box
-        `,
-      },
-    },
-  ],
 });
 
 export const indicator = recipe({
