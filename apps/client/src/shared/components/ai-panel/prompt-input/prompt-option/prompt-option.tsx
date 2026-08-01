@@ -41,7 +41,7 @@ const PromptOption = ({
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleSelect = (id: string) => {
-    if (disabled || selectedOptionId === id) return;
+    if (selectedOptionId === id) return;
     onOptionSelect(id);
   };
 

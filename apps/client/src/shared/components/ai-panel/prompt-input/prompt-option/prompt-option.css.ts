@@ -26,7 +26,7 @@ export const optionItem = recipe({
     position: 'relative',
     borderRadius: '4px',
     boxShadow: 'inset 0 0 0 1px transparent',
-    transition: 'background-color 0.3s ease, box-shadow 0.4s ease',
+    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
   },
 
   variants: {

@@ -61,9 +61,8 @@ const PromptInput = ({
   };
 
   const trimmedText = value.trim();
-  const hasValue = trimmedText.length > 0;
   const hasSelectedMemos = selectedMemos.length > 0;
-  const canSend = hasValue && !disabled;
+  const canSend = trimmedText.length > 0 && !disabled;
 
   const handleSend = () => {
     if (!canSend) return;
@@ -104,7 +103,12 @@ const PromptInput = ({
           onOptionSelect={onOptionSelect}
           disabled={disabled}
         />
-        <Button onClick={handleSend} size="sm" disabled={!canSend}>
+        <Button
+          onClick={handleSend}
+          size="sm"
+          disabled={!canSend}
+          aria-label="전송"
+        >
           <Icon name="ic_send" size={32} color="white" />
         </Button>
       </div>
