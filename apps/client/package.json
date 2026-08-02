@@ -26,8 +26,10 @@
     "quill-markdown-shortcuts": "^0.0.10",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",
+    "react-markdown": "^10.1.0",
     "react-quill-new": "^3.7.0",
     "react-router": "^7.18.0",
+    "remark-gfm": "^4.0.1",
     "turndown": "^7.2.2",
     "turndown-plugin-gfm": "^1.0.2"
   },
