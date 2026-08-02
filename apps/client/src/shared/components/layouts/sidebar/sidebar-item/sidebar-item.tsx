@@ -4,7 +4,10 @@ import { Icon, IconName } from '@cds/icon';
 
 import * as styles from './sidebar-item.css';
 
-interface SidebarItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface SidebarItemProps extends Pick<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'onClick' | 'disabled'
+> {
   iconName: IconName;
   content?: string;
   isSelected?: boolean;
