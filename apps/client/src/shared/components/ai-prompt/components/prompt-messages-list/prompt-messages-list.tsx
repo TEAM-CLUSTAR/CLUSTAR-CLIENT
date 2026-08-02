@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 
+import AiAnswer from '@shared/components/ai-panel/chat/ai-answer/ai-answer';
+
 import { Message } from '../../types/types';
-import AiMessageItem from '../ai-message/ai-message';
 import UserMessage from '../user-message/user-message';
 
 import * as styles from './prompt-messages-list.css';
@@ -55,14 +56,12 @@ const AiMessagesList = ({
 
         if (message.type === 'ai') {
           return (
-            <AiMessageItem
+            <AiAnswer
               key={message.id}
-              id={message.id}
-              title={message.title || ''}
               content={message.text}
-              handleRegenerate={handleRegenerate}
-              handleSaveToMemo={handleSaveToMemo}
               selectedMemosCount={selectedMemosCount}
+              onRegenerate={() => handleRegenerate(message.id)}
+              onSaveToMemo={() => handleSaveToMemo(message.id)}
             />
           );
         }
