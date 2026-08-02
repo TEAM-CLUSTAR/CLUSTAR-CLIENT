@@ -31,9 +31,13 @@ const Sidebar = () => {
   const { isExpanded, toggle, setExpanded } = useSidebar();
   const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
 
-  const handleClickItem = (selectedId?: string) => {
-    if (selectedId) navigate(selectedId);
+  const handleSelectMenu = (path: string) => {
+    navigate(path);
     setExpanded(true);
+  };
+
+  const handleSelectTag = (tagId: number) => {
+    navigate(`?tag=${tagId}`);
   };
 
   return (
@@ -68,7 +72,7 @@ const Sidebar = () => {
         <span className={styles.sectionTitle}>메뉴</span>
         <SidebarMenuSection
           selectedId={selectedId}
-          onSelectMenu={handleClickItem}
+          onSelectMenu={handleSelectMenu}
         />
       </section>
 
@@ -78,7 +82,7 @@ const Sidebar = () => {
         <hr className={styles.collapsedDivider} />
         <SidebarTagSection
           selectedId={selectedId}
-          onSelectTag={(tagId) => handleClickItem(`${PATH.ROOT}?tag=${tagId}`)}
+          onSelectTag={handleSelectTag}
         />
       </section>
 

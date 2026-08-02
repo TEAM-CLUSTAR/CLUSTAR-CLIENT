@@ -10,14 +10,14 @@ import * as styles from '../sidebar.css';
 
 interface SidebarMenuSectionProps {
   selectedId: string | number | null;
-  onSelectMenu: (path?: string) => void;
+  onSelectMenu: (path: string) => void;
 }
 
 interface MenuItem {
   id: string;
   iconName: IconName;
   text: string;
-  path?: string;
+  path: string;
 }
 
 const MENU_ITEMS: MenuItem[] = [
