@@ -9,7 +9,7 @@ import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
 import * as styles from './sidebar.css';
 
 const Sidebar = () => {
-  const { isExpanded, toggle: toggleSidebar } = useSidebar();
+  const { isExpanded, toggle: toggleSidebar, expand } = useSidebar();
 
   return (
     <nav className={styles.sidebar} data-expanded={isExpanded}>
@@ -41,14 +41,14 @@ const Sidebar = () => {
       {/* 메뉴 section */}
       <section className={styles.menuSection}>
         <span className={styles.sectionTitle}>메뉴</span>
-        <SidebarMenuSection />
+        <SidebarMenuSection onExpand={expand} />
       </section>
 
       {/* 태그 section */}
       <section className={styles.tagSection}>
         <span className={styles.sectionTitle}>태그</span>
         <hr className={styles.collapsedDivider} />
-        <SidebarTagSection />
+        <SidebarTagSection isExpanded={isExpanded} onExpand={expand} />
       </section>
 
       {/* footer section */}

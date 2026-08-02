@@ -5,21 +5,27 @@ import { Tooltip } from '@cds/ui';
 import { TagTreeNodeType } from '@shared/types/tag';
 import { buildTree } from '@shared/utils/build-tree';
 
-import { useSidebar } from '../sidebar-context';
 import SidebarItem from '../sidebar-item/sidebar-item';
 import SidebarTagItem from '../sidebar-tag-item/sidebar-tag-item';
 import { MOCK_TAG } from '../tag-mock-data';
 
 import * as styles from '../sidebar.css';
 
+interface SidebarTagSectionProps {
+  isExpanded: boolean;
+  onExpand: () => void;
+}
+
 /**
  * 태그 섹션: 펼침 = 트리 / 접힘 = 아이콘 1개
  * (트리는 렌더 비용이 커 접힘 시 렌더하지 않는다)
  */
-const SidebarTagSection = () => {
+const SidebarTagSection = ({
+  isExpanded,
+  onExpand,
+}: SidebarTagSectionProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { isExpanded, expand } = useSidebar();
 
   const tagParam = searchParams.get('tag');
   const selectedTagId = tagParam == null ? null : Number(tagParam);
@@ -53,7 +59,7 @@ const SidebarTagSection = () => {
             <SidebarItem
               iconName="ic_tag"
               isSelected={selectedTagId !== null}
-              onClick={() => expand()}
+              onClick={onExpand}
             />
             <div className={styles.tooltip}>
               <Tooltip title="태그" />

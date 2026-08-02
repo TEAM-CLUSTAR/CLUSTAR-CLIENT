@@ -4,10 +4,13 @@ import { useLocation, useNavigate } from 'react-router';
 import { IconName } from '@cds/icon';
 import { Modal, Tooltip } from '@cds/ui';
 
-import { useSidebar } from '../sidebar-context';
 import SidebarItem from '../sidebar-item/sidebar-item';
 
 import * as styles from '../sidebar.css';
+
+interface SidebarMenuSectionProps {
+  onExpand: () => void;
+}
 
 interface MenuItem {
   id: string;
@@ -37,14 +40,13 @@ const MENU_ITEMS: MenuItem[] = [
   },
 ];
 
-const SidebarMenuSection = () => {
+const SidebarMenuSection = ({ onExpand }: SidebarMenuSectionProps) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { expand } = useSidebar();
 
   const handleSelectMenu = (path: string) => {
     navigate(path);
-    expand();
+    onExpand(); // 접힌 상태에서 메뉴 아이콘을 누른 경우
   };
 
   return (
@@ -55,7 +57,7 @@ const SidebarMenuSection = () => {
             <SidebarItem
               iconName="ic_search"
               content="검색"
-              onClick={() => expand()}
+              onClick={onExpand}
             />
             <div className={styles.tooltip}>
               <Tooltip title="검색" />
