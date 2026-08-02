@@ -9,7 +9,7 @@ import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
 import * as styles from './sidebar.css';
 
 const Sidebar = () => {
-  const { isExpanded, toggle } = useSidebar();
+  const { isExpanded, toggle: toggleSidebar } = useSidebar();
 
   return (
     <nav className={styles.sidebar} data-expanded={isExpanded}>
@@ -17,7 +17,7 @@ const Sidebar = () => {
       <header className={styles.header}>
         <button
           className={styles.logoButton}
-          onClick={toggle}
+          onClick={toggleSidebar}
           disabled={isExpanded}
           aria-label="사이드바 토글"
         >
@@ -31,7 +31,7 @@ const Sidebar = () => {
         </button>
         <button
           className={styles.foldButton}
-          onClick={toggle}
+          onClick={toggleSidebar}
           aria-label="사이드바 접기"
         >
           <Icon name="ic_folding" size={32} color="grey600" />
