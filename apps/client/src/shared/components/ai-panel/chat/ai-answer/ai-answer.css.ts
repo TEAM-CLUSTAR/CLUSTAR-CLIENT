@@ -58,4 +58,5 @@ export const content = style({
   padding: '1.6rem 1.8rem',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
+  whiteSpace: 'pre-wrap',
 });
