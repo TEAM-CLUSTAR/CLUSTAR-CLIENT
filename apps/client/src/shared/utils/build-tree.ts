@@ -32,10 +32,10 @@ export const buildTree = <T, K>(
     const parentId = getParentId(item);
     const parent = parentId == null ? undefined : nodeMap.get(parentId);
 
-    if (parent) {
-      parent.children.push(node);
-    } else {
+    if (parent == null) {
       roots.push(node);
+    } else {
+      parent.children.push(node);
     }
   }
 
