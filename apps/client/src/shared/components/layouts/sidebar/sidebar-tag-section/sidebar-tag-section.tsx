@@ -1,6 +1,7 @@
 import { Tooltip } from '@cds/ui';
 
-import { buildTagTree } from '@shared/utils/tag/build-tag-tree';
+import { TagTreeNodeType } from '@shared/types/tag';
+import { buildTree } from '@shared/utils/build-tree';
 
 import { useSidebar } from '../sidebar-context';
 import SidebarItem from '../sidebar-item/sidebar-item';
@@ -24,7 +25,10 @@ const SidebarTagSection = ({
 }: SidebarTagSectionProps) => {
   const { isExpanded, setExpanded } = useSidebar();
   // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
-  const tagTree = buildTagTree(MOCK_TAG.tags);
+  const tagTree: TagTreeNodeType[] = buildTree(MOCK_TAG.tags, {
+    getId: (tag) => tag.tagId,
+    getParentId: (tag) => tag.parentId,
+  });
 
   return (
     <>
