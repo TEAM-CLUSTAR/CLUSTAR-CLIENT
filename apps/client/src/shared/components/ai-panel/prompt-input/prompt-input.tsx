@@ -27,6 +27,7 @@ interface PromptInputProps {
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
   onRemoveMemo?: (id: string) => void;
+  isDragOver?: boolean;
 }
 
 const PromptInput = ({
@@ -38,6 +39,7 @@ const PromptInput = ({
   disabled = false,
   selectedMemos = [],
   onRemoveMemo,
+  isDragOver = false,
 }: PromptInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -76,7 +78,7 @@ const PromptInput = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container({ isDragOver })}>
       {hasSelectedMemos && (
         <div className={styles.memoList}>
           {selectedMemos.map(({ id, title }) => (
