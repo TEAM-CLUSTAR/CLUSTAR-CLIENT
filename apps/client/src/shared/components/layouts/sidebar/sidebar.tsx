@@ -31,8 +31,8 @@ const Sidebar = () => {
   const { isExpanded, toggle, setExpanded } = useSidebar();
   const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
 
-  const handleClickItem = (seletedId?: string) => {
-    if (seletedId) navigate(seletedId);
+  const handleClickItem = (selectedId?: string) => {
+    if (selectedId) navigate(selectedId);
     setExpanded(true);
   };
 
