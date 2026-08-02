@@ -7,7 +7,6 @@ export { default as LabelList } from './label-list/label-list';
 export { default as Modal } from './modal/modal';
 export { default as PageTitle } from './page-title/page-title';
 export { default as Search } from './search/search';
-export { default as SelectedMemo } from './selected-memo/selected-memo';
 export { default as TextContent } from './text-content/text-content';
 export { default as Title } from './title/title';
 export { default as Toggle } from './toggle/toggle';
