@@ -1,6 +1,3 @@
-import { PATH } from '@router/path';
-import { useLocation, useNavigate } from 'react-router';
-
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
@@ -11,34 +8,8 @@ import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
 
 import * as styles from './sidebar.css';
 
-/**
- * 현재 URL을 기준으로 선택된 사이드바 식별자
- */
-const getSelectedIdFromUrl = (
-  pathname: string,
-  search: string,
-): string | number => {
-  const tag = new URLSearchParams(search).get('tag');
-  if (tag) return Number(tag);
-
-  return pathname;
-};
-
 const Sidebar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const { isExpanded, toggle, expand } = useSidebar();
-  const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
-
-  const handleSelectMenu = (path: string) => {
-    navigate(path);
-    expand();
-  };
-
-  const handleSelectTag = (tagId: number) => {
-    navigate(`?tag=${tagId}`);
-  };
+  const { isExpanded, toggle } = useSidebar();
 
   return (
     <nav className={styles.sidebar} data-expanded={isExpanded}>
@@ -70,20 +41,14 @@ const Sidebar = () => {
       {/* 메뉴 section */}
       <section className={styles.menuSection}>
         <span className={styles.sectionTitle}>메뉴</span>
-        <SidebarMenuSection
-          selectedId={selectedId}
-          onSelectMenu={handleSelectMenu}
-        />
+        <SidebarMenuSection />
       </section>
 
       {/* 태그 section */}
       <section className={styles.tagSection}>
         <span className={styles.sectionTitle}>태그</span>
         <hr className={styles.collapsedDivider} />
-        <SidebarTagSection
-          selectedId={selectedId}
-          onSelectTag={handleSelectTag}
-        />
+        <SidebarTagSection />
       </section>
 
       {/* footer section */}
