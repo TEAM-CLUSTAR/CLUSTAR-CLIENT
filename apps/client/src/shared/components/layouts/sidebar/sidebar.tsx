@@ -28,12 +28,12 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { isExpanded, toggle, setExpanded } = useSidebar();
+  const { isExpanded, toggle, expand } = useSidebar();
   const selectedId = getSelectedIdFromUrl(location.pathname, location.search);
 
   const handleSelectMenu = (path: string) => {
     navigate(path);
-    setExpanded(true);
+    expand();
   };
 
   const handleSelectTag = (tagId: number) => {

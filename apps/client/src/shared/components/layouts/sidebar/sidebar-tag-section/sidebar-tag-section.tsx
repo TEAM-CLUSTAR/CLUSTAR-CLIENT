@@ -23,7 +23,7 @@ const SidebarTagSection = ({
   selectedId,
   onSelectTag,
 }: SidebarTagSectionProps) => {
-  const { isExpanded, setExpanded } = useSidebar();
+  const { isExpanded, expand } = useSidebar();
   // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
   const tagTree: TagTreeNodeType[] = buildTree(MOCK_TAG.tags, {
     getId: (tag) => tag.tagId,
@@ -49,7 +49,7 @@ const SidebarTagSection = ({
             <SidebarItem
               iconName="ic_tag"
               isSelected={typeof selectedId === 'number'}
-              onClick={() => setExpanded(true)}
+              onClick={() => expand()}
             />
             <div className={styles.tooltip}>
               <Tooltip title="태그" />

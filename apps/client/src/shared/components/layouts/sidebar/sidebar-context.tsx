@@ -3,7 +3,8 @@ import { createContext, type ReactNode, useContext, useState } from 'react';
 interface SidebarContextValue {
   isExpanded: boolean;
   toggle: () => void;
-  setExpanded: (value: boolean) => void;
+  expand: () => void;
+  collapse: () => void;
 }
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
@@ -14,7 +15,8 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     isExpanded,
     toggle: () => setExpanded((prev) => !prev),
-    setExpanded,
+    expand: () => setExpanded(true),
+    collapse: () => setExpanded(false),
   };
 
   return (

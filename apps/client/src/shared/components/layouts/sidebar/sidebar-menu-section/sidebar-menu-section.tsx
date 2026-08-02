@@ -45,7 +45,7 @@ const SidebarMenuSection = ({
   selectedId,
   onSelectMenu,
 }: SidebarMenuSectionProps) => {
-  const { setExpanded } = useSidebar();
+  const { expand } = useSidebar();
 
   return (
     <ul className={styles.pannelList}>
@@ -55,7 +55,7 @@ const SidebarMenuSection = ({
             <SidebarItem
               iconName="ic_search"
               content="검색"
-              onClick={() => setExpanded(true)}
+              onClick={() => expand()}
             />
             <div className={styles.tooltip}>
               <Tooltip title="검색" />
