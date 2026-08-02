@@ -32,6 +32,18 @@ export const MOCK_TAG = {
       parentId: 179,
     },
     {
+      tagId: 200,
+      name: '졸업프로젝트손주태그2',
+      colorHex: '#F6EAC2',
+      parentId: 179,
+    },
+    {
+      tagId: 202,
+      name: '졸업프로젝트자식태그4',
+      colorHex: '#F6EAC2',
+      parentId: 74,
+    },
+    {
       tagId: 75,
       name: '교양',
       colorHex: '#FFD8BE',
