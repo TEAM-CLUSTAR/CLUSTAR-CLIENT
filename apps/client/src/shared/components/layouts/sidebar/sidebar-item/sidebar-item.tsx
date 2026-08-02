@@ -23,7 +23,7 @@ const SidebarItem = ({
       {...props}
     >
       <Icon name={iconName} size={32} />
-      <span className={styles.text}>{content}</span>
+      {content != null && <span className={styles.text}>{content}</span>}
     </button>
   );
 };
