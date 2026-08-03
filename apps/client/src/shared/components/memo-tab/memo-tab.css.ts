@@ -22,6 +22,7 @@ export const container = recipe({
       false: {
         selectors: {
           '&:hover': {
+            transition: 'border-bottom-color 0.2s ease',
             borderBottomColor: themeVars.color.grey500,
             color: themeVars.color.grey600,
           },
@@ -69,6 +70,7 @@ export const closeTab = style({
       pointerEvents: 'auto',
     },
     '&:hover': {
+      transition: 'background-color 0.2s ease',
       backgroundColor: themeVars.color.grey100,
     },
   },
