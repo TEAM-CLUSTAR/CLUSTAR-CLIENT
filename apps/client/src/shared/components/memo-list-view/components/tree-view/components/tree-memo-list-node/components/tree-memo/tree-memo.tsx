@@ -6,7 +6,6 @@ import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import DetailModal from '../detail-modal/detail-modal';
 import { SelectedMemoTypes, useDetailMemo } from './apis/queries';
-import useSingleAndDoubleClick from './hooks/use-single-and-double-click';
 
 import * as styles from './tree-memo.css';
 
@@ -41,11 +40,6 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     setIsModalOpen(open);
   };
 
-  const handleClick = useSingleAndDoubleClick({
-    handleSingleClick: () => handleModalOpenChange(true),
-    handleDoubleClick: () => handleModalOpenChange(true),
-  });
-
   return (
     <DetailModal
       open={isModalOpen}
@@ -59,7 +53,7 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          handleClick();
+          handleModalOpenChange(true);
         }}
         onMouseDown={(e) => {
           e.preventDefault();
