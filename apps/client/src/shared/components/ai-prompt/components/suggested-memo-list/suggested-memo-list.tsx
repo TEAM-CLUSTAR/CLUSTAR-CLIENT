@@ -78,7 +78,7 @@ const SuggestedMemoItem = ({
       <span className={styles.memo}>{memoTitle}</span>
       <button
         type="button"
-        aria-label="추천 메모 선택"
+        aria-label={`${memoTitle} 메모 추가`}
         className={styles.addMemo({ isSelected })}
         onClick={onSelectMemo}
         disabled={isSelected}
