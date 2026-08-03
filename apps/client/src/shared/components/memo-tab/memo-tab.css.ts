@@ -55,12 +55,18 @@ export const closeTab = style({
   transform: 'translateY(-50%)',
   zIndex: themeVars.zIndex.button,
   opacity: 0,
+  pointerEvents: 'none',
   borderRadius: '0.8rem',
   padding: '0.4rem',
   backgroundColor: 'transparent',
   selectors: {
     [`${container.classNames.base}:hover &`]: {
       opacity: 1,
+      pointerEvents: 'auto',
+    },
+    [`${container.classNames.base}:focus-within &`]: {
+      opacity: 1,
+      pointerEvents: 'auto',
     },
     '&:hover': {
       backgroundColor: themeVars.color.grey100,
