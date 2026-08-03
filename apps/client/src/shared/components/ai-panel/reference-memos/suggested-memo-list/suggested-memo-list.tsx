@@ -16,6 +16,8 @@ interface SuggestedMemoListProps {
   onSelectMemo: (memoId: number) => void;
 }
 
+// 추천 메모(memos)는 서버에서 최대 3개를 보내줘요
+// 프론트에서 추천 메모 개수에 대한 별도 처리 X
 const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const iconColor = isOpen ? 'blue500' : 'grey700';
