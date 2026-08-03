@@ -12,20 +12,14 @@ interface SuggestedMemosTypes {
 }
 
 interface SuggestedMemoListProps {
-  hasUserSelectedMemo: boolean;
   memos: SuggestedMemosTypes[];
   onSelectMemo: (memoId: number) => void;
 }
 
-const SuggestedMemoList = ({
-  hasUserSelectedMemo,
-  memos,
-  onSelectMemo,
-}: SuggestedMemoListProps) => {
+const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const iconColor = isOpen ? 'blue500' : 'grey700';
 
-  if (!hasUserSelectedMemo) return null;
   return (
     <div className={styles.container}>
       <div className={styles.listContainer({ isOpen })}>
