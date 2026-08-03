@@ -10,7 +10,7 @@ const MAX_SUGGESTED_MEMO_COUNT = 3;
 interface SuggestedMemosTypes {
   memoId: number;
   title: string;
-  isDisabled: boolean;
+  isSelected: boolean;
 }
 
 interface SuggestedMemoListProps {
@@ -45,11 +45,11 @@ const SuggestedMemoList = ({
       </div>
       {isOpen && (
         <ul className={styles.itemsContainer}>
-          {visibleMemos.map(({ memoId, title, isDisabled }) => (
+          {visibleMemos.map(({ memoId, title, isSelected }) => (
             <SuggestedMemoItem
               key={memoId}
               memoTitle={title}
-              isDisabled={isDisabled}
+              isSelected={isSelected}
               onSelectMemo={() => onSelectMemo(memoId)}
             />
           ))}
@@ -61,27 +61,27 @@ const SuggestedMemoList = ({
 
 interface SuggestedMemoItemProps {
   memoTitle: string;
-  isDisabled: boolean;
+  isSelected: boolean;
   onSelectMemo: () => void;
 }
 
 const SuggestedMemoItem = ({
   memoTitle,
-  isDisabled,
+  isSelected,
   onSelectMemo,
 }: SuggestedMemoItemProps) => {
-  const iconColor = isDisabled ? 'grey300' : 'grey700';
+  const iconColor = isSelected ? 'grey300' : 'grey700';
 
   return (
-    <li className={styles.itemContainer({ isDisabled })}>
+    <li className={styles.itemContainer({ isSelected })}>
       <Icon name="ic_memo" size={24} color="grey700" />
       <span className={styles.memo}>{memoTitle}</span>
       <button
         type="button"
         aria-label="추천 메모 선택"
-        className={styles.addMemo({ isDisabled })}
+        className={styles.addMemo({ isSelected })}
         onClick={onSelectMemo}
-        disabled={isDisabled}
+        disabled={isSelected}
       >
         <Icon name="ic_plus" size={24} color={iconColor} />
       </button>

@@ -82,7 +82,7 @@ export const itemContainer = recipe({
     borderRadius: '8px',
   },
   variants: {
-    isDisabled: {
+    isSelected: {
       true: {
         backgroundColor: 'transparent',
       },
@@ -112,7 +112,7 @@ export const addMemo = recipe({
     borderRadius: '4px',
   },
   variants: {
-    isDisabled: {
+    isSelected: {
       true: {},
       false: {
         selectors: {
