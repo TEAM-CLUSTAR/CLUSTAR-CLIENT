@@ -49,6 +49,7 @@ const MemoTab = ({
           onCloseTab();
         }}
         type="button"
+        aria-label={`${memoTitle} 탭 닫기`}
         className={styles.closeMemo}
       >
         <Icon name="ic_delete" size={24} />
