@@ -51,7 +51,7 @@ const MemoTab = ({
         type="button"
         className={styles.closeMemo}
       >
-        <Icon name="ic_delete" size={32} />
+        <Icon name="ic_delete" size={24} />
       </button>
     </div>
   );
