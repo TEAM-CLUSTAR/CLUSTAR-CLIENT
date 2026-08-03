@@ -5,11 +5,10 @@ import { themeVars } from '@cds/ui';
 
 export const container = recipe({
   base: {
+    position: 'relative',
     display: 'flex',
-    padding: '2rem 0.8rem 2rem 0.8rem',
     width: '18.8rem',
     justifyContent: 'flex-start',
-    gap: '1rem',
     alignItems: 'center',
     borderBottom: '2.5px solid transparent',
   },
@@ -36,16 +35,25 @@ export const icon = style({
   flexShrink: 0,
 });
 
-export const memoContainer = style({
+export const selectTab = style({
   display: 'flex',
   gap: '0.3rem',
   alignItems: 'center',
   minWidth: 0,
   flex: 1,
-  color: themeVars.color.grey500,
+  border: 'none',
+  backgroundColor: 'transparent',
+  padding: '2rem 0.8rem',
+  // closeTab 영역 3.2rem + 탭-닫기 버튼 간격 1rem
+  paddingRight: '4.2rem',
 });
 
-export const closeMemo = style({
+export const closeTab = style({
+  position: 'absolute',
+  top: '50%',
+  right: '0.8rem',
+  transform: 'translateY(-50%)',
+  zIndex: themeVars.zIndex.button,
   opacity: 0,
   borderRadius: '0.8rem',
   padding: '0.4rem',

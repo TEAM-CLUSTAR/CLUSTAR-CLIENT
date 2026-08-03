@@ -28,13 +28,16 @@ const MemoTab = ({
 
   return (
     <div
-      onClick={onSelectTab}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={styles.container({ isSelected })}
-      role="button"
     >
-      <div className={styles.memoContainer}>
+      <button
+        type="button"
+        onClick={onSelectTab}
+        aria-current={isSelected ? 'page' : undefined}
+        className={styles.selectTab}
+      >
         <Icon
           name="ic_memo"
           size={32}
@@ -42,15 +45,12 @@ const MemoTab = ({
           className={styles.icon}
         />
         <span className={styles.memoTitle({ isSelected })}>{memoTitle}</span>
-      </div>
+      </button>
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onCloseTab();
-        }}
+        onClick={onCloseTab}
         type="button"
         aria-label={`${memoTitle} 탭 닫기`}
-        className={styles.closeMemo}
+        className={styles.closeTab}
       >
         <Icon name="ic_delete" size={24} />
       </button>
