@@ -4,8 +4,6 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './suggested-memo-list.css';
 
-const MAX_SUGGESTED_MEMO_COUNT = 3;
-
 // TODO: SuggestedMemos API의 타입으로 변경 (타입 SSOT)
 interface SuggestedMemosTypes {
   memoId: number;
@@ -25,7 +23,6 @@ const SuggestedMemoList = ({
   onSelectMemo,
 }: SuggestedMemoListProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const visibleMemos = memos.slice(0, MAX_SUGGESTED_MEMO_COUNT);
   const iconColor = isOpen ? 'blue500' : 'grey700';
 
   if (!hasUserSelectedMemo) return null;
@@ -45,7 +42,7 @@ const SuggestedMemoList = ({
       </div>
       {isOpen && (
         <ul className={styles.itemsContainer}>
-          {visibleMemos.map(({ memoId, title, isSelected }) => (
+          {memos.map(({ memoId, title, isSelected }) => (
             <SuggestedMemoItem
               key={memoId}
               memoTitle={title}
