@@ -59,7 +59,6 @@ const PromptInput = ({
   };
 
   const trimmedText = value.trim();
-  const hasSelectedMemos = selectedMemos.length > 0;
   const canSend = trimmedText.length > 0 && !disabled;
 
   const handleSend = () => {
@@ -75,7 +74,7 @@ const PromptInput = ({
 
   return (
     <div className={styles.container({ isDragOver })}>
-      {hasSelectedMemos && (
+      {selectedMemos.length > 0 && (
         <div className={styles.memoList}>
           {selectedMemos.map(({ id, title }) => (
             <SelectedMemo
