@@ -26,7 +26,7 @@ interface PromptInputProps {
   onSubmit: (value: PromptInputValueType) => void;
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
-  onRemoveMemo?: (id: string) => void;
+  onRemoveMemo: (id: string) => void;
   isDragOver?: boolean;
 }
 
@@ -80,7 +80,7 @@ const PromptInput = ({
             <SelectedMemo
               key={id}
               title={title}
-              onRemove={() => onRemoveMemo?.(id)}
+              onRemove={() => onRemoveMemo(id)}
             />
           ))}
         </div>
