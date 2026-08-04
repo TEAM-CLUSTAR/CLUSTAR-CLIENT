@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useLayoutEffect, useRef } from 'react';
+import { KeyboardEvent, useLayoutEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
@@ -42,10 +42,6 @@ const PromptInput = ({
   isDragOver = false,
 }: PromptInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(e.target.value);
-  };
 
   useLayoutEffect(() => {
     const textarea = textareaRef.current;
@@ -94,7 +90,7 @@ const PromptInput = ({
         ref={textareaRef}
         className={styles.textarea}
         value={value}
-        onChange={handleChange}
+        onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="선택한 메모로 만들고 싶은 것에 대해 설명하세요."
         disabled={disabled}
