@@ -1,4 +1,4 @@
-import { KeyboardEvent, useLayoutEffect, useRef } from 'react';
+import { KeyboardEvent, useLayoutEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
@@ -19,29 +19,25 @@ interface SelectedMemoType {
 }
 
 interface PromptInputProps {
-  value: string;
-  onChange: (text: string) => void;
-  selectedOptionId: string | null;
-  onOptionSelect: (optionId: string | null) => void;
   onSubmit: (value: PromptInputValueType) => void;
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
   onRemoveMemo: (id: string) => void;
-  isDragOver?: boolean;
+  isDragOver: boolean;
 }
 
 const PromptInput = ({
-  value,
-  onChange,
-  selectedOptionId,
-  onOptionSelect,
   onSubmit,
   disabled = false,
   selectedMemos = [],
   onRemoveMemo,
-  isDragOver = false,
+  isDragOver,
 }: PromptInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [value, setValue] = useState('');
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
+    'MERGE',
+  );
 
   useLayoutEffect(() => {
     const textarea = textareaRef.current;
@@ -64,12 +60,12 @@ const PromptInput = ({
   const handleSend = () => {
     if (!canSend) return;
 
-    const submitValue = {
+    onSubmit({
       text: trimmedText,
       selectedOptionId,
-    };
+    });
 
-    onSubmit(submitValue);
+    setValue('');
   };
 
   return (
@@ -89,7 +85,7 @@ const PromptInput = ({
         ref={textareaRef}
         className={styles.textarea}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="선택한 메모로 만들고 싶은 것에 대해 설명하세요."
         disabled={disabled}
@@ -97,7 +93,7 @@ const PromptInput = ({
       <div className={styles.footer}>
         <PromptOption
           selectedOptionId={selectedOptionId}
-          onOptionSelect={onOptionSelect}
+          onOptionSelect={setSelectedOptionId}
           disabled={disabled}
         />
         <Button

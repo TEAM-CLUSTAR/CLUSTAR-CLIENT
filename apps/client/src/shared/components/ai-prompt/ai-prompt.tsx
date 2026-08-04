@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import PromptInput from '../ai-panel/prompt-input/prompt-input';
 import ConfirmModal from '../modals/confirm-modal/confirm-modal';
 import AiPromptHeader from './components/prompt-header/prompt-header';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
@@ -11,6 +12,8 @@ import * as styles from './ai-prompt.css';
 interface AiPromptProps extends UseAiPromptProps {
   onLoadingChange?: (isLoading: boolean) => void;
   chatRoomId?: number | null;
+  onRemoveMemo: (id: string) => void;
+  isDragOver: boolean;
 }
 
 const AiPrompt = ({
@@ -19,6 +22,8 @@ const AiPrompt = ({
   handleClose,
   onLoadingChange,
   chatRoomId,
+  onRemoveMemo,
+  isDragOver,
 }: AiPromptProps) => {
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
 
@@ -27,6 +32,7 @@ const AiPrompt = ({
     messages,
     isLoading,
     handleClose: handlePromptClose,
+    handleSubmit,
     handleRegenerate,
     handleSaveToMemo,
   } = useAiPrompt({
@@ -64,6 +70,14 @@ const AiPrompt = ({
         selectedMemosCount={selectedMemos.length}
         handleRegenerate={handleRegenerate}
         handleSaveToMemo={handleSaveToMemoWithModal}
+      />
+      <PromptInput
+        key={chatRoomId}
+        onSubmit={handleSubmit}
+        disabled={isLoading}
+        selectedMemos={selectedMemos}
+        onRemoveMemo={onRemoveMemo}
+        isDragOver={isDragOver}
       />
 
       <ConfirmModal
