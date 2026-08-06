@@ -30,7 +30,7 @@ const MemoTab = ({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={styles.container({ isSelected })}
+      className={styles.container({ isSelected, isHoverActive })}
     >
       <button
         type="button"
@@ -44,13 +44,15 @@ const MemoTab = ({
           color={iconColor}
           className={styles.icon}
         />
-        <span className={styles.memoTitle({ isSelected })}>{memoTitle}</span>
+        <span className={styles.memoTitle({ isSelected, isHoverActive })}>
+          {memoTitle}
+        </span>
       </button>
       <button
         onClick={onCloseTab}
         type="button"
         aria-label={`${memoTitle} 탭 닫기`}
-        className={styles.closeTab}
+        className={styles.closeTab({ isHovered })}
       >
         <Icon name="ic_delete" size={24} />
       </button>
