@@ -3,26 +3,21 @@ import { KeyboardEvent, useLayoutEffect, useRef, useState } from 'react';
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
 
+import {
+  PromptInputValueType,
+  SelectedMemoType,
+} from '@shared/components/ai-panel/types/types';
+
 import PromptOption from './prompt-option/prompt-option';
 import SelectedMemo from './selected-memo/selected-memo';
 
 import * as styles from './prompt-input.css';
 
-interface PromptInputValueType {
-  text: string;
-  selectedOptionId: string | null;
-}
-
-interface SelectedMemoType {
-  id: string;
-  title: string;
-}
-
 interface PromptInputProps {
   onSubmit: (value: PromptInputValueType) => void;
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
-  onRemoveMemo: (id: string) => void;
+  onRemoveMemo: (memoId: number) => void;
   isDragOver: boolean;
 }
 
@@ -35,9 +30,7 @@ const PromptInput = ({
 }: PromptInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
-  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
-    'MERGE',
-  );
+  const [option, setOption] = useState('MERGE');
 
   useLayoutEffect(() => {
     const textarea = textareaRef.current;
@@ -61,8 +54,8 @@ const PromptInput = ({
     if (!canSend) return;
 
     onSubmit({
-      text: trimmedText,
-      selectedOptionId,
+      userPrompt: trimmedText,
+      option: option as PromptInputValueType['option'],
     });
 
     setValue('');
@@ -72,11 +65,11 @@ const PromptInput = ({
     <div className={styles.container({ isDragOver })}>
       {selectedMemos.length > 0 && (
         <div className={styles.memoList}>
-          {selectedMemos.map(({ id, title }) => (
+          {selectedMemos.map(({ memoId, title }) => (
             <SelectedMemo
-              key={id}
+              key={memoId}
               title={title}
-              onRemove={() => onRemoveMemo(id)}
+              onRemove={() => onRemoveMemo(memoId)}
             />
           ))}
         </div>
@@ -92,8 +85,8 @@ const PromptInput = ({
       />
       <div className={styles.footer}>
         <PromptOption
-          selectedOptionId={selectedOptionId}
-          onOptionSelect={setSelectedOptionId}
+          selectedOptionId={option}
+          onOptionSelect={setOption}
           disabled={disabled}
         />
         <Button

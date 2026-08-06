@@ -28,8 +28,8 @@ const OPTIONS = [
 ] as const;
 
 interface PromptOptionProps {
-  selectedOptionId: string | null;
-  onOptionSelect: (optionId: string | null) => void;
+  selectedOptionId: string;
+  onOptionSelect: (optionId: string) => void;
   disabled?: boolean;
 }
 

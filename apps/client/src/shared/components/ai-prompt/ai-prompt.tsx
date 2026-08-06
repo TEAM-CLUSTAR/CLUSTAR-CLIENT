@@ -12,7 +12,7 @@ import * as styles from './ai-prompt.css';
 interface AiPromptProps extends UseAiPromptProps {
   onLoadingChange?: (isLoading: boolean) => void;
   chatRoomId?: number | null;
-  onRemoveMemo: (id: string) => void;
+  onRemoveMemo: (memoId: number) => void;
   isDragOver: boolean;
 }
 
