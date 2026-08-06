@@ -41,7 +41,7 @@ const PromptInput = ({
   }, [value]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key !== 'Enter' || e.shiftKey) return;
+    if (e.key !== 'Enter' || e.shiftKey || e.nativeEvent.isComposing) return;
 
     e.preventDefault();
     handleSend();
