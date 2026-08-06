@@ -40,11 +40,6 @@ const PromptOption = ({
 }: PromptOptionProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const handleSelect = (id: string) => {
-    if (selectedOptionId === id) return;
-    onOptionSelect(id);
-  };
-
   return (
     <div className={styles.container}>
       {OPTIONS.map((option) => {
@@ -53,7 +48,7 @@ const PromptOption = ({
             <PromptOptionItem
               iconName={option.iconName}
               isSelected={selectedOptionId === option.id}
-              onClick={() => handleSelect(option.id)}
+              onClick={() => onOptionSelect(option.id)}
               onMouseEnter={() => setHoveredId(option.id)}
               onMouseLeave={() => setHoveredId(null)}
               aria-pressed={selectedOptionId === option.id}

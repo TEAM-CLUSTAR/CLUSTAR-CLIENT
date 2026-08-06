@@ -50,6 +50,11 @@ const PromptInput = ({
   const trimmedText = value.trim();
   const canSend = trimmedText.length > 0 && !disabled;
 
+  const handleOptionSelect = (optionId: string) => {
+    if (optionId === option) return;
+    setOption(optionId);
+  };
+
   const handleSend = () => {
     if (!canSend) return;
 
@@ -86,7 +91,7 @@ const PromptInput = ({
       <div className={styles.footer}>
         <PromptOption
           selectedOptionId={option}
-          onOptionSelect={setOption}
+          onOptionSelect={handleOptionSelect}
           disabled={disabled}
         />
         <Button
