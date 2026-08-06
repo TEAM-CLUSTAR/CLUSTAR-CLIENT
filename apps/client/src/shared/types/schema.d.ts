@@ -4,6 +4,31 @@
  */
 
 export interface paths {
+  '/api/v1/tag/{tagId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * 태그 수정
+     * @description 태그 이름을 수정합니다.
+     */
+    put: operations['updateTag'];
+    post?: never;
+    /**
+     * 태그 삭제
+     * @description 태그를 삭제합니다.
+     *     태그에 연결된 메모-태그 관계도 함께 정리합니다.
+     */
+    delete: operations['deleteTag'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/oauth/reissue': {
     parameters: {
       query?: never;
@@ -42,6 +67,32 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/tag': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * [Legacy] 태그 전체 조회
+     * @description 사용자가 생성한 모든 태그 목록을 조회합니다.
+     *     메모에 사용된 태그와 미사용 태그를 모두 포함합니다.
+     */
+    get: operations['getAllTags'];
+    put?: never;
+    /**
+     * 태그 생성
+     * @description 태그를 생성합니다.
+     *     parentTagId가 있으면 하위 태그로 생성하고, 없으면 부모 태그로 생성합니다.
+     */
+    post: operations['createTag'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memo': {
     parameters: {
       query?: never;
@@ -52,7 +103,7 @@ export interface paths {
     /**
      * 메모 전체 조회(대시보드)
      * @description 메모를 전체 조회합니다.
-     *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
+     *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
      *       이미지/파일 개수 정보를 포함합니다.
@@ -66,6 +117,27 @@ export interface paths {
      *     s3Key 정보를 함께 전달해야 합니다.
      */
     post: operations['createMemo'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memo/recommendations': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * AI 추천 메모
+     * @description 선택한 메모들과 의미적으로 유사한 메모를 최대 3개 추천합니다.
+     *     유사한 메모가 없을 경우 빈 결과와 안내 메시지를 반환합니다.
+     */
+    post: operations['recommendMemos'];
     delete?: never;
     options?: never;
     head?: never;
@@ -103,7 +175,7 @@ export interface paths {
     /**
      * AI가 생성한 메모 전체 조회(대시보드)
      * @description AI가 생성한 메모를 전체 조회합니다.
-     *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
+     *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
      *       이미지/파일 개수 정보를 포함합니다.
@@ -232,6 +304,51 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/admin/memos/{memoId}/re-embed': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 특정 메모 재임베딩(수동 재시도)
+     * @description 특정 memoId 하나만 동기적으로 재임베딩합니다.
+     *     text/image/file은 서로 독립적으로 시도되어, 하나가 실패해도 나머지는 계속 진행됩니다.
+     *     타입별로 성공한 것만 해당 타입의 미해결 임베딩 실패 기록이 해결 처리됩니다.
+     *     (imageSucceeded/fileSucceeded가 null이면 해당 타입의 첨부가 없어 시도하지 않은 것입니다.)
+     */
+    post: operations['reEmbedOne'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/admin/memos/re-embed': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 전체 메모 재임베딩
+     * @description 삭제되지 않은 전체 메모를 대상으로 재임베딩 배치를 시작합니다.
+     *     비동기로 실행되며, 호출 즉시 시작 응답을 반환합니다.
+     *     메모별로 기존 벡터는 새 벡터 적재에 성공한 후에만 삭제됩니다.
+     */
+    post: operations['reEmbedAll'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/oauth/google': {
     parameters: {
       query?: never;
@@ -262,8 +379,8 @@ export interface paths {
     };
     /**
      * 구글 인증서버 토큰 검증 API
-     * @description 리다이렉트에서 AccessCode를 가지고 서버로 돌아오기 위한 엔드포인트입니다
-     *     해당 코드를 이용해서 사용자 정보를 파싱하고 액세스 토큰는 헤더에, 리프레시 토큰은 쿠키에 담아 반환합니다
+     * @description 구글 콜백에서 받은 인가코드로 로그인 처리를 한 뒤
+     *     프론트엔드의 콜백 URL로 code만 전달해 리다이렉트합니다.
      */
     get: operations['callback'];
     put?: never;
@@ -294,6 +411,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/tag/parents': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 부모 태그 최대 10개 조회
+     * @description 사용자의 부모 태그 최대 10개를 생성일 내림차순으로 조회합니다.
+     */
+    get: operations['getParentTags'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/tag/parents/{parentTagId}/children': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 부모 태그 기반 하위 태그 조회
+     * @description 부모 태그를 기준으로 자식 태그와 손자 태그를 계층 구조로 조회합니다.
+     */
+    get: operations['getChildAndGrandChildTags'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memo/{memoId}': {
     parameters: {
       query?: never;
@@ -306,7 +463,7 @@ export interface paths {
      * @description 하나의 메모를 상세조회 합니다.
      *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
      *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
-     *     라벨은 리스트의 앞부터 우선순위가 높은 순서 입니다.
+     *     태그는 리스트의 앞부터 우선순위가 높은 순서 입니다.
      */
     get: operations['getOneDetailMemo'];
     put?: never;
@@ -341,7 +498,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/label': {
+  '/api/v1/memo/search': {
     parameters: {
       query?: never;
       header?: never;
@@ -349,11 +506,12 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 라벨 전체 조회
-     * @description 사용자가 생성한 모든 라벨 목록을 조회합니다.
-     *     메모에 사용된 라벨과 미사용 라벨을 모두 포함합니다.
+     * 메모 검색
+     * @description 검색어를 입력하면 최대 5개의 메모를 반환합니다.
+     *     - 텍스트 매칭(제목/본문/태그) 최대 3개
+     *     - 의미 기반 벡터 검색 최대 2개
      */
-    get: operations['getAllLabels'];
+    get: operations['searchMemos'];
     put?: never;
     post?: never;
     delete?: never;
@@ -374,6 +532,26 @@ export interface paths {
      * @description 로그인한 사용자의 최근 AI 채팅방을 조회합니다.
      */
     get: operations['findLatestChatRoomByUser'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/admin/memos/embedding-failures': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 미해결 임베딩 실패 목록 조회
+     * @description 재시도가 필요한(is_resolved=false) 임베딩 실패 기록을 조회합니다.
+     */
+    get: operations['getEmbeddingFailures'];
     put?: never;
     post?: never;
     delete?: never;
@@ -426,6 +604,27 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    TagUpdateRequest: {
+      /**
+       * @description 태그 이름
+       * @example SOPT
+       */
+      name: string;
+    };
+    ApiResponseTagSummaryResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['TagSummaryResponse'];
+    };
+    TagSummaryResponse: {
+      /** Format: int64 */
+      tagId?: number;
+      name?: string;
+      colorHex?: string;
+      /** Format: int64 */
+      parentId?: number;
+    };
     ApiResponseVoid: {
       /** Format: int32 */
       code?: number;
@@ -437,6 +636,19 @@ export interface components {
       code?: number;
       msg?: string;
       data?: string;
+    };
+    TagCreateRequest: {
+      /**
+       * @description 태그 이름
+       * @example SOPT
+       */
+      name: string;
+      /**
+       * Format: int64
+       * @description 부모 태그 ID
+       * @example 1
+       */
+      parentTagId?: number;
     };
     /** @description 파일 메타데이터 목록 (선택) */
     FileRequest: {
@@ -510,14 +722,14 @@ export interface components {
        */
       content: string;
       /**
-       * @description 라벨 이름 목록
+       * @description 태그 이름 목록
        * @example [
        *       "SOPT",
        *       "교양",
        *       "레퍼런스"
        *     ]
        */
-      labelNames?: string[];
+      tagNames?: string[];
       /** @description 이미지 메타데이터 목록 (선택) */
       images?: components['schemas']['ImageRequest'][];
       /** @description 파일 메타데이터 목록 (선택) */
@@ -546,6 +758,24 @@ export interface components {
        * @description 생성 시각
        */
       createdAt?: string;
+    };
+    MemoRecommendationRequest: {
+      memoIds: number[];
+    };
+    ApiResponseMemoRecommendationResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['MemoRecommendationResponse'];
+    };
+    MemoRecommendationItemResponse: {
+      /** Format: int64 */
+      memoId?: number;
+      title?: string;
+    };
+    MemoRecommendationResponse: {
+      results?: components['schemas']['MemoRecommendationItemResponse'][];
+      message?: string;
     };
     /** @description 메모 이미지/파일 업로드용 presigned URL 발급 요청 */
     MemoPresignedUrlRequest: {
@@ -721,6 +951,28 @@ export interface components {
       aiResponse?: components['schemas']['MemoAiResponse'];
       evaluation?: components['schemas']['AiEvaluationResult'];
     };
+    ApiResponseReEmbeddingResultResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['ReEmbeddingResultResponse'];
+    };
+    ReEmbeddingResultResponse: {
+      /** Format: int64 */
+      memoId?: number;
+      textSucceeded?: boolean;
+      imageSucceeded?: boolean;
+      fileSucceeded?: boolean;
+    };
+    ApiResponseReEmbeddingStartedResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['ReEmbeddingStartedResponse'];
+    };
+    ReEmbeddingStartedResponse: {
+      message?: string;
+    };
     ApiResponseUserInfoResponse: {
       /** Format: int32 */
       code?: number;
@@ -734,16 +986,55 @@ export interface components {
       email?: string;
       profileImageUrl?: string;
     };
+    ApiResponseTagListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['TagListResponse'];
+    };
+    TagListResponse: {
+      tags?: components['schemas']['TagResponse'][];
+    };
+    TagResponse: {
+      /** Format: int64 */
+      tagId?: number;
+      name?: string;
+      colorHex?: string;
+      /** Format: int64 */
+      parentId?: number;
+    };
+    ApiResponseTagParentListResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['TagParentListResponse'];
+    };
+    TagParentListResponse: {
+      tags?: components['schemas']['TagSummaryResponse'][];
+    };
+    ApiResponseTagHierarchyResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['TagHierarchyResponse'];
+    };
+    TagHierarchyResponse: {
+      parentTag?: components['schemas']['TagSummaryResponse'];
+      childTags?: components['schemas']['TagTreeResponse'][];
+    };
+    TagTreeResponse: {
+      /** Format: int64 */
+      tagId?: number;
+      name?: string;
+      colorHex?: string;
+      /** Format: int64 */
+      parentId?: number;
+    };
     ApiResponseMemoListDashboardResponse: {
       /** Format: int32 */
       code?: number;
       msg?: string;
       data?: components['schemas']['MemoListDashboardResponse'];
-    };
-    LabelResponse: {
-      /** Format: int64 */
-      labelId?: number;
-      name?: string;
     };
     MemoDashboardResponse: {
       /** Format: int64 */
@@ -760,7 +1051,7 @@ export interface components {
       isNew?: boolean;
       /** Format: date-time */
       createdAt?: string;
-      labelList?: components['schemas']['LabelResponse'][];
+      tagList?: components['schemas']['TagResponse'][];
     };
     MemoListDashboardResponse: {
       /** Format: int64 */
@@ -846,8 +1137,8 @@ export interface components {
       images?: components['schemas']['ImageInfo'][];
       /** @description 첨부 파일 정보 목록 */
       files?: components['schemas']['FileInfo'][];
-      /** @description 메모에 딸린 라벨들 */
-      labelList?: components['schemas']['LabelResponse'][];
+      /** @description 메모에 딸린 태그들 */
+      tagList?: components['schemas']['TagResponse'][];
       /**
        * Format: date-time
        * @description 메모 생성 시각
@@ -895,17 +1186,29 @@ export interface components {
        * @example 발박수 치며 날아 간다.
        */
       content?: string;
-      /** @description 메모에 딸린 라벨 목록 */
-      labelList?: components['schemas']['LabelResponse'][];
+      /** @description 메모에 딸린 태그 목록 */
+      tagList?: components['schemas']['TagResponse'][];
     };
-    ApiResponseLabelListResponse: {
+    ApiResponseMemoSearchResponse: {
       /** Format: int32 */
       code?: number;
       msg?: string;
-      data?: components['schemas']['LabelListResponse'];
+      data?: components['schemas']['MemoSearchResponse'];
     };
-    LabelListResponse: {
-      labels?: components['schemas']['LabelResponse'][];
+    MemoSearchItemResponse: {
+      /** Format: int64 */
+      memoId?: number;
+      title?: string;
+      content?: string;
+      tagList?: components['schemas']['TagResponse'][];
+      /** Format: date-time */
+      createdAt?: string;
+      /** @enum {string} */
+      searchType?: 'TEXT' | 'SEMANTIC';
+    };
+    MemoSearchResponse: {
+      results?: components['schemas']['MemoSearchItemResponse'][];
+      message?: string;
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
@@ -928,6 +1231,22 @@ export interface components {
       msg?: string;
       data?: components['schemas']['ChatRoomResponse'];
     };
+    ApiResponseListEmbeddingFailureResponse: {
+      /** Format: int32 */
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['EmbeddingFailureResponse'][];
+    };
+    EmbeddingFailureResponse: {
+      /** Format: int64 */
+      id?: number;
+      /** Format: int64 */
+      memoId?: number;
+      embeddingType?: string;
+      /** Format: date-time */
+      failedAt?: string;
+      errorMessage?: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -937,6 +1256,54 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  updateTag: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        tagId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TagUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseTagSummaryResponse'];
+        };
+      };
+    };
+  };
+  deleteTag: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        tagId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseString'];
+        };
+      };
+    };
+  };
   reissueToken: {
     parameters: {
       query?: never;
@@ -1073,10 +1440,54 @@ export interface operations {
       };
     };
   };
+  getAllTags: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseTagListResponse'];
+        };
+      };
+    };
+  };
+  createTag: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TagCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseTagSummaryResponse'];
+        };
+      };
+    };
+  };
   getMemos: {
     parameters: {
       query?: {
-        labelIds?: number[];
+        tagIds?: number[];
         cursorCreatedAt?: string;
         cursorMemoId?: number;
         size?: number;
@@ -1226,6 +1637,30 @@ export interface operations {
       };
     };
   };
+  recommendMemos: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoRecommendationRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoRecommendationResponse'];
+        };
+      };
+    };
+  };
   issuePresignedUrls: {
     parameters: {
       query?: never;
@@ -1301,7 +1736,7 @@ export interface operations {
   getAiMemos: {
     parameters: {
       query?: {
-        labelIds?: number[];
+        tagIds?: number[];
         cursorCreatedAt?: string;
         cursorMemoId?: number;
         size?: number;
@@ -1543,6 +1978,48 @@ export interface operations {
       };
     };
   };
+  reEmbedOne: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseReEmbeddingResultResponse'];
+        };
+      };
+    };
+  };
+  reEmbedAll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseReEmbeddingStartedResponse'];
+        };
+      };
+    };
+  };
   redirectToGoogleAuth: {
     parameters: {
       query?: never;
@@ -1612,7 +2089,9 @@ export interface operations {
   callback: {
     parameters: {
       query: {
-        code: string;
+        params: {
+          [key: string]: string;
+        };
       };
       header?: never;
       path?: never;
@@ -1626,7 +2105,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseVoid'];
+          '*/*': Record<string, never>;
         };
       };
       400: {
@@ -1695,6 +2174,48 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseUserInfoResponse'];
+        };
+      };
+    };
+  };
+  getParentTags: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseTagParentListResponse'];
+        };
+      };
+    };
+  };
+  getChildAndGrandChildTags: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        parentTagId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseTagHierarchyResponse'];
         };
       };
     };
@@ -1875,9 +2396,11 @@ export interface operations {
       };
     };
   };
-  getAllLabels: {
+  searchMemos: {
     parameters: {
-      query?: never;
+      query: {
+        query: string;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -1890,7 +2413,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseLabelListResponse'];
+          '*/*': components['schemas']['ApiResponseMemoSearchResponse'];
         };
       };
     };
@@ -1911,6 +2434,26 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseChatRoomResponse'];
+        };
+      };
+    };
+  };
+  getEmbeddingFailures: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseListEmbeddingFailureResponse'];
         };
       };
     };

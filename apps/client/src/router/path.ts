@@ -5,7 +5,7 @@ export const PATH = {
   NEW_MEMO: '/',
   ALL_MEMO: '/all-memo',
   AI_RESULTS: '/ai-results',
-  LABEL: '/label/:labelId',
+  TAG: '/tag/:tagId',
 } as const;
 
 export type Routes = (typeof PATH)[keyof typeof PATH];

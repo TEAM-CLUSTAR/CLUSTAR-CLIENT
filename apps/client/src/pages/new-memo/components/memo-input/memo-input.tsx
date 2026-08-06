@@ -189,7 +189,7 @@ const MemoInput = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
       content: htmlToMarkdown(selectedDraft.contents),
-      labelNames: selectedDraft.labels.map((l) => l.text),
+      tagNames: selectedDraft.labels.map((l) => l.text),
     };
 
     createMemo(request, {

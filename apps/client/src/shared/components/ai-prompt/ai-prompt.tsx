@@ -4,7 +4,6 @@ import ConfirmModal from '../confirm-modal/confirm-modal';
 import AiPromptHeader from './components/prompt-header/prompt-header';
 import PromptInput from './components/prompt-input/prompt-input';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
-import SelectedMemosList from './components/selected-memo-section/selected-memo-section';
 import { useAiPrompt } from './hooks/use-ai-prompt';
 import { UseAiPromptProps } from './types/types';
 
@@ -65,7 +64,6 @@ const AiPrompt = ({
   return (
     <div className={styles.container}>
       <AiPromptHeader handleClose={handlePromptClose} />
-      <SelectedMemosList selectedMemos={selectedMemos} />
       <AiMessagesList
         messages={messages}
         isLoading={isLoading}

@@ -26,10 +26,10 @@ export const useReadMemoStructure = () => {
         memoId: memo.memoId ?? 0,
         title: memo.title ?? '',
         content: memo.content ?? '',
-        labelList:
-          memo.labelList?.map((label) => ({
-            labelId: label.labelId ?? 0,
-            name: label.name ?? '',
+        tagList:
+          memo.tagList?.map((tag) => ({
+            tagId: tag.tagId ?? 0,
+            name: tag.name ?? '',
           })) ?? [],
       }));
     },
