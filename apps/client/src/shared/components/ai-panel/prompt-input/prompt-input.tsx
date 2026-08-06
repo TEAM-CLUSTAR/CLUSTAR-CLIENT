@@ -30,7 +30,7 @@ const PromptInput = ({
 }: PromptInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState('');
-  const [option, setOption] = useState('MERGE');
+  const [option, setOption] = useState<PromptInputValueType['option']>('MERGE');
 
   useLayoutEffect(() => {
     const textarea = textareaRef.current;
@@ -50,7 +50,7 @@ const PromptInput = ({
   const trimmedText = value.trim();
   const canSend = trimmedText.length > 0 && !disabled;
 
-  const handleOptionSelect = (optionId: string) => {
+  const handleOptionSelect = (optionId: PromptInputValueType['option']) => {
     if (optionId === option) return;
     setOption(optionId);
   };
@@ -60,7 +60,7 @@ const PromptInput = ({
 
     onSubmit({
       userPrompt: trimmedText,
-      option: option as PromptInputValueType['option'],
+      option,
     });
 
     setValue('');

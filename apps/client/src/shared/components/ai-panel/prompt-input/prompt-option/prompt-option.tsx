@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Tooltip } from '@cds/ui';
 
+import { PromptInputValueType } from '@shared/components/ai-panel/types/types';
+
 import PromptOptionItem from './prompt-option-item';
 
 import * as styles from './prompt-option.css';
@@ -28,8 +30,8 @@ const OPTIONS = [
 ] as const;
 
 interface PromptOptionProps {
-  selectedOptionId: string;
-  onOptionSelect: (optionId: string) => void;
+  selectedOptionId: PromptInputValueType['option'];
+  onOptionSelect: (optionId: PromptInputValueType['option']) => void;
   disabled?: boolean;
 }
 
