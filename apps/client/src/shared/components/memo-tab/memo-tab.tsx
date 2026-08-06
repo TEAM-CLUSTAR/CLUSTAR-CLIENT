@@ -17,7 +17,7 @@ const MemoTab = ({
   onSelectTab,
   onCloseTab,
 }: MemoTabProps) => {
-  // TODO: Icon 컴포넌트를 className cn 방식으로 -> hover 등을 class로 조정
+  // @TODO: Icon 컴포넌트를 className cn 방식으로 -> hover 등을 class로 조정
   const [isHovered, setIsHovered] = useState(false);
   const isHoverActive = isHovered && !isSelected;
   const iconColor = isHoverActive
