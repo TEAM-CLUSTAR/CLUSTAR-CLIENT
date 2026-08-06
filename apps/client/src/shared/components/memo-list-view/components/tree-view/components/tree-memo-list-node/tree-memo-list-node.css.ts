@@ -14,7 +14,7 @@ export const container = recipe({
   },
 
   variants: {
-    labelColor: {
+    tagColor: {
       blue: { backgroundColor: themeVars.color.label04 },
       green: { backgroundColor: themeVars.color.label06 },
       pink: { backgroundColor: themeVars.color.label08 },
@@ -33,7 +33,7 @@ export const title = recipe({
   },
 
   variants: {
-    labelColor: {
+    tagColor: {
       blue: { color: themeVars.color.label03 },
       green: { color: themeVars.color.label05 },
       pink: { color: themeVars.color.label07 },
@@ -61,7 +61,7 @@ export const handle = recipe({
   },
 
   variants: {
-    labelColor: {
+    tagColor: {
       blue: {
         selectors: {
           '&.react-flow__handle': {

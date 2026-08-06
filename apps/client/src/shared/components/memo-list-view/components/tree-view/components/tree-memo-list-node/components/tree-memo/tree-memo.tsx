@@ -33,8 +33,8 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     memoId,
     enabled: isModalOpen,
   });
-  const labelName = tagList[0]?.name ?? '라벨없음';
-  const labelColor = LABEL_COLOR_BY_TEXT[labelName as LabelTextType];
+  const tagName = tagList[0]?.name ?? '라벨없음';
+  const tagColor = LABEL_COLOR_BY_TEXT[tagName as LabelTextType];
 
   const handleModalOpenChange = (open: boolean) => {
     setIsModalOpen(open);
@@ -49,7 +49,7 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     >
       <button
         type="button"
-        className={styles.container({ labelColor })}
+        className={styles.container({ tagColor })}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

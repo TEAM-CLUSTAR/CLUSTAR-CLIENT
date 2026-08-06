@@ -12,7 +12,7 @@ import * as styles from './tree-memo-list-node.css';
 
 type TreeMemoListNodeDataTypes = Node<
   {
-    labelName: LabelTextType;
+    tagName: LabelTextType;
     memos: StructureMemoTypes[];
   },
   'memo'
@@ -22,8 +22,8 @@ const TreeMemoListNode = ({
   data,
   isConnectable,
 }: NodeProps<TreeMemoListNodeDataTypes>) => {
-  const { labelName, memos } = data;
-  const labelColor = LABEL_COLOR_BY_TEXT[labelName];
+  const { tagName, memos } = data;
+  const tagColor = LABEL_COLOR_BY_TEXT[tagName];
 
   return (
     <div>
@@ -32,10 +32,10 @@ const TreeMemoListNode = ({
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
-        className={styles.handle({ labelColor })}
+        className={styles.handle({ tagColor })}
       />
-      <div className={styles.container({ labelColor })}>
-        <span className={styles.title({ labelColor })}>{labelName}</span>
+      <div className={styles.container({ tagColor })}>
+        <span className={styles.title({ tagColor })}>{tagName}</span>
         <div className={styles.memosContainer}>
           {memos.map((memo) => (
             <TreeMemo key={memo.memoId} memo={memo} />

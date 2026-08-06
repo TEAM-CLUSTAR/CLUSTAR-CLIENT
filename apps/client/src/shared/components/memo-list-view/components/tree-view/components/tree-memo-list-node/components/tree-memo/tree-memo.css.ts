@@ -23,7 +23,7 @@ export const container = recipe({
   },
 
   variants: {
-    labelColor: {
+    tagColor: {
       blue: { borderLeft: `3.5px solid ${themeVars.color.label03}` },
       green: { borderLeft: `3.5px solid ${themeVars.color.label05}` },
       pink: { borderLeft: `3.5px solid ${themeVars.color.label07}` },
