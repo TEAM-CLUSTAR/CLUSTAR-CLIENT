@@ -9,7 +9,7 @@ import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
 import * as styles from './sidebar.css';
 
 const Sidebar = () => {
-  const { isExpanded, toggle: toggleSidebar, expand } = useSidebar();
+  const { isExpanded, toggleSidebar, expand } = useSidebar();
 
   return (
     <nav className={styles.sidebar} data-expanded={isExpanded}>
