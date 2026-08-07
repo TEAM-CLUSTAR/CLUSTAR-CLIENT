@@ -13,7 +13,6 @@ import { useNavigationBlocker } from '../../hooks/use-navigation-blocker';
 import InputContent from '../input-content/input-content';
 import InputTitle from '../input-title/input-title';
 import TabList from '../tab-list/tab-list';
-import TagSelect from '../tag-select/tag-select';
 import ToolBar from '../toolbar/toolbar';
 
 import * as styles from './memo-input.css';
@@ -171,10 +170,6 @@ const MemoInput = () => {
     patchSelectedDraft({ contents });
   };
 
-  const handleChangeTags = (tags: TagItem[]) => {
-    patchSelectedDraft({ tags });
-  };
-
   const handleSubmit = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
@@ -255,11 +250,6 @@ const MemoInput = () => {
       />
       <div className={styles.inputContainer}>
         <div className={styles.contentsContainer}>
-          <TagSelect
-            selectedItems={selectedDraft.tags}
-            onSelect={handleChangeTags}
-          />
-
           <InputTitle
             title={selectedDraft.title}
             onChange={handleChangeTitle}
