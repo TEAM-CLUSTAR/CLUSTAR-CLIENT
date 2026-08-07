@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 
 import { Tooltip } from '@cds/ui';
 
+import TreeLine from '@shared/components/tree-line/tree-line';
 import { TagTreeNodeType } from '@shared/types/tag';
 import { buildTree } from '@shared/utils/build-tree';
 
@@ -43,16 +44,18 @@ const SidebarTagSection = ({
   return (
     <>
       {isExpanded ? (
-        <ul>
-          {tagTree.map((tag) => (
-            <SidebarTagItem
-              key={tag.tagId}
-              tag={tag}
-              selectedTagId={selectedTagId}
-              onClick={handleSelectTag}
-            />
-          ))}
-        </ul>
+        <div className={styles.tagSectionContainer}>
+          <TreeLine>
+            {tagTree.map((tag) => (
+              <SidebarTagItem
+                key={tag.tagId}
+                tag={tag}
+                selectedTagId={selectedTagId}
+                onClick={handleSelectTag}
+              />
+            ))}
+          </TreeLine>
+        </div>
       ) : (
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>

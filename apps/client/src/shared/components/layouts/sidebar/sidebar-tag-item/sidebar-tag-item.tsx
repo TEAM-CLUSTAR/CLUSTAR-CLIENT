@@ -1,9 +1,7 @@
-// sidebar/sidebar-tag-item/sidebar-tag-item.tsx
+import TreeLine from '@shared/components/tree-line/tree-line';
 import { TagTreeNodeType } from '@shared/types/tag';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
-
-import * as styles from './sidebar-tag-item.css';
 
 interface SidebarTagItemProps {
   tag: TagTreeNodeType;
@@ -17,7 +15,7 @@ const SidebarTagItem = ({
   onClick,
 }: SidebarTagItemProps) => {
   return (
-    <li className={styles.treeItem}>
+    <TreeLine.Item>
       <SidebarItem
         iconName="ic_tag"
         content={tag.name}
@@ -25,7 +23,7 @@ const SidebarTagItem = ({
         onClick={() => onClick(tag.tagId)}
       />
       {tag.children.length > 0 && (
-        <ul className={styles.treeChildren}>
+        <TreeLine.Branch>
           {tag.children.map((child) => (
             <SidebarTagItem
               key={child.tagId}
@@ -34,9 +32,9 @@ const SidebarTagItem = ({
               onClick={onClick}
             />
           ))}
-        </ul>
+        </TreeLine.Branch>
       )}
-    </li>
+    </TreeLine.Item>
   );
 };
 
