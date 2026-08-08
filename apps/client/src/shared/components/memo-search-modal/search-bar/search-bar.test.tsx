@@ -22,13 +22,13 @@ const ControlledSearchBar = ({
   };
 
   return (
-    <SearchBar value={value} onChange={handleValueChange} onEnter={vi.fn()} />
+    <SearchBar value={value} onChange={handleValueChange} onSearch={vi.fn()} />
   );
 };
 
 describe('SearchBar', () => {
   it('focuses the search input on mount', () => {
-    render(<SearchBar value="" onChange={vi.fn()} onEnter={vi.fn()} />);
+    render(<SearchBar value="" onChange={vi.fn()} onSearch={vi.fn()} />);
 
     expect(screen.getByRole('searchbox')).toHaveFocus();
   });
@@ -44,27 +44,31 @@ describe('SearchBar', () => {
     expect(handleChange).toHaveBeenLastCalledWith('memo');
   });
 
-  it('calls onEnter when Enter is pressed with a non-empty value', async () => {
+  it('calls onSearch when Enter is pressed with a non-empty value', async () => {
     const user = userEvent.setup();
-    const handleEnter = vi.fn();
+    const handleSearch = vi.fn();
 
-    render(<SearchBar value="memo" onChange={vi.fn()} onEnter={handleEnter} />);
+    render(
+      <SearchBar value="memo" onChange={vi.fn()} onSearch={handleSearch} />,
+    );
 
     await user.keyboard('{Enter}');
 
-    expect(handleEnter).toHaveBeenCalledTimes(1);
+    expect(handleSearch).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('searchbox')).not.toHaveFocus();
   });
 
-  it('does not call onEnter when Enter is pressed with an empty value', async () => {
+  it('does not call onSearch when Enter is pressed with an empty value', async () => {
     const user = userEvent.setup();
-    const handleEnter = vi.fn();
+    const handleSearch = vi.fn();
 
-    render(<SearchBar value="   " onChange={vi.fn()} onEnter={handleEnter} />);
+    render(
+      <SearchBar value="   " onChange={vi.fn()} onSearch={handleSearch} />,
+    );
 
     await user.keyboard('{Enter}');
 
-    expect(handleEnter).not.toHaveBeenCalled();
+    expect(handleSearch).not.toHaveBeenCalled();
   });
 
   it('shows a clear button while the input has a value and clears the input', async () => {

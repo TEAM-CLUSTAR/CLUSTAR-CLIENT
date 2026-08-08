@@ -7,12 +7,12 @@ import * as styles from './search-bar.css';
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
-  onEnter: () => void;
+  onSearch: () => void;
 }
 
 const DEFAULT_PLACEHOLDER = '찾으시는 메모의 내용을 입력하세요.';
 
-const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
+const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const hasSearchValue = value.trim().length > 0;
 
@@ -25,7 +25,7 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
 
     if (!hasSearchValue) return;
 
-    onEnter();
+    onSearch();
     inputRef.current?.blur();
   };
 
