@@ -1,4 +1,5 @@
-type TreeNode<T> = T & { children: TreeNode<T>[] };
+/** `buildTree`가 만들어내는 노드. 원본 타입에 `children`이 더해진다. */
+export type TreeNode<T> = T & { children: TreeNode<T>[] };
 
 interface BuildTreeOptions<T, K> {
   /** 각 항목의 고유 id */

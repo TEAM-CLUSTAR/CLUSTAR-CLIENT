@@ -1,13 +1,14 @@
-import { TagTreeNodeType } from '@shared/types/tag';
+import { TagType } from '@shared/apis/tag/type';
+import { TreeNode } from '@shared/utils/build-tree';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 
 import * as styles from './sidebar-tag-item.css';
 
 interface SidebarTagItemProps {
-  tag: TagTreeNodeType;
+  tag: TreeNode<TagType>;
   selectedTagId: number | null;
-  onClick: (tagId: number) => void;
+  onClick: (tagId?: number) => void;
 }
 
 const SidebarTagItem = ({

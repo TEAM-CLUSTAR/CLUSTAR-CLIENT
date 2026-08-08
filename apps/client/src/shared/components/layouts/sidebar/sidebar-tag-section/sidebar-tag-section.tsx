@@ -2,12 +2,10 @@ import { useNavigate, useSearchParams } from 'react-router';
 
 import { Tooltip } from '@cds/ui';
 
-import { TagTreeNodeType } from '@shared/types/tag';
-import { buildTree } from '@shared/utils/build-tree';
+import { useGetTag } from '@shared/apis/tag/queries';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 import SidebarTagItem from '../sidebar-tag-item/sidebar-tag-item';
-import { MOCK_TAG } from '../tag-mock-data';
 
 import * as styles from '../sidebar.css';
 
@@ -30,14 +28,11 @@ const SidebarTagSection = ({
   const tagParam = searchParams.get('tag');
   const selectedTagId = tagParam == null ? null : Number(tagParam);
 
-  // @TODO: API 명세서 수정 이후 MOCK_TAG.tags 데이터를 API 데이터로 교체
-  const tagTree: TagTreeNodeType[] = buildTree(MOCK_TAG.tags, {
-    getId: (tag) => tag.tagId,
-    getParentId: (tag) => tag.parentId,
-  });
+  const { data: tagTree = [] } = useGetTag();
 
-  const handleSelectTag = (tagId: number) => {
-    navigate(`?tag=${tagId}`);
+  const handleSelectTag = (tagId?: number) => {
+    if (tagId === undefined) return;
+    navigate(`/?tag=${tagId}`);
   };
 
   return (
