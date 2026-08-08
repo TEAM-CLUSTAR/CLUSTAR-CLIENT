@@ -2,10 +2,6 @@ import { ReactNode } from 'react';
 
 import * as styles from './tree-line.css';
 
-export interface TreeLineRootProps {
-  children: ReactNode;
-}
-
 /**
  * 계층 구조를 커넥터 라인과 함께 보여주는 목록.
  *
