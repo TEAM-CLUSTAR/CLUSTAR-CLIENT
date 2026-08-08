@@ -67,19 +67,13 @@ describe('SearchBar', () => {
     expect(handleEnter).not.toHaveBeenCalled();
   });
 
-  it('shows a clear button after Enter is pressed and clears the input', async () => {
+  it('shows a clear button while the input has a value and clears the input', async () => {
     const user = userEvent.setup();
     const handleChange = vi.fn();
 
     render(
       <ControlledSearchBar initialValue="memo" onValueChange={handleChange} />,
     );
-
-    expect(
-      screen.queryByRole('button', { name: '검색어 지우기' }),
-    ).not.toBeInTheDocument();
-
-    await user.keyboard('{Enter}');
 
     await user.click(screen.getByRole('button', { name: '검색어 지우기' }));
 

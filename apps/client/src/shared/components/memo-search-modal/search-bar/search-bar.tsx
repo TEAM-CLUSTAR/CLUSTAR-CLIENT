@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -14,17 +14,9 @@ const DEFAULT_PLACEHOLDER = '찾으시는 메모의 내용을 입력하세요.';
 
 const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isClearButtonVisible, setIsClearButtonVisible] = useState(false);
   const hasSearchValue = value.trim().length > 0;
 
-  useEffect(() => {
-    if (value.length === 0) {
-      setIsClearButtonVisible(false);
-    }
-  }, [value]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsClearButtonVisible(false);
     onChange(event.target.value);
   };
 
@@ -33,13 +25,11 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
 
     if (!hasSearchValue) return;
 
-    setIsClearButtonVisible(true);
     onEnter();
     inputRef.current?.blur();
   };
 
   const handleClear = () => {
-    setIsClearButtonVisible(false);
     onChange('');
     inputRef.current?.focus();
   };
@@ -58,7 +48,7 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      {isClearButtonVisible && hasSearchValue && (
+      {hasSearchValue && (
         <button type="button" aria-label="검색어 지우기" onClick={handleClear}>
           <Icon name="ic_delete" color="grey700" size={24} />
         </button>
