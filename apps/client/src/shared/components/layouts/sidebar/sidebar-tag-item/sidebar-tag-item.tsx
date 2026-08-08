@@ -1,12 +1,13 @@
+import { TagType } from '@shared/apis/tag/type';
 import TreeLine from '@shared/components/tree-line/tree-line';
-import { TagTreeNodeType } from '@shared/types/tag';
+import { TreeNode } from '@shared/utils/build-tree';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 
 interface SidebarTagItemProps {
-  tag: TagTreeNodeType;
+  tag: TreeNode<TagType>;
   selectedTagId: number | null;
-  onClick: (tagId: number) => void;
+  onClick: (tagId?: number) => void;
 }
 
 const SidebarTagItem = ({
@@ -14,6 +15,8 @@ const SidebarTagItem = ({
   selectedTagId,
   onClick,
 }: SidebarTagItemProps) => {
+  const hasChildren = tag.children.length > 0;
+
   return (
     <TreeLine.Item>
       <SidebarItem
@@ -22,7 +25,8 @@ const SidebarTagItem = ({
         isSelected={selectedTagId === tag.tagId}
         onClick={() => onClick(tag.tagId)}
       />
-      {tag.children.length > 0 && (
+
+      {hasChildren && (
         <TreeLine.Branch>
           {tag.children.map((child) => (
             <SidebarTagItem

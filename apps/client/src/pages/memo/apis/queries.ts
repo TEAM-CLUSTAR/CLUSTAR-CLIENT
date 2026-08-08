@@ -1,10 +1,10 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { api } from '@shared/apis/instance';
-import { components, paths } from '@shared/types/schema';
+import { components } from '@shared/types/schema';
 
-import { ALL_MEMO_END_POIINT, TAG_END_POINT } from './end-point';
-import { ALL_MEMO_KEY, TAG_KEY } from './query-key';
+import { ALL_MEMO_END_POIINT } from './end-point';
+import { ALL_MEMO_KEY } from './query-key';
 import { type AllMemoResponse } from './type';
 
 type MemoCursor =
@@ -91,21 +91,5 @@ export const useGetAllMemo = (tagIds?: number[], size = 20) => {
     initialPageParam: undefined,
     staleTime: 0,
     select: (data) => data.pages.flatMap((p) => getMemosFromResponse(p)),
-  });
-};
-
-type TagListResponse = components['schemas']['TagListResponse'];
-type ApiTagResponse =
-  paths['/api/v1/tag']['get']['responses']['200']['content']['*/*'];
-
-const getAllTags = async (): Promise<TagListResponse['tags']> => {
-  const response = await api.get<ApiTagResponse>(TAG_END_POINT.GET);
-  return response.data.data?.tags ?? [];
-};
-
-export const useGetTag = () => {
-  return useQuery({
-    queryKey: TAG_KEY.GET(),
-    queryFn: () => getAllTags(),
   });
 };
