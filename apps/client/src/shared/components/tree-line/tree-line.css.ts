@@ -10,7 +10,7 @@ const LINE_HEIGHT = '2.4rem';
 const LINE_TAG_GAP = '0.4rem';
 // 태그 간의 gap
 const TAG_GAP = '0.4rem';
-
+// 최상위 태그 간의 gap
 const ROOT_TAG_GAP = '0.8rem';
 
 const LineBase = {
