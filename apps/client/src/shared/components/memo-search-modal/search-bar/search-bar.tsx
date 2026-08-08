@@ -18,10 +18,6 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
   const hasSearchValue = value.trim().length > 0;
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
     if (value.length === 0) {
       setIsClearButtonVisible(false);
     }
@@ -58,6 +54,7 @@ const SearchBar = ({ value, onChange, onEnter }: SearchBarProps) => {
         value={value}
         placeholder={DEFAULT_PLACEHOLDER}
         aria-label="메모 검색"
+        autoFocus
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
