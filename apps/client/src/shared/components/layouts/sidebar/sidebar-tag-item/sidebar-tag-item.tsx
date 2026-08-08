@@ -1,4 +1,3 @@
-// sidebar/sidebar-tag-item/sidebar-tag-item.tsx
 import { TagTreeNodeType } from '@shared/types/tag';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
@@ -16,6 +15,8 @@ const SidebarTagItem = ({
   selectedTagId,
   onClick,
 }: SidebarTagItemProps) => {
+  const hasChildren = tag.children.length > 0;
+
   return (
     <li className={styles.treeItem}>
       <SidebarItem
@@ -24,7 +25,7 @@ const SidebarTagItem = ({
         isSelected={selectedTagId === tag.tagId}
         onClick={() => onClick(tag.tagId)}
       />
-      {tag.children.length > 0 && (
+      {hasChildren && (
         <ul className={styles.treeChildren}>
           {tag.children.map((child) => (
             <SidebarTagItem
