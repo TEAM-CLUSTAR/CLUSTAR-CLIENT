@@ -11,6 +11,8 @@ const LINE_TAG_GAP = '0.4rem';
 // 태그 간의 gap
 const TAG_GAP = '0.4rem';
 
+const ROOT_TAG_GAP = '0.8rem';
+
 const LineBase = {
   content: '',
   position: 'absolute',
@@ -21,6 +23,9 @@ const LineBase = {
 /** 트리 최상위 목록. 라인을 그리지 않는다. */
 export const root = style({
   listStyle: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: ROOT_TAG_GAP,
 });
 
 /** 자식 노드 묶음. 이 안의 항목에만 line이 그려진다. */
