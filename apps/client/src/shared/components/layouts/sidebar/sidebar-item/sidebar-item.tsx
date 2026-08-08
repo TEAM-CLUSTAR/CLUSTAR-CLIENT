@@ -21,9 +21,9 @@ const SidebarItem = ({
 }: SidebarItemProps) => {
   return (
     <button
+      {...props}
       type="button"
       className={styles.container({ isSelected })}
-      {...props}
     >
       <Icon name={iconName} size={32} />
       {content != null && <span className={styles.text}>{content}</span>}
