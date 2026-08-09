@@ -55,6 +55,7 @@ describe('SearchBar', () => {
     await user.keyboard('{Enter}');
 
     expect(handleSearch).toHaveBeenCalledTimes(1);
+    expect(handleSearch).toHaveBeenCalledWith('memo');
     expect(screen.getByRole('searchbox')).not.toHaveFocus();
   });
 
