@@ -9,7 +9,7 @@ export const container = style({
   gap: '0.4rem',
   width: 'fit-content',
   padding: '0.4rem 0.8rem',
-  borderRadius: '0.4rem',
+  borderRadius: '4px',
   color: themeVars.color.grey700,
   backgroundColor: themeVars.color.grey100,
 });
