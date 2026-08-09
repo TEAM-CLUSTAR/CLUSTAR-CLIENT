@@ -71,6 +71,25 @@ describe('SearchBar', () => {
     expect(handleSearch).not.toHaveBeenCalled();
   });
 
+  it('does not call onSearch while composing IME text', () => {
+    const handleSearch = vi.fn();
+
+    render(
+      <SearchBar value="메모" onChange={vi.fn()} onSearch={handleSearch} />,
+    );
+
+    const input = screen.getByRole('searchbox');
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        isComposing: true,
+      }),
+    );
+
+    expect(handleSearch).not.toHaveBeenCalled();
+  });
+
   it('shows a clear button while the input has a value and clears the input', async () => {
     const user = userEvent.setup();
     const handleChange = vi.fn();

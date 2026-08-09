@@ -21,7 +21,7 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
+    if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
 
     if (!hasSearchValue) return;
 
