@@ -22,6 +22,7 @@ const Memoist = ({
     <div className={styles.memoListContainer}>
       {cards.map((card) => (
         <Card
+          key={card.memoId}
           card={{
             tagList: card.tagList,
             title: card.title ?? '',
