@@ -3,7 +3,6 @@ import { ComponentProps } from 'react';
 import { Icon } from '@cds/icon';
 import { Tag, Title } from '@cds/ui';
 
-import { TAG_COLOR_MATCH } from '@shared/constants/tag-color-match';
 import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
@@ -50,22 +49,15 @@ const Card = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {isAiGenerated && <Tag size="lg" variant="ai" text="AI 결과물" />}
-          {tagList.map((tag) => {
-            const colorStyle = tag.color
-              ? TAG_COLOR_MATCH[tag.color]
-              : undefined;
-
-            return (
-              <Tag
-                key={tag.tagId}
-                size="lg"
-                backgroundColor={colorStyle?.backgroundColor ?? ''}
-                textColor={colorStyle?.textColor ?? ''}
-                text={tag.name ?? ''}
-              />
-            );
-          })}
+          {isAiGenerated && <Tag size="lg" color="ai" text="AI 결과물" />}
+          {tagList.map((tag) => (
+            <Tag
+              key={tag.tagId}
+              size="lg"
+              color={tag.color}
+              text={tag.name ?? ''}
+            />
+          ))}
         </div>
         <div className={styles.contentsContainer}>
           <Title title={title} />

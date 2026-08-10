@@ -1,11 +1,19 @@
-import { themeVars } from '@cds/ui';
+import { themeVars } from '../styles';
 
-import { components } from '@shared/types/schema';
-
-type TagColorName = NonNullable<components['schemas']['TagResponse']['color']>;
+export type TagColorType =
+  | 'pink'
+  | 'red'
+  | 'orange'
+  | 'yellow'
+  | 'green'
+  | 'cyan'
+  | 'light-blue'
+  | 'blue'
+  | 'purple'
+  | 'magenta';
 
 export const TAG_COLOR_MATCH: Record<
-  TagColorName,
+  TagColorType,
   { backgroundColor: string; textColor: string }
 > = {
   pink: {

@@ -1,38 +1,38 @@
 import { Icon } from '@cds/icon';
 
+import { TAG_COLOR_MATCH, TagColorType } from '../../constants/tag-color-match';
+
 import * as styles from './tag.css';
 
 export interface TagProps {
   size: 'sm' | 'lg';
-  variant?: 'default' | 'ai';
-  backgroundColor?: string;
-  textColor?: string;
+  color?: string;
   text: string;
+  action?: 'default' | 'remove';
   onRemove?: () => void;
 }
 
-const Tag = ({
-  size,
-  variant = 'default',
-  backgroundColor,
-  textColor,
-  text,
-  onRemove,
-}: TagProps) => {
-  const isAi = variant === 'ai';
+const Tag = ({ size, color, text, action = 'default', onRemove }: TagProps) => {
+  const isAi = color === 'ai';
+  const colorStyle =
+    color && !isAi ? TAG_COLOR_MATCH[color as TagColorType] : undefined;
+  const removable = action === 'remove';
 
   return (
     <div
-      className={styles.container({ size, removable: !!onRemove, ai: isAi })}
-      style={isAi ? undefined : { backgroundColor, color: textColor }}
+      className={styles.container({ size, removable, ai: isAi })}
+      style={{
+        backgroundColor: colorStyle?.backgroundColor,
+        color: colorStyle?.textColor,
+      }}
     >
       <div
         className={styles.indicator({ size, ai: isAi })}
-        style={isAi ? undefined : { backgroundColor: textColor }}
+        style={{ backgroundColor: colorStyle?.textColor }}
         aria-hidden="true"
       />
       <p>{text}</p>
-      {!isAi && onRemove && (
+      {removable && onRemove && (
         <button
           type="button"
           onClick={(event) => {
