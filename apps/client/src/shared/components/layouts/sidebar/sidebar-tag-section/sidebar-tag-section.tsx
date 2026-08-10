@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { Tooltip } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
+import TreeLine from '@shared/components/tree-line/tree-line';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 import SidebarTagItem from '../sidebar-tag-item/sidebar-tag-item';
@@ -38,16 +39,18 @@ const SidebarTagSection = ({
   return (
     <>
       {isExpanded ? (
-        <ul>
-          {tagTree.map((tag) => (
-            <SidebarTagItem
-              key={tag.tagId}
-              tag={tag}
-              selectedTagId={selectedTagId}
-              onClick={handleSelectTag}
-            />
-          ))}
-        </ul>
+        <div className={styles.tagSectionContainer}>
+          <TreeLine>
+            {tagTree.map((tag) => (
+              <SidebarTagItem
+                key={tag.tagId}
+                tag={tag}
+                selectedTagId={selectedTagId}
+                onClick={handleSelectTag}
+              />
+            ))}
+          </TreeLine>
+        </div>
       ) : (
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>

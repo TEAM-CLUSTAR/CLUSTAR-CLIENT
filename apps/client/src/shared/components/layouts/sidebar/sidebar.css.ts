@@ -74,6 +74,10 @@ export const tagSection = style({
   },
 });
 
+export const tagSectionContainer = style({
+  paddingTop: '0.8rem',
+});
+
 export const sectionTitle = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey500,
