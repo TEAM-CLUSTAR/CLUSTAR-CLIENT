@@ -6,7 +6,7 @@ import * as styles from './tag.css';
 
 export interface TagProps {
   size: 'sm' | 'lg';
-  color?: string;
+  color: string;
   text: string;
   action?: 'default' | 'remove';
   onRemove?: () => void;
