@@ -5,7 +5,7 @@ import { buildTree } from '@shared/utils/build-tree';
 import { api } from '../instance';
 import { TAG_END_POINT } from './end-point';
 import { TAG_KEY } from './query-key';
-import { TagListApiResponse } from './type';
+import { TagListApiResponse, TagNode, TagType } from './type';
 
 /**
  * 태그 정보 조회
@@ -16,11 +16,13 @@ const getTag = async (): Promise<TagListApiResponse> => {
   return response.data;
 };
 
+const hasTagId = (tag: TagType): tag is TagNode => tag.tagId !== undefined;
+
 /**
  * 응답에서 태그 목록을 꺼내 트리로 변환.
  */
 const selectTagTree = (response: TagListApiResponse) =>
-  buildTree(response.data?.tags ?? [], {
+  buildTree(response.data?.tags?.filter(hasTagId) ?? [], {
     getId: (tag) => tag.tagId,
     getParentId: (tag) => tag.parentId,
   });

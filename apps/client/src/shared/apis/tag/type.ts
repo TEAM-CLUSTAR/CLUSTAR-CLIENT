@@ -6,3 +6,10 @@ export type TagListApiResponse =
 
 /** Tag 응답값 */
 export type TagType = components['schemas']['TagResponse'];
+
+/**
+ * 화면에서 쓰는 태그.
+ * 서버 스키마의 `tagId`는 옵셔널이지만 식별할 수 없는 태그는 선택도 렌더도 할 수 없어,
+ * 경계에서 좁혀 화면 쪽에는 항상 존재하는 값으로 전달한다.
+ */
+export type TagNode = TagType & { tagId: number };
