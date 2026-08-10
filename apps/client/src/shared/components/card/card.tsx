@@ -54,7 +54,7 @@ const Card = ({
             <Tag
               key={tag.tagId}
               size="lg"
-              color={tag.color}
+              color={tag.color ?? ''}
               text={tag.name ?? ''}
             />
           ))}
