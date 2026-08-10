@@ -6,8 +6,3 @@ export const ALL_MEMO_KEY = {
     ...(tagIds ? [{ tagIds }] : []),
   ],
 };
-
-export const TAG_KEY = {
-  ALL: ['tags'],
-  GET: () => [...TAG_KEY.ALL, 'get'],
-};
