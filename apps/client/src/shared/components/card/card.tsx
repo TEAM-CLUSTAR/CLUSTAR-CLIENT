@@ -35,7 +35,6 @@ const Card = ({
   },
   isSelected = false,
   isDragging = false,
-
   ...props
 }: CardProps) => {
   return (
