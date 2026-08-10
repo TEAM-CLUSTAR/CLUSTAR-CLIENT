@@ -5,6 +5,7 @@ import EmptyView from '@shared/components/empty-view/empty-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
 import MemoList from './components/memo-list/memo-list';
+import { useInfiniteScroll } from './hooks/use-infinite-scroll';
 
 import * as styles from './memo-page.css';
 
@@ -23,6 +24,11 @@ const AllMemoPage = () => {
     fetchNextPage,
   } = useGetAllMemo(tagId);
 
+  const loadMoreRef = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
   const { data: totalCount } = useGetMemoTotalCount(tagId);
 
   return (
@@ -47,6 +53,7 @@ const AllMemoPage = () => {
               isDragging={false}
               onClickCard={() => {}}
             />
+            <div ref={loadMoreRef} />
           </>
         )}
       </div>
