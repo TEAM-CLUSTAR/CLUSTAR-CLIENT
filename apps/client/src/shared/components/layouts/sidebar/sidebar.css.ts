@@ -26,6 +26,7 @@ export const header = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  flexShrink: 0,
 });
 
 export const logoButton = style({
@@ -62,6 +63,7 @@ export const foldButton = style({
 
 /* ── sections ── */
 export const menuSection = style({
+  flexShrink: 0,
   selectors: {
     [`${expandedSidebar} &`]: { marginTop: '4rem' },
     [`${collapsedSidebar} &`]: { marginTop: '5.7rem' },
@@ -70,12 +72,38 @@ export const menuSection = style({
 
 export const tagSection = style({
   selectors: {
-    [`${expandedSidebar} &`]: { marginTop: '2.4rem' },
+    [`${expandedSidebar} &`]: {
+      marginTop: '2.4rem',
+      display: 'flex',
+      flexDirection: 'column',
+      flex: 1,
+      minHeight: 0,
+    },
   },
 });
 
 export const tagSectionContainer = style({
   paddingTop: '0.8rem',
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+
+  scrollbarWidth: 'thin',
+  scrollbarColor: 'transparent transparent',
+  ':hover': {
+    scrollbarColor: `${themeVars.color.grey300} transparent`,
+  },
+
+  selectors: {
+    '&::-webkit-scrollbar': { width: '0.6rem' },
+    '&::-webkit-scrollbar-track': { background: 'transparent' },
+    '&::-webkit-scrollbar-thumb': {
+      background: 'transparent',
+    },
+    '&:hover::-webkit-scrollbar-thumb': {
+      background: themeVars.color.grey300,
+    },
+  },
 });
 
 export const sectionTitle = style({
@@ -138,4 +166,5 @@ export const tooltip = style({
 
 export const footerSection = style({
   marginTop: 'auto',
+  flexShrink: 0,
 });
