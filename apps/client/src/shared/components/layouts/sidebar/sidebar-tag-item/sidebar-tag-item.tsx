@@ -1,13 +1,13 @@
-import { TagType } from '@shared/apis/tag/type';
+import { TagNode } from '@shared/apis/tag/type';
 import TreeLine from '@shared/components/tree-line/tree-line';
 import { TreeNode } from '@shared/utils/build-tree';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 
 interface SidebarTagItemProps {
-  tag: TreeNode<TagType>;
-  selectedTagId: string;
-  onClick: (tagId?: number) => void;
+  tag: TreeNode<TagNode>;
+  selectedTagId: number | null;
+  onClick: (tagId: number) => void;
 }
 
 const SidebarTagItem = ({
@@ -22,7 +22,7 @@ const SidebarTagItem = ({
       <SidebarItem
         iconName="ic_tag"
         content={tag.name}
-        isSelected={selectedTagId === String(tag.tagId)}
+        isSelected={selectedTagId === tag.tagId}
         onClick={() => onClick(tag.tagId)}
       />
 

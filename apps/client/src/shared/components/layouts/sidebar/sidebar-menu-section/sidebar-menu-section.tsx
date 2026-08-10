@@ -1,15 +1,16 @@
 import { PATH } from '@router/path';
-import { useNavigate } from 'react-router';
 
 import { IconName } from '@cds/icon';
 import { Modal, Tooltip } from '@cds/ui';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
+import { SidebarSelection } from '../type';
 
 import * as styles from '../sidebar.css';
 
 interface SidebarMenuSectionProps {
-  selectedMenuId: string;
+  selection: SidebarSelection;
+  onSelectMenu: (path: string) => void;
   onExpand: () => void;
 }
 
@@ -42,15 +43,11 @@ const MENU_ITEMS: MenuItem[] = [
 ];
 
 const SidebarMenuSection = ({
-  selectedMenuId,
+  selection,
+  onSelectMenu,
   onExpand,
 }: SidebarMenuSectionProps) => {
-  const navigate = useNavigate();
-
-  const handleSelectMenu = (path: string) => {
-    navigate(path);
-    onExpand(); // 접힌 상태에서 메뉴 아이콘을 누른 경우
-  };
+  const selectedMenuPath = selection.type === 'menu' ? selection.path : null;
 
   return (
     <ul className={styles.pannelList}>
@@ -74,8 +71,8 @@ const SidebarMenuSection = ({
           <SidebarItem
             iconName={iconName}
             content={text}
-            isSelected={selectedMenuId === path}
-            onClick={() => handleSelectMenu(path)}
+            isSelected={selectedMenuPath === path}
+            onClick={() => onSelectMenu(path)}
           />
           <div className={styles.tooltip}>
             <Tooltip title={text} />

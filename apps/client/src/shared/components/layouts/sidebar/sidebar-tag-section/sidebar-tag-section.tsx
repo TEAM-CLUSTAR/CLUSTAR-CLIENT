@@ -1,6 +1,3 @@
-import { PATH } from '@router/path';
-import { useNavigate } from 'react-router';
-
 import { Tooltip } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
@@ -8,13 +5,14 @@ import TreeLine from '@shared/components/tree-line/tree-line';
 
 import SidebarItem from '../sidebar-item/sidebar-item';
 import SidebarTagItem from '../sidebar-tag-item/sidebar-tag-item';
+import { SidebarSelection } from '../type';
 
 import * as styles from '../sidebar.css';
 
 interface SidebarTagSectionProps {
   isExpanded: boolean;
-  selectedTagId: string;
-  isTagSelected: boolean;
+  selection: SidebarSelection;
+  onSelectTag: (tagId: number) => void;
   onExpand: () => void;
 }
 
@@ -24,18 +22,13 @@ interface SidebarTagSectionProps {
  */
 const SidebarTagSection = ({
   isExpanded,
-  selectedTagId,
-  isTagSelected,
+  selection,
+  onSelectTag,
   onExpand,
 }: SidebarTagSectionProps) => {
-  const navigate = useNavigate();
-
   const { data: tagTree = [] } = useGetTag();
 
-  const handleSelectTag = (tagId?: number) => {
-    if (tagId === undefined) return;
-    navigate(`${PATH.ROOT}?tag=${tagId}`);
-  };
+  const selectedTagId = selection.type === 'tag' ? selection.tagId : null;
 
   return (
     <>
@@ -47,7 +40,7 @@ const SidebarTagSection = ({
                 key={tag.tagId}
                 tag={tag}
                 selectedTagId={selectedTagId}
-                onClick={handleSelectTag}
+                onClick={onSelectTag}
               />
             ))}
           </TreeLine>
@@ -57,7 +50,7 @@ const SidebarTagSection = ({
           <li className={styles.pannelItem}>
             <SidebarItem
               iconName="ic_tag"
-              isSelected={isTagSelected}
+              isSelected={selection.type === 'tag'}
               onClick={onExpand}
             />
             <div className={styles.tooltip}>
