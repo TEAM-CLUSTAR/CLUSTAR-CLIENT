@@ -3,43 +3,46 @@ import { ComponentProps } from 'react';
 import { Icon } from '@cds/icon';
 import { Label, Title } from '@cds/ui';
 
+import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
 import * as styles from './card.css';
 
-// TODO: Tag 백엔드 타입에 맞게 변경
-type TagType = {
-  tagId?: number;
-  name?: string;
-};
-
 type CardInfoType = {
-  tagList?: TagType[];
+  tagList?: components['schemas']['TagResponse'][];
   title: string;
   content: string;
   fileCount: number;
   imageCount: number;
   createAt: string;
+  isNew?: boolean;
 };
 interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
-  isNewAi?: boolean;
 }
 
 const Card = ({
-  card: { tagList = [], title, content, fileCount, imageCount, createAt },
+  card: {
+    tagList = [],
+    title,
+    content,
+    fileCount,
+    imageCount,
+    createAt,
+    isNew = false,
+  },
   isSelected = false,
   isDragging = false,
-  isNewAi = false,
+
   ...props
 }: CardProps) => {
   return (
     <article
-      className={styles.cardContainer({ isSelected, isDragging, isNewAi })}
-      draggable
       {...props}
+      className={styles.cardContainer({ isSelected, isDragging, isNew })}
+      draggable
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>

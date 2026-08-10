@@ -12,6 +12,7 @@ const baseStyle = {
   padding: '2.4rem',
   width: '38rem',
   minWidth: '34rem',
+  maxWidth: '100%',
   height: '22rem',
   borderRadius: '12px',
   backgroundColor: themeVars.color.white,
@@ -45,7 +46,7 @@ const isNewAiSelectedStyle = {
   },
 } as const;
 
-const isNewAiStyle = {
+const isNewStyle = {
   border: '1px solid transparent',
   background: `
     ${themeVars.color.gradient03} padding-box,
@@ -65,11 +66,11 @@ export const cardContainer = recipe({
   variants: {
     isSelected: { true: selectedStyle, false: {} },
     isDragging: { true: draggingStyle, false: {} },
-    isNewAi: { true: isNewAiStyle, false: {} },
+    isNew: { true: isNewStyle, false: {} },
   },
   compoundVariants: [
     {
-      variants: { isNewAi: true, isSelected: true },
+      variants: { isNew: true, isSelected: true },
       style: isNewAiSelectedStyle,
     },
   ],
