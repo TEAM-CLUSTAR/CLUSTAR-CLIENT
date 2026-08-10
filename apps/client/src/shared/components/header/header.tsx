@@ -1,4 +1,4 @@
-import { PageTitle, Search } from '@cds/ui';
+import { PageTitle } from '@cds/ui';
 
 import * as styles from './header.css';
 interface HeaderProps {
@@ -11,7 +11,6 @@ const Header = ({ title, count }: HeaderProps) => {
     <header className={styles.header}>
       <div className={styles.container}>
         <PageTitle title={title} count={count} />
-        <Search />
       </div>
     </header>
   );
