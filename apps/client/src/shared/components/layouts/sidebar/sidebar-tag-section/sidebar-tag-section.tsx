@@ -1,4 +1,5 @@
-import { useNavigate, useSearchParams } from 'react-router';
+import { PATH } from '@router/path';
+import { useNavigate } from 'react-router';
 
 import { Tooltip } from '@cds/ui';
 
@@ -12,6 +13,8 @@ import * as styles from '../sidebar.css';
 
 interface SidebarTagSectionProps {
   isExpanded: boolean;
+  selectedTagId: string;
+  isTagSelected: boolean;
   onExpand: () => void;
 }
 
@@ -21,19 +24,17 @@ interface SidebarTagSectionProps {
  */
 const SidebarTagSection = ({
   isExpanded,
+  selectedTagId,
+  isTagSelected,
   onExpand,
 }: SidebarTagSectionProps) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const tagParam = searchParams.get('tag');
-  const selectedTagId = tagParam == null ? null : Number(tagParam);
 
   const { data: tagTree = [] } = useGetTag();
 
   const handleSelectTag = (tagId?: number) => {
     if (tagId === undefined) return;
-    navigate(`/?tag=${tagId}`);
+    navigate(`${PATH.ROOT}?tag=${tagId}`);
   };
 
   return (
@@ -56,7 +57,7 @@ const SidebarTagSection = ({
           <li className={styles.pannelItem}>
             <SidebarItem
               iconName="ic_tag"
-              isSelected={selectedTagId !== null}
+              isSelected={isTagSelected}
               onClick={onExpand}
             />
             <div className={styles.tooltip}>

@@ -6,7 +6,7 @@ import SidebarItem from '../sidebar-item/sidebar-item';
 
 interface SidebarTagItemProps {
   tag: TreeNode<TagType>;
-  selectedTagId: number | null;
+  selectedTagId: string;
   onClick: (tagId?: number) => void;
 }
 
@@ -22,7 +22,7 @@ const SidebarTagItem = ({
       <SidebarItem
         iconName="ic_tag"
         content={tag.name}
-        isSelected={selectedTagId === tag.tagId}
+        isSelected={selectedTagId === String(tag.tagId)}
         onClick={() => onClick(tag.tagId)}
       />
 

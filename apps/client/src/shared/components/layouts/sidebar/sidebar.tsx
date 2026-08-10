@@ -1,3 +1,5 @@
+import { useLocation, useSearchParams } from 'react-router';
+
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
@@ -10,6 +12,11 @@ import * as styles from './sidebar.css';
 
 const Sidebar = () => {
   const { isExpanded, toggleSidebar, expand } = useSidebar();
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const tagParam = searchParams.get('tag');
+  const selectedId = tagParam === null ? pathname : tagParam;
 
   return (
     <nav className={styles.sidebar} data-expanded={isExpanded}>
@@ -41,14 +48,19 @@ const Sidebar = () => {
       {/* 메뉴 section */}
       <section className={styles.menuSection}>
         <span className={styles.sectionTitle}>메뉴</span>
-        <SidebarMenuSection onExpand={expand} />
+        <SidebarMenuSection selectedMenuId={selectedId} onExpand={expand} />
       </section>
 
       {/* 태그 section */}
       <section className={styles.tagSection}>
         <span className={styles.sectionTitle}>태그</span>
         <hr className={styles.collapsedDivider} />
-        <SidebarTagSection isExpanded={isExpanded} onExpand={expand} />
+        <SidebarTagSection
+          isExpanded={isExpanded}
+          selectedTagId={selectedId}
+          isTagSelected={tagParam !== null}
+          onExpand={expand}
+        />
       </section>
 
       {/* footer section */}

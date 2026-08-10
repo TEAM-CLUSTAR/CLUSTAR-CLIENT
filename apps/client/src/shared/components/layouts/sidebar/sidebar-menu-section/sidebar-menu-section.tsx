@@ -1,5 +1,5 @@
 import { PATH } from '@router/path';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { IconName } from '@cds/icon';
 import { Modal, Tooltip } from '@cds/ui';
@@ -9,6 +9,7 @@ import SidebarItem from '../sidebar-item/sidebar-item';
 import * as styles from '../sidebar.css';
 
 interface SidebarMenuSectionProps {
+  selectedMenuId: string;
   onExpand: () => void;
 }
 
@@ -40,8 +41,10 @@ const MENU_ITEMS: MenuItem[] = [
   },
 ];
 
-const SidebarMenuSection = ({ onExpand }: SidebarMenuSectionProps) => {
-  const { pathname } = useLocation();
+const SidebarMenuSection = ({
+  selectedMenuId,
+  onExpand,
+}: SidebarMenuSectionProps) => {
   const navigate = useNavigate();
 
   const handleSelectMenu = (path: string) => {
@@ -71,7 +74,7 @@ const SidebarMenuSection = ({ onExpand }: SidebarMenuSectionProps) => {
           <SidebarItem
             iconName={iconName}
             content={text}
-            isSelected={pathname === path}
+            isSelected={selectedMenuId === path}
             onClick={() => handleSelectMenu(path)}
           />
           <div className={styles.tooltip}>
