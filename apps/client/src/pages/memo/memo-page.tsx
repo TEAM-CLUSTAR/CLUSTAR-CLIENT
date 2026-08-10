@@ -15,21 +15,21 @@ const AllMemoPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tagParam = searchParams.get('tag');
-  const tagId = tagParam !== null ? [Number(tagParam)] : undefined;
+  const tagIds = tagParam !== null ? [Number(tagParam)] : undefined;
 
   const {
-    data: filteredMemos,
+    data: memosList,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(tagId);
+  } = useGetAllMemo(tagIds);
+  const { data: totalCount } = useGetMemoTotalCount(tagIds);
 
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   });
-  const { data: totalCount } = useGetMemoTotalCount(tagId);
 
   return (
     <>
@@ -48,7 +48,7 @@ const AllMemoPage = () => {
           <>
             {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
             <MemoList
-              cards={filteredMemos ?? []}
+              cards={memosList ?? []}
               isSelected={false}
               isDragging={false}
               onClickCard={() => {}}
