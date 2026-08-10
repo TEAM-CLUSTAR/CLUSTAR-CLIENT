@@ -35,11 +35,6 @@ const meta: Meta<typeof Tag> = {
       ],
     },
     text: { description: '태그 텍스트', control: 'text' },
-    action: {
-      description: '태그 동작 (default: 일반, remove: 삭제 가능)',
-      control: 'select',
-      options: ['default', 'remove'],
-    },
     onRemove: { action: 'removed' },
   },
 };
@@ -68,7 +63,6 @@ export const Removable: Story = {
     size: 'lg',
     color: 'purple',
     text: '클러스타',
-    action: 'remove',
     onRemove: () => {},
   },
 };

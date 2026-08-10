@@ -8,15 +8,14 @@ export interface TagProps {
   size: 'sm' | 'lg';
   color: string;
   text: string;
-  action?: 'default' | 'remove';
   onRemove?: () => void;
 }
 
-const Tag = ({ size, color, text, action = 'default', onRemove }: TagProps) => {
+const Tag = ({ size, color, text, onRemove }: TagProps) => {
   const isAi = color === 'ai';
   const colorStyle =
     color && !isAi ? TAG_COLOR_MATCH[color as TagColorType] : undefined;
-  const removable = action === 'remove';
+  const removable = !!onRemove;
 
   return (
     <div
@@ -32,7 +31,7 @@ const Tag = ({ size, color, text, action = 'default', onRemove }: TagProps) => {
         aria-hidden="true"
       />
       <p>{text}</p>
-      {removable && onRemove && (
+      {onRemove && (
         <button
           type="button"
           onClick={(event) => {
