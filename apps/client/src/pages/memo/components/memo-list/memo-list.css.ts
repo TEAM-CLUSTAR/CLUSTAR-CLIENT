@@ -9,6 +9,7 @@ export const memoListContainer = style({
   gridTemplateColumns: `repeat(auto-fill, minmax(${CARD_MIN_WIDTH}, max-content))`,
   justifyContent: 'safe center',
   gap: GAP,
+  width: '100%',
   maxWidth: `calc(${CARD_MAX_WIDTH} * 3 + ${GAP} * 2)`,
-  minWidth: `calc(${CARD_MIN_WIDTH} * 2 + ${GAP} )`,
+  minWidth: `calc(${CARD_MIN_WIDTH} * 2 + ${GAP})`,
 });

@@ -35,7 +35,7 @@ const draggingStyle = {
   cursor: 'grabbing',
 } as const;
 
-const isNewAiSelectedStyle = {
+const isNewSelectedStyle = {
   border: `1px solid ${themeVars.color.grey400}`,
   background: themeVars.color.grey100,
   selectors: {
@@ -71,7 +71,7 @@ export const cardContainer = recipe({
   compoundVariants: [
     {
       variants: { isNew: true, isSelected: true },
-      style: isNewAiSelectedStyle,
+      style: isNewSelectedStyle,
     },
   ],
 });

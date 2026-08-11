@@ -5,19 +5,19 @@ import * as styles from './memo-list.css';
 
 type CardType = components['schemas']['MemoDashboardResponse'];
 
-interface MemoistProps {
+interface MemoListProps {
   cards: CardType[];
   isSelected: boolean;
   isDragging: boolean;
   onClickCard: () => void;
 }
 
-const Memoist = ({
+const MemoList = ({
   cards,
   isSelected,
   isDragging,
   onClickCard,
-}: MemoistProps) => {
+}: MemoListProps) => {
   return (
     <div className={styles.memoListContainer}>
       {cards.map((card) => (
@@ -40,4 +40,4 @@ const Memoist = ({
   );
 };
 
-export default Memoist;
+export default MemoList;
