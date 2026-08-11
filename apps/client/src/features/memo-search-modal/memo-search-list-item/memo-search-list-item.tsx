@@ -1,7 +1,6 @@
 import { Icon } from '@cds/icon';
-import { Tag, themeVars } from '@cds/ui';
+import { Tag } from '@cds/ui';
 
-import { TAG_COLOR_MATCH } from '@shared/constants/tag-color-match';
 import { TagDisplayInfo } from '@shared/types/tag';
 import { formatTodayTimeOrDate } from '@shared/utils/format-date';
 
@@ -53,21 +52,14 @@ const MemoSearchListItem = ({
             <strong className={styles.title}>{title}</strong>
           </div>
           <div className={styles.tagList}>
-            {visibleTags.map((tag) => {
-              const colorStyle = TAG_COLOR_MATCH[tag.color];
-
-              return (
-                <Tag
-                  key={tag.tagId}
-                  size="sm"
-                  backgroundColor={
-                    colorStyle?.backgroundColor ?? themeVars.color.grey100
-                  }
-                  textColor={colorStyle?.textColor ?? themeVars.color.grey600}
-                  text={tag.name}
-                />
-              );
-            })}
+            {visibleTags.map((tag) => (
+              <Tag
+                key={tag.tagId}
+                size="sm"
+                color={tag.color}
+                text={tag.name}
+              />
+            ))}
           </div>
         </div>
         <time className={styles.openedAt} dateTime={openedAt}>
