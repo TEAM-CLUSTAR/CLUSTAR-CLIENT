@@ -49,7 +49,9 @@ const Card = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {isAiGenerated && <Tag size="lg" color="ai" text="AI 결과물" />}
+          {isAiGenerated && (
+            <Tag size="lg" variant="outlined" text="AI 결과물" />
+          )}
           {tagList.map((tag) => (
             <Tag
               key={tag.tagId}

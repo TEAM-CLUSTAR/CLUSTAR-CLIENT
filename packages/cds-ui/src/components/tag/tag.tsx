@@ -4,29 +4,61 @@ import { TAG_COLOR_MATCH, TagColorType } from '../../constants/tag-color-match';
 
 import * as styles from './tag.css';
 
-export interface TagProps {
-  size: 'sm' | 'lg';
-  color: string;
+type TagBaseProps = {
   text: string;
-  onRemove?: () => void;
-}
+};
 
-const Tag = ({ size, color, text, onRemove }: TagProps) => {
-  const isAi = color === 'ai';
+type NoneActionProps = {
+  action?: 'none';
+  onRemove?: never;
+};
+
+type RemoveActionProps = {
+  action: 'remove';
+  onRemove: () => void;
+};
+
+type SmallFillTagProps = TagBaseProps &
+  NoneActionProps & {
+    size: 'sm';
+    variant?: 'fill';
+    color: string;
+  };
+
+type LargeFillTagProps = TagBaseProps & {
+  size: 'lg';
+  variant?: 'fill';
+  color: string;
+} & (NoneActionProps | RemoveActionProps);
+
+type OutlinedTagProps = TagBaseProps &
+  NoneActionProps & {
+    size: 'sm' | 'lg';
+    variant: 'outlined';
+    color?: never;
+  };
+
+type TagProps = SmallFillTagProps | LargeFillTagProps | OutlinedTagProps;
+
+const Tag = ({ size, text, ...rest }: TagProps) => {
+  const isOutlined = rest.variant === 'outlined';
   const colorStyle =
-    color && !isAi ? TAG_COLOR_MATCH[color as TagColorType] : undefined;
+    !isOutlined && rest.color
+      ? TAG_COLOR_MATCH[rest.color as TagColorType]
+      : undefined;
+  const onRemove = rest.action === 'remove' ? rest.onRemove : undefined;
   const removable = !!onRemove;
 
   return (
     <div
-      className={styles.container({ size, removable, ai: isAi })}
+      className={styles.container({ size, removable, outlined: isOutlined })}
       style={{
         backgroundColor: colorStyle?.backgroundColor,
         color: colorStyle?.textColor,
       }}
     >
       <div
-        className={styles.indicator({ size, ai: isAi })}
+        className={styles.indicator({ size, outlined: isOutlined })}
         style={{ backgroundColor: colorStyle?.textColor }}
         aria-hidden="true"
       />
