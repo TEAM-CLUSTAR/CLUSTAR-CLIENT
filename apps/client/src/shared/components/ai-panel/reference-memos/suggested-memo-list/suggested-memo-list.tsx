@@ -24,18 +24,18 @@ const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.listContainer({ isOpen })}>
+      <button
+        type="button"
+        className={styles.listContainer({ isOpen })}
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-expanded={isOpen}
+      >
         <Icon name="ic_ai" size={32} color={iconColor} />
         <span className={styles.title}>AI 추천 메모</span>
-        <button
-          type="button"
-          className={styles.chevronButton({ isOpen })}
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
+        <div className={styles.chevronButton({ isOpen })}>
           <Icon name="ic_chevron_down" size={20} color={iconColor} />
-        </button>
-      </div>
+        </div>
+      </button>
       {isOpen && (
         <ul className={styles.itemsContainer}>
           {memos.map(({ memoId, title, isSelected }) => (

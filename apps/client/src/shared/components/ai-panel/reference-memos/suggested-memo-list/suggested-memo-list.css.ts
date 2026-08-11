@@ -37,6 +37,7 @@ export const title = style({
   width: '100%',
   color: 'inherit',
   ...themeVars.fontStyles.body_m_16,
+  textAlign: 'left',
 });
 
 export const chevronButton = recipe({
