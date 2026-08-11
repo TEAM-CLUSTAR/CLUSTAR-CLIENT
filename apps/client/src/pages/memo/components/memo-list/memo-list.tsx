@@ -20,22 +20,24 @@ const MemoList = ({
 }: MemoListProps) => {
   return (
     <div className={styles.memoListContainer}>
-      {cards.map((card) => (
-        <Card
-          key={card.memoId}
-          card={{
-            tagList: card.tagList,
-            title: card.title ?? '',
-            content: card.content ?? '',
-            fileCount: card.fileCount ?? 0,
-            imageCount: card.imageCount ?? 0,
-            createAt: card.createdAt ?? '',
-          }}
-          isSelected={isSelected}
-          isDragging={isDragging}
-          onClick={onClickCard}
-        />
-      ))}
+      <div className={styles.memoListGrid}>
+        {cards.map((card) => (
+          <Card
+            key={card.memoId}
+            card={{
+              tagList: card.tagList,
+              title: card.title ?? '',
+              content: card.content ?? '',
+              fileCount: card.fileCount ?? 0,
+              imageCount: card.imageCount ?? 0,
+              createAt: card.createdAt ?? '',
+            }}
+            isSelected={isSelected}
+            isDragging={isDragging}
+            onClick={onClickCard}
+          />
+        ))}
+      </div>
     </div>
   );
 };
