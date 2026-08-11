@@ -14,11 +14,15 @@ export const container = recipe({
   },
   variants: {
     removable: {
+      false: {
+        padding: '0 0.8rem',
+      },
       true: {
         border: `1px solid ${themeVars.color.grey300}`,
+        padding: '0 0.4rem 0 0.8rem',
       },
     },
-    ai: {
+    outlined: {
       true: {
         border: '1px solid transparent',
         background: `
@@ -32,12 +36,10 @@ export const container = recipe({
       lg: {
         ...themeVars.fontStyles.body_m_14,
         height: '2.4rem',
-        padding: '0 0.8rem',
       },
       sm: {
         ...themeVars.fontStyles.label_m_12,
         height: '1.8rem',
-        padding: '0 0.6rem',
       },
     },
   },
@@ -45,7 +47,7 @@ export const container = recipe({
 
 export const indicator = recipe({
   variants: {
-    ai: {
+    outlined: {
       true: {
         backgroundColor: themeVars.color.blue500,
       },
