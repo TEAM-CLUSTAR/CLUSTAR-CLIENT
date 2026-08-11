@@ -18,27 +18,26 @@ type RemoveActionProps = {
   onRemove: () => void;
 };
 
-type SmallFillTagProps = TagBaseProps &
-  NoneActionProps & {
-    size: 'sm';
-    variant?: 'fill';
-    color: string;
-  };
+type SmallFillTagProps = NoneActionProps & {
+  size: 'sm';
+  variant?: 'fill';
+  color: string;
+};
 
-type LargeFillTagProps = TagBaseProps & {
+type LargeFillTagProps = {
   size: 'lg';
   variant?: 'fill';
   color: string;
 } & (NoneActionProps | RemoveActionProps);
 
-type OutlinedTagProps = TagBaseProps &
-  NoneActionProps & {
-    size: 'sm' | 'lg';
-    variant: 'outlined';
-    color?: never;
-  };
+type OutlinedTagProps = NoneActionProps & {
+  size: 'sm' | 'lg';
+  variant: 'outlined';
+  color?: never;
+};
 
-type TagProps = SmallFillTagProps | LargeFillTagProps | OutlinedTagProps;
+type TagProps = TagBaseProps &
+  (SmallFillTagProps | LargeFillTagProps | OutlinedTagProps);
 
 const Tag = ({ size, text, ...rest }: TagProps) => {
   const isOutlined = rest.variant === 'outlined';
