@@ -1,14 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
-import {
-  Button,
-  File,
-  ImageContainer,
-  Modal,
-  SelectedMemo,
-  TextContent,
-} from '@cds/ui';
+import { Button, File, ImageContainer, Modal, TextContent } from '@cds/ui';
 
 import * as styles from './detail-modal.css';
 
@@ -32,9 +25,7 @@ export interface SelectedMemoTypes {
     fileExtension: string;
     fileSize: string;
   }[];
-  createdAt: string;
   isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
 }
 
 interface DetailModalProps {
@@ -58,8 +49,7 @@ const DetailModal = ({
   open,
   onOpenChange,
 }: DetailModalProps) => {
-  const { title, content, images, files, isAiGenerated, sourceMemoTitleList } =
-    data;
+  const { title, content, images, files, isAiGenerated } = data;
 
   const handleClick = () => {
     if (id && onAiCreateClick) {
@@ -112,20 +102,6 @@ const DetailModal = ({
               />
             </div>
           </div>
-          {sourceMemoTitleList?.length > 0 && (
-            <div className={styles.selectedMemoContainer}>
-              <p className={styles.selectedMemoCountContainer}>
-                사용된 메모 ({sourceMemoTitleList?.length})
-              </p>
-              <div className={styles.selectedMemoContentContainer}>
-                <div className={styles.selectedMemoContentInnerContainer}>
-                  {sourceMemoTitleList?.map((name, idx) => (
-                    <SelectedMemo key={idx} memoName={name} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
           {files?.length > 0 && (
             <div className={styles.fileContainer}>
               <div className={styles.fileInnerContainer}>

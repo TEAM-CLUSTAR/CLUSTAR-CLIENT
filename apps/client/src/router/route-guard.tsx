@@ -23,7 +23,7 @@ export const RouteGuard = ({ mode }: GuardProps) => {
   }
 
   if (mode === 'public' && isAuthenticated) {
-    return <Navigate to={PATH.ALL_MEMO} replace />;
+    return <Navigate to={PATH.ROOT} replace />;
   }
 
   return <Outlet />;
