@@ -1,0 +1,59 @@
+import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
+
+import { themeVars } from '@cds/ui';
+
+export const row = recipe({
+  base: {
+    display: 'flex',
+    padding: '0.4rem 0',
+
+    ':hover': {
+      backgroundColor: themeVars.color.grey100,
+      borderRadius: '8px',
+    },
+  },
+  variants: {
+    isRoot: {
+      true: {
+        borderBottom: `1px solid ${themeVars.color.grey100}`,
+      },
+    },
+  },
+});
+
+export const expandButton = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0.6rem',
+    borderRadius: '50%',
+  },
+  variants: {
+    isExpanded: {
+      true: {
+        backgroundColor: themeVars.color.grey100,
+      },
+    },
+  },
+});
+
+export const content = style({
+  display: 'flex',
+  alignItems: 'center',
+  flex: '1',
+});
+
+export const checkboxBox = style({
+  margin: '0.4rem',
+});
+
+export const tagName = style({
+  ...themeVars.fontStyles.body_m_16,
+  color: themeVars.color.grey800,
+  minWidth: '0',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
