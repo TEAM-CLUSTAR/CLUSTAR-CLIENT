@@ -1,10 +1,11 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { fadeIn, themeVars } from '@cds/ui';
+import { themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
+  width: 'fit-content',
 });
 
 export const listContainer = recipe({
@@ -57,19 +58,37 @@ export const chevronButton = recipe({
   },
 });
 
-export const itemsContainer = style({
-  position: 'absolute',
-  marginTop: '0.4rem',
-  zIndex: themeVars.zIndex.button,
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: themeVars.color.white,
-  border: `1px solid ${themeVars.color.grey300}`,
-  gap: '0.4rem',
-  padding: '1.2rem',
-  borderRadius: '8px',
-  width: '44rem',
-  animation: `${fadeIn} 0.2s ease-out`,
+export const itemsContainer = recipe({
+  base: {
+    position: 'absolute',
+    marginTop: '0.4rem',
+    zIndex: themeVars.zIndex.button,
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: themeVars.color.white,
+    border: `1px solid ${themeVars.color.grey300}`,
+    gap: '0.4rem',
+    padding: '1.2rem',
+    borderRadius: '8px',
+    width: '44rem',
+    transition:
+      'opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s',
+  },
+  variants: {
+    isOpen: {
+      true: {
+        opacity: 1,
+        visibility: 'visible',
+        transform: 'translateY(0)',
+      },
+      false: {
+        opacity: 0,
+        visibility: 'hidden',
+        transform: 'translateY(-4px)',
+        pointerEvents: 'none',
+      },
+    },
+  },
 });
 
 export const itemContainer = recipe({
