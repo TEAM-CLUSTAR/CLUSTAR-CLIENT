@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FocusEvent, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -22,8 +22,14 @@ const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const iconColor = isOpen ? 'blue500' : 'grey700';
 
+  const handleBlur = (e: FocusEvent<HTMLElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onBlur={handleBlur} tabIndex={-1}>
       <button
         type="button"
         className={styles.listContainer({ isOpen })}
@@ -36,18 +42,16 @@ const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
           <Icon name="ic_chevron_down" size={20} color={iconColor} />
         </div>
       </button>
-      {isOpen && (
-        <ul className={styles.itemsContainer}>
-          {memos.map(({ memoId, title, isSelected }) => (
-            <SuggestedMemoItem
-              key={memoId}
-              memoTitle={title}
-              isSelected={isSelected}
-              onSelectMemo={() => onSelectMemo(memoId)}
-            />
-          ))}
-        </ul>
-      )}
+      <ul className={styles.itemsContainer({ isOpen })}>
+        {memos.map(({ memoId, title, isSelected }) => (
+          <SuggestedMemoItem
+            key={memoId}
+            memoTitle={title}
+            isSelected={isSelected}
+            onSelectMemo={() => onSelectMemo(memoId)}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
