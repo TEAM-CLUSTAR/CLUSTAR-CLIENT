@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 const THREE_COLUMN_MIN_WIDTH = '1060px';
 const MEMO_LIST_CONTAINER = 'memoList';
 
-const columns = (count: number) => `repeat(${count}, minmax(34rem, 38rem)`;
+const columns = (count: number) => `repeat(${count}, minmax(34rem, 38rem))`;
 
 export const memoListContainer = style({
   width: '100%',
