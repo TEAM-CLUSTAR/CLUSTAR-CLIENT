@@ -23,16 +23,6 @@ export const title = style({
   paddingRight: '1.2rem',
 });
 
-export const memoChip = style({
-  display: 'flex',
-  gap: '0.4rem',
-  padding: '0.4rem 0.8rem',
-  borderRadius: '4px',
-  backgroundColor: themeVars.color.grey100,
-  color: themeVars.color.grey700,
-  ...themeVars.fontStyles.label_m_12,
-});
-
 export const actions = style({
   display: 'flex',
   marginLeft: 'auto',

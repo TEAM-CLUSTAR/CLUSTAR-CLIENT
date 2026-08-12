@@ -59,7 +59,7 @@ const AiMessagesList = ({
             <AiAnswer
               key={message.id}
               content={message.text}
-              selectedMemosCount={selectedMemosCount}
+              usedMemosCount={selectedMemosCount}
               onRegenerate={() => handleRegenerate(message.id)}
               onSaveToMemo={() => handleSaveToMemo(message.id)}
             />
