@@ -5,8 +5,8 @@ import * as styles from './ai-answer.css';
 interface AiAnswerProps {
   content: string;
   selectedMemosCount?: number;
-  onRegenerate?: () => void;
-  onSaveToMemo?: () => void;
+  onRegenerate: () => void;
+  onSaveToMemo: () => void;
 }
 
 const AiAnswer = ({
