@@ -38,7 +38,6 @@ export const Icon = ({
       style={{
         flexShrink: 0,
         color: color ? colorToken[color] : colorToken.grey700,
-        flexShrink: 0,
       }}
       className={className}
       aria-hidden={ariaHidden ?? true}
