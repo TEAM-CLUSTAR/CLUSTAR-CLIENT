@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '@cds/ui';
 
@@ -58,44 +58,5 @@ export const content = style({
   padding: '1.6rem 1.8rem',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
-});
-
-globalStyle(`${content} strong`, {
-  fontWeight: themeVars.fontStyles.body_sb_16.fontWeight,
-});
-
-globalStyle(`${content} ul`, {
-  margin: '0.6rem 0',
-  paddingLeft: '1.8rem',
-  listStyle: 'disc',
-});
-
-globalStyle(`${content} ol`, {
-  margin: '0.6rem 0',
-  paddingLeft: '1.8rem',
-  listStyle: 'decimal',
-});
-
-globalStyle(`${content} li`, {
-  margin: '0.3rem 0',
-});
-
-globalStyle(`${content} li > p`, {
-  margin: 0,
-});
-
-globalStyle(`${content} hr`, {
-  margin: '1.2rem 0',
-  borderColor: themeVars.color.grey200,
-});
-
-globalStyle(`${content} blockquote`, {
-  margin: '0.6rem 0',
-  padding: '0 0 0 1.2rem',
-  borderLeft: `3px solid ${themeVars.color.grey300}`,
-  color: themeVars.color.grey600,
-});
-
-globalStyle(`${content} blockquote > p`, {
-  margin: 0,
+  whiteSpace: 'pre-wrap',
 });

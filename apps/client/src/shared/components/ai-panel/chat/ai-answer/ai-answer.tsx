@@ -1,6 +1,3 @@
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-
 import { Icon } from '@cds/icon';
 
 import * as styles from './ai-answer.css';
@@ -52,9 +49,7 @@ const AiAnswer = ({
           </button>
         </div>
       </div>
-      <div className={styles.content}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-      </div>
+      <p className={styles.content}>{content}</p>
     </div>
   );
 };
