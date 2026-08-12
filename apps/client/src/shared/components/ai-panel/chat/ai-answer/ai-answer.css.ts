@@ -11,24 +11,16 @@ export const container = style({
 export const header = style({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
   padding: '0 1.2rem',
 });
 
-export const headerLeft = style({
-  display: 'flex',
-  gap: '1.2rem',
-});
-
-export const summary = style({
+export const title = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.4rem',
-});
-
-export const summaryText = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey600,
+  paddingLeft: '0.4rem',
+  paddingRight: '1.2rem',
 });
 
 export const memoChip = style({
@@ -43,9 +35,10 @@ export const memoChip = style({
 
 export const actions = style({
   display: 'flex',
+  marginLeft: 'auto',
 });
 
-export const iconButton = style({
+export const actionButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
