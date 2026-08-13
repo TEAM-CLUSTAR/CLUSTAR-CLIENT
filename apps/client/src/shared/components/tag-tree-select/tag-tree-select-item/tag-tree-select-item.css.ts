@@ -58,3 +58,22 @@ export const tagName = style({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
+
+export const branchContainer = recipe({
+  base: {
+    display: 'grid',
+    gridTemplateRows: '0fr',
+    transition: 'grid-template-rows 0.2s ease',
+  },
+  variants: {
+    isExpanded: {
+      true: {
+        gridTemplateRows: '1fr',
+      },
+    },
+  },
+});
+
+export const branchInner = style({
+  overflow: 'hidden',
+});

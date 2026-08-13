@@ -68,19 +68,23 @@ const TagTreeSelectItem = ({
         </button>
       </div>
 
-      {hasChildren && isExpanded && (
-        <TreeLine.Branch>
-          {tag.children.map((child) => (
-            <TagTreeSelectItem
-              key={child.tagId}
-              tag={child}
-              selectedIds={selectedIds}
-              onToggle={onToggle}
-              collapsedIds={collapsedIds}
-              onToggleExpand={onToggleExpand}
-            />
-          ))}
-        </TreeLine.Branch>
+      {hasChildren && (
+        <div className={styles.branchContainer({ isExpanded })}>
+          <div className={styles.branchInner}>
+            <TreeLine.Branch>
+              {tag.children.map((child) => (
+                <TagTreeSelectItem
+                  key={child.tagId}
+                  tag={child}
+                  selectedIds={selectedIds}
+                  onToggle={onToggle}
+                  collapsedIds={collapsedIds}
+                  onToggleExpand={onToggleExpand}
+                />
+              ))}
+            </TreeLine.Branch>
+          </div>
+        </div>
       )}
     </TreeLine.Item>
   );
