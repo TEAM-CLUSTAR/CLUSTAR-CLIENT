@@ -17,6 +17,7 @@ export const row = recipe({
     isRoot: {
       true: {
         borderBottom: `1px solid ${themeVars.color.grey100}`,
+        marginBottom: '0.4rem',
       },
     },
   },
