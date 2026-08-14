@@ -31,6 +31,7 @@ const MemoCardItem = ({
     imageCount,
     createdAt,
     isAiGenerated,
+    isNew,
   } = memo;
 
   const handleDragStart = () => {
@@ -53,6 +54,7 @@ const MemoCardItem = ({
           imageCount: imageCount ?? 0,
           createAt: createdAt ?? '',
           isAiGenerated: isAiGenerated ?? false,
+          isNew: isNew ?? false,
         }}
         isSelected={isSelected}
         isDragging={isDragging}
