@@ -12,7 +12,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run --passWithNoTests",
-    "generate:types": "openapi-typescript https://dev.clustar.cloud/v3/api-docs -o ./src/shared/types/schema.d.ts"
+    "generate:types": "dotenv -- sh scripts/generate-types.sh"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",

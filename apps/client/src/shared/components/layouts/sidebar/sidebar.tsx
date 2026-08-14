@@ -1,248 +1,101 @@
-import { useMemo, useState } from 'react';
 import { PATH } from '@router/path';
-import { matchPath, useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 import { Icon } from '@cds/icon';
-import { IconName } from '@cds/icon';
-import { SidebarIcon, SidebarPannel, SideBarProfile, Tooltip } from '@cds/ui';
+import { Tooltip } from '@cds/ui';
 
-import { useGetLabel } from '@pages/all-memo/apis/queries';
-
-import { useGetUserInfo } from '@shared/apis/user/queries';
+import { useSidebar } from './sidebar-context';
+import SidebarItem from './sidebar-item/sidebar-item';
+import SidebarMenuSection from './sidebar-menu-section/sidebar-menu-section';
+import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
+import { SidebarSelection } from './type';
 
 import * as styles from './sidebar.css';
 
-const MENU_ITEMS = [
-  {
-    id: 'new',
-    label: '새 메모',
-    icon: 'ic_newmemo',
-    activeIcon: 'ic_newmemo_blue',
-  },
-  {
-    id: 'all',
-    label: '전체 메모',
-    icon: 'ic_allmemo',
-    activeIcon: 'ic_allmemo_blue',
-  },
-  { id: 'ai', label: 'AI 기록', icon: 'ic_ai', activeIcon: 'ic_ai_blue_36' },
-] as const;
-
-const MENU_PATH: Record<string, string> = {
-  new: PATH.NEW_MEMO,
-  all: PATH.ALL_MEMO,
-  ai: PATH.AI_RESULTS,
-};
-
-const getIconState = (
-  item: { id: string; icon: IconName; activeIcon: IconName },
-  currentSelectedId: string,
-) => {
-  const isActive = currentSelectedId === item.id;
-  const iconName = isActive ? item.activeIcon : item.icon;
-  return { isActive, iconName };
-};
-
 const Sidebar = () => {
-  const [isHover, setIsHover] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { data: userInfo } = useGetUserInfo();
-  const { data: labels = [] } = useGetLabel();
-
-  const navigate = useNavigate();
+  const { isExpanded, toggleSidebar, expand } = useSidebar();
   const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const selectedId = useMemo(() => {
-    if (pathname === PATH.NEW_MEMO) return 'new';
-    if (pathname.startsWith(PATH.AI_RESULTS)) return 'ai';
-    if (pathname.startsWith(PATH.ALL_MEMO)) return 'all';
-    const labelMatch = matchPath(PATH.LABEL, pathname);
-    if (labelMatch?.params.labelId) return labelMatch.params.labelId;
-    return '';
-  }, [pathname]);
+  const tagParam = searchParams.get('tag');
 
-  const handleSelect = (id: string) => {
-    const path = MENU_PATH[id] ?? `/label/${id}`;
+  // 태그 선택은 `/?tag=`로 이동해 pathname이 ROOT와 같아지므로,
+  // 태그가 경로보다 우선한다는 규칙을 여기 한 곳에서만 정한다.
+  const selection: SidebarSelection =
+    tagParam === null
+      ? { type: 'menu', path: pathname }
+      : { type: 'tag', tagId: Number(tagParam) };
+
+  const handleSelectMenu = (path: string) => {
     navigate(path);
+    expand();
   };
 
-  const handleLogoClick = () => {
-    setIsExpanded((prev) => !prev);
+  const handleSelectTag = (tagId: number) => {
+    navigate(`${PATH.ROOT}?tag=${tagId}`);
   };
-
-  const labelItems = useMemo(() => {
-    return labels.map((label) => ({
-      id: String(label.labelId ?? ''),
-      label: label.name ?? '',
-      icon: 'ic_label' as IconName,
-      activeIcon: 'ic_label_blue' as IconName,
-    }));
-  }, [labels]);
-
-  const processedMenuItems = MENU_ITEMS.map((item) => ({
-    ...item,
-    ...getIconState(item, selectedId),
-  }));
-
-  const processedLabelItems = labelItems.map((item) => ({
-    ...item,
-    ...getIconState(item, selectedId),
-  }));
 
   return (
-    <nav className={styles.container({ expanded: isExpanded })}>
-      <div className={styles.header}>
-        {isExpanded && (
-          <>
-            <div
-              className={styles.logo({ expanded: isExpanded })}
-              onClick={handleLogoClick}
-            >
-              <Icon
-                name="ic_logo_symbol"
-                size={36}
-                style={{ pointerEvents: 'none' }}
-              />
-            </div>
-            <span
-              className={styles.title({ expanded: isExpanded })}
-              onClick={handleLogoClick}
-            >
-              <Icon
-                name="ic_logo_type"
-                width={92.3}
-                height={12}
-                style={{ pointerEvents: 'none' }}
-              />
-            </span>
-          </>
-        )}
-
+    <nav className={styles.sidebar} data-expanded={isExpanded}>
+      {/* header */}
+      <header className={styles.header}>
         <button
-          type="button"
-          onClick={() => setIsExpanded((prev) => !prev)}
-          className={styles.foldingBtn}
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
+          className={styles.logoButton}
+          onClick={toggleSidebar}
+          disabled={isExpanded}
+          aria-label="사이드바 토글"
         >
+          <Icon name="ic_logo_symbol" size={32} className={styles.logoSymbol} />
           <Icon
-            name={isExpanded || isHover ? 'ic_folding' : 'ic_logo_symbol'}
-            size={36}
+            name="ic_logo_type"
+            width={82}
+            height={11}
+            className={styles.logoType}
           />
-          {!isExpanded && (
-            <div className={styles.floatingMenu}>
-              <Tooltip title="사이드바 열기" />
-            </div>
-          )}
         </button>
-      </div>
+        <button
+          className={styles.foldButton}
+          onClick={toggleSidebar}
+          aria-label="사이드바 접기"
+        >
+          <Icon name="ic_folding" size={32} color="grey600" />
+        </button>
+      </header>
 
-      <span className={styles.menu({ expanded: isExpanded })}>메뉴</span>
-      <div className={styles.menuList({ expanded: isExpanded })}>
-        {processedMenuItems.map(({ id, label, isActive, iconName }) =>
-          isExpanded ? (
-            <SidebarPannel
-              key={id}
-              isSelected={isActive}
-              onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} size={36} />}
-            >
-              {label}
-            </SidebarPannel>
-          ) : (
-            <div key={id} className={styles.iconContainer}>
-              <SidebarIcon
-                isSelected={isActive}
-                onClick={() => handleSelect(id)}
-                icon={<Icon name={iconName} size={36} />}
-              />
-              <div className={styles.floatingMenu}>
-                <Tooltip title={label} />
-              </div>
-            </div>
-          ),
-        )}
-      </div>
+      {/* 메뉴 section */}
+      <section className={styles.menuSection}>
+        <span className={styles.sectionTitle}>메뉴</span>
+        <SidebarMenuSection
+          selection={selection}
+          onSelectMenu={handleSelectMenu}
+          onExpand={expand}
+        />
+      </section>
 
-      <span className={styles.label({ expanded: isExpanded })}>라벨</span>
-      <div className={styles.labelList({ expanded: isExpanded })}>
-        {isExpanded ? (
-          processedLabelItems.map(({ id, label, isActive, iconName }) => (
-            <SidebarPannel
-              key={id}
-              isSelected={isActive}
-              onClick={() => handleSelect(id)}
-              icon={<Icon name={iconName} size={36} />}
-            >
-              {label}
-            </SidebarPannel>
-          ))
-        ) : (
-          <div className={styles.labelContainer}>
-            <SidebarIcon
-              isSelected={false}
-              onClick={() => {
-                if (labelItems.length > 0) {
-                  handleSelect(labelItems[0].id);
-                }
-              }}
-              icon={<Icon name="ic_label" size={36} />}
-            />
-            <div className={styles.floatingMenu}>
-              <Tooltip title="태그" />
-            </div>
-          </div>
-        )}
-      </div>
+      {/* 태그 section */}
+      <section className={styles.tagSection}>
+        <span className={styles.sectionTitle}>태그</span>
+        <hr className={styles.collapsedDivider} />
+        <SidebarTagSection
+          isExpanded={isExpanded}
+          selection={selection}
+          onSelectTag={handleSelectTag}
+          onExpand={expand}
+        />
+      </section>
 
-      <div className={styles.sidebarBottom({ expanded: isExpanded })}>
-        {isExpanded ? (
-          <>
-            <SidebarPannel
-              isSelected={selectedId === 'trash'}
-              icon={
-                selectedId === 'trash' ? (
-                  <Icon name="ic_trash_blue" size={36} />
-                ) : (
-                  <Icon name="ic_trash" size={36} />
-                )
-              }
-            >
-              휴지통
-            </SidebarPannel>
-            <div className={styles.profileWrapper}>
-              <SideBarProfile
-                name={userInfo?.name}
-                email={userInfo?.email}
-                profileImageUrl={userInfo?.profileImageUrl}
-              />
+      {/* footer section */}
+      <section className={styles.footerSection}>
+        <ul className={styles.pannelList}>
+          <li className={styles.pannelItem}>
+            <SidebarItem iconName="ic_profile" content="마이페이지" disabled />
+            <div className={styles.tooltip}>
+              <Tooltip title="마이페이지" />
             </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.iconContainer}>
-              <SidebarIcon
-                icon={
-                  selectedId === 'trash' ? (
-                    <Icon name="ic_trash_blue" size={36} />
-                  ) : (
-                    <Icon name="ic_trash" size={36} />
-                  )
-                }
-              />
-              <div className={styles.floatingMenu}>
-                <Tooltip title="휴지통" />
-              </div>
-            </div>
-            <div className={styles.iconContainer}>
-              <SidebarIcon icon={<Icon name="ic_profile" size={36} />} />
-              <div className={styles.floatingMenu}>
-                <Tooltip title={userInfo?.name || '프로필'} />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+          </li>
+        </ul>
+      </section>
     </nav>
   );
 };

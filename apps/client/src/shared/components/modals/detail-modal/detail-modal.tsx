@@ -7,7 +7,6 @@ import {
   ImageContainer,
   LabelList,
   Modal,
-  SelectedMemo,
   TextContent,
 } from '@cds/ui';
 
@@ -55,13 +54,12 @@ export interface SelectedMemoTypes {
     fileExtension: string;
     fileSize: string;
   }[];
-  labelList: {
-    labelId: number;
+  tagList: {
+    tagId: number;
     name: LabelTextType;
   }[];
   createdAt: string;
   isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
 }
 
 interface DetailModalProps {
@@ -85,16 +83,8 @@ const DetailModal = ({
   open,
   onOpenChange,
 }: DetailModalProps) => {
-  const {
-    title,
-    content,
-    images,
-    files,
-    labelList,
-    createdAt,
-    isAiGenerated,
-    sourceMemoTitleList,
-  } = data;
+  const { title, content, images, files, tagList, createdAt, isAiGenerated } =
+    data;
 
   const handleClick = () => {
     if (id && onAiCreateClick) {
@@ -116,9 +106,9 @@ const DetailModal = ({
             <div>
               <LabelList
                 listType="modal"
-                labelItems={labelList.map((label) => ({
-                  id: String(label.labelId),
-                  text: label.name,
+                labelItems={tagList.map((tag) => ({
+                  id: String(tag.tagId),
+                  text: tag.name,
                 }))}
                 dateText={formatDateTime(createdAt)}
                 labelSize="lg"
@@ -159,20 +149,6 @@ const DetailModal = ({
               />
             </div>
           </div>
-          {sourceMemoTitleList?.length > 0 && (
-            <div className={styles.selectedMemoContainer}>
-              <p className={styles.selectedMemoCountContainer}>
-                사용된 메모 ({sourceMemoTitleList?.length})
-              </p>
-              <div className={styles.selectedMemoContentContainer}>
-                <div className={styles.selectedMemoContentInnerContainer}>
-                  {sourceMemoTitleList?.map((name, idx) => (
-                    <SelectedMemo key={idx} memoName={name} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
           {files?.length > 0 && (
             <div className={styles.fileContainer}>
               <div className={styles.fileInnerContainer}>

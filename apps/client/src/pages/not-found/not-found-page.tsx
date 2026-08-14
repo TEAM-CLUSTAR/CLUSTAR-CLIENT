@@ -23,7 +23,7 @@ const NotFoundPage = () => {
         </div>
       </div>
       <div className={styles.buttonContainer}>
-        <Button size="lg" onClick={() => navigate(PATH.NEW_MEMO)}>
+        <Button size="lg" onClick={() => navigate(PATH.ROOT)}>
           메인화면
         </Button>
       </div>

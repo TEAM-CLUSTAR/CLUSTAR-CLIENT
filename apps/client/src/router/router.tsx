@@ -1,17 +1,15 @@
-import { createBrowserRouter } from 'react-router';
+import {
+  createBrowserRouter,
+  type LoaderFunctionArgs,
+  redirect,
+} from 'react-router';
 
 import { ErrorPage } from '@pages/error';
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { NotFoundPage } from '@pages/not-found';
 
-import {
-  AiResultsPage,
-  AllMemoPage,
-  LabelPage,
-  LoginPage,
-  NewMemoPage,
-} from './lazy';
+import { LoginPage, MemoPage, NewMemoPage, StructurePage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
@@ -20,6 +18,7 @@ import RootRoute from './routes/root-route';
 
 export const router = createBrowserRouter([
   {
+    path: PATH.ROOT,
     Component: RootRoute,
     ErrorBoundary: ErrorPage,
     children: [
@@ -52,20 +51,23 @@ export const router = createBrowserRouter([
             Component: DashboardRoute,
             children: [
               {
+                index: true,
+                Component: MemoPage,
+              },
+              {
+                path: PATH.MEMO,
+                loader: ({ request }: LoaderFunctionArgs) => {
+                  const { search } = new URL(request.url);
+                  return redirect(`${PATH.ROOT}${search}`);
+                },
+              },
+              {
                 path: PATH.NEW_MEMO,
                 Component: NewMemoPage,
               },
               {
-                path: PATH.ALL_MEMO,
-                Component: AllMemoPage,
-              },
-              {
-                path: PATH.AI_RESULTS,
-                Component: AiResultsPage,
-              },
-              {
-                path: PATH.LABEL,
-                Component: LabelPage,
+                path: PATH.STRUCTURE,
+                Component: StructurePage,
               },
             ],
           },

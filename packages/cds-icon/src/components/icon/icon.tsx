@@ -34,7 +34,9 @@ export const Icon = ({
     <svg
       width={toRem(computedWidth)}
       height={toRem(computedHeight)}
+      // TODO: style은 사용하지 않고 cn을 이용해 className override
       style={{
+        flexShrink: 0,
         color: color ? colorToken[color] : colorToken.grey700,
       }}
       className={className}
