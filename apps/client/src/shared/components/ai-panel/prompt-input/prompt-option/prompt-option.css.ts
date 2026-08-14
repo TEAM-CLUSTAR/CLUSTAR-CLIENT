@@ -5,11 +5,15 @@ import { themeVars } from '@cds/ui';
 
 export const container = style({
   display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   padding: '0.4rem',
   borderRadius: '8px',
   backgroundColor: themeVars.color.grey50,
   border: `1px solid ${themeVars.color.grey100}`,
   gap: '0.4rem',
+  width: '11.2rem',
+  height: '4rem',
 });
 
 export const optionContainer = style({
@@ -21,16 +25,15 @@ export const optionItem = recipe({
     display: 'flex',
     position: 'relative',
     borderRadius: '4px',
-    border: '1px solid transparent',
-    transition: 'background-color 0.3s ease, box-shadow 0.4s ease',
+    boxShadow: 'inset 0 0 0 1px transparent',
+    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
   },
 
   variants: {
     isSelected: {
       true: {
-        border: `1px solid ${themeVars.color.grey300}`,
         backgroundColor: themeVars.color.white,
-        boxShadow: '0 0 4px rgba(0, 0, 0, 0.05)',
+        boxShadow: `inset 0 0 0 1px ${themeVars.color.grey300}, 0 0 4px rgba(0, 0, 0, 0.05)`,
       },
       false: {
         selectors: {

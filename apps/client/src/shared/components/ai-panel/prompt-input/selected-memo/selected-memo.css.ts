@@ -4,8 +4,10 @@ import { themeVars } from '@cds/ui';
 
 export const container = style({
   display: 'inline-flex',
+  flexShrink: 0,
   alignItems: 'center',
   gap: '0.4rem',
+  height: '3.2rem',
   maxWidth: '14.4rem',
   padding: '0.4rem',
   border: `1px solid ${themeVars.color.grey300}`,

@@ -1,3 +1,5 @@
+import { SelectedMemoType } from '@shared/components/ai-panel/types/types';
+
 export type MessageType = 'user' | 'ai';
 
 export type AiOption = 'MERGE' | 'SUMMARY' | 'STRUCTURE' | null;
@@ -12,14 +14,9 @@ export interface Message {
   option?: AiOption;
 }
 
-export interface SelectedMemo {
-  id: string;
-  title: string;
-}
-
 export interface UseAiPromptProps {
   isAIOpen: boolean;
-  selectedMemos: SelectedMemo[];
+  selectedMemos: SelectedMemoType[];
   handleClose: () => void;
   chatRoomId?: number | null;
 }

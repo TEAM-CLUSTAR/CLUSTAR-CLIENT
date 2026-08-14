@@ -1,20 +1,14 @@
 import { useState } from 'react';
 
-import { IconName } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
+
+import { PromptInputValueType } from '@shared/components/ai-panel/types/types';
 
 import PromptOptionItem from './prompt-option-item';
 
 import * as styles from './prompt-option.css';
 
-export interface PromptOptionType {
-  id: string;
-  iconName: IconName;
-  title: string;
-  description: string;
-}
-
-const OPTIONS: PromptOptionType[] = [
+const OPTIONS = [
   {
     id: 'MERGE',
     iconName: 'ic_breif',
@@ -36,23 +30,17 @@ const OPTIONS: PromptOptionType[] = [
 ] as const;
 
 interface PromptOptionProps {
-  selectedOptionId: string | null;
-  handleOptionSelect: (optionId: string | null) => void;
+  selectedOptionId: PromptInputValueType['option'];
+  onOptionSelect: (optionId: PromptInputValueType['option']) => void;
   disabled?: boolean;
 }
 
 const PromptOption = ({
   selectedOptionId,
-  handleOptionSelect,
+  onOptionSelect,
   disabled = false,
 }: PromptOptionProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  const handleSelect = (id: string) => {
-    if (disabled) return;
-    const newSelectedId = selectedOptionId === id ? null : id;
-    handleOptionSelect(newSelectedId);
-  };
 
   return (
     <div className={styles.container}>
@@ -62,7 +50,7 @@ const PromptOption = ({
             <PromptOptionItem
               iconName={option.iconName}
               isSelected={selectedOptionId === option.id}
-              onClick={() => handleSelect(option.id)}
+              onClick={() => onOptionSelect(option.id)}
               onMouseEnter={() => setHoveredId(option.id)}
               onMouseLeave={() => setHoveredId(null)}
               aria-pressed={selectedOptionId === option.id}
