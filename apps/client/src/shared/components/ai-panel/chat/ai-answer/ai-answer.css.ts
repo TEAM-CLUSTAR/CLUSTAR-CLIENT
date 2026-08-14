@@ -18,7 +18,7 @@ export const title = style({
   display: 'flex',
   alignItems: 'center',
   ...themeVars.fontStyles.body_m_14,
-  color: themeVars.color.grey600,
+  color: themeVars.color.grey800,
   paddingLeft: '0.4rem',
   paddingRight: '1.2rem',
 });
