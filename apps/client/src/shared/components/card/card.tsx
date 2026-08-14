@@ -9,13 +9,14 @@ import { formatDate } from '@shared/utils/format-date';
 import * as styles from './card.css';
 
 type CardInfoType = {
-  tagList?: components['schemas']['TagResponse'][];
+  tagList: components['schemas']['TagResponse'][];
   title: string;
   content: string;
   fileCount: number;
   imageCount: number;
   createAt: string;
-  isAiGenerated?: boolean;
+  isAiGenerated: boolean;
+  isNew: boolean;
 };
 interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
@@ -25,13 +26,14 @@ interface CardProps extends ComponentProps<'article'> {
 
 const Card = ({
   card: {
-    tagList = [],
+    tagList,
     title,
     content,
     fileCount,
     imageCount,
     createAt,
-    isAiGenerated = false,
+    isAiGenerated,
+    isNew,
   },
   isSelected = false,
   isDragging = false,
@@ -42,7 +44,7 @@ const Card = ({
       className={styles.cardContainer({
         isSelected,
         isDragging,
-        isAiGenerated,
+        isNew,
       })}
       draggable
       {...props}
