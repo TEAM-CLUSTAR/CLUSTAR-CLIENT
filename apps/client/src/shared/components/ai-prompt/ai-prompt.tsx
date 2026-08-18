@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import ConfirmModal from '../confirm-modal/confirm-modal';
+import PromptInput from '../ai-panel/prompt-input/prompt-input';
+import ConfirmModal from '../modals/confirm-modal/confirm-modal';
 import AiPromptHeader from './components/prompt-header/prompt-header';
-import PromptInput from './components/prompt-input/prompt-input';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';
 import { useAiPrompt } from './hooks/use-ai-prompt';
 import { UseAiPromptProps } from './types/types';
@@ -12,6 +12,8 @@ import * as styles from './ai-prompt.css';
 interface AiPromptProps extends UseAiPromptProps {
   onLoadingChange?: (isLoading: boolean) => void;
   chatRoomId?: number | null;
+  onRemoveMemo: (memoId: number) => void;
+  isDragOver: boolean;
 }
 
 const AiPrompt = ({
@@ -20,6 +22,8 @@ const AiPrompt = ({
   handleClose,
   onLoadingChange,
   chatRoomId,
+  onRemoveMemo,
+  isDragOver,
 }: AiPromptProps) => {
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
 
@@ -27,10 +31,6 @@ const AiPrompt = ({
     isOpen,
     messages,
     isLoading,
-    inputText,
-    selectedOptionId,
-    setInputText,
-    setSelectedOptionId,
     handleClose: handlePromptClose,
     handleSubmit,
     handleRegenerate,
@@ -72,14 +72,14 @@ const AiPrompt = ({
         handleSaveToMemo={handleSaveToMemoWithModal}
       />
       <PromptInput
-        value={inputText}
-        onChange={setInputText}
-        selectedOptionId={selectedOptionId}
-        onOptionSelect={setSelectedOptionId}
-        handleSubmit={handleSubmit}
-        disabled={isLoading || selectedMemos.length === 0}
-        selectedMemosCount={selectedMemos.length}
+        key={chatRoomId}
+        onSubmit={handleSubmit}
+        disabled={isLoading}
+        selectedMemos={selectedMemos}
+        onRemoveMemo={onRemoveMemo}
+        isDragOver={isDragOver}
       />
+
       <ConfirmModal
         open={isSaveConfirmModalOpen}
         onOpenChange={handleSaveModalOpenChange}

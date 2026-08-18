@@ -5,6 +5,10 @@ import {
   useCreateChatRoom,
   useSaveAiMemo,
 } from '@shared/apis/prompt/queries';
+import {
+  PromptInputValueType,
+  SelectedMemoType,
+} from '@shared/components/ai-panel/types/types';
 
 import { AiOption, Message, UseAiPromptProps } from '../types/types';
 
@@ -17,14 +21,8 @@ const isValidOption = (
   return VALID_OPTIONS.includes(value as Exclude<AiOption, null>);
 };
 
-const convertMemoIdsToNumbers = (memos: { id: string }[]): number[] => {
-  return memos
-    .map((memo) => {
-      const numId = Number(memo.id);
-      return isNaN(numId) ? null : numId;
-    })
-    .filter((id): id is number => id !== null);
-};
+const getMemoIds = (memos: SelectedMemoType[]): number[] =>
+  memos.map((memo) => memo.memoId);
 
 const insertMessageAfter = (
   messages: Message[],
@@ -99,12 +97,8 @@ export const useAiPrompt = ({
 
   // AI 프롬프트 입력 요청
   const handleSubmit = useCallback(
-    async (value: {
-      text: string;
-      selectedOptionId: string | null;
-      skipUserMessage?: boolean;
-    }) => {
-      if (!value.text.trim() || !chatRoomId) return;
+    async (value: PromptInputValueType & { skipUserMessage?: boolean }) => {
+      if (!value.userPrompt.trim() || !chatRoomId) return;
 
       // 요청 전송 시 즉시 입력값과 옵션 초기화
       if (!value.skipUserMessage) {
@@ -115,19 +109,17 @@ export const useAiPrompt = ({
       if (!value.skipUserMessage) {
         const userMessage: Message = {
           id: Date.now().toString(),
-          text: value.text.trim(),
+          text: value.userPrompt.trim(),
           type: 'user',
         };
         setMessages((prev) => [...prev, userMessage]);
       }
 
-      const memoIds = convertMemoIdsToNumbers(selectedMemos);
+      const memoIds = getMemoIds(selectedMemos);
 
-      const option = isValidOption(value.selectedOptionId)
-        ? value.selectedOptionId
-        : null;
+      const option = isValidOption(value.option) ? value.option : null;
 
-      const userPrompt = value.text.trim();
+      const userPrompt = value.userPrompt.trim();
 
       try {
         const response = await createAiChatMutation.mutateAsync({
@@ -230,8 +222,7 @@ export const useAiPrompt = ({
         return;
       }
 
-      const sourceMemoIds =
-        message.memoIds || convertMemoIdsToNumbers(selectedMemos);
+      const sourceMemoIds = message.memoIds || getMemoIds(selectedMemos);
 
       try {
         await saveAiMemoMutation.mutateAsync({

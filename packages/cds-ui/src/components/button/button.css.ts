@@ -15,8 +15,8 @@ export const button = recipe({
   variants: {
     size: {
       sm: {
-        width: '3.6rem',
-        height: '3.6rem',
+        width: '3.2rem',
+        height: '3.2rem',
         borderRadius: '8px',
       },
       md: {
@@ -72,7 +72,7 @@ export const button = recipe({
     {
       variants: { size: 'sm', disabled: true },
       style: {
-        backgroundColor: themeVars.color.grey500,
+        backgroundColor: themeVars.color.grey400,
       },
     },
 
