@@ -9,18 +9,13 @@ import * as styles from './memo-search-list-item.css';
 
 const MAX_TAG_COUNT = 4;
 
-interface MemoSearchListItemProps extends MemoSearchItemData {
+interface MemoSearchListItemProps {
+  memo: MemoSearchItemData;
   onClickMemo: (memoId: number) => void;
 }
 
-const MemoSearchListItem = ({
-  memoId,
-  title,
-  content,
-  openedAt,
-  tags = [],
-  onClickMemo,
-}: MemoSearchListItemProps) => {
+const MemoSearchListItem = ({ memo, onClickMemo }: MemoSearchListItemProps) => {
+  const { memoId, title, content, openedAt, tags = [] } = memo;
   const visibleTags = tags.slice(0, MAX_TAG_COUNT);
 
   const handleClickMemo = () => {
