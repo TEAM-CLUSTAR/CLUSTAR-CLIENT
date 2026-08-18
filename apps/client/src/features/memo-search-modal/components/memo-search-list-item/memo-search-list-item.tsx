@@ -1,19 +1,15 @@
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
 
-import { TagDisplayInfo } from '@shared/types/tag';
 import { formatTodayTimeOrDate } from '@shared/utils/format-date';
+
+import { MemoSearchItemData } from '../../types';
 
 import * as styles from './memo-search-list-item.css';
 
 const MAX_TAG_COUNT = 4;
 
-interface MemoSearchListItemProps {
-  memoId: number;
-  title: string;
-  content: string;
-  openedAt: string;
-  tags?: TagDisplayInfo[];
+interface MemoSearchListItemProps extends MemoSearchItemData {
   onClickMemo: (memoId: number) => void;
 }
 
