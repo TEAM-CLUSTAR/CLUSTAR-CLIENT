@@ -1,41 +1,44 @@
-import { Controls, EdgeTypes, NodeTypes, ReactFlow } from '@xyflow/react';
+import {
+  BuiltInEdge,
+  Controls,
+  DefaultEdgeOptions,
+  EdgeTypes,
+  NodeTypes,
+  ReactFlow,
+} from '@xyflow/react';
+
+import { themeVars } from '@cds/ui';
 
 import { useReadMemoStructure } from './apis/queries';
-import {
-  TreeBaseMemoNode,
-  TreeCustomEdgeLabel,
-  TreeCustomEdgeNoLabel,
-  TreeMemoListNode,
-} from './components';
-import {
-  convertGroupToNodeEdgeData,
-  groupByLabelName,
-} from './utils/convert-memos-data';
-import { createNodeEdge } from './utils/create-node-edge';
+import { CustomEdge, TreeMemoBaseNode, TreeMemoListNode } from './components';
+import { buildTreeGraph } from './utils/build-tree-graph';
 
 import '@xyflow/react/dist/style.css';
 import * as styles from './tree-view.css';
-
-const nodeTypes: NodeTypes = {
-  treeMemo: TreeMemoListNode,
-  baseMemo: TreeBaseMemoNode,
-};
-
-const edgeTypes: EdgeTypes = {
-  'custom-edge-label': TreeCustomEdgeLabel,
-  'custom-edge-no-label': TreeCustomEdgeNoLabel,
-};
 
 const ZOOM = {
   MIN: 0.5,
   MAX: 0.9,
 };
 
+const nodeTypes: NodeTypes = {
+  treeMemo: TreeMemoListNode,
+  baseMemo: TreeMemoBaseNode,
+};
+const edgeTypes: EdgeTypes = {
+  customEdge: CustomEdge,
+};
+const defaultEdgeOptions: DefaultEdgeOptions | Partial<BuiltInEdge> = {
+  type: 'smoothstep',
+  style: { strokeWidth: '0.1rem', stroke: themeVars.color.grey400 },
+  pathOptions: { borderRadius: 30 },
+};
+
 const TreeView = () => {
-  const { data: memos = [] } = useReadMemoStructure();
-  const groupedMemos = groupByLabelName(memos);
-  const sortedMemos = convertGroupToNodeEdgeData(groupedMemos);
-  const { nodes, edges } = createNodeEdge(sortedMemos);
+  const { data: memos, isPending } = useReadMemoStructure();
+  if (isPending || !memos) return null;
+
+  const { nodes, edges } = buildTreeGraph(memos);
 
   return (
     <div className={styles.container}>
@@ -43,6 +46,7 @@ const TreeView = () => {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        defaultEdgeOptions={defaultEdgeOptions}
         edgeTypes={edgeTypes}
         fitView
         fitViewOptions={{ padding: 0.2 }}

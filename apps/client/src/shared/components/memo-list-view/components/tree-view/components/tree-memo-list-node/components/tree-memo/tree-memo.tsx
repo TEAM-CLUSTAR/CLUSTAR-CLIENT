@@ -1,12 +1,11 @@
 import { useState } from 'react';
 
-import DetailModal from '@shared/components/modals/detail-modal/detail-modal';
 import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
-import useSingleAndDoubleClick from '@shared/hooks/use-single-and-double-click';
 import { LabelTextType } from '@shared/types/label-type';
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
-import { useDetailMemo } from './apis/queries';
+import DetailModal from '../detail-modal/detail-modal';
+import { SelectedMemoTypes, useDetailMemo } from './apis/queries';
 
 import * as styles from './tree-memo.css';
 
@@ -14,40 +13,32 @@ interface TreeMemoProps {
   memo: StructureMemoTypes;
 }
 
+const DEFAULT_MEMO_DETAIL: SelectedMemoTypes = {
+  memoId: 0,
+  title: '',
+  content: '',
+  images: [],
+  files: [],
+  tagList: [],
+  createdAt: '',
+  isAiGenerated: false,
+  sourceMemoTitleList: [],
+};
+
 const TreeMemo = ({ memo }: TreeMemoProps) => {
   const { memoId, title, content, tagList } = memo;
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 모달이 열릴 때만 API 호출
-  const {
-    data: memoDetail = {
-      memoId: 0,
-      title: '',
-      content: '',
-      images: [],
-      files: [],
-      tagList: [],
-      createdAt: '',
-      isAiGenerated: false,
-      sourceMemoTitleList: [],
-    },
-  } = useDetailMemo({ memoId, enabled: isModalOpen });
-  const labelName = tagList[0]?.name ?? ('라벨없음' as LabelTextType);
-  const labelColor = LABEL_COLOR_BY_TEXT[labelName as LabelTextType];
+  const { data: memoDetail = DEFAULT_MEMO_DETAIL } = useDetailMemo({
+    memoId,
+    enabled: isModalOpen,
+  });
+  const tagName = tagList[0]?.name ?? '라벨없음';
+  const tagColor = LABEL_COLOR_BY_TEXT[tagName as LabelTextType];
 
   const handleModalOpenChange = (open: boolean) => {
     setIsModalOpen(open);
   };
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleClick = useSingleAndDoubleClick({
-    handleSingleClick: handleModalOpen,
-    handleDoubleClick: handleModalOpen,
-  });
 
   return (
     <DetailModal
@@ -58,11 +49,11 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     >
       <button
         type="button"
-        className={styles.container({ labelColor })}
+        className={styles.container({ tagColor })}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          handleClick();
+          handleModalOpenChange(true);
         }}
         onMouseDown={(e) => {
           e.preventDefault();

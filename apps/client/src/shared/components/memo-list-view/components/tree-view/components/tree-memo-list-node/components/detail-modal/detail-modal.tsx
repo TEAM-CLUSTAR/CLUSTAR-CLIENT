@@ -10,7 +10,7 @@ import {
   TextContent,
 } from '@cds/ui';
 
-import { LabelTextType } from '@shared/types/label-type';
+import { SelectedMemoTypes } from '../tree-memo/apis/queries';
 
 import * as styles from './detail-modal.css';
 
@@ -36,41 +36,11 @@ const formatDateTime = (dateString: string): string => {
   }
 };
 
-export interface SelectedMemoTypes {
-  memoId: number;
-  title: string;
-  content: string;
-  images: {
-    imageId: number;
-    imageUrl: string;
-    imageName: string;
-    imageExtension: string;
-    imageSize: string;
-  }[];
-  files: {
-    fileId: number;
-    fileUrl: string;
-    fileName: string;
-    fileExtension: string;
-    fileSize: string;
-  }[];
-  tagList: {
-    tagId: number;
-    name: LabelTextType;
-  }[];
-  createdAt: string;
-  isAiGenerated: boolean;
-}
-
 interface DetailModalProps {
   children: ReactNode;
   data: SelectedMemoTypes;
   id: number;
   onAiCreateClick?: (memoId: number) => void;
-  /**
-   * 모달 open 상태를 제어하기 위한 제어형 props
-   * - 전달하지 않으면 Radix 내부 상태로만 제어됩니다.
-   */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }

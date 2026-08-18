@@ -4,7 +4,7 @@ import { Button } from '@cds/ui';
 
 import { htmlToMarkdown } from '@pages/new-memo/utils/html-to-markdown';
 
-import ConfirmModal from '@shared/components/modals/confirm-modal/confirm-modal';
+import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 import { LabelTextType } from '@shared/types/label-type';
 
 import { useCreateMemo } from '../../apis/queries';
