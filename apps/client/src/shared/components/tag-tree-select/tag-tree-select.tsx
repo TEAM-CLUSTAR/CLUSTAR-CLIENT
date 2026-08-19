@@ -13,21 +13,25 @@ interface TagTreeSelectProps {
 }
 
 const TagTreeSelect = ({ tag, selectedIds, onToggle }: TagTreeSelectProps) => {
-  const [collapsedIds, setCollapsedIds] = useState<number[]>([]);
+  const [collapsedIds, setCollapsedIds] = useState<Set<number>>(new Set());
 
   const handleToggleExpand = (tagId: number) => {
-    setCollapsedIds((prev) =>
-      prev.includes(tagId)
-        ? prev.filter((id) => id !== tagId)
-        : [...prev, tagId],
-    );
+    setCollapsedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(tagId)) {
+        next.delete(tagId);
+      } else {
+        next.add(tagId);
+      }
+      return next;
+    });
   };
 
   return (
     <TreeLine>
       <TagTreeSelectItem
         tag={tag}
-        selectedIds={selectedIds}
+        selectedIds={new Set(selectedIds)}
         onToggle={onToggle}
         collapsedIds={collapsedIds}
         onToggleExpand={handleToggleExpand}

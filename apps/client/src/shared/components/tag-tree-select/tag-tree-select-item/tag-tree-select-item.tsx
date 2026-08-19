@@ -8,9 +8,9 @@ import * as styles from './tag-tree-select-item.css';
 
 interface TagTreeSelectItemProps {
   tag: TreeNode<TagNode>;
-  selectedIds: number[];
+  selectedIds: Set<number>;
   onToggle: (tagId: number) => void;
-  collapsedIds: number[];
+  collapsedIds: Set<number>;
   onToggleExpand: (tagId: number) => void;
 }
 
@@ -23,10 +23,10 @@ const TagTreeSelectItem = ({
 }: TagTreeSelectItemProps) => {
   const isRoot = tag.parentId == null;
   const hasChildren = tag.children.length > 0;
-  const hasGrandchildren =
+  const showDivider =
     isRoot && tag.children.some((child) => child.children.length > 0);
-  const isExpanded = !collapsedIds.includes(tag.tagId);
-  const isChecked = selectedIds.includes(tag.tagId);
+  const isExpanded = !collapsedIds.has(tag.tagId);
+  const isChecked = selectedIds.has(tag.tagId);
 
   const handleExpandClick = () => {
     onToggleExpand(tag.tagId);
@@ -38,7 +38,7 @@ const TagTreeSelectItem = ({
 
   return (
     <TreeLine.Item>
-      <div className={styles.row({ showDivider: hasGrandchildren })}>
+      <div className={styles.row({ showDivider })}>
         {hasChildren && !isRoot && (
           <button
             type="button"
