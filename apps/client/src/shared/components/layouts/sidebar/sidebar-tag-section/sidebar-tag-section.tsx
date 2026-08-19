@@ -1,9 +1,9 @@
 import { Tooltip } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
+import NavItem from '@shared/components/nav-item/nav-item';
 import TreeLine from '@shared/components/tree-line/tree-line';
 
-import SidebarItem from '../sidebar-item/sidebar-item';
 import SidebarTagItem from '../sidebar-tag-item/sidebar-tag-item';
 import { SidebarSelection } from '../type';
 
@@ -48,7 +48,7 @@ const SidebarTagSection = ({
       ) : (
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>
-            <SidebarItem
+            <NavItem
               iconName="ic_tag"
               isSelected={selection.type === 'tag'}
               onClick={onExpand}

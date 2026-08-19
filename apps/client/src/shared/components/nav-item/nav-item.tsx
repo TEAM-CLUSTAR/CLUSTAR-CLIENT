@@ -2,33 +2,37 @@ import { ButtonHTMLAttributes } from 'react';
 
 import { Icon, IconName } from '@cds/icon';
 
-import * as styles from './sidebar-item.css';
+import * as styles from './nav-item.css';
 
-interface SidebarItemProps extends Pick<
+interface NavItemProps extends Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'onClick' | 'disabled'
 > {
   iconName: IconName;
   content?: string;
   isSelected?: boolean;
+  type?: 'sm' | 'lg';
 }
 
-const SidebarItem = ({
+const NavItem = ({
   iconName,
   content,
   isSelected,
+  type = 'lg',
   ...props
-}: SidebarItemProps) => {
+}: NavItemProps) => {
   return (
     <button
       {...props}
       type="button"
       className={styles.container({ isSelected })}
     >
-      <Icon name={iconName} size={32} />
-      {content != null && <span className={styles.text}>{content}</span>}
+      <Icon name={iconName} size={type === 'lg' ? 32 : 24} />
+      {content != null && (
+        <span className={styles.text({ type })}>{content}</span>
+      )}
     </button>
   );
 };
 
-export default SidebarItem;
+export default NavItem;
