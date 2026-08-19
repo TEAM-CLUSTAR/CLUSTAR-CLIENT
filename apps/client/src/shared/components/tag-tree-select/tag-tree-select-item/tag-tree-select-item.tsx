@@ -23,6 +23,8 @@ const TagTreeSelectItem = ({
 }: TagTreeSelectItemProps) => {
   const isRoot = tag.parentId == null;
   const hasChildren = tag.children.length > 0;
+  const hasGrandchildren =
+    isRoot && tag.children.some((child) => child.children.length > 0);
   const isExpanded = !collapsedIds.includes(tag.tagId);
   const isChecked = selectedIds.includes(tag.tagId);
 
@@ -36,8 +38,8 @@ const TagTreeSelectItem = ({
 
   return (
     <TreeLine.Item>
-      <div className={styles.row({ isRoot })}>
-        {hasChildren && (
+      <div className={styles.row({ showDivider: hasGrandchildren })}>
+        {hasChildren && !isRoot && (
           <button
             type="button"
             className={styles.expandButton({ isExpanded })}
