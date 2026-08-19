@@ -30,11 +30,16 @@ export const expandButton = recipe({
     justifyContent: 'center',
     margin: '0.6rem',
     borderRadius: '50%',
+    transition: 'background-color 0.15s ease',
+
+    ':hover': {
+      backgroundColor: themeVars.color.grey200,
+    },
   },
   variants: {
     isExpanded: {
       true: {
-        backgroundColor: themeVars.color.grey100,
+        backgroundColor: themeVars.color.grey200,
       },
     },
   },
