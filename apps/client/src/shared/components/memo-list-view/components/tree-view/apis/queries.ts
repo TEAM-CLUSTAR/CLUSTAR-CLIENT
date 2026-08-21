@@ -30,6 +30,7 @@ export const useReadMemoStructure = () => {
           memo.tagList?.map((tag) => ({
             tagId: tag.tagId ?? 0,
             name: tag.name ?? '',
+            color: tag.color ?? '',
           })) ?? [],
       }));
     },

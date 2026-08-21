@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { LABEL_COLOR_BY_TEXT } from '@shared/constants/label-match';
-import { LabelTextType } from '@shared/types/label-type';
+import { NO_TAG_COLOR, TAG_COLOR_MATCH, type TagColorType } from '@cds/ui';
+
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
 import DetailModal from '../detail-modal/detail-modal';
@@ -33,8 +33,8 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     memoId,
     enabled: isModalOpen,
   });
-  const tagName = tagList[0]?.name ?? '라벨없음';
-  const tagColor = LABEL_COLOR_BY_TEXT[tagName as LabelTextType];
+  const { textColor } =
+    TAG_COLOR_MATCH[tagList[0]?.color as TagColorType] ?? NO_TAG_COLOR;
 
   const handleModalOpenChange = (open: boolean) => {
     setIsModalOpen(open);
@@ -49,7 +49,8 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     >
       <button
         type="button"
-        className={styles.container({ tagColor })}
+        className={styles.container}
+        style={{ borderLeft: `3.5px solid ${textColor}` }}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
