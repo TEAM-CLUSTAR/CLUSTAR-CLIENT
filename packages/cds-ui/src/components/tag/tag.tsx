@@ -45,7 +45,6 @@ const Tag = ({ size, text, ...rest }: TagProps) => {
     !isOutlined && rest.color
       ? TAG_COLOR_MATCH[rest.color as TagColorType]
       : undefined;
-  const onRemove = rest.onRemove;
 
   return (
     <div
@@ -65,12 +64,12 @@ const Tag = ({ size, text, ...rest }: TagProps) => {
         aria-hidden="true"
       />
       <p>{text}</p>
-      {onRemove && (
+      {rest.onRemove && (
         <button
           type="button"
           onClick={(event) => {
             event.stopPropagation();
-            onRemove();
+            rest.onRemove?.();
           }}
           aria-label="태그 삭제"
         >
