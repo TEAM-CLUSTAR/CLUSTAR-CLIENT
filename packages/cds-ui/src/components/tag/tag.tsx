@@ -45,12 +45,15 @@ const Tag = ({ size, text, ...rest }: TagProps) => {
     !isOutlined && rest.color
       ? TAG_COLOR_MATCH[rest.color as TagColorType]
       : undefined;
-  const onRemove = rest.action === 'remove' ? rest.onRemove : undefined;
-  const removable = !!onRemove;
+  const onRemove = rest.onRemove;
 
   return (
     <div
-      className={styles.container({ size, removable, outlined: isOutlined })}
+      className={styles.container({
+        size,
+        removable: rest.action === 'remove',
+        outlined: isOutlined,
+      })}
       style={{
         backgroundColor: colorStyle?.backgroundColor,
         color: colorStyle?.textColor,
