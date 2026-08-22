@@ -3,8 +3,6 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const PRIMARY_COLOR_VAR = '--card-primary-color';
-
 export const tabContainer = recipe({
   base: {
     position: 'relative',
@@ -28,7 +26,7 @@ export const tabContainer = recipe({
         top: 0,
         width: '4px',
         height: '100%',
-        backgroundColor: `var(${PRIMARY_COLOR_VAR})`,
+        backgroundColor: themeVars.color.blue400,
         pointerEvents: 'none',
 
         transform: 'scaleX(0)',

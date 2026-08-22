@@ -621,7 +621,7 @@ export interface components {
       /** Format: int64 */
       tagId?: number;
       name?: string;
-      colorHex?: string;
+      color?: string;
       /** Format: int64 */
       parentId?: number;
     };
@@ -999,7 +999,7 @@ export interface components {
       /** Format: int64 */
       tagId?: number;
       name?: string;
-      colorHex?: string;
+      color?: string;
       /** Format: int64 */
       parentId?: number;
     };
@@ -1026,7 +1026,7 @@ export interface components {
       /** Format: int64 */
       tagId?: number;
       name?: string;
-      colorHex?: string;
+      color?: string;
       /** Format: int64 */
       parentId?: number;
     };

@@ -1,40 +1,13 @@
 import { ReactNode } from 'react';
 
 import { Icon } from '@cds/icon';
-import {
-  Button,
-  File,
-  ImageContainer,
-  LabelList,
-  Modal,
-  TextContent,
-} from '@cds/ui';
+import { Button, File, ImageContainer, Modal, TextContent } from '@cds/ui';
 
 import { SelectedMemoTypes } from '../tree-memo/apis/queries';
 
 import * as styles from './detail-modal.css';
 
 // TODO: 이 모달과 관련된 작업 진행 시 이 컴포넌트를 삭제
-
-const formatDateTime = (dateString: string): string => {
-  if (!dateString) return '';
-
-  try {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-
-    return `${year}.${month}.${day} ${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
-  } catch {
-    return dateString;
-  }
-};
 
 interface DetailModalProps {
   children: ReactNode;
@@ -53,8 +26,7 @@ const DetailModal = ({
   open,
   onOpenChange,
 }: DetailModalProps) => {
-  const { title, content, images, files, tagList, createdAt, isAiGenerated } =
-    data;
+  const { title, content, images, files, isAiGenerated } = data;
 
   const handleClick = () => {
     if (id && onAiCreateClick) {
@@ -73,18 +45,6 @@ const DetailModal = ({
           })}
         >
           <div className={styles.headerContainer}>
-            <div>
-              <LabelList
-                listType="modal"
-                labelItems={tagList.map((tag) => ({
-                  id: String(tag.tagId),
-                  text: tag.name,
-                }))}
-                dateText={formatDateTime(createdAt)}
-                labelSize="lg"
-              />
-            </div>
-
             <Modal.Close>
               <button className={styles.closeButtonContainer} type="button">
                 <Icon name="ic_close" size={28} />

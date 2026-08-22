@@ -43,9 +43,9 @@ export const useNavigationBlocker = ({
     return Object.values(draftsById).some((draft: MemoDraft) => {
       const hasTitle = draft.title.trim().length > 0;
       const hasContents = normalizeContents(draft.contents).length > 0;
-      const hasLabels = draft.labels.length > 0;
+      const hasTags = draft.tags.length > 0;
 
-      return hasTitle || hasContents || hasLabels;
+      return hasTitle || hasContents || hasTags;
     });
   }, [draftsById]);
 
