@@ -5,18 +5,18 @@ import { TagNode } from '@shared/apis/tag/type';
 import * as styles from './tag-select-field.css';
 
 interface TagSelectFieldProps {
-  tags: TagNode[];
+  selectedTags: TagNode[];
   onRemoveTag: (tagId: number) => void;
 }
 
-const TagSelectField = ({ tags, onRemoveTag }: TagSelectFieldProps) => {
-  const hasTags = tags.length > 0;
+const TagSelectField = ({ selectedTags, onRemoveTag }: TagSelectFieldProps) => {
+  const hasTags = selectedTags.length > 0;
 
   return (
     <div className={styles.field({ isActive: hasTags })}>
       {hasTags ? (
         <div className={styles.tagList}>
-          {tags.map(({ tagId, name, color }) => (
+          {selectedTags.map(({ tagId, name, color }) => (
             <Tag
               key={tagId}
               size="lg"
