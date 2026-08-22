@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { DragEvent, useEffect, useRef, useState } from 'react';
 
 import Card from '@shared/components/card/card';
+import { MEMO_DRAG_DATA_KEY } from '@shared/constants/memo-drag';
 import { components } from '@shared/types/schema';
 
 import * as styles from './memo-card-grid.css';
@@ -34,7 +35,9 @@ const MemoCardItem = ({
     isNew,
   } = memo;
 
-  const handleDragStart = () => {
+  const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
+    event.dataTransfer.setData(MEMO_DRAG_DATA_KEY, String(memoId ?? 0));
+    event.dataTransfer.setData('text/plain', String(memoId ?? 0));
     setTimeout(() => onDragStart(memoId ?? 0), 0);
   };
 
@@ -69,6 +72,8 @@ interface MemoCardGridProps {
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   onLoadMore?: () => void;
+  onMemoDragStart?: (memoId: number) => void;
+  onMemoDragEnd?: () => void;
 }
 
 const MemoCardGrid = ({
@@ -76,6 +81,8 @@ const MemoCardGrid = ({
   hasNextPage = false,
   isFetchingNextPage = false,
   onLoadMore,
+  onMemoDragStart,
+  onMemoDragEnd,
 }: MemoCardGridProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -103,6 +110,16 @@ const MemoCardGrid = ({
     };
   }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
+  const handleMemoDragStart = (memoId: number) => {
+    setDraggingId(memoId);
+    onMemoDragStart?.(memoId);
+  };
+
+  const handleMemoDragEnd = () => {
+    setDraggingId(null);
+    onMemoDragEnd?.();
+  };
+
   return (
     <div ref={scrollContainerRef} className={styles.scrollContainer}>
       <div className={styles.gridContainer}>
@@ -113,8 +130,8 @@ const MemoCardGrid = ({
             isSelected={selectedId === memo.memoId}
             isDragging={draggingId === memo.memoId}
             onSelect={setSelectedId}
-            onDragStart={setDraggingId}
-            onDragEnd={() => setDraggingId(null)}
+            onDragStart={handleMemoDragStart}
+            onDragEnd={handleMemoDragEnd}
           />
         ))}
       </div>

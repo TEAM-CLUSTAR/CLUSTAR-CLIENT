@@ -12,6 +12,8 @@ export interface MemoListViewProps {
   isFetchingNextPage?: boolean;
   fetchNextPage?: () => void;
   totalCount: number;
+  onMemoDragStart?: (memoId: number) => void;
+  onMemoDragEnd?: () => void;
 }
 
 const MemoListView = ({
@@ -21,6 +23,8 @@ const MemoListView = ({
   isFetchingNextPage = false,
   fetchNextPage,
   totalCount,
+  onMemoDragStart,
+  onMemoDragEnd,
 }: MemoListViewProps) => {
   return (
     <div className={styles.container}>
@@ -31,6 +35,8 @@ const MemoListView = ({
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           onLoadMore={fetchNextPage}
+          onMemoDragStart={onMemoDragStart}
+          onMemoDragEnd={onMemoDragEnd}
         />
       </div>
     </div>
