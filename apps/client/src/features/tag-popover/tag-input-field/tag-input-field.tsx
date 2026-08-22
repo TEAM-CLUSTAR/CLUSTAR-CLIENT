@@ -12,7 +12,6 @@ interface TagInputFieldProps {
   onRemoveTag: (tagId: number) => void;
   value: string;
   isOpen: boolean;
-  placeholder: string;
   onChange: (value: string) => void;
   onFocus: () => void;
   onEnter?: () => boolean;
@@ -23,7 +22,6 @@ const TagInputField = ({
   onRemoveTag,
   value,
   isOpen,
-  placeholder,
   onChange,
   onFocus,
   onEnter,
@@ -45,21 +43,25 @@ const TagInputField = ({
     <div className={styles.field({ isActive: isOpen })}>
       <Icon name="ic_tag" size={32} color={isOpen ? 'blue500' : 'grey600'} />
       <div className={styles.tagList}>
-        {selectedTags.map(({ tagId, name, color }) => (
-          <Tag
-            key={tagId}
-            size="lg"
-            color={color ?? ''}
-            text={name ?? ''}
-            action="remove"
-            onRemove={() => onRemoveTag(tagId)}
-          />
-        ))}
+        {selectedTags.map(({ tagId, name, color }) =>
+          isOpen ? (
+            <Tag
+              key={tagId}
+              size="lg"
+              color={color ?? ''}
+              text={name ?? ''}
+              action="remove"
+              onRemove={() => onRemoveTag(tagId)}
+            />
+          ) : (
+            <Tag key={tagId} size="lg" color={color ?? ''} text={name ?? ''} />
+          ),
+        )}
         <input
           ref={inputRef}
           className={styles.input}
           value={value}
-          placeholder={selectedTags.length ? '' : placeholder}
+          placeholder={selectedTags.length ? '' : '태그 선택'}
           onChange={handleChange}
           onFocus={onFocus}
           onKeyDown={handleKeyDown}
