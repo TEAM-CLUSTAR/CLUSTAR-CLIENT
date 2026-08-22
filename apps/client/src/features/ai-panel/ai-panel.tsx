@@ -30,7 +30,6 @@ interface AiPanelProps {
 }
 
 const MIN_SCROLL_THUMB_HEIGHT = 4;
-const MIN_LOADING_MESSAGE_DURATION = 800;
 
 const AiPanel = ({
   isAIOpen,
@@ -47,10 +46,8 @@ const AiPanel = ({
 }: AiPanelProps) => {
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const chatContentRef = useRef<HTMLDivElement>(null);
-  const loadingStartedAtRef = useRef<number | null>(null);
   const dragDepthRef = useRef(0);
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
-  const [isLoadingMessageVisible, setIsLoadingMessageVisible] = useState(false);
   const { scrollbarState, updateScrollbar, handleScrollbarThumbPointerDown } =
     useCustomScrollbar({
       scrollElementRef: chatAreaRef,
@@ -65,6 +62,8 @@ const AiPanel = ({
     isAnswerGenerating,
     answerGeneratingMemoCount = selectedMemos.length,
     answerGeneratingMessageId = null,
+    shouldShowLoadingMessage: hookShouldShowLoadingMessage,
+    visibleMessages: hookVisibleMessages,
     handleClose: handlePanelClose,
     handleSubmit,
     handleRegenerate,
@@ -79,42 +78,16 @@ const AiPanel = ({
 
   const hasSuggestedMemos = suggestedMemos.length > 0;
   const shouldShowLoadingMessage =
-    isAnswerGenerating || isLoadingMessageVisible;
-  const visibleMessages = shouldShowLoadingMessage
-    ? messages.filter((message) => message.id !== answerGeneratingMessageId)
-    : messages;
+    hookShouldShowLoadingMessage ?? isAnswerGenerating;
+  const visibleMessages =
+    hookVisibleMessages ??
+    (shouldShowLoadingMessage
+      ? messages.filter((message) => message.id !== answerGeneratingMessageId)
+      : messages);
 
   useEffect(() => {
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
-
-  useEffect(() => {
-    if (isAnswerGenerating) {
-      loadingStartedAtRef.current = Date.now();
-      setIsLoadingMessageVisible(true);
-      return;
-    }
-
-    if (!loadingStartedAtRef.current) {
-      setIsLoadingMessageVisible(false);
-      return;
-    }
-
-    const elapsedTime = Date.now() - loadingStartedAtRef.current;
-    const remainingTime = Math.max(
-      MIN_LOADING_MESSAGE_DURATION - elapsedTime,
-      0,
-    );
-
-    const timeoutId = window.setTimeout(() => {
-      setIsLoadingMessageVisible(false);
-      loadingStartedAtRef.current = null;
-    }, remainingTime);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [isAnswerGenerating]);
 
   useEffect(() => {
     updateScrollbar();
