@@ -6,9 +6,7 @@ import { themeVars } from '@cds/ui';
 export const field = recipe({
   base: {
     display: 'flex',
-    alignItems: 'center',
     gap: '0.4rem',
-    width: '100%',
     padding: '0.8rem',
     borderRadius: '8px',
     border: '0.15rem solid transparent',
