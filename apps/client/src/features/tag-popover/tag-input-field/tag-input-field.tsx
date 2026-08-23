@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useRef } from 'react';
+import { KeyboardEvent } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
@@ -10,33 +10,24 @@ import * as styles from './tag-input-field.css';
 interface TagInputFieldProps {
   selectedTags: TagNode[];
   onRemoveTag: (tagId: number) => void;
-  value: string;
   isOpen: boolean;
-  onChange: (value: string) => void;
   onFocus: () => void;
-  onEnter?: () => boolean;
+  onEnter?: (value: string) => boolean;
 }
 
 const TagInputField = ({
   selectedTags,
   onRemoveTag,
-  value,
   isOpen,
-  onChange,
   onFocus,
   onEnter,
 }: TagInputFieldProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
-  };
-
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
-    if (!onEnter?.()) return;
+    if (!onEnter?.(event.currentTarget.value)) return;
 
-    inputRef.current?.blur();
+    event.currentTarget.value = '';
+    event.currentTarget.blur();
   };
 
   return (
@@ -58,11 +49,8 @@ const TagInputField = ({
           ),
         )}
         <input
-          ref={inputRef}
           className={styles.input}
-          value={value}
           placeholder={selectedTags.length ? '' : '태그 선택'}
-          onChange={handleChange}
           onFocus={onFocus}
           onKeyDown={handleKeyDown}
         />
