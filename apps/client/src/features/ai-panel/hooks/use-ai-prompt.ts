@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Message, UseAiPromptProps } from '../types/ai-prompt-types';
 import { insertMessageAfter as insertMessageAfterTarget } from '../utils/ai-message';
-import { useAiChatRoom } from './use-ai-chat-room';
-import { useAiResponseActions } from './use-ai-response-actions';
+import { useAiChatActions } from './use-ai-chat-actions';
 
 const MIN_LOADING_MESSAGE_DURATION = 800;
 
@@ -21,12 +20,6 @@ export const useAiPrompt = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const loadingStartedAtRef = useRef<number | null>(null);
   const [isLoadingMessageVisible, setIsLoadingMessageVisible] = useState(false);
-
-  const { chatRoomId, isCreatingChatRoom, resetInternalChatRoom } =
-    useAiChatRoom({
-      isAIOpen,
-      externalChatRoomId,
-    });
 
   const addMessage = useCallback((message: Message) => {
     setMessages((prev) => [...prev, message]);
@@ -46,13 +39,16 @@ export const useAiPrompt = ({
   }, []);
 
   const {
+    isCreatingChatRoom,
     isCreatingAiChat,
     isSavingAiMemo,
+    resetInternalChatRoom,
     handleSubmit,
     handleRegenerate,
     handleSaveToMemo,
-  } = useAiResponseActions({
-    chatRoomId,
+  } = useAiChatActions({
+    isAIOpen,
+    externalChatRoomId,
     messages,
     selectedMemos,
     addMessage,

@@ -1,7 +1,6 @@
-import { DragEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
-import { MEMO_DRAG_DATA_KEY } from '@shared/constants/memo-drag';
 
 import AiPanelHeader from './components/ai-panel-header/ai-panel-header';
 import AiPanelMessages from './components/ai-panel-messages/ai-panel-messages';
@@ -9,8 +8,9 @@ import PromptInput from './components/prompt-input/prompt-input';
 import SuggestedMemoList, {
   SuggestedMemo,
 } from './components/suggested-memo-list/suggested-memo-list';
+import { useAiPanelDragDrop } from './hooks/use-ai-panel-drag-drop';
+import { useAiPanelScroll } from './hooks/use-ai-panel-scroll';
 import { useAiPrompt } from './hooks/use-ai-prompt';
-import { useCustomScrollbar } from './hooks/use-custom-scrollbar';
 import { SelectedMemoType } from './types/prompt-input';
 
 import * as styles from './ai-panel.css';
@@ -29,8 +29,6 @@ interface AiPanelProps {
   onDropMemo?: (memoId: number) => void;
 }
 
-const MIN_SCROLL_THUMB_HEIGHT = 4;
-
 const AiPanel = ({
   isAIOpen,
   selectedMemos,
@@ -46,24 +44,14 @@ const AiPanel = ({
 }: AiPanelProps) => {
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const chatContentRef = useRef<HTMLDivElement>(null);
-  const dragDepthRef = useRef(0);
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
-  const { scrollbarState, updateScrollbar, handleScrollbarThumbPointerDown } =
-    useCustomScrollbar({
-      scrollElementRef: chatAreaRef,
-      contentElementRef: chatContentRef,
-      minThumbHeight: MIN_SCROLL_THUMB_HEIGHT,
-    });
 
   const {
     isOpen,
-    messages,
     isLoading,
-    isAnswerGenerating,
     answerGeneratingMemoCount = selectedMemos.length,
-    answerGeneratingMessageId = null,
-    shouldShowLoadingMessage: hookShouldShowLoadingMessage,
-    visibleMessages: hookVisibleMessages,
+    shouldShowLoadingMessage,
+    visibleMessages,
     handleClose: handlePanelClose,
     handleSubmit,
     handleRegenerate,
@@ -77,75 +65,29 @@ const AiPanel = ({
   });
 
   const hasSuggestedMemos = suggestedMemos.length > 0;
-  const shouldShowLoadingMessage =
-    hookShouldShowLoadingMessage ?? isAnswerGenerating;
-  const visibleMessages =
-    hookVisibleMessages ??
-    (shouldShowLoadingMessage
-      ? messages.filter((message) => message.id !== answerGeneratingMessageId)
-      : messages);
+
+  const dragHandlers = useAiPanelDragDrop({
+    onDragOverChange,
+    onDropMemo,
+  });
+
+  const { scrollbarState, updateScrollbar, handleScrollbarThumbPointerDown } =
+    useAiPanelScroll({
+      chatAreaRef,
+      chatContentRef,
+      hasSuggestedMemos,
+      shouldShowLoadingMessage,
+      visibleMessagesLength: visibleMessages.length,
+    });
 
   useEffect(() => {
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
 
-  useEffect(() => {
-    updateScrollbar();
-  }, [messages, shouldShowLoadingMessage, hasSuggestedMemos, updateScrollbar]);
-
-  useEffect(() => {
-    const chatArea = chatAreaRef.current;
-    if (!chatArea || visibleMessages.length === 0) return;
-
-    const timeoutId = window.setTimeout(() => {
-      chatArea.scrollTo({
-        top: chatArea.scrollHeight,
-        behavior: 'smooth',
-      });
-      updateScrollbar();
-    }, 100);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [visibleMessages.length, shouldShowLoadingMessage, updateScrollbar]);
-
   const handleSaveToMemoWithModal = async (messageId: string) => {
     const success = await handleSaveToMemo(messageId);
     if (success) {
       setIsSaveConfirmModalOpen(true);
-    }
-  };
-
-  const handleDragEnter = () => {
-    dragDepthRef.current += 1;
-    onDragOverChange?.(true);
-  };
-
-  const handleDragOver = (event: DragEvent<HTMLElement>) => {
-    event.preventDefault();
-    onDragOverChange?.(true);
-  };
-
-  const handleDragLeave = () => {
-    dragDepthRef.current = Math.max(dragDepthRef.current - 1, 0);
-
-    if (dragDepthRef.current === 0) {
-      onDragOverChange?.(false);
-    }
-  };
-
-  const handleDrop = (event: DragEvent<HTMLElement>) => {
-    event.preventDefault();
-    dragDepthRef.current = 0;
-    onDragOverChange?.(false);
-
-    const memoId =
-      Number(event.dataTransfer.getData(MEMO_DRAG_DATA_KEY)) ||
-      Number(event.dataTransfer.getData('text/plain'));
-
-    if (!Number.isNaN(memoId) && memoId > 0) {
-      onDropMemo?.(memoId);
     }
   };
 
@@ -155,10 +97,7 @@ const AiPanel = ({
     <aside
       className={styles.container}
       aria-label="AI 생성하기"
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      {...dragHandlers}
     >
       <AiPanelHeader
         onClose={handlePanelClose}
