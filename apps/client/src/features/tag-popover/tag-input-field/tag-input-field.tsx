@@ -50,7 +50,7 @@ const TagInputField = ({
         )}
         <input
           className={styles.input}
-          placeholder={selectedTags.length ? '' : '태그 선택'}
+          placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
           onFocus={onFocus}
           onKeyDown={handleKeyDown}
         />
