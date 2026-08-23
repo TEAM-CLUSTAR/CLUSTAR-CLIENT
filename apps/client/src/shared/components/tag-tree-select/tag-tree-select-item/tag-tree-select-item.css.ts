@@ -3,23 +3,14 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const row = recipe({
-  base: {
-    display: 'flex',
-    padding: '0.4rem',
-    height: '4rem',
+export const row = style({
+  display: 'flex',
+  padding: '0.4rem',
+  height: '4rem',
 
-    ':hover': {
-      backgroundColor: themeVars.color.grey100,
-      borderRadius: '8px',
-    },
-  },
-  variants: {
-    showDivider: {
-      true: {
-        borderBottom: `1px solid ${themeVars.color.grey100}`,
-      },
-    },
+  ':hover': {
+    backgroundColor: themeVars.color.grey100,
+    borderRadius: '8px',
   },
 });
 
@@ -81,4 +72,5 @@ export const branchContainer = recipe({
 
 export const branchInner = style({
   overflow: 'hidden',
+  paddingLeft: '0.2rem',
 });

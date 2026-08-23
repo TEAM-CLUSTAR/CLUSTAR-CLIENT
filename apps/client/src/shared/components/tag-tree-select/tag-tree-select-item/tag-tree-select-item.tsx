@@ -21,10 +21,7 @@ const TagTreeSelectItem = ({
   collapsedIds,
   onToggleExpand,
 }: TagTreeSelectItemProps) => {
-  const isRoot = tag.parentId == null;
   const hasChildren = tag.children.length > 0;
-  const showDivider =
-    isRoot && tag.children.some((child) => child.children.length > 0);
   const isExpanded = !collapsedIds.has(tag.tagId);
   const isChecked = selectedIds.has(tag.tagId);
 
@@ -38,8 +35,8 @@ const TagTreeSelectItem = ({
 
   return (
     <TreeLine.Item>
-      <div className={styles.row({ showDivider })}>
-        {hasChildren && !isRoot && (
+      <div className={styles.row}>
+        {hasChildren && (
           <button
             type="button"
             className={styles.expandButton({ isExpanded })}
