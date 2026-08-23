@@ -49,6 +49,7 @@ export const iconNames = [
   'ic_search',
   'ic_send',
   'ic_star',
+  'ic_star_gra',
   'ic_structure',
   'ic_summary',
   'ic_tag',
