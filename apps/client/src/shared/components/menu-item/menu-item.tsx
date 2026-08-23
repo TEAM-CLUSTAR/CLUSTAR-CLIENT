@@ -2,9 +2,9 @@ import { ButtonHTMLAttributes } from 'react';
 
 import { Icon, IconName } from '@cds/icon';
 
-import * as styles from './nav-item.css';
+import * as styles from './menu-item.css';
 
-interface NavItemProps extends Pick<
+interface MenuItemProps extends Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'onClick' | 'disabled'
 > {
@@ -14,13 +14,13 @@ interface NavItemProps extends Pick<
   type?: 'sm' | 'lg';
 }
 
-const NavItem = ({
+const MenuItem = ({
   iconName,
   content,
   isSelected,
   type = 'lg',
   ...props
-}: NavItemProps) => {
+}: MenuItemProps) => {
   return (
     <button
       {...props}
@@ -35,4 +35,4 @@ const NavItem = ({
   );
 };
 
-export default NavItem;
+export default MenuItem;

@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
-import NavItem from '@shared/components/nav-item/nav-item';
+import MenuItem from '@shared/components/menu-item/menu-item';
 
 import { useSidebar } from './sidebar-context';
 import SidebarMenuSection from './sidebar-menu-section/sidebar-menu-section';
@@ -90,7 +90,7 @@ const Sidebar = () => {
       <section className={styles.footerSection}>
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>
-            <NavItem iconName="ic_profile" content="마이페이지" disabled />
+            <MenuItem iconName="ic_profile" content="마이페이지" disabled />
             <div className={styles.tooltip}>
               <Tooltip title="마이페이지" />
             </div>

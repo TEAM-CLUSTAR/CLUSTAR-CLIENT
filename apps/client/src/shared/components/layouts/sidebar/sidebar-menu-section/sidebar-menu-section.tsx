@@ -3,7 +3,7 @@ import { PATH } from '@router/path';
 import { IconName } from '@cds/icon';
 import { Modal, Tooltip } from '@cds/ui';
 
-import NavItem from '@shared/components/nav-item/nav-item';
+import MenuItem from '@shared/components/menu-item/menu-item';
 
 import { SidebarSelection } from '../type';
 
@@ -15,14 +15,14 @@ interface SidebarMenuSectionProps {
   onExpand: () => void;
 }
 
-interface MenuItem {
+interface MenuEntry {
   id: string;
   iconName: IconName;
   text: string;
   path: string;
 }
 
-const MENU_ITEMS: MenuItem[] = [
+const MENU_ITEMS: MenuEntry[] = [
   {
     id: 'new-memo',
     iconName: 'ic_newmemo',
@@ -55,7 +55,7 @@ const SidebarMenuSection = ({
       <Modal>
         <Modal.Trigger>
           <li key="search" className={styles.pannelItem}>
-            <NavItem iconName="ic_search" content="검색" onClick={onExpand} />
+            <MenuItem iconName="ic_search" content="검색" onClick={onExpand} />
             <div className={styles.tooltip}>
               <Tooltip title="검색" />
             </div>
@@ -65,7 +65,7 @@ const SidebarMenuSection = ({
       </Modal>
       {MENU_ITEMS.map(({ id, iconName, text, path }) => (
         <li key={id} className={styles.pannelItem}>
-          <NavItem
+          <MenuItem
             iconName={iconName}
             content={text}
             isSelected={selectedMenuPath === path}

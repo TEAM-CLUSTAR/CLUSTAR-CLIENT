@@ -1,5 +1,5 @@
 import { TagNode } from '@shared/apis/tag/type';
-import NavItem from '@shared/components/nav-item/nav-item';
+import MenuItem from '@shared/components/menu-item/menu-item';
 
 import * as styles from './parent-tag-list.css';
 
@@ -19,7 +19,7 @@ const ParentTagList = ({
       <ul className={styles.list}>
         {tags.map(({ tagId, name }) => (
           <li key={tagId}>
-            <NavItem
+            <MenuItem
               type="sm"
               iconName="ic_tag"
               content={name}
