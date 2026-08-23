@@ -1,12 +1,11 @@
 import { KeyboardEvent, useLayoutEffect, useRef, useState } from 'react';
-
-import { Icon } from '@cds/icon';
-import { Button } from '@cds/ui';
-
 import {
   PromptInputValueType,
   SelectedMemoType,
-} from '@shared/components/ai-panel/types/types';
+} from '@features/ai-panel/types/types';
+
+import { Icon } from '@cds/icon';
+import { Button } from '@cds/ui';
 
 import PromptOption from './prompt-option/prompt-option';
 import SelectedMemo from './selected-memo/selected-memo';
