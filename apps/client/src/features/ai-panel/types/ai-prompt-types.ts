@@ -1,8 +1,10 @@
-import { SelectedMemoType } from '@features/ai-panel/types/types';
+import type { AiOption } from '@shared/apis/prompt/type';
+
+import { SelectedMemoType } from './prompt-input';
+
+export type { AiOption };
 
 export type MessageType = 'user' | 'ai';
-
-export type AiOption = 'MERGE' | 'SUMMARY' | 'STRUCTURE' | null;
 
 export interface Message {
   id: string;

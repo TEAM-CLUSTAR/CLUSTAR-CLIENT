@@ -14,6 +14,7 @@ const SelectedMemo = ({ title, onRemove }: SelectedMemoProps) => {
       <span className={styles.title}>{title}</span>
       <button
         type="button"
+        onMouseDown={(event) => event.preventDefault()}
         onClick={onRemove}
         aria-label={`${title} 메모 선택 해제`}
       >

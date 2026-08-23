@@ -36,6 +36,17 @@ export const memoList = style({
   gap: '0.8rem',
   width: '100%',
   overflowX: 'auto',
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+});
+
+export const textareaContainer = style({
+  position: 'relative',
 });
 
 export const textarea = style({
@@ -48,11 +59,31 @@ export const textarea = style({
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
   backgroundColor: 'transparent',
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
   selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
     '&::placeholder': {
       color: themeVars.color.grey500,
     },
   },
+});
+
+export const scrollbar = style({
+  position: 'absolute',
+  top: 0,
+  right: '-1rem',
+  bottom: 0,
+  width: '0.6rem',
+});
+
+export const scrollbarThumb = style({
+  width: '100%',
+  borderRadius: '999px',
+  backgroundColor: themeVars.color.grey300,
+  cursor: 'pointer',
 });
 
 export const footer = style({

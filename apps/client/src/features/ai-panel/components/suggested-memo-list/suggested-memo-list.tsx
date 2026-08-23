@@ -1,26 +1,43 @@
-import { FocusEvent, useState } from 'react';
+import { FocusEvent, useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
 import * as styles from './suggested-memo-list.css';
 
 // TODO: SuggestedMemos API의 타입으로 변경 (타입 SSOT)
-interface SuggestedMemosTypes {
+export interface SuggestedMemo {
   memoId: number;
   title: string;
   isSelected: boolean;
 }
 
 interface SuggestedMemoListProps {
-  memos: SuggestedMemosTypes[];
+  memos: SuggestedMemo[];
   onSelectMemo: (memoId: number) => void;
 }
 
 // 추천 메모(memos)는 서버에서 최대 3개를 보내줘요
 // 프론트에서 추천 메모 개수에 대한 별도 처리 X
 const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const iconColor = isOpen ? 'blue500' : 'grey700';
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isOpen]);
 
   const handleBlur = (e: FocusEvent<HTMLElement>) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -29,7 +46,12 @@ const SuggestedMemoList = ({ memos, onSelectMemo }: SuggestedMemoListProps) => {
   };
 
   return (
-    <div className={styles.container} onBlur={handleBlur} tabIndex={-1}>
+    <div
+      ref={containerRef}
+      className={styles.container}
+      onBlur={handleBlur}
+      tabIndex={-1}
+    >
       <button
         type="button"
         className={styles.listContainer({ isOpen })}
@@ -70,16 +92,16 @@ const SuggestedMemoItem = ({
   const iconColor = isSelected ? 'grey300' : 'grey700';
 
   return (
-    <li className={styles.itemContainer({ isSelected })}>
-      <Icon name="ic_memo" size={24} color="grey700" />
-      <span className={styles.memo}>{memoTitle}</span>
+    <li>
       <button
         type="button"
         aria-label={`${memoTitle} 추천 메모 추가`}
-        className={styles.addMemo({ isSelected })}
+        className={styles.itemButton({ isSelected })}
         onClick={onSelectMemo}
         disabled={isSelected}
       >
+        <Icon name="ic_memo" size={24} color="grey700" />
+        <span className={styles.memo}>{memoTitle}</span>
         <Icon name="ic_plus" size={24} color={iconColor} />
       </button>
     </li>

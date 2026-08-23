@@ -5,7 +5,7 @@ import { themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
-  width: 'fit-content',
+  width: '100%',
 });
 
 export const listContainer = recipe({
@@ -14,7 +14,7 @@ export const listContainer = recipe({
     alignItems: 'center',
     padding: '0.4rem 0.4rem 0.4rem 1.2rem',
     borderRadius: '8px',
-    width: '44rem',
+    width: '100%',
     height: '4rem',
     gap: '0.4rem',
   },
@@ -70,7 +70,7 @@ export const itemsContainer = recipe({
     gap: '0.4rem',
     padding: '1.2rem',
     borderRadius: '8px',
-    width: '44rem',
+    width: '100%',
     transition:
       'opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s',
   },
@@ -91,15 +91,17 @@ export const itemsContainer = recipe({
   },
 });
 
-export const itemContainer = recipe({
+export const itemButton = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
     gap: '0.4rem',
     padding: '0 0.4rem',
-    width: '41.6rem',
+    width: '100%',
     height: '3.6rem',
+    border: 'none',
     borderRadius: '8px',
+    textAlign: 'left',
   },
   variants: {
     isSelected: {
@@ -108,6 +110,7 @@ export const itemContainer = recipe({
       },
       false: {
         backgroundColor: themeVars.color.white,
+        cursor: 'pointer',
         selectors: {
           '&:hover': {
             backgroundColor: themeVars.color.grey100,
@@ -125,22 +128,4 @@ export const memo = style({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-});
-
-export const addMemo = recipe({
-  base: {
-    borderRadius: '4px',
-  },
-  variants: {
-    isSelected: {
-      true: {},
-      false: {
-        selectors: {
-          '&:hover': {
-            backgroundColor: themeVars.color.grey200,
-          },
-        },
-      },
-    },
-  },
 });

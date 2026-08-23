@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 import { Icon } from '@cds/icon';
+import { Tooltip } from '@cds/ui';
 
 import UsedMemoBadge from './used-memo-badge/used-memo-badge';
 
@@ -17,6 +20,8 @@ const AiAnswer = ({
   onRegenerate,
   onSaveToMemo,
 }: AiAnswerProps) => {
+  const [isSaveTooltipVisible, setIsSaveTooltipVisible] = useState(false);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -33,14 +38,25 @@ const AiAnswer = ({
           >
             <Icon name="ic_refresh" size={24} color="grey700" />
           </button>
-          <button
-            className={styles.actionButton}
-            type="button"
-            aria-label="메모로 저장"
-            onClick={onSaveToMemo}
-          >
-            <Icon name="ic_save" size={24} color="grey700" />
-          </button>
+          <div className={styles.actionContainer}>
+            <button
+              className={styles.actionButton}
+              type="button"
+              aria-label="메모 저장하기"
+              onClick={onSaveToMemo}
+              onMouseEnter={() => setIsSaveTooltipVisible(true)}
+              onMouseLeave={() => setIsSaveTooltipVisible(false)}
+              onFocus={() => setIsSaveTooltipVisible(true)}
+              onBlur={() => setIsSaveTooltipVisible(false)}
+            >
+              <Icon name="ic_save" size={24} color="grey700" />
+            </button>
+            {isSaveTooltipVisible && (
+              <div className={styles.tooltip}>
+                <Tooltip title="메모 저장하기" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <p className={styles.content}>{content}</p>

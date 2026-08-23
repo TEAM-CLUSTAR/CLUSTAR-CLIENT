@@ -28,12 +28,29 @@ export const actions = style({
   marginLeft: 'auto',
 });
 
+export const actionContainer = style({
+  position: 'relative',
+});
+
 export const actionButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: '3.2rem',
   height: '3.2rem',
+  borderRadius: '8px',
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.grey100,
+    },
+  },
+});
+
+export const tooltip = style({
+  position: 'absolute',
+  right: 0,
+  bottom: 'calc(100% + 0.8rem)',
+  zIndex: themeVars.zIndex.modalContent,
 });
 
 export const content = style({
