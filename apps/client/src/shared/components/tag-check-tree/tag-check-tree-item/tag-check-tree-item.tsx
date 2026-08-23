@@ -4,9 +4,9 @@ import { TagNode } from '@shared/apis/tag/type';
 import TreeLine from '@shared/components/tree-line/tree-line';
 import { TreeNode } from '@shared/utils/build-tree';
 
-import * as styles from './tag-tree-select-item.css';
+import * as styles from './tag-check-tree-item.css';
 
-interface TagTreeSelectItemProps {
+interface TagCheckTreeItemProps {
   tag: TreeNode<TagNode>;
   selectedIds: Set<number>;
   onToggle: (tagId: number) => void;
@@ -14,13 +14,13 @@ interface TagTreeSelectItemProps {
   onToggleExpand: (tagId: number) => void;
 }
 
-const TagTreeSelectItem = ({
+const TagCheckTreeItem = ({
   tag,
   selectedIds,
   onToggle,
   collapsedIds,
   onToggleExpand,
-}: TagTreeSelectItemProps) => {
+}: TagCheckTreeItemProps) => {
   const hasChildren = tag.children.length > 0;
   const isExpanded = !collapsedIds.has(tag.tagId);
   const isChecked = selectedIds.has(tag.tagId);
@@ -73,7 +73,7 @@ const TagTreeSelectItem = ({
           <div className={styles.branchInner}>
             <TreeLine.Branch>
               {tag.children.map((child) => (
-                <TagTreeSelectItem
+                <TagCheckTreeItem
                   key={child.tagId}
                   tag={child}
                   selectedIds={selectedIds}
@@ -90,4 +90,4 @@ const TagTreeSelectItem = ({
   );
 };
 
-export default TagTreeSelectItem;
+export default TagCheckTreeItem;

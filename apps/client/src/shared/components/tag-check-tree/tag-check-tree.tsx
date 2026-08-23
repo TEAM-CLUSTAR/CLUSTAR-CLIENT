@@ -4,15 +4,15 @@ import { TagNode } from '@shared/apis/tag/type';
 import TreeLine from '@shared/components/tree-line/tree-line';
 import { TreeNode } from '@shared/utils/build-tree';
 
-import TagTreeSelectItem from './tag-tree-select-item/tag-tree-select-item';
+import TagCheckTreeItem from './tag-check-tree-item/tag-check-tree-item';
 
-interface TagTreeSelectProps {
+interface TagCheckTreeProps {
   tag: TreeNode<TagNode>;
   selectedIds: number[];
   onToggle: (tagId: number) => void;
 }
 
-const TagTreeSelect = ({ tag, selectedIds, onToggle }: TagTreeSelectProps) => {
+const TagCheckTree = ({ tag, selectedIds, onToggle }: TagCheckTreeProps) => {
   const [collapsedIds, setCollapsedIds] = useState<Set<number>>(new Set());
 
   const handleToggleExpand = (tagId: number) => {
@@ -29,7 +29,7 @@ const TagTreeSelect = ({ tag, selectedIds, onToggle }: TagTreeSelectProps) => {
 
   return (
     <TreeLine>
-      <TagTreeSelectItem
+      <TagCheckTreeItem
         tag={tag}
         selectedIds={new Set(selectedIds)}
         onToggle={onToggle}
@@ -40,4 +40,4 @@ const TagTreeSelect = ({ tag, selectedIds, onToggle }: TagTreeSelectProps) => {
   );
 };
 
-export default TagTreeSelect;
+export default TagCheckTree;
