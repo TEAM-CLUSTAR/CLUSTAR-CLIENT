@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import PromptInput from '@features/ai-panel/prompt-input/prompt-input';
 
-import PromptInput from '../ai-panel/prompt-input/prompt-input';
 import ConfirmModal from '../confirm-modal/confirm-modal';
 import AiPromptHeader from './components/prompt-header/prompt-header';
 import AiMessagesList from './components/prompt-messages-list/prompt-messages-list';

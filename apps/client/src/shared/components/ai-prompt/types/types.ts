@@ -1,4 +1,4 @@
-import { SelectedMemoType } from '@shared/components/ai-panel/types/types';
+import { SelectedMemoType } from '@features/ai-panel/types/types';
 
 export type MessageType = 'user' | 'ai';
 
