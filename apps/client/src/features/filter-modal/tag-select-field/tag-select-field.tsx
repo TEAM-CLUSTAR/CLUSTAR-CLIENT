@@ -20,8 +20,8 @@ const TagSelectField = ({ selectedTags, onRemoveTag }: TagSelectFieldProps) => {
             <Tag
               key={tagId}
               size="lg"
-              color={color ?? ''}
-              text={name ?? ''}
+              color={color}
+              text={name}
               action="remove"
               onRemove={() => onRemoveTag(tagId)}
             />
