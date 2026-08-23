@@ -21,7 +21,7 @@ export const expandButton = recipe({
     justifyContent: 'center',
     margin: '0.6rem',
     borderRadius: '50%',
-    transition: 'background-color 0.15s ease',
+    transition: 'background-color 0.2s ease',
 
     ':hover': {
       backgroundColor: themeVars.color.grey200,
@@ -32,6 +32,18 @@ export const expandButton = recipe({
       true: {
         backgroundColor: themeVars.color.grey200,
       },
+    },
+  },
+});
+
+export const chevronButton = recipe({
+  base: {
+    transition: 'transform 0.2s ease',
+  },
+  variants: {
+    isExpanded: {
+      true: { transform: 'rotate(0deg)' },
+      false: { transform: 'rotate(-90deg)' },
     },
   },
 });

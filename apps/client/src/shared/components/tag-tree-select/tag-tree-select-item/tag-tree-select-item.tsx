@@ -44,9 +44,10 @@ const TagTreeSelectItem = ({
             aria-label={isExpanded ? '하위 태그 접기' : '하위 태그 펼치기'}
           >
             <Icon
-              name={isExpanded ? 'ic_chevron_down' : 'ic_chevron_right'}
+              name="ic_chevron_down"
               size={20}
               color={isExpanded ? 'grey600' : 'grey500'}
+              className={styles.chevronButton({ isExpanded })}
             />
           </button>
         )}
