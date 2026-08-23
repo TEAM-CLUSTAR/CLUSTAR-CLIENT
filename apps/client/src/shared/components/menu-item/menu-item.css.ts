@@ -38,7 +38,7 @@ export const text = recipe({
     textOverflow: 'ellipsis',
   },
   variants: {
-    type: {
+    size: {
       sm: themeVars.fontStyles.body_m_14,
       lg: themeVars.fontStyles.body_m_16,
     },

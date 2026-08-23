@@ -20,7 +20,7 @@ const ParentTagList = ({
         {tags.map(({ tagId, name }) => (
           <li key={tagId}>
             <MenuItem
-              type="sm"
+              size="sm"
               iconName="ic_tag"
               content={name}
               isSelected={selectedTagId === tagId}

@@ -11,14 +11,14 @@ interface MenuItemProps extends Pick<
   iconName: IconName;
   content?: string;
   isSelected?: boolean;
-  type?: 'sm' | 'lg';
+  size?: 'sm' | 'lg';
 }
 
 const MenuItem = ({
   iconName,
   content,
   isSelected,
-  type = 'lg',
+  size = 'lg',
   ...props
 }: MenuItemProps) => {
   return (
@@ -27,9 +27,9 @@ const MenuItem = ({
       type="button"
       className={styles.container({ isSelected })}
     >
-      <Icon name={iconName} size={type === 'lg' ? 32 : 24} />
+      <Icon name={iconName} size={size === 'lg' ? 32 : 24} />
       {content != null && (
-        <span className={styles.text({ type })}>{content}</span>
+        <span className={styles.text({ size })}>{content}</span>
       )}
     </button>
   );
