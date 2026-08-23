@@ -1,8 +1,7 @@
 import { useState } from 'react';
+import { PromptInputValueType } from '@features/ai-panel/types/types';
 
 import { Tooltip } from '@cds/ui';
-
-import { PromptInputValueType } from '@shared/components/ai-panel/types/types';
 
 import PromptOptionItem from './prompt-option-item';
 

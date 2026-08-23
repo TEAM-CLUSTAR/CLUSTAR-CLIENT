@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
+import {
+  PromptInputValueType,
+  SelectedMemoType,
+} from '@features/ai-panel/types/types';
 
 import {
   useCreateAiChat,
   useCreateChatRoom,
   useSaveAiMemo,
 } from '@shared/apis/prompt/queries';
-import {
-  PromptInputValueType,
-  SelectedMemoType,
-} from '@shared/components/ai-panel/types/types';
 
 import { AiOption, Message, UseAiPromptProps } from '../types/types';
 

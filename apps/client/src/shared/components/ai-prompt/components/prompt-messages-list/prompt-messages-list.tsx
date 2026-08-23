@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
+import AiAnswer from '@features/ai-panel/chat/ai-answer/ai-answer';
 
 import { Icon } from '@cds/icon';
-
-import AiAnswer from '@shared/components/ai-panel/chat/ai-answer/ai-answer';
 
 import { Message } from '../../types/types';
 import UserMessage from '../user-message/user-message';
