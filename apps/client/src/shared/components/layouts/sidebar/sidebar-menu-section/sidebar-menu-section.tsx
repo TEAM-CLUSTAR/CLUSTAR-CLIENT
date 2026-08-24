@@ -27,13 +27,13 @@ const MENU_ITEMS: MenuEntry[] = [
     id: 'new-memo',
     iconName: 'ic_newmemo',
     text: '새 메모',
-    path: PATH.NEW_MEMO,
+    path: PATH.MEMO,
   },
   {
     id: 'all-memo',
     iconName: 'ic_allmemo',
     text: '모든 메모',
-    path: PATH.ROOT,
+    path: PATH.MEMOS,
   },
   {
     id: 'structure',

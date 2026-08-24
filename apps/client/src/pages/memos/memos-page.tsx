@@ -28,7 +28,7 @@ const AllMemoPage = () => {
       title="작성된 메모가 없습니다."
       description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
       buttonText="메모 작성하러 가기"
-      onButtonClick={() => navigate(PATH.NEW_MEMO)}
+      onButtonClick={() => navigate(PATH.MEMO)}
     />
   ) : (
     <MemoListView

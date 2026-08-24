@@ -9,7 +9,7 @@ import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { NotFoundPage } from '@pages/not-found';
 
-import { LoginPage, MemoPage, NewMemoPage, StructurePage } from './lazy';
+import { LoginPage, MemoPage, MemosPage, StructurePage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
@@ -52,18 +52,18 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                Component: MemoPage,
-              },
-              {
-                path: PATH.MEMO,
                 loader: ({ request }: LoaderFunctionArgs) => {
                   const { search } = new URL(request.url);
-                  return redirect(`${PATH.ROOT}${search}`);
+                  return redirect(`${PATH.MEMOS}${search}`);
                 },
               },
               {
-                path: PATH.NEW_MEMO,
-                Component: NewMemoPage,
+                path: PATH.MEMOS,
+                Component: MemosPage,
+              },
+              {
+                path: PATH.MEMO,
+                Component: MemoPage,
               },
               {
                 path: PATH.STRUCTURE,
