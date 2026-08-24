@@ -20,7 +20,7 @@ type BlockSpec = {
 };
 
 /** 지원하는 블록 문법 전부. 엔트리를 추가하면 파싱·직렬화·렌더링·입력 규칙이 따라온다. */
-export const MARKDOWN_SPECS = {
+const MARKDOWN_SPECS = {
   paragraph: { label: '본문', tag: 'p', syntax: null, continues: true },
   heading1: { label: '제목 1', tag: 'h1', syntax: '#' },
   heading2: { label: '제목 2', tag: 'h2', syntax: '##' },
@@ -57,13 +57,22 @@ export const BLOCK_ATTRIBUTE = 'data-block';
 const CODE_SPAN_MARKER = '`';
 
 /** 인라인 태그 ↔ 마커 대응. DOM 순회 쪽에서 역방향으로 쓴다. */
-export const INLINE_TAGS: Readonly<Record<string, string>> = {
+export const INLINE_TAGS = {
   strong: '**',
   b: '**',
   em: '*',
   i: '*',
   code: CODE_SPAN_MARKER,
-};
+} as const satisfies Record<string, string>;
+
+/** 마커로 되돌릴 수 있는 태그. 이 목록 밖의 태그는 서식이 사라진다. */
+export type InlineTag = keyof typeof INLINE_TAGS;
+
+/** 이 태그를 감쌀 마커. 모르는 태그면 undefined. */
+export const getInlineMarker = (tagName: string): string | undefined =>
+  Object.prototype.hasOwnProperty.call(INLINE_TAGS, tagName)
+    ? INLINE_TAGS[tagName as InlineTag]
+    : undefined;
 
 /**
  * 인라인 서식을 마커로 감싼다. `** 굵게**`는 강조로 파싱되지 않으므로(6.2) 마커

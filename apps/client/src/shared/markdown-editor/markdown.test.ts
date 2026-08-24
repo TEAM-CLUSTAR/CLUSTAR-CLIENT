@@ -1,13 +1,13 @@
 /**
  * @vitest-environment node
  *
- * commands.ts는 DOM을 모르므로 jsdom 없이 문자열 in / out만 검증한다.
+ * markdown.ts는 DOM을 모르므로 jsdom 없이 문자열 in / out만 검증한다.
  * 에디터의 정확성은 결국 "마크다운 → 블록 → 마크다운" 왕복이 값을 잃지 않는지에
  * 달려 있어서, 왕복 테스트를 가장 중요하게 다룬다.
  */
 import { describe, expect, it } from 'vitest';
 
-import type { Block } from './commands';
+import type { Block } from './markdown';
 import {
   blocksToHtml,
   getNextBlockType,
@@ -17,7 +17,7 @@ import {
   parseMarkdown,
   serializeBlocks,
   wrapInline,
-} from './commands';
+} from './markdown';
 
 const roundTrip = (markdown: string) =>
   serializeBlocks(parseMarkdown(markdown));
