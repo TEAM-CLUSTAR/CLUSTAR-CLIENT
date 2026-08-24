@@ -24,7 +24,9 @@ const TagInputField = ({
 }: TagInputFieldProps) => {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
-    if (!onEnter?.(event.currentTarget.value)) return;
+
+    const isTagAdded = onEnter?.(event.currentTarget.value);
+    if (!isTagAdded) return;
 
     event.currentTarget.value = '';
     event.currentTarget.blur();
