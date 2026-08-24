@@ -1,2 +1,2 @@
-export type { BlockType, MarkdownCommand } from './commands';
-export { MarkdownEditor, useMarkdownEditor } from './MarkdownEditor';
+export { MarkdownEditor } from './markdown-editor';
+export { useMarkdownEditor } from './use-markdown-editor';

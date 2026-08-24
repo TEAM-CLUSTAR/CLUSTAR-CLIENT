@@ -39,6 +39,14 @@ export const getTextAfterCaret = (
   return probe.toString();
 };
 
+/** 엘리먼트 시작부터 커서까지를 지운다. `getTextBeforeCaret`의 짝이다. */
+export const deleteBeforeCaret = (element: HTMLElement, range: Range): void => {
+  const doomed = document.createRange();
+  doomed.selectNodeContents(element);
+  doomed.setEnd(range.startContainer, range.startOffset);
+  doomed.deleteContents();
+};
+
 const applySelection = (build: (range: Range) => void): void => {
   const range = document.createRange();
   build(range);
