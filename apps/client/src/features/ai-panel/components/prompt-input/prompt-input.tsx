@@ -2,7 +2,7 @@ import { KeyboardEvent, useLayoutEffect, useRef, useState } from 'react';
 import {
   PromptInputValueType,
   SelectedMemoType,
-} from '@features/ai-panel/types/types';
+} from '@features/ai-panel/types/ai-panel.types';
 
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
@@ -13,7 +13,7 @@ import SelectedMemo from './selected-memo/selected-memo';
 import * as styles from './prompt-input.css';
 
 interface PromptInputProps {
-  onSubmit: (value: PromptInputValueType) => void;
+  onSubmit: (value: PromptInputValueType) => boolean;
   disabled?: boolean;
   selectedMemos?: SelectedMemoType[];
   onRemoveMemo: (memoId: number) => void;
@@ -57,12 +57,14 @@ const PromptInput = ({
   const handleSend = () => {
     if (!canSend) return;
 
-    onSubmit({
+    const isSubmitted = onSubmit({
       userPrompt: trimmedText,
       option,
     });
 
-    setValue('');
+    if (isSubmitted) {
+      setValue('');
+    }
   };
 
   return (

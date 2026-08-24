@@ -1,6 +1,6 @@
 import { Icon } from '@cds/icon';
 
-import { AiPanelMessage } from '../../../types/types';
+import { AiPanelMessage } from '../../../types/ai-panel.types';
 import AiAnswer from '../ai-answer/ai-answer';
 
 import * as styles from './ai-panel-chat.css';

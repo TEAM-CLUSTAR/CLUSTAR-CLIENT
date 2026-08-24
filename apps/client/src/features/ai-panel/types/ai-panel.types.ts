@@ -1,3 +1,4 @@
+import type { AiOption } from '@shared/apis/prompt/type';
 import { components } from '@shared/types/schema';
 
 export type PromptInputValueType = Required<
@@ -7,3 +8,13 @@ export type PromptInputValueType = Required<
 export type SelectedMemoType = Required<
   Pick<components['schemas']['MemoResponse'], 'memoId' | 'title'>
 >;
+
+export interface AiPanelMessage {
+  id: string;
+  text: string;
+  type: 'user' | 'ai';
+  title?: string;
+  memoIds?: number[];
+  userPrompt?: string;
+  option?: AiOption;
+}
