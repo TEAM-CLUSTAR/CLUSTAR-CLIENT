@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
@@ -19,13 +20,24 @@ export const container = style({
   backgroundColor: themeVars.color.white,
 });
 
-export const body = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.4rem',
-  flex: 1,
-  minHeight: 0,
-  padding: '1.8rem 0.8rem 1.8rem 2rem',
+export const body = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.4rem',
+    flex: 1,
+    minHeight: 0,
+  },
+  variants: {
+    isEmpty: {
+      true: {
+        padding: 0,
+      },
+      false: {
+        padding: '1.8rem 0.8rem 1.8rem 2rem',
+      },
+    },
+  },
 });
 
 export const sectionTitle = style({
@@ -62,9 +74,8 @@ export const list = style({
   },
 });
 
-export const emptyText = style({
-  ...themeVars.fontStyles.body_m_14,
-  padding: '4rem 0',
-  color: themeVars.color.grey500,
-  textAlign: 'center',
+export const emptyStateContainer = style({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '8.1rem',
 });
