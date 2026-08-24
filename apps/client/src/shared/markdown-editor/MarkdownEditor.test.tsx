@@ -285,3 +285,135 @@ describe('입력 규칙', () => {
     expect(editor.innerHTML).toBe('<h1 data-block="heading1"><br></h1>');
   });
 });
+
+const selectText = (node: Node, start: number, end: number) => {
+  const range = document.createRange();
+  range.setStart(node, start);
+  range.setEnd(node, end);
+  const selection = window.getSelection();
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+};
+
+/** 플랫폼을 가리지 않도록 두 수정자 키를 함께 누른다. */
+const pressFormatShortcut = (editor: HTMLElement, key: string) =>
+  fireEvent.keyDown(editor, { key, metaKey: true, ctrlKey: true });
+
+describe('인라인 서식', () => {
+  it('선택한 부분만 굵어진다', () => {
+    const editor = renderEditor('가나다');
+
+    const text = editor.firstElementChild?.firstChild;
+    if (!text) {
+      throw new Error('텍스트 노드가 없다');
+    }
+    selectText(text, 1, 2);
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe(
+      '<p data-block="paragraph">가<strong>나</strong>다</p>',
+    );
+  });
+
+  it('기울임은 <em>으로 감싼다', () => {
+    const editor = renderEditor('가나다');
+
+    const text = editor.firstElementChild?.firstChild;
+    if (!text) {
+      throw new Error('텍스트 노드가 없다');
+    }
+    selectText(text, 0, 2);
+    pressFormatShortcut(editor, 'i');
+
+    expect(editor.innerHTML).toBe(
+      '<p data-block="paragraph"><em>가나</em>다</p>',
+    );
+  });
+
+  it('이미 굵은 선택을 다시 누르면 벗겨진다', () => {
+    const editor = renderEditor('**나**');
+
+    const strong = editor.querySelector('strong');
+    if (strong?.firstChild == null) {
+      throw new Error('굵은 글씨가 없다');
+    }
+    selectText(strong.firstChild, 0, 1);
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe('<p data-block="paragraph">나</p>');
+  });
+
+  it('일부만 벗기면 앞뒤 서식은 남는다', () => {
+    const editor = renderEditor('**가나다**');
+
+    const strong = editor.querySelector('strong');
+    if (strong?.firstChild == null) {
+      throw new Error('굵은 글씨가 없다');
+    }
+    selectText(strong.firstChild, 1, 2);
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe(
+      '<p data-block="paragraph"><strong>가</strong>나<strong>다</strong></p>',
+    );
+  });
+
+  it('선택 없이 누르면 커서가 놓인 단어가 굵어진다', () => {
+    const editor = renderEditor('가나 다라');
+
+    const text = editor.firstElementChild?.firstChild;
+    if (!text) {
+      throw new Error('텍스트 노드가 없다');
+    }
+    selectText(text, 4, 4);
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe(
+      '<p data-block="paragraph">가나 <strong>다라</strong></p>',
+    );
+  });
+
+  it('굵은 단어 안에서 누르면 벗겨진다', () => {
+    const editor = renderEditor('**가나**');
+
+    const strong = editor.querySelector('strong');
+    if (strong?.firstChild == null) {
+      throw new Error('굵은 글씨가 없다');
+    }
+    selectText(strong.firstChild, 1, 1);
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe('<p data-block="paragraph">가나</p>');
+  });
+
+  it('대상이 될 단어가 없으면 아무 일도 없다', () => {
+    const editor = renderEditor('');
+
+    const block = editor.firstElementChild;
+    if (block === null) {
+      throw new Error('블록이 없다');
+    }
+    const range = document.createRange();
+    range.setStart(block, 0);
+    range.collapse(true);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+
+    pressFormatShortcut(editor, 'b');
+
+    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+  });
+
+  it('블록을 넘어선 선택은 건드리지 않고 단축키만 먹는다', () => {
+    const editor = renderEditor('가나\n다라');
+    const before = editor.innerHTML;
+
+    selectAll(editor);
+    const event = pressFormatShortcut(editor, 'b');
+
+    // 브라우저 기본 동작까지 막으므로 화면에는 아무 변화가 없다.
+    expect(event).toBe(false);
+    expect(editor.innerHTML).toBe(before);
+  });
+});
