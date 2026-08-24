@@ -15,7 +15,12 @@ import {
 } from 'react';
 import type { KeyboardEvent, MouseEvent, ReactNode, RefObject } from 'react';
 
-import type { Block, BlockType, MarkdownCommand } from './commands';
+import type {
+  Block,
+  BlockType,
+  MarkdownCommand,
+  TagClassNames,
+} from './commands';
 import {
   BLOCK_ATTRIBUTE,
   blocksToHtml,
@@ -38,6 +43,8 @@ import {
   placeCaretAtStart,
   toggleFormat,
 } from './selection';
+
+import * as styles from './markdown-editor.css';
 
 type MarkdownEditorOptions = {
   value: string;
@@ -81,6 +88,19 @@ const INLINE_LIKE_TAGS: ReadonlySet<string> = new Set([
   'A',
   'BR',
 ]);
+
+/** 에디터가 만드는 태그에 붙일 클래스. 블록 모양은 이 에디터가 정한다. */
+const TAG_CLASS_NAMES: TagClassNames = {
+  paragraph: styles.paragraph,
+  heading1: styles.heading1,
+  heading2: styles.heading2,
+  heading3: styles.heading3,
+  quote: styles.quote,
+  bullet: styles.bullet,
+  ordered: styles.ordered,
+  divider: styles.divider,
+  code: styles.code,
+};
 
 /** Cmd/Ctrl + 키 → 감쌀 인라인 태그 */
 const INLINE_SHORTCUTS: Readonly<Record<string, string>> = {
@@ -171,7 +191,7 @@ const readBlocks = (container: HTMLElement): Block[] => {
 
 const createBlockElement = (block: Block): HTMLElement | null => {
   const template = document.createElement('div');
-  template.innerHTML = blocksToHtml([block]);
+  template.innerHTML = blocksToHtml([block], TAG_CLASS_NAMES);
 
   return template.firstElementChild as HTMLElement | null;
 };
@@ -430,7 +450,7 @@ export function useMarkdownEditor({
     }
 
     lastMarkdownRef.current = value;
-    container.innerHTML = blocksToHtml(parseMarkdown(value));
+    container.innerHTML = blocksToHtml(parseMarkdown(value), TAG_CLASS_NAMES);
     container.setAttribute('data-empty', value.length === 0 ? 'true' : 'false');
   }, [value]);
 
@@ -834,7 +854,7 @@ const Button = ({ command, className, children, onSelect }: ButtonProps) => {
 };
 
 type InputProps = {
-  /** 편집 영역은 자기 스타일을 갖지 않는다. 블록별 스타일은 쓰는 쪽이 정한다. */
+  /** 편집 영역의 크기·테두리처럼 바깥 상자에 해당하는 스타일. */
   className?: string;
   /** 내용이 비었을 때 보여줄 안내 문구 */
   placeholder?: string;
@@ -846,7 +866,7 @@ const Input = ({ className, placeholder }: InputProps) => {
   return (
     <div
       {...getInputProps()}
-      className={className}
+      className={[styles.container, className].filter(Boolean).join(' ')}
       data-placeholder={placeholder}
     />
   );

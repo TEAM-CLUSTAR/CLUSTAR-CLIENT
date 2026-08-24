@@ -26,6 +26,10 @@ const renderEditor = (initialValue: string) => {
   return screen.getByRole('textbox');
 };
 
+/** 클래스는 스타일 관심사라 구조를 볼 때는 걷어낸다. */
+const structure = (editor: HTMLElement) =>
+  editor.innerHTML.replace(/ class="[^"]*"/g, '');
+
 const selectAll = (editor: HTMLElement) => {
   const range = document.createRange();
   range.selectNodeContents(editor);
@@ -59,7 +63,7 @@ describe('선택 삭제 후 블록 종류', () => {
     selectAll(editor);
     deleteSelection(editor, 'deleteContentBackward');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph"><br></p>');
     expect(editor.getAttribute('data-empty')).toBe('true');
   });
 
@@ -69,7 +73,7 @@ describe('선택 삭제 후 블록 종류', () => {
     selectAll(editor);
     deleteSelection(editor, 'deleteContentBackward');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph"><br></p>');
   });
 
   it('잘라내기도 같은 경로로 처리한다', () => {
@@ -78,7 +82,7 @@ describe('선택 삭제 후 블록 종류', () => {
     selectAll(editor);
     deleteSelection(editor, 'deleteByCut');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph"><br></p>');
   });
 
   it('내용이 남아 있으면 블록 종류를 유지한다', () => {
@@ -106,7 +110,7 @@ describe('선택 삭제 후 블록 종류', () => {
     heading.textContent = '목';
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe('<h1 data-block="heading1">목</h1>');
+    expect(structure(editor)).toBe('<h1 data-block="heading1">목</h1>');
   });
 
   it('캐럿만 있는 삭제는 블록 종류를 건드리지 않는다', () => {
@@ -135,7 +139,7 @@ describe('선택 삭제 후 블록 종류', () => {
     fireEvent.input(editor);
 
     // 빈 제목 줄은 그대로 두고, 서식 해제는 Backspace 한 번 더에 맡긴다.
-    expect(editor.innerHTML).toBe('<h1 data-block="heading1"><br></h1>');
+    expect(structure(editor)).toBe('<h1 data-block="heading1"><br></h1>');
   });
 });
 
@@ -147,7 +151,7 @@ describe('브라우저가 깨뜨린 구조 복구', () => {
     editor.replaceChildren();
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph"><br></p>');
     expect(editor.getAttribute('data-empty')).toBe('true');
   });
 
@@ -158,7 +162,7 @@ describe('브라우저가 깨뜨린 구조 복구', () => {
     editor.replaceChildren(document.createTextNode('#'));
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">#</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">#</p>');
   });
 
   it('감싸는 동안 인라인 서식은 잃지 않는다', () => {
@@ -169,7 +173,7 @@ describe('브라우저가 깨뜨린 구조 복구', () => {
     editor.replaceChildren(document.createTextNode('앞 '), strong);
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph">앞 <strong>굵게</strong></p>',
     );
   });
@@ -182,18 +186,18 @@ describe('브라우저가 깨뜨린 구조 복구', () => {
     editor.appendChild(div);
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph">본문</p><p data-block="paragraph">새 줄</p>',
     );
   });
 
   it('구조가 멀쩡하면 아무것도 건드리지 않는다', () => {
     const editor = renderEditor('# 제목\n본문');
-    const before = editor.innerHTML;
+    const before = structure(editor);
 
     fireEvent.input(editor);
 
-    expect(editor.innerHTML).toBe(before);
+    expect(structure(editor)).toBe(before);
   });
 });
 
@@ -224,7 +228,7 @@ describe('입력 규칙', () => {
 
     // 하이픈이 글자로 들어가지 않도록 브라우저 기본 동작을 막는다.
     expect(event).toBe(false);
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<hr data-block="divider"><p data-block="paragraph"><br></p>',
     );
   });
@@ -236,7 +240,7 @@ describe('입력 규칙', () => {
     const event = fireEvent.keyDown(editor, { key: '-' });
 
     expect(event).toBe(true);
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">-</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">-</p>');
   });
 
   it('앞에 글자가 있으면 구분선으로 보지 않는다', () => {
@@ -246,7 +250,7 @@ describe('입력 규칙', () => {
     const event = fireEvent.keyDown(editor, { key: '-' });
 
     expect(event).toBe(true);
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">가--</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">가--</p>');
   });
 
   it('캐럿 뒤에 글자가 남아 있으면 마커를 먹지 않는다', () => {
@@ -271,7 +275,7 @@ describe('입력 규칙', () => {
 
     // 구분선이 될 수 없는 자리다. 판단을 포기했으면 지운 것도 없어야 한다.
     expect(event).toBe(true);
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">--abc</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">--abc</p>');
   });
 
   it('마커 뒤에 본문이 오는 문법은 여전히 공백으로 확정한다', () => {
@@ -282,7 +286,7 @@ describe('입력 규칙', () => {
 
     typeText(editor, '#');
     expect(fireEvent.keyDown(editor, { key: ' ' })).toBe(false);
-    expect(editor.innerHTML).toBe('<h1 data-block="heading1"><br></h1>');
+    expect(structure(editor)).toBe('<h1 data-block="heading1"><br></h1>');
   });
 });
 
@@ -310,7 +314,7 @@ describe('인라인 서식', () => {
     selectText(text, 1, 2);
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph">가<strong>나</strong>다</p>',
     );
   });
@@ -325,7 +329,7 @@ describe('인라인 서식', () => {
     selectText(text, 0, 2);
     pressFormatShortcut(editor, 'i');
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph"><em>가나</em>다</p>',
     );
   });
@@ -340,7 +344,7 @@ describe('인라인 서식', () => {
     selectText(strong.firstChild, 0, 1);
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">나</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">나</p>');
   });
 
   it('일부만 벗기면 앞뒤 서식은 남는다', () => {
@@ -353,7 +357,7 @@ describe('인라인 서식', () => {
     selectText(strong.firstChild, 1, 2);
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph"><strong>가</strong>나<strong>다</strong></p>',
     );
   });
@@ -368,7 +372,7 @@ describe('인라인 서식', () => {
     selectText(text, 4, 4);
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe(
+    expect(structure(editor)).toBe(
       '<p data-block="paragraph">가나 <strong>다라</strong></p>',
     );
   });
@@ -383,7 +387,7 @@ describe('인라인 서식', () => {
     selectText(strong.firstChild, 1, 1);
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph">가나</p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph">가나</p>');
   });
 
   it('대상이 될 단어가 없으면 아무 일도 없다', () => {
@@ -402,18 +406,26 @@ describe('인라인 서식', () => {
 
     pressFormatShortcut(editor, 'b');
 
-    expect(editor.innerHTML).toBe('<p data-block="paragraph"><br></p>');
+    expect(structure(editor)).toBe('<p data-block="paragraph"><br></p>');
   });
 
   it('블록을 넘어선 선택은 건드리지 않고 단축키만 먹는다', () => {
     const editor = renderEditor('가나\n다라');
-    const before = editor.innerHTML;
+    const before = structure(editor);
 
     selectAll(editor);
     const event = pressFormatShortcut(editor, 'b');
 
     // 브라우저 기본 동작까지 막으므로 화면에는 아무 변화가 없다.
     expect(event).toBe(false);
-    expect(editor.innerHTML).toBe(before);
+    expect(structure(editor)).toBe(before);
+  });
+});
+
+describe('블록 스타일', () => {
+  it('에디터가 만든 블록에는 스타일 클래스가 붙는다', () => {
+    const editor = renderEditor('# 제목');
+
+    expect(editor.firstElementChild?.className).not.toBe('');
   });
 });

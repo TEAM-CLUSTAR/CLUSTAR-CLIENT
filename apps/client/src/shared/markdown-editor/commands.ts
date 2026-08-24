@@ -254,8 +254,19 @@ const INLINE_RULES: InlineRule[] = [
   { pattern: /`([^`]+?)`/, tag: 'code', literal: true },
 ];
 
+/**
+ * 태그에 붙일 클래스. 어떻게 보이는지는 이 파일이 정하지 않고 받아만 쓴다.
+ */
+export type TagClassNames = Partial<Record<BlockType | 'code', string>>;
+
+const classAttribute = (className: string | undefined): string =>
+  className === undefined ? '' : ` class="${className}"`;
+
 /** `**굵게**` → `<strong>굵게</strong>`. 마커는 화면에서 사라진다. */
-export const inlineToHtml = (text: string): string => {
+export const inlineToHtml = (
+  text: string,
+  classNames: TagClassNames = {},
+): string => {
   let chosen: { rule: InlineRule; match: RegExpExecArray } | null = null;
 
   for (const rule of INLINE_RULES) {
@@ -274,31 +285,39 @@ export const inlineToHtml = (text: string): string => {
 
   const { rule, match } = chosen;
   const inner =
-    rule.literal === true ? escapeHtml(match[1]) : inlineToHtml(match[1]);
+    rule.literal === true
+      ? escapeHtml(match[1])
+      : inlineToHtml(match[1], classNames);
+  const attribute = rule.tag === 'code' ? classAttribute(classNames.code) : '';
 
   return (
     escapeHtml(text.slice(0, match.index)) +
-    `<${rule.tag}>${inner}</${rule.tag}>` +
-    inlineToHtml(text.slice(match.index + match[0].length))
+    `<${rule.tag}${attribute}>${inner}</${rule.tag}>` +
+    inlineToHtml(text.slice(match.index + match[0].length), classNames)
   );
 };
 
 /** 빈 블록에도 커서를 둘 수 있어야 하므로 `<br>`로 채운다. */
-const blockToHtml = (block: Block): string => {
+const blockToHtml = (block: Block, classNames: TagClassNames): string => {
   const spec = getSpec(block.type);
-  const attribute = `${BLOCK_ATTRIBUTE}="${block.type}"`;
+  const attributes =
+    `${BLOCK_ATTRIBUTE}="${block.type}"` +
+    classAttribute(classNames[block.type]);
 
   if (spec.standalone === true) {
-    return `<${spec.tag} ${attribute}>`;
+    return `<${spec.tag} ${attributes}>`;
   }
 
-  const inner = block.text.length === 0 ? '<br>' : inlineToHtml(block.text);
+  const inner =
+    block.text.length === 0 ? '<br>' : inlineToHtml(block.text, classNames);
 
-  return `<${spec.tag} ${attribute}>${inner}</${spec.tag}>`;
+  return `<${spec.tag} ${attributes}>${inner}</${spec.tag}>`;
 };
 
-export const blocksToHtml = (blocks: Block[]): string =>
-  blocks.map(blockToHtml).join('');
+export const blocksToHtml = (
+  blocks: Block[],
+  classNames: TagClassNames = {},
+): string => blocks.map((block) => blockToHtml(block, classNames)).join('');
 
 /* -------------------------------------------------------------------------- */
 /* 입력 규칙                                                                    */
