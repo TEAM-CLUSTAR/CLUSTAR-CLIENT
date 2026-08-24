@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { MarkdownEditor } from './MarkdownEditor';
+import { MarkdownEditor } from './markdown-editor';
 
 /** 실제 사용처처럼 value/onChange를 이어 붙인다. */
 const renderEditor = (initialValue: string) => {
