@@ -13,7 +13,6 @@ import * as styles from './tag-popover.css';
 type TagPopoverPanelProps =
   | {
       mode: 'browse';
-      selectedCount: number;
       parentTags: TagNode[];
       selectedParentId: number;
       onSelectParent: (tagId: number) => void;
@@ -45,7 +44,7 @@ const TagPopover = (props: TagPopoverProps) => {
           {props.mode === 'browse' ? (
             <>
               <span className={styles.label}>
-                태그 선택({props.selectedCount}개)
+                태그 선택({props.selectedIds.length}개)
               </span>
 
               <div className={styles.contentContainer}>
