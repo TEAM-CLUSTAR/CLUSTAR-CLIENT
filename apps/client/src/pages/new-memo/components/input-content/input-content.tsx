@@ -1,7 +1,4 @@
-import { useMemo } from 'react';
-import ReactQuill from 'react-quill-new';
-
-import { memoQuillFormats, memoQuillModules } from '../../libs/quill-config';
+import { MarkdownEditor } from '@shared/markdown-editor';
 
 import * as styles from './input-content.css';
 
@@ -18,19 +15,14 @@ const PLACEHOLDER_TEXT = `# 가장 큰 글씨
 1. 숫자 리스트`;
 
 const InputContent = ({ value, onChange }: InputContnentProps) => {
-  const modules = useMemo(() => memoQuillModules, []);
-  const formats = useMemo(() => [...memoQuillFormats], []);
-
   return (
-    <section data-quill-scope>
-      <ReactQuill
-        className={styles.editor}
-        placeholder={PLACEHOLDER_TEXT}
-        modules={modules}
-        formats={formats}
-        value={value}
-        onChange={onChange}
-      />
+    <section>
+      <MarkdownEditor value={value} onChange={onChange}>
+        <MarkdownEditor.Input
+          className={styles.editor}
+          placeholder={PLACEHOLDER_TEXT}
+        />
+      </MarkdownEditor>
     </section>
   );
 };

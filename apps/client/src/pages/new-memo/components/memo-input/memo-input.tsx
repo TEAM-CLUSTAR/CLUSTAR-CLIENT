@@ -2,8 +2,6 @@ import { ChangeEvent, useMemo, useState } from 'react';
 
 import { Button } from '@cds/ui';
 
-import { htmlToMarkdown } from '@pages/new-memo/utils/html-to-markdown';
-
 import ConfirmModal from '@shared/components/modals/confirm-modal/confirm-modal';
 import { LabelTextType } from '@shared/types/label-type';
 
@@ -188,7 +186,7 @@ const MemoInput = () => {
   const handleSubmit = () => {
     const request: MemoCreateRequest = {
       title: selectedDraft.title,
-      content: htmlToMarkdown(selectedDraft.contents),
+      content: selectedDraft.contents,
       tagNames: selectedDraft.labels.map((l) => l.text),
     };
 
