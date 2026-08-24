@@ -613,28 +613,28 @@ export interface components {
     };
     ApiResponseTagSummaryResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['TagSummaryResponse'];
     };
     TagSummaryResponse: {
       /** Format: int64 */
-      tagId?: number;
-      name?: string;
-      colorHex?: string;
+      tagId: number;
+      name: string;
+      color: string;
       /** Format: int64 */
-      parentId?: number;
+      parentId: number | null;
     };
     ApiResponseVoid: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: Record<string, never>;
     };
     ApiResponseString: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: string;
     };
     TagCreateRequest: {
@@ -737,8 +737,8 @@ export interface components {
     };
     ApiResponseMemoResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoResponse'];
     };
     MemoResponse: {
@@ -747,35 +747,35 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId?: number;
+      memoId: number;
       /**
        * @description 메모 제목
        * @example 세미나 정리
        */
-      title?: string;
+      title: string;
       /**
        * Format: date-time
        * @description 생성 시각
        */
-      createdAt?: string;
+      createdAt: string;
     };
     MemoRecommendationRequest: {
       memoIds: number[];
     };
     ApiResponseMemoRecommendationResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoRecommendationResponse'];
     };
     MemoRecommendationItemResponse: {
       /** Format: int64 */
-      memoId?: number;
-      title?: string;
+      memoId: number;
+      title: string;
     };
     MemoRecommendationResponse: {
-      results?: components['schemas']['MemoRecommendationItemResponse'][];
-      message?: string;
+      results: components['schemas']['MemoRecommendationItemResponse'][];
+      message: string | null;
     };
     /** @description 메모 이미지/파일 업로드용 presigned URL 발급 요청 */
     MemoPresignedUrlRequest: {
@@ -838,22 +838,22 @@ export interface components {
     };
     ApiResponseMemoPresignedUrlResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoPresignedUrlResponse'];
     };
     MemoPresignedUrlResponse: {
-      images?: components['schemas']['PresignedUrlResponse'][];
-      files?: components['schemas']['PresignedUrlResponse'][];
+      images: components['schemas']['PresignedUrlResponse'][];
+      files: components['schemas']['PresignedUrlResponse'][];
     };
     PresignedUrlResponse: {
-      s3Key?: string;
-      presignedUrl?: string;
+      s3Key: string;
+      presignedUrl: string;
       /** Format: int64 */
-      bytes?: number;
-      extension?: string;
+      bytes: number;
+      extension: string;
       /** Format: int32 */
-      priority?: number;
+      priority: number;
     };
     MemoAiCreateRequest: {
       title: string;
@@ -862,13 +862,13 @@ export interface components {
     };
     ApiResponseCreateChatRoomResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['CreateChatRoomResponse'];
     };
     CreateChatRoomResponse: {
       /** Format: int64 */
-      chatRoomId?: number;
+      chatRoomId: number;
     };
     MemoAiRequest: {
       userPrompt?: string;
@@ -878,17 +878,17 @@ export interface components {
     };
     ApiResponseMemoAiResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoAiResponse'];
     };
     MemoAiResponse: {
-      title?: string;
-      content?: string;
+      title: string;
+      content: string;
       /** @enum {string} */
-      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
-      memoIds?: number[];
-      usedPrompt?: string;
+      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
+      memoIds: number[];
+      usedPrompt: string;
     };
     /** @description 플랜 기반 메모 AI 요청 DTO */
     MemoAiRequestForPlan: {
@@ -934,134 +934,136 @@ export interface components {
     };
     AiEvaluationResult: {
       /** Format: double */
-      relevancePass?: number;
+      relevancePass: number;
       /** Format: double */
-      promptFaithfulnessScore?: number;
+      promptFaithfulnessScore: number;
       /** Format: double */
-      groundednessScore?: number;
-      taskAlignmentPass?: boolean;
+      groundednessScore: number;
+      taskAlignmentPass: boolean;
     };
     ApiResponseMemoAiResponseForPlan: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoAiResponseForPlan'];
     };
     MemoAiResponseForPlan: {
-      aiResponse?: components['schemas']['MemoAiResponse'];
-      evaluation?: components['schemas']['AiEvaluationResult'];
+      aiResponse: components['schemas']['MemoAiResponse'];
+      evaluation: components['schemas']['AiEvaluationResult'];
     };
     ApiResponseReEmbeddingResultResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['ReEmbeddingResultResponse'];
     };
     ReEmbeddingResultResponse: {
       /** Format: int64 */
-      memoId?: number;
-      textSucceeded?: boolean;
-      imageSucceeded?: boolean;
-      fileSucceeded?: boolean;
+      memoId: number;
+      textSucceeded: boolean;
+      /** @description 이미지 재임베딩 성공 여부. 이미지 첨부가 없어 시도하지 않은 경우 null */
+      imageSucceeded: boolean | null;
+      /** @description 파일 재임베딩 성공 여부. 파일 첨부가 없어 시도하지 않은 경우 null */
+      fileSucceeded: boolean | null;
     };
     ApiResponseReEmbeddingStartedResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['ReEmbeddingStartedResponse'];
     };
     ReEmbeddingStartedResponse: {
-      message?: string;
+      message: string;
     };
     ApiResponseUserInfoResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['UserInfoResponse'];
     };
     UserInfoResponse: {
       /** Format: int64 */
-      userId?: number;
-      name?: string;
-      email?: string;
-      profileImageUrl?: string;
+      userId: number;
+      name: string;
+      email: string;
+      profileImageUrl: string | null;
     };
     ApiResponseTagListResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['TagListResponse'];
     };
     TagListResponse: {
-      tags?: components['schemas']['TagResponse'][];
+      tags: components['schemas']['TagResponse'][];
     };
     TagResponse: {
       /** Format: int64 */
-      tagId?: number;
-      name?: string;
-      colorHex?: string;
+      tagId: number;
+      name: string;
+      color: string;
       /** Format: int64 */
-      parentId?: number;
+      parentId: number | null;
     };
     ApiResponseTagParentListResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['TagParentListResponse'];
     };
     TagParentListResponse: {
-      tags?: components['schemas']['TagSummaryResponse'][];
+      tags: components['schemas']['TagSummaryResponse'][];
     };
     ApiResponseTagHierarchyResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['TagHierarchyResponse'];
     };
     TagHierarchyResponse: {
-      parentTag?: components['schemas']['TagSummaryResponse'];
-      childTags?: components['schemas']['TagTreeResponse'][];
+      parentTag: components['schemas']['TagSummaryResponse'];
+      childTags: components['schemas']['TagTreeResponse'][];
     };
     TagTreeResponse: {
       /** Format: int64 */
-      tagId?: number;
-      name?: string;
-      colorHex?: string;
+      tagId: number;
+      name: string;
+      color: string;
       /** Format: int64 */
-      parentId?: number;
+      parentId: number | null;
     };
     ApiResponseMemoListDashboardResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoListDashboardResponse'];
     };
     MemoDashboardResponse: {
       /** Format: int64 */
-      memoId?: number;
-      title?: string;
-      content?: string;
-      representativeImageUrl?: string;
+      memoId: number;
+      title: string;
+      content: string;
+      representativeImageUrl: string | null;
       /** Format: int32 */
-      imageCount?: number;
+      imageCount: number;
       /** Format: int32 */
-      fileCount?: number;
-      isPinned?: boolean;
-      isAiGenerated?: boolean;
-      isNew?: boolean;
+      fileCount: number;
+      isPinned: boolean;
+      isAiGenerated: boolean;
+      isNew: boolean;
       /** Format: date-time */
-      createdAt?: string;
-      tagList?: components['schemas']['TagResponse'][];
+      createdAt: string;
+      tagList: components['schemas']['TagResponse'][];
     };
     MemoListDashboardResponse: {
       /** Format: int64 */
-      totalCount?: number;
-      memos?: components['schemas']['MemoDashboardResponse'][];
+      totalCount: number;
+      memos: components['schemas']['MemoDashboardResponse'][];
     };
     ApiResponseMemoDetailResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoDetailResponse'];
     };
     /** @description 첨부 파일 정보 */
@@ -1071,24 +1073,24 @@ export interface components {
        * @description 파일 ID
        * @example 1
        */
-      fileId?: number;
+      fileId: number;
       /** @description 파일 다운로드 URL (Presigned URL) */
-      fileUrl?: string;
+      fileUrl: string;
       /**
-       * @description 파일명
+       * @description 파일명. 저장된 파일명 정보가 없는 경우 null
        * @example SOPT_7th_seminar.pdf
        */
-      fileName?: string;
+      fileName: string | null;
       /**
-       * @description 파일 확장자
+       * @description 파일 확장자. 저장된 확장자 정보가 없는 경우 null
        * @example pdf
        */
-      fileExtension?: string;
+      fileExtension: string | null;
       /**
-       * @description 파일 크기
+       * @description 파일 크기. 저장된 파일 크기 정보가 없는 경우 null
        * @example 1.00GB
        */
-      fileSize?: string;
+      fileSize: string | null;
     };
     /** @description 이미지 정보 */
     ImageInfo: {
@@ -1097,24 +1099,24 @@ export interface components {
        * @description 이미지 ID
        * @example 1
        */
-      imageId?: number;
+      imageId: number;
       /** @description 이미지 URL (Presigned URL) */
-      imageUrl?: string;
+      imageUrl: string;
       /**
-       * @description 이미지 파일명
+       * @description 이미지 파일명. 저장된 파일명 정보가 없는 경우 null
        * @example seminar_slide.png
        */
-      imageName?: string;
+      imageName: string | null;
       /**
-       * @description 이미지 확장자
+       * @description 이미지 확장자. 저장된 확장자 정보가 없는 경우 null
        * @example png
        */
-      imageExtension?: string;
+      imageExtension: string | null;
       /**
-       * @description 이미지 크기
+       * @description 이미지 크기. 저장된 파일 크기 정보가 없는 경우 null
        * @example 0.24MB
        */
-      imageSize?: string;
+      imageSize: string | null;
     };
     MemoDetailResponse: {
       /**
@@ -1122,33 +1124,33 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId?: number;
+      memoId: number;
       /**
        * @description 메모 제목
        * @example 집에 빨리 가는 법
        */
-      title?: string;
+      title: string;
       /**
        * @description 메모 내용
        * @example 발박수 치며 날아 간다.
        */
-      content?: string;
+      content: string;
       /** @description 이미지 정보 목록 */
-      images?: components['schemas']['ImageInfo'][];
+      images: components['schemas']['ImageInfo'][];
       /** @description 첨부 파일 정보 목록 */
-      files?: components['schemas']['FileInfo'][];
+      files: components['schemas']['FileInfo'][];
       /** @description 메모에 딸린 태그들 */
-      tagList?: components['schemas']['TagResponse'][];
+      tagList: components['schemas']['TagResponse'][];
       /**
        * Format: date-time
        * @description 메모 생성 시각
        */
-      createdAt?: string;
+      createdAt: string;
       /**
        * @description AI 생성 여부
        * @example false
        */
-      isAiGenerated?: boolean;
+      isAiGenerated: boolean;
       /**
        * @description AI 생성 시 참고한 메모 제목 목록
        * @example [
@@ -1156,17 +1158,17 @@ export interface components {
        *       "시험 대비 요약"
        *     ]
        */
-      sourceMemoTitleList?: string[];
+      sourceMemoTitleList: string[];
     };
     ApiResponseMemoStructureListResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoStructureListResponse'];
     };
     MemoStructureListResponse: {
       /** @description 구조화뷰 메모 목록 */
-      memos?: components['schemas']['MemoStructureResponse'][];
+      memos: components['schemas']['MemoStructureResponse'][];
     };
     /** @description 구조화뷰 메모 목록 */
     MemoStructureResponse: {
@@ -1175,77 +1177,77 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId?: number;
+      memoId: number;
       /**
        * @description 메모 제목
        * @example 집에 빨리 가는 법
        */
-      title?: string;
+      title: string;
       /**
        * @description 메모 내용
        * @example 발박수 치며 날아 간다.
        */
-      content?: string;
+      content: string;
       /** @description 메모에 딸린 태그 목록 */
-      tagList?: components['schemas']['TagResponse'][];
+      tagList: components['schemas']['TagResponse'][];
     };
     ApiResponseMemoSearchResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['MemoSearchResponse'];
     };
     MemoSearchItemResponse: {
       /** Format: int64 */
-      memoId?: number;
-      title?: string;
-      content?: string;
-      tagList?: components['schemas']['TagResponse'][];
+      memoId: number;
+      title: string;
+      content: string;
+      tagList: components['schemas']['TagResponse'][];
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
       /** @enum {string} */
-      searchType?: 'TEXT' | 'SEMANTIC';
+      searchType: 'TEXT' | 'SEMANTIC';
     };
     MemoSearchResponse: {
-      results?: components['schemas']['MemoSearchItemResponse'][];
-      message?: string;
+      results: components['schemas']['MemoSearchItemResponse'][];
+      message: string | null;
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['ChatRoomListResponse'];
     };
     ChatRoomListResponse: {
-      chatRooms?: components['schemas']['ChatRoomResponse'][];
+      chatRooms: components['schemas']['ChatRoomResponse'][];
     };
     ChatRoomResponse: {
       /** Format: int64 */
-      chatRoomId?: number;
+      chatRoomId: number;
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
     };
     ApiResponseChatRoomResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['ChatRoomResponse'];
     };
     ApiResponseListEmbeddingFailureResponse: {
       /** Format: int32 */
-      code?: number;
-      msg?: string;
+      code: number;
+      msg: string;
       data?: components['schemas']['EmbeddingFailureResponse'][];
     };
     EmbeddingFailureResponse: {
       /** Format: int64 */
-      id?: number;
+      id: number;
       /** Format: int64 */
-      memoId?: number;
-      embeddingType?: string;
+      memoId: number;
+      embeddingType: string;
       /** Format: date-time */
-      failedAt?: string;
-      errorMessage?: string;
+      failedAt: string;
+      errorMessage: string | null;
     };
   };
   responses: never;

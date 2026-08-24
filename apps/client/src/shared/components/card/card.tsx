@@ -1,61 +1,67 @@
 import { ComponentProps } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Label, Title } from '@cds/ui';
+import { Tag, Title } from '@cds/ui';
 
+import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
 import * as styles from './card.css';
 
-// TODO: Tag 백엔드 타입에 맞게 변경
-type TagType = {
-  tagId?: number;
-  name?: string;
-};
-
 type CardInfoType = {
-  tagList?: TagType[];
+  tagList: components['schemas']['TagResponse'][];
   title: string;
   content: string;
   fileCount: number;
   imageCount: number;
   createAt: string;
+  isAiGenerated: boolean;
+  isNew: boolean;
 };
 interface CardProps extends ComponentProps<'article'> {
   card: CardInfoType;
   isSelected?: boolean;
   isDragging?: boolean;
-  isNewAi?: boolean;
 }
 
 const Card = ({
-  card: { tagList = [], title, content, fileCount, imageCount, createAt },
+  card: {
+    tagList,
+    title,
+    content,
+    fileCount,
+    imageCount,
+    createAt,
+    isAiGenerated,
+    isNew,
+  },
   isSelected = false,
   isDragging = false,
-  isNewAi = false,
   ...props
 }: CardProps) => {
   return (
     <article
-      className={styles.cardContainer({ isSelected, isDragging, isNewAi })}
+      className={styles.cardContainer({
+        isSelected,
+        isDragging,
+        isNew,
+      })}
       draggable
       {...props}
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {/* TODO: Label 리디자인 반영 후 수정 (현재는 임시 Label로 구현)*/}
-          {tagList.length > 0 ? (
-            tagList.map((tag) => (
-              <Label
-                key={tag.tagId}
-                labelSize="sm"
-                labelColor="blue"
-                labelText={tag.name ?? ''}
-              />
-            ))
-          ) : (
-            <Label labelSize="sm" labelColor="grey" labelText="라벨없음" />
+          {isAiGenerated && (
+            <Tag size="lg" variant="outlined" text="AI 결과물" />
           )}
+          {tagList.map((tag) => (
+            <Tag
+              key={tag.tagId}
+              size="lg"
+              color={tag.color ?? ''}
+              text={tag.name ?? ''}
+            />
+          ))}
         </div>
         <div className={styles.contentsContainer}>
           <Title title={title} />

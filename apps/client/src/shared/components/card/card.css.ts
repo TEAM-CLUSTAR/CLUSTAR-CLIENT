@@ -34,7 +34,7 @@ const draggingStyle = {
   cursor: 'grabbing',
 } as const;
 
-const isNewAiSelectedStyle = {
+const isNewSelectedStyle = {
   border: `1px solid ${themeVars.color.grey400}`,
   background: themeVars.color.grey100,
   selectors: {
@@ -45,7 +45,7 @@ const isNewAiSelectedStyle = {
   },
 } as const;
 
-const isNewAiStyle = {
+const isNewStyle = {
   border: '1px solid transparent',
   background: `
     ${themeVars.color.gradient03} padding-box,
@@ -65,12 +65,12 @@ export const cardContainer = recipe({
   variants: {
     isSelected: { true: selectedStyle, false: {} },
     isDragging: { true: draggingStyle, false: {} },
-    isNewAi: { true: isNewAiStyle, false: {} },
+    isNew: { true: isNewStyle, false: {} },
   },
   compoundVariants: [
     {
-      variants: { isNewAi: true, isSelected: true },
-      style: isNewAiSelectedStyle,
+      variants: { isNew: true, isSelected: true },
+      style: isNewSelectedStyle,
     },
   ],
 });
