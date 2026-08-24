@@ -21,6 +21,7 @@ interface FilterModalProps {
 const FilterModal = ({ open, onOpenChange, onApply }: FilterModalProps) => {
   const { data: roots = [] } = useGetTag();
   const [activeRootId, setActiveRootId] = useState<number>();
+  const [appliedIds, setAppliedIds] = useState<number[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const activeRoot =
@@ -39,12 +40,18 @@ const FilterModal = ({ open, onOpenChange, onApply }: FilterModalProps) => {
   };
 
   const handleApply = () => {
+    setAppliedIds(selectedIds);
     onApply(selectedIds);
     onOpenChange(false);
   };
 
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) setSelectedIds(appliedIds);
+    onOpenChange(nextOpen);
+  };
+
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
+    <Modal open={open} onOpenChange={handleOpenChange}>
       <Modal.Content ariaLabel="태그 필터링">
         <div className={styles.container}>
           <div className={styles.header}>
@@ -92,10 +99,7 @@ const FilterModal = ({ open, onOpenChange, onApply }: FilterModalProps) => {
                   </Modal.Close>
                   <button
                     type="button"
-                    className={styles.applyButton({
-                      disabled: selectedIds.length === 0,
-                    })}
-                    disabled={selectedIds.length === 0}
+                    className={styles.applyButton({ disabled: false })}
                     onClick={handleApply}
                   >
                     적용하기
