@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
@@ -72,31 +71,19 @@ export const cancelButton = style({
   ...themeVars.fontStyles.body_m_16,
 });
 
-export const applyButton = recipe({
-  base: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '12rem',
-    height: '3.6rem',
-    borderRadius: '8px',
-    color: themeVars.color.white,
-    ...themeVars.fontStyles.body_m_16,
-  },
-  variants: {
-    disabled: {
-      true: {
-        backgroundColor: themeVars.color.grey500,
-        cursor: 'not-allowed',
-      },
-      false: {
-        backgroundColor: themeVars.color.blue500,
-        selectors: {
-          '&:hover': {
-            backgroundColor: themeVars.color.blue700,
-          },
-        },
-      },
+export const applyButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '12rem',
+  height: '3.6rem',
+  borderRadius: '8px',
+  color: themeVars.color.white,
+  backgroundColor: themeVars.color.blue500,
+  ...themeVars.fontStyles.body_m_16,
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.blue700,
     },
   },
 });

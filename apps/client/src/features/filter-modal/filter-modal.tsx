@@ -99,7 +99,7 @@ const FilterModal = ({ open, onOpenChange, onApply }: FilterModalProps) => {
                   </Modal.Close>
                   <button
                     type="button"
-                    className={styles.applyButton({ disabled: false })}
+                    className={styles.applyButton}
                     onClick={handleApply}
                   >
                     적용하기
