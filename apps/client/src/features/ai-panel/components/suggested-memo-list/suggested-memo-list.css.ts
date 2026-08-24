@@ -5,7 +5,7 @@ import { themeVars } from '@cds/ui';
 
 export const container = style({
   position: 'relative',
-  width: 'fit-content',
+  width: '100%',
 });
 
 export const listContainer = recipe({
@@ -14,7 +14,7 @@ export const listContainer = recipe({
     alignItems: 'center',
     padding: '0.4rem 0.4rem 0.4rem 1.2rem',
     borderRadius: '8px',
-    width: '44rem',
+    width: '100%',
     height: '4rem',
     gap: '0.4rem',
   },
@@ -46,14 +46,12 @@ export const chevronButton = recipe({
     width: '3.2rem',
     height: '3.2rem',
     padding: '0.6rem',
-    aspectRatio: '1/1',
   },
   variants: {
     isOpen: {
       true: {
         transform: 'rotate(180deg)',
       },
-      false: {},
     },
   },
 });
@@ -61,59 +59,46 @@ export const chevronButton = recipe({
 export const itemsContainer = recipe({
   base: {
     position: 'absolute',
-    marginTop: '0.4rem',
+    top: '4rem',
+    left: 0,
     zIndex: themeVars.zIndex.button,
-    display: 'flex',
+    marginTop: '0.4rem',
     flexDirection: 'column',
     backgroundColor: themeVars.color.white,
     border: `1px solid ${themeVars.color.grey300}`,
-    gap: '0.4rem',
+    gap: '0.8rem',
     padding: '1.2rem',
     borderRadius: '8px',
-    width: '44rem',
-    transition:
-      'opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s',
+    width: '100%',
   },
   variants: {
     isOpen: {
       true: {
-        opacity: 1,
-        visibility: 'visible',
-        transform: 'translateY(0)',
+        display: 'flex',
       },
       false: {
-        opacity: 0,
-        visibility: 'hidden',
-        transform: 'translateY(-4px)',
-        pointerEvents: 'none',
+        display: 'none',
       },
     },
   },
 });
 
-export const itemContainer = recipe({
-  base: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.4rem',
-    padding: '0 0.4rem',
-    width: '41.6rem',
-    height: '3.6rem',
-    borderRadius: '8px',
-  },
-  variants: {
-    isSelected: {
-      true: {
-        backgroundColor: 'transparent',
-      },
-      false: {
-        backgroundColor: themeVars.color.white,
-        selectors: {
-          '&:hover': {
-            backgroundColor: themeVars.color.grey100,
-          },
-        },
-      },
+export const itemContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
+  padding: '0 0.4rem',
+  width: '100%',
+  height: '3.6rem',
+  borderRadius: '8px',
+  backgroundColor: themeVars.color.white,
+  cursor: 'pointer',
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.grey100,
+    },
+    '&:has(button:hover):hover, &:has(button:focus):hover': {
+      backgroundColor: themeVars.color.white,
     },
   },
 });
@@ -121,7 +106,8 @@ export const itemContainer = recipe({
 export const memo = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey800,
-  width: '100%',
+  flex: 1,
+  minWidth: 0,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -129,12 +115,29 @@ export const memo = style({
 
 export const addMemo = recipe({
   base: {
-    borderRadius: '4px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    marginLeft: 'auto',
+    gap: '0.2rem',
+    height: '2.4rem',
+    padding: '0.4rem 0.4rem 0.4rem 0.8rem',
+    borderRadius: '8px',
+    border: '1px solid transparent',
+    ...themeVars.fontStyles.label_m_12,
   },
   variants: {
     isSelected: {
-      true: {},
+      true: {
+        color: themeVars.color.white,
+        backgroundColor: themeVars.color.blue500,
+        borderColor: themeVars.color.blue300,
+        cursor: 'default',
+      },
       false: {
+        color: themeVars.color.grey700,
+        backgroundColor: themeVars.color.grey100,
         selectors: {
           '&:hover': {
             backgroundColor: themeVars.color.grey200,
