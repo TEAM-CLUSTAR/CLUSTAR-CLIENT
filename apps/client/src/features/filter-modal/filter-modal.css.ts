@@ -56,34 +56,3 @@ export const footer = style({
   justifyContent: 'flex-end',
   paddingTop: '0.8rem',
 });
-
-/** TODO 임시 버튼 공통 버튼 수정후 교체하겠습니다. */
-export const cancelButton = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '12rem',
-  height: '3.6rem',
-  border: `1px solid ${themeVars.color.grey400}`,
-  borderRadius: '8px',
-  backgroundColor: themeVars.color.white,
-  color: themeVars.color.grey700,
-  ...themeVars.fontStyles.body_m_16,
-});
-
-export const applyButton = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '12rem',
-  height: '3.6rem',
-  borderRadius: '8px',
-  color: themeVars.color.white,
-  backgroundColor: themeVars.color.blue500,
-  ...themeVars.fontStyles.body_m_16,
-  selectors: {
-    '&:hover': {
-      backgroundColor: themeVars.color.blue700,
-    },
-  },
-});

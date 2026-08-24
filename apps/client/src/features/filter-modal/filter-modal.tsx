@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Modal } from '@cds/ui';
+import { Button, Modal } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
@@ -96,19 +96,14 @@ const FilterModal = ({
                 )}
 
                 <div className={styles.footer}>
-                  {/** TODO 임시 버튼 공통 버튼 수정후 교체하겠습니다. */}
                   <Modal.Close>
-                    <button type="button" className={styles.cancelButton}>
+                    <Button size="md" variant="outlined">
                       취소
-                    </button>
+                    </Button>
                   </Modal.Close>
-                  <button
-                    type="button"
-                    className={styles.applyButton}
-                    onClick={handleApply}
-                  >
+                  <Button size="md" variant="solid" onClick={handleApply}>
                     적용하기
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
