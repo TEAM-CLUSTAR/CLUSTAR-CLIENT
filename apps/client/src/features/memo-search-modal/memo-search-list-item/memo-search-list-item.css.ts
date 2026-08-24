@@ -3,31 +3,21 @@ import { style } from '@vanilla-extract/css';
 import { themeVars } from '@cds/ui';
 
 export const container = style({
-  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.8rem',
   width: '100%',
   padding: '1.2rem 1.4rem',
+  border: 'none',
   borderRadius: '12px',
   textAlign: 'left',
   backgroundColor: 'transparent',
+  cursor: 'pointer',
   transition: 'background-color 0.15s ease',
 
   ':hover': {
     backgroundColor: themeVars.color.grey100,
   },
-});
-
-export const clickTarget = style({
-  position: 'absolute',
-  inset: 0,
-  zIndex: 1,
-  width: '100%',
-  border: 'none',
-  borderRadius: '12px',
-  backgroundColor: 'transparent',
-  cursor: 'pointer',
 
   ':focus-visible': {
     outline: `2px solid ${themeVars.color.blue500}`,
@@ -36,7 +26,6 @@ export const clickTarget = style({
 });
 
 export const header = style({
-  pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -88,7 +77,6 @@ export const openedAt = style({
 });
 
 export const content = style({
-  pointerEvents: 'none',
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey600,
   whiteSpace: 'nowrap',

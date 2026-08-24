@@ -33,40 +33,40 @@ const MemoSearchListItem = ({
   };
 
   return (
-    <article className={styles.container}>
+    <article>
       <button
         type="button"
-        className={styles.clickTarget}
+        className={styles.container}
         onClick={handleClickMemo}
-        aria-label={`${title} 메모 상세 보기`}
-      />
-      <div className={styles.header}>
-        <div className={styles.mainInfo}>
-          <div className={styles.titleGroup}>
-            <Icon
-              name="ic_memo"
-              size={24}
-              color="grey700"
-              className={styles.memoIcon}
-            />
-            <strong className={styles.title}>{title}</strong>
-          </div>
-          <div className={styles.tagList}>
-            {visibleTags.map((tag) => (
-              <Tag
-                key={tag.tagId}
-                size="sm"
-                color={tag.color}
-                text={tag.name}
+      >
+        <div className={styles.header}>
+          <div className={styles.mainInfo}>
+            <div className={styles.titleGroup}>
+              <Icon
+                name="ic_memo"
+                size={24}
+                color="grey700"
+                className={styles.memoIcon}
               />
-            ))}
+              <strong className={styles.title}>{title}</strong>
+            </div>
+            <div className={styles.tagList}>
+              {visibleTags.map((tag) => (
+                <Tag
+                  key={tag.tagId}
+                  size="sm"
+                  color={tag.color}
+                  text={tag.name}
+                />
+              ))}
+            </div>
           </div>
+          <time className={styles.openedAt} dateTime={openedAt}>
+            {formatTodayTimeOrDate(openedAt)}
+          </time>
         </div>
-        <time className={styles.openedAt} dateTime={openedAt}>
-          {formatTodayTimeOrDate(openedAt)}
-        </time>
-      </div>
-      <p className={styles.content}>{content}</p>
+        <p className={styles.content}>{content}</p>
+      </button>
     </article>
   );
 };
