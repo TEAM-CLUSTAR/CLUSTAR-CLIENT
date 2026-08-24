@@ -1,5 +1,5 @@
 /**
- * DOM과 React를 아는 유일한 레이어.
+ * 블록 구조와 React를 잇는 레이어. 선택·범위 조작은 selection.ts가 맡는다.
  *
  * React로 제어하면 매 글자마다 노드가 교체돼 커서가 튀고 한글 조합이 깨지기 때문에
  * 편집 영역 안의 노드는 이 파일에서만 다룬다.
@@ -30,6 +30,14 @@ import {
   serializeBlocks,
   wrapInline,
 } from './commands';
+import {
+  expandToWord,
+  getSelectionRange,
+  getTextAfterCaret,
+  getTextBeforeCaret,
+  placeCaretAtStart,
+  toggleFormat,
+} from './selection';
 
 type MarkdownEditorOptions = {
   value: string;
@@ -74,10 +82,10 @@ const INLINE_LIKE_TAGS: ReadonlySet<string> = new Set([
   'BR',
 ]);
 
-/** Cmd/Ctrl + 키 → 브라우저 네이티브 인라인 서식 명령 */
+/** Cmd/Ctrl + 키 → 감쌀 인라인 태그 */
 const INLINE_SHORTCUTS: Readonly<Record<string, string>> = {
-  b: 'bold',
-  i: 'italic',
+  b: 'strong',
+  i: 'em',
 };
 
 /* -------------------------------------------------------------------------- */
@@ -168,17 +176,6 @@ const createBlockElement = (block: Block): HTMLElement | null => {
   return template.firstElementChild as HTMLElement | null;
 };
 
-const getSelectionRange = (container: HTMLElement): Range | null => {
-  const selection = window.getSelection();
-  if (selection === null || selection.rangeCount === 0) {
-    return null;
-  }
-
-  const range = selection.getRangeAt(0);
-
-  return container.contains(range.startContainer) ? range : null;
-};
-
 /** 선택이 걸쳐 있는 최상위 블록 엘리먼트 */
 const getBlockElement = (
   container: HTMLElement,
@@ -198,33 +195,34 @@ const getBlockElement = (
   return null;
 };
 
-const getTextBeforeCaret = (block: HTMLElement, range: Range): string => {
-  const probe = range.cloneRange();
-  probe.selectNodeContents(block);
-  probe.setEnd(range.startContainer, range.startOffset);
-
-  return probe.toString();
-};
-
-const getTextAfterCaret = (block: HTMLElement, range: Range): string => {
-  const probe = range.cloneRange();
-  probe.selectNodeContents(block);
-  probe.setStart(range.endContainer, range.endOffset);
-
-  return probe.toString();
-};
-
-const placeCaretAtStart = (element: HTMLElement): void => {
-  const selection = window.getSelection();
-  if (selection === null) {
-    return;
+/**
+ * Cmd+B 같은 서식 토글. 한 블록 안의 선택일 때만 적용한다.
+ *
+ * 폐기된 `execCommand`는 브라우저마다 다른 마크업을 만들어(<b>, <span style>)
+ * INLINE_TAGS에 없는 태그가 섞이면 직렬화에서 서식이 사라진다.
+ */
+const toggleInline = (container: HTMLElement, tagName: string): boolean => {
+  const range = getSelectionRange(container);
+  if (range === null) {
+    return false;
+  }
+  // 커서만 있으면 감쌀 글자가 없으므로 커서가 놓인 단어를 대상으로 삼는다.
+  if (range.collapsed && !expandToWord(range)) {
+    return false;
   }
 
-  const range = document.createRange();
-  range.selectNodeContents(element);
-  range.collapse(true);
-  selection.removeAllRanges();
-  selection.addRange(range);
+  // 블록을 넘어선 선택을 감싸면 <strong> 안에 <p>가 들어간다.
+  const block = getBlockElement(container, range.startContainer);
+  if (
+    block === null ||
+    block !== getBlockElement(container, range.endContainer)
+  ) {
+    return false;
+  }
+
+  toggleFormat(block, range, tagName);
+
+  return true;
 };
 
 /** 빈 블록에 커서를 둘 수 있도록 <br>을 넣는다. 길이 0인 텍스트 노드는 커서를 못 받는다. */
@@ -467,15 +465,6 @@ export function useMarkdownEditor({
     return () => {
       container.removeEventListener('beforeinput', rememberDeletionTargets);
     };
-  }, []);
-
-  useEffect(() => {
-    // 서식 명령이 <span style>이 아니라 <strong>/<em> 태그를 만들게 한다.
-    try {
-      document.execCommand('styleWithCSS', false, 'false');
-    } catch {
-      // 지원하지 않는 브라우저에서는 그대로 둔다.
-    }
   }, []);
 
   const setBlockType = useCallback(
@@ -735,11 +724,14 @@ export function useMarkdownEditor({
         }
 
         const isModifierPressed = IS_APPLE ? event.metaKey : event.ctrlKey;
-        const command = INLINE_SHORTCUTS[event.key.toLowerCase()];
-        if (isModifierPressed && !event.altKey && command !== undefined) {
+        const tagName = INLINE_SHORTCUTS[event.key.toLowerCase()];
+        if (isModifierPressed && !event.altKey && tagName !== undefined) {
+          // 할 일이 없어도 막는다. 네이티브 서식이 <span style>를 남기면
+          // 직렬화에서 서식이 사라진다.
           event.preventDefault();
-          document.execCommand(command);
-          publish();
+          if (toggleInline(container, tagName)) {
+            publish();
+          }
         }
       },
       onKeyUp: syncActiveType,
