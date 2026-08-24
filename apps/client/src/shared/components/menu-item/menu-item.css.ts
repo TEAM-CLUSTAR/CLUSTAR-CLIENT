@@ -1,4 +1,3 @@
-import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
@@ -31,10 +30,17 @@ export const container = recipe({
   },
 });
 
-export const text = style({
-  ...themeVars.fontStyles.body_m_16,
-  color: themeVars.color.grey700,
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+export const text = recipe({
+  base: {
+    color: themeVars.color.grey700,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  variants: {
+    size: {
+      sm: themeVars.fontStyles.body_m_14,
+      lg: themeVars.fontStyles.body_m_16,
+    },
+  },
 });

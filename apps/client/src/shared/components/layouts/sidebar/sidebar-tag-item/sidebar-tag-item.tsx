@@ -1,8 +1,7 @@
 import { TagNode } from '@shared/apis/tag/type';
+import MenuItem from '@shared/components/menu-item/menu-item';
 import TreeLine from '@shared/components/tree-line/tree-line';
 import { TreeNode } from '@shared/utils/build-tree';
-
-import SidebarItem from '../sidebar-item/sidebar-item';
 
 interface SidebarTagItemProps {
   tag: TreeNode<TagNode>;
@@ -19,7 +18,7 @@ const SidebarTagItem = ({
 
   return (
     <TreeLine.Item>
-      <SidebarItem
+      <MenuItem
         iconName="ic_tag"
         content={tag.name}
         isSelected={selectedTagId === tag.tagId}
