@@ -1,4 +1,4 @@
-name: Auto Assign Author
+name: Auto Assign
 
 on:
   issues:
@@ -7,11 +7,12 @@ on:
     types: [opened, ready_for_review]
 
 permissions:
+  contents: read
   issues: write
   pull-requests: write
 
 jobs:
-  assign-author:
+  assign:
     runs-on: ubuntu-latest
     steps:
       - name: Assign author to issue/PR
@@ -28,3 +29,125 @@ jobs:
               issue_number: context.issue.number,
               assignees: [author]
             });
+
+      - name: Checkout reviewer assignment config
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+
+      - name: Assign fair reviewer
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const config = JSON.parse(
+              fs.readFileSync('.github/reviewer-assignment.json', 'utf8')
+            );
+
+            const { owner, repo } = context.repo;
+            const currentPullRequest = context.payload.pull_request;
+            const author = currentPullRequest.user.login;
+            const reviewerCount = config.reviewerCount ?? 1;
+            const lookbackDays = config.lookbackDays ?? 60;
+
+            const candidates = config.reviewers
+              .filter(({ login, enabled = true, weight = 1 }) => {
+                return enabled && weight > 0 && login !== author;
+              })
+              .map(({ login, weight = 1 }) => ({ login, weight }));
+
+            if (candidates.length === 0 || reviewerCount <= 0) {
+              core.info('No eligible reviewer candidates.');
+              return;
+            }
+
+            const since = new Date();
+            since.setDate(since.getDate() - lookbackDays);
+            const sinceDate = since.toISOString().slice(0, 10);
+
+            const candidateLogins = new Set(
+              candidates.map(({ login }) => login)
+            );
+            const reviewCounts = Object.fromEntries(
+              candidates.map(({ login }) => [login, 0])
+            );
+
+            const pullRequests = await github.paginate(
+              github.rest.search.issuesAndPullRequests,
+              {
+                q: `repo:${owner}/${repo} is:pr created:>=${sinceDate}`,
+                per_page: 100,
+              }
+            );
+
+            for (const item of pullRequests) {
+              if (item.number === currentPullRequest.number) continue;
+
+              const { data: pullRequest } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: item.number,
+              });
+
+              const assignedReviewers = new Set(
+                pullRequest.requested_reviewers
+                  .map(({ login }) => login)
+                  .filter((login) => candidateLogins.has(login))
+              );
+
+              const reviews = await github.paginate(
+                github.rest.pulls.listReviews,
+                {
+                  owner,
+                  repo,
+                  pull_number: item.number,
+                  per_page: 100,
+                }
+              );
+
+              for (const { user } of reviews) {
+                if (user && candidateLogins.has(user.login)) {
+                  assignedReviewers.add(user.login);
+                }
+              }
+
+              for (const reviewer of assignedReviewers) {
+                reviewCounts[reviewer] += 1;
+              }
+            }
+
+            const alreadyRequested = new Set(
+              currentPullRequest.requested_reviewers.map(({ login }) => login)
+            );
+            const selectedReviewers = candidates
+              .filter(({ login }) => !alreadyRequested.has(login))
+              .map(({ login, weight }) => ({
+                login,
+                score: reviewCounts[login] / weight,
+                count: reviewCounts[login],
+                tieBreaker: Math.random(),
+              }))
+              .sort((a, b) => {
+                return (
+                  a.score - b.score ||
+                  a.count - b.count ||
+                  a.tieBreaker - b.tieBreaker
+                );
+              })
+              .slice(0, reviewerCount)
+              .map(({ login }) => login);
+
+            if (selectedReviewers.length === 0) {
+              core.info('No new reviewers to request.');
+              return;
+            }
+
+            await github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number: currentPullRequest.number,
+              reviewers: selectedReviewers,
+            });
+
+            core.info(`Requested reviewers: ${selectedReviewers.join(', ')}`);

@@ -1,6 +1,7 @@
 export interface TagListTypes {
   tagId: number;
   name: string;
+  color: string;
 }
 
 export interface StructureMemoTypes {

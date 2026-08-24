@@ -57,3 +57,9 @@ export const TAG_COLOR_MATCH: Record<
     textColor: themeVars.color.sub_magenta_500,
   },
 };
+
+/** 태그가 없는 트리뷰 버전 색상 */
+export const NO_TAG_COLOR = {
+  backgroundColor: themeVars.color.grey300,
+  textColor: themeVars.color.grey600,
+};
