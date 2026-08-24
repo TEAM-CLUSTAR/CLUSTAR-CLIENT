@@ -3,8 +3,8 @@ export const PATH = {
   LANDING: '/landing',
   LOGIN: '/login',
   LOGIN_CALLBACK: '/oauth/callback',
-  NEW_MEMO: '/new-memo',
   MEMO: '/memo',
+  MEMOS: '/memos',
   STRUCTURE: '/structure',
 } as const;
 

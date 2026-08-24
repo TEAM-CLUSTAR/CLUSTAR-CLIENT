@@ -21,7 +21,7 @@ const Sidebar = () => {
 
   const tagParam = searchParams.get('tag');
 
-  // 태그 선택은 `/?tag=`로 이동해 pathname이 ROOT와 같아지므로,
+  // 태그 선택은 `/memos?tag=`로 이동해 pathname이 모든 메모와 같아지므로,
   // 태그가 경로보다 우선한다는 규칙을 여기 한 곳에서만 정한다.
   const selection: SidebarSelection =
     tagParam === null
@@ -34,7 +34,7 @@ const Sidebar = () => {
   };
 
   const handleSelectTag = (tagId: number) => {
-    navigate(`${PATH.ROOT}?tag=${tagId}`);
+    navigate(`${PATH.MEMOS}?tag=${tagId}`);
   };
 
   return (
