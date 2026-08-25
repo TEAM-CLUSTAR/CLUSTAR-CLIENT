@@ -1,14 +1,13 @@
 import { style } from '@vanilla-extract/css';
 
 export const header = style({
-  display: 'inline-flex',
-  justifyContent: 'center',
-  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '4rem 0 2.4rem 0',
+  gap: '2.4rem',
 });
 
-export const container = style({
+export const titleFilterRow = style({
   display: 'flex',
   justifyContent: 'space-between',
-  width: '100rem',
-  padding: '3.2rem 0 1.6rem 0',
 });
