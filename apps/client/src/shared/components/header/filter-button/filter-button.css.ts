@@ -14,7 +14,7 @@ export const filterButton = recipe({
     isActive: {
       true: {
         backgroundColor: themeVars.color.blue50,
-        border: `1px solid ${themeVars.color.blue500}`,
+        border: `1px solid ${themeVars.color.blue400}`,
       },
       false: {
         border: `1px solid ${themeVars.color.grey400}`,

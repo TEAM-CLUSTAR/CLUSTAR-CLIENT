@@ -5,23 +5,23 @@ import { themeVars } from '../../styles';
 export const container = style({
   display: 'flex',
   flexShrink: 0,
-  gap: '1.1rem',
+  gap: '0.8rem',
   alignItems: 'center',
 });
 
 export const title = style({
   ...themeVars.fontStyles.title_sb_24,
-  color: themeVars.color.grey900,
+  color: themeVars.color.grey700,
 });
 
 export const count = style({
   display: 'flex',
   alignItems: 'center',
-  height: '2.5rem',
-  padding: '0.2rem 0.8rem',
+  justifyContent: 'center',
+  height: '2.4rem',
+  padding: '0 0.8rem',
   backgroundColor: themeVars.color.blue100,
-  border: `1px solid ${themeVars.color.blue300}`,
-  borderRadius: '100px',
-  ...themeVars.fontStyles.body_m_14,
+  borderRadius: '6px',
+  ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.blue500,
 });
