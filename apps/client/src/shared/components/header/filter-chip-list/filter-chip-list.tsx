@@ -9,10 +9,10 @@ type FilterChip = {
 
 interface FilterChipListProps {
   chips: FilterChip[];
-  onRemove: (id: number) => void;
+  onRemoveFilter: (id: number) => void;
 }
 
-const FilterChipList = ({ chips, onRemove }: FilterChipListProps) => {
+const FilterChipList = ({ chips, onRemoveFilter }: FilterChipListProps) => {
   if (!chips.length) return null;
 
   return (
@@ -22,7 +22,7 @@ const FilterChipList = ({ chips, onRemove }: FilterChipListProps) => {
           <p className={styles.tagName}>{tagName}</p>
           <button
             type="button"
-            onClick={() => onRemove(id)}
+            onClick={() => onRemoveFilter(id)}
             aria-label={`${tagName} 필터 삭제`}
           >
             <Icon name="ic_delete" size={24} color="grey500" />

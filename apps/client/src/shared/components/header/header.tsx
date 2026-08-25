@@ -15,7 +15,7 @@ interface HeaderProps {
   count: number;
   isFilterActive: boolean;
   onOpenFilter: () => void;
-  chips: FilterChip[];
+  filterChips: FilterChip[];
   onRemoveFilter: (tagId: number) => void;
 }
 
@@ -24,7 +24,7 @@ const Header = ({
   count,
   isFilterActive,
   onOpenFilter,
-  chips,
+  filterChips,
   onRemoveFilter,
 }: HeaderProps) => {
   return (
@@ -33,7 +33,7 @@ const Header = ({
         <PageTitle title={title} count={count} />
         <FilterButton isActive={isFilterActive} onClick={onOpenFilter} />
       </div>
-      <FilterChipList chips={chips} onRemove={onRemoveFilter} />
+      <FilterChipList chips={filterChips} onRemoveFilter={onRemoveFilter} />
     </header>
   );
 };
