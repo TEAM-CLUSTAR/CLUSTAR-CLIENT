@@ -8,31 +8,28 @@ import { formatDate } from '@shared/utils/format-date';
 
 import * as styles from './card.css';
 
-type CardInfoType = {
-  tagList?: components['schemas']['TagResponse'][];
+export type CardInfoType = {
   title: string;
   content: string;
-  fileCount: number;
-  imageCount: number;
-  createAt: string;
-  isNew?: boolean;
+  createdAt: string;
+  tagList?: components['schemas']['TagResponse'][];
+  fileCount?: number;
+  imageCount?: number;
 };
-interface CardProps extends ComponentProps<'article'> {
-  card: CardInfoType;
+
+interface CardProps
+  extends Omit<ComponentProps<'article'>, 'title' | 'content'>, CardInfoType {
   isSelected?: boolean;
   isDragging?: boolean;
 }
 
 const Card = ({
-  card: {
-    tagList = [],
-    title,
-    content,
-    fileCount,
-    imageCount,
-    createAt,
-    isNew = false,
-  },
+  title,
+  content,
+  createdAt,
+  tagList = [],
+  fileCount = 0,
+  imageCount = 0,
   isSelected = false,
   isDragging = false,
   ...props
@@ -40,7 +37,7 @@ const Card = ({
   return (
     <article
       {...props}
-      className={styles.cardContainer({ isSelected, isDragging, isNew })}
+      className={styles.cardContainer({ isSelected, isDragging })}
       draggable
     >
       <div className={styles.mainInfoContainer}>
@@ -75,7 +72,7 @@ const Card = ({
             <span>{imageCount}</span>
           </div>
         </div>
-        <time>{formatDate(createAt)}</time>
+        <time>{formatDate(createdAt)}</time>
       </div>
     </article>
   );

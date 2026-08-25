@@ -1,9 +1,18 @@
-import Card from '@shared/components/card/card';
+import Card, { CardInfoType } from '@shared/components/card/card';
 import { components } from '@shared/types/schema';
 
 import * as styles from './memo-list.css';
 
 type CardType = components['schemas']['MemoDashboardResponse'];
+
+const CardInfo = (memo: CardType): CardInfoType => ({
+  title: memo.title ?? '',
+  content: memo.content ?? '',
+  createdAt: memo.createdAt ?? '',
+  tagList: memo.tagList,
+  fileCount: memo.fileCount,
+  imageCount: memo.imageCount,
+});
 
 interface MemoListProps {
   cards: CardType[];
@@ -24,14 +33,7 @@ const MemoList = ({
         {cards.map((card) => (
           <Card
             key={card.memoId}
-            card={{
-              tagList: card.tagList,
-              title: card.title ?? '',
-              content: card.content ?? '',
-              fileCount: card.fileCount ?? 0,
-              imageCount: card.imageCount ?? 0,
-              createAt: card.createdAt ?? '',
-            }}
+            {...CardInfo(card)}
             isSelected={isSelected}
             isDragging={isDragging}
             onClick={onClickCard}
