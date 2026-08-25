@@ -27,9 +27,7 @@ const FilterModal = ({
   onOpenChange,
   onApply,
 }: FilterModalProps) => {
-  // TODO: 빈 상태 테스트용 임시 강제 빈 배열, 테스트 후 원복 필요
-  useGetTag();
-  const roots: ReturnType<typeof useGetTag>['data'] = [];
+  const { data: roots = [] } = useGetTag();
   const [activeRootId, setActiveRootId] = useState<number>();
   const [selectedIds, setSelectedIds] = useState<number[]>(selectedTagIds);
   const [prevOpen, setPrevOpen] = useState(open);
