@@ -15,6 +15,7 @@ export type CardInfoType = {
   tagList?: components['schemas']['TagResponse'][];
   fileCount?: number;
   imageCount?: number;
+  isNew?: boolean;
 };
 
 interface CardProps
@@ -30,6 +31,7 @@ const Card = ({
   tagList = [],
   fileCount = 0,
   imageCount = 0,
+  isNew = false,
   isSelected = false,
   isDragging = false,
   ...props
@@ -37,7 +39,7 @@ const Card = ({
   return (
     <article
       {...props}
-      className={styles.cardContainer({ isSelected, isDragging })}
+      className={styles.cardContainer({ isSelected, isDragging, isNew })}
       draggable
     >
       <div className={styles.mainInfoContainer}>
