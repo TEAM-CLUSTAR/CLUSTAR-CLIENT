@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Label, Title } from '@cds/ui';
+import { Tag, Title } from '@cds/ui';
 
 import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
@@ -12,10 +12,11 @@ export type CardInfoType = {
   title: string;
   content: string;
   createdAt: string;
-  tagList?: components['schemas']['TagResponse'][];
-  fileCount?: number;
-  imageCount?: number;
-  isNew?: boolean;
+  tagList: components['schemas']['TagResponse'][];
+  fileCount: number;
+  imageCount: number;
+  isAiGenerated: boolean;
+  isNew: boolean;
 };
 
 interface CardProps
@@ -31,6 +32,7 @@ const Card = ({
   tagList = [],
   fileCount = 0,
   imageCount = 0,
+  isAiGenerated = false,
   isNew = false,
   isSelected = false,
   isDragging = false,
@@ -44,19 +46,17 @@ const Card = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {/* TODO: Label 리디자인 반영 후 수정 (현재는 임시 Label로 구현)*/}
-          {tagList.length > 0 ? (
-            tagList.map((tag) => (
-              <Label
-                key={tag.tagId}
-                labelSize="sm"
-                labelColor="blue"
-                labelText={tag.name ?? ''}
-              />
-            ))
-          ) : (
-            <Label labelSize="sm" labelColor="grey" labelText="라벨없음" />
+          {isAiGenerated && (
+            <Tag size="lg" variant="outlined" text="AI 결과물" />
           )}
+          {tagList.map((tag) => (
+            <Tag
+              key={tag.tagId}
+              size="lg"
+              color={tag.color ?? ''}
+              text={tag.name ?? ''}
+            />
+          ))}
         </div>
         <div className={styles.contentsContainer}>
           <Title title={title} />

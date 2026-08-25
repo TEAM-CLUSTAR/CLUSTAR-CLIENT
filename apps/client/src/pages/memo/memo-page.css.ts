@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
 
-export const container = style({
-  width: '100%',
-  paddingInline: '4rem',
+export const pageContainer = style({
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
 });

@@ -4,8 +4,9 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
+import MenuItem from '@shared/components/menu-item/menu-item';
+
 import { useSidebar } from './sidebar-context';
-import SidebarItem from './sidebar-item/sidebar-item';
 import SidebarMenuSection from './sidebar-menu-section/sidebar-menu-section';
 import SidebarTagSection from './sidebar-tag-section/sidebar-tag-section';
 import { SidebarSelection } from './type';
@@ -20,7 +21,7 @@ const Sidebar = () => {
 
   const tagParam = searchParams.get('tag');
 
-  // 태그 선택은 `/?tag=`로 이동해 pathname이 ROOT와 같아지므로,
+  // 태그 선택은 `/memos?tag=`로 이동해 pathname이 모든 메모와 같아지므로,
   // 태그가 경로보다 우선한다는 규칙을 여기 한 곳에서만 정한다.
   const selection: SidebarSelection =
     tagParam === null
@@ -33,7 +34,7 @@ const Sidebar = () => {
   };
 
   const handleSelectTag = (tagId: number) => {
-    navigate(`${PATH.ROOT}?tag=${tagId}`);
+    navigate(`${PATH.MEMOS}?tag=${tagId}`);
   };
 
   return (
@@ -89,7 +90,7 @@ const Sidebar = () => {
       <section className={styles.footerSection}>
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>
-            <SidebarItem iconName="ic_profile" content="마이페이지" disabled />
+            <MenuItem iconName="ic_profile" content="마이페이지" disabled />
             <div className={styles.tooltip}>
               <Tooltip title="마이페이지" />
             </div>
