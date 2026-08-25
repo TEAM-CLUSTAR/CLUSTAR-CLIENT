@@ -6,7 +6,7 @@ import { Tag, Title } from '@cds/ui';
 import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
-import * as styles from './card.css';
+import * as styles from './memo-card.css';
 
 export type CardInfoType = {
   title: string;
@@ -25,7 +25,7 @@ interface CardProps
   isDragging?: boolean;
 }
 
-const Card = ({
+const MemoCard = ({
   title,
   content,
   createdAt,
@@ -80,4 +80,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default MemoCard;

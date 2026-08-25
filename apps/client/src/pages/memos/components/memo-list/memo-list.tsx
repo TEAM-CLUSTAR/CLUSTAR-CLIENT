@@ -1,4 +1,4 @@
-import Card, { CardInfoType } from '@pages/memos/components/card/card';
+import MemoCard, { CardInfoType } from '@pages/memos/components/card/memo-card';
 
 import { components } from '@shared/types/schema';
 
@@ -34,7 +34,7 @@ const MemoList = ({
     <div className={styles.memoListContainer}>
       <div className={styles.memoListGrid}>
         {cards.map((card) => (
-          <Card
+          <MemoCard
             key={card.memoId}
             {...CardInfo(card)}
             isSelected={isSelected}
