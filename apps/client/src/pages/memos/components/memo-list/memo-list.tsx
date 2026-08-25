@@ -12,6 +12,7 @@ const CardInfo = (memo: CardType): CardInfoType => ({
   tagList: memo.tagList,
   fileCount: memo.fileCount,
   imageCount: memo.imageCount,
+  isAiGenerated: memo.isAiGenerated,
   isNew: memo.isNew,
 });
 
