@@ -4,32 +4,54 @@ import memoImage from '@shared/assets/images/empty-state/memo_image.svg';
 import searchImage from '@shared/assets/images/empty-state/search_image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 
+import type { MemoRecentViewedSource } from './apis/type';
 import MemoSearchListItem from './components/memo-search-list-item/memo-search-list-item';
 import SearchBar from './components/search-bar/search-bar';
 import { MemoSearchItemData } from './types';
 
 import * as styles from './memo-search-modal.css';
 
-const getSearchResultSectionTitle = (count: number) => {
-  return `검색 결과(${count}개)`;
-};
-
 interface MemoSearchModalProps {
   open: boolean;
   searchValue: string;
   recentMemos: MemoSearchItemData[];
+  recentSource?: MemoRecentViewedSource;
   searchResultMemos?: MemoSearchItemData[];
+  isLoading?: boolean;
   onOpenChange: (open: boolean) => void;
   onChangeSearchValue: (value: string) => void;
   onSearch: (value: string) => void;
   onClickMemo: (memoId: number) => void;
 }
 
+const EMPTY_STATE = {
+  recent: {
+    imageSrc: memoImage,
+    title: '작성된 메모가 없습니다.',
+    description: '새 메모 창에 들어가서 새로운 메모를 생성해보세요.',
+  },
+  search: {
+    imageSrc: searchImage,
+    title: '결과 없음',
+    description: '해당 단어를 포함하는 메모를 찾을 수 없습니다.',
+  },
+} as const;
+
+const getSearchResultSectionTitle = (count: number) => {
+  return `검색 결과(${count}개)`;
+};
+
+const getRecentSectionTitle = (source: MemoRecentViewedSource) => {
+  return source === 'RECENT_CREATED' ? '최근 생성한 메모' : '최근 열람한 메모';
+};
+
 const MemoSearchModal = ({
   open,
   searchValue,
   recentMemos,
+  recentSource = 'RECENT_VIEWED',
   searchResultMemos,
+  isLoading = false,
   onOpenChange,
   onChangeSearchValue,
   onSearch,
@@ -38,21 +60,12 @@ const MemoSearchModal = ({
   const isSearchResult = searchResultMemos !== undefined;
   const memos = searchResultMemos ?? recentMemos;
   const isEmpty = memos.length === 0;
+  const shouldShowEmptyState = isEmpty && !isLoading;
   const resultCount = searchResultMemos?.length ?? 0;
   const sectionTitle = isSearchResult
     ? getSearchResultSectionTitle(resultCount)
-    : '최근 열람한 메모';
-  const emptyState = isSearchResult
-    ? {
-        imageSrc: searchImage,
-        title: '결과 없음',
-        description: '해당 단어를 포함하는 메모를 찾을 수 없습니다.',
-      }
-    : {
-        imageSrc: memoImage,
-        title: '작성된 메모가 없습니다.',
-        description: '새 메모 창에 들어가서 새로운 메모를 생성해보세요.',
-      };
+    : getRecentSectionTitle(recentSource);
+  const emptyState = isSearchResult ? EMPTY_STATE.search : EMPTY_STATE.recent;
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
@@ -77,7 +90,7 @@ const MemoSearchModal = ({
                   ))}
                 </div>
               </>
-            ) : (
+            ) : shouldShowEmptyState ? (
               <div className={styles.emptyStateContainer}>
                 <EmptyState
                   imageSrc={emptyState.imageSrc}
@@ -85,7 +98,7 @@ const MemoSearchModal = ({
                   description={emptyState.description}
                 />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </Modal.Content>
