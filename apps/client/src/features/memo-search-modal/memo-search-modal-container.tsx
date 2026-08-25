@@ -1,7 +1,5 @@
-import { useState } from 'react';
-
+import useMemoSearchModal from './hooks/use-memo-search-modal';
 import MemoSearchModal from './memo-search-modal';
-import type { MemoSearchItemData } from './types';
 
 interface MemoSearchModalContainerProps {
   open: boolean;
@@ -12,38 +10,25 @@ const MemoSearchModalContainer = ({
   open,
   onOpenChange,
 }: MemoSearchModalContainerProps) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [searchResultMemos, setSearchResultMemos] = useState<
-    MemoSearchItemData[] | undefined
-  >();
-
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (nextOpen) {
-      setSearchValue('');
-      setSearchResultMemos(undefined);
-    }
-
-    onOpenChange(nextOpen);
-  };
-
-  const handleSearch = () => {
-    setSearchResultMemos([]);
-  };
-
-  const handleChangeSearchValue = (value: string) => {
-    setSearchValue(value);
-
-    if (value.trim().length === 0) {
-      setSearchResultMemos(undefined);
-    }
-  };
+  const {
+    searchValue,
+    recentMemos,
+    recentSource,
+    searchResultMemos,
+    isLoading,
+    handleOpenChange,
+    handleSearch,
+    handleChangeSearchValue,
+  } = useMemoSearchModal({ open, onOpenChange });
 
   return (
     <MemoSearchModal
       open={open}
       searchValue={searchValue}
-      recentMemos={[]}
+      recentMemos={recentMemos}
+      recentSource={recentSource}
       searchResultMemos={searchResultMemos}
+      isLoading={isLoading}
       onOpenChange={handleOpenChange}
       onChangeSearchValue={handleChangeSearchValue}
       onSearch={handleSearch}
