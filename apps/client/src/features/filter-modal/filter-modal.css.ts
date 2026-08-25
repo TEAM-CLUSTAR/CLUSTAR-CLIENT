@@ -32,6 +32,12 @@ export const body = style({
   flex: 1,
 });
 
+export const emptyBody = style({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '9.6rem',
+});
+
 export const panel = style({
   display: 'flex',
   flexDirection: 'column',

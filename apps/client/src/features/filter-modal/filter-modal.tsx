@@ -4,6 +4,8 @@ import { Icon } from '@cds/icon';
 import { Button, Modal } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
+import tagImage from '@shared/assets/images/empty-state/tag_image.svg';
+import EmptyState from '@shared/components/empty-state/empty-state';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';
 import { flattenTree } from '@shared/utils/build-tree';
@@ -25,7 +27,9 @@ const FilterModal = ({
   onOpenChange,
   onApply,
 }: FilterModalProps) => {
-  const { data: roots = [] } = useGetTag();
+  // TODO: 빈 상태 테스트용 임시 강제 빈 배열, 테스트 후 원복 필요
+  useGetTag();
+  const roots: ReturnType<typeof useGetTag>['data'] = [];
   const [activeRootId, setActiveRootId] = useState<number>();
   const [selectedIds, setSelectedIds] = useState<number[]>(selectedTagIds);
   const [prevOpen, setPrevOpen] = useState(open);
@@ -108,8 +112,13 @@ const FilterModal = ({
               </div>
             </div>
           ) : (
-            // TODO: 빈 상태 UI 추후 작업
-            <p>생성된 태그가 없습니다.</p>
+            <div className={styles.emptyBody}>
+              <EmptyState
+                imageSrc={tagImage}
+                title="생성된 태그가 없습니다."
+                description="새 메모 창에 들어가서 새로운 태그를 생성해보세요."
+              />
+            </div>
           )}
         </div>
       </Modal.Content>
