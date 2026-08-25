@@ -1,4 +1,5 @@
-import Card, { CardInfoType } from '@shared/components/card/card';
+import Card, { CardInfoType } from '@pages/memos/components/card/card';
+
 import { components } from '@shared/types/schema';
 
 import * as styles from './memo-list.css';
