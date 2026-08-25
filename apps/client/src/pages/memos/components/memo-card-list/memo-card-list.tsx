@@ -1,12 +1,14 @@
-import MemoCard, { CardInfoType } from '@pages/memos/components/card/memo-card';
+import MemoCard, {
+  MemoCardInfoType,
+} from '@pages/memos/components/memo-card/memo-card';
 
 import { components } from '@shared/types/schema';
 
-import * as styles from './memo-list.css';
+import * as styles from './memo-card-list.css';
 
-type CardType = components['schemas']['MemoDashboardResponse'];
+type MemoCardResponse = components['schemas']['MemoDashboardResponse'];
 
-const CardInfo = (memo: CardType): CardInfoType => ({
+const CardInfo = (memo: MemoCardResponse): MemoCardInfoType => ({
   title: memo.title ?? '',
   content: memo.content ?? '',
   createdAt: memo.createdAt ?? '',
@@ -17,19 +19,19 @@ const CardInfo = (memo: CardType): CardInfoType => ({
   isNew: memo.isNew,
 });
 
-interface MemoListProps {
-  cards: CardType[];
+interface MemoCardListProps {
+  cards: MemoCardResponse[];
   isSelected: boolean;
   isDragging: boolean;
   onClickCard: () => void;
 }
 
-const MemoList = ({
+const MemoCardList = ({
   cards,
   isSelected,
   isDragging,
   onClickCard,
-}: MemoListProps) => {
+}: MemoCardListProps) => {
   return (
     <div className={styles.memoListContainer}>
       <div className={styles.memoListGrid}>
@@ -47,4 +49,4 @@ const MemoList = ({
   );
 };
 
-export default MemoList;
+export default MemoCardList;

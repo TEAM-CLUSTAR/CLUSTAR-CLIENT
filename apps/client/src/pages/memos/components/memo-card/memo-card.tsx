@@ -8,7 +8,7 @@ import { formatDate } from '@shared/utils/format-date';
 
 import * as styles from './memo-card.css';
 
-export type CardInfoType = {
+export type MemoCardInfoType = {
   title: string;
   content: string;
   createdAt: string;
@@ -19,8 +19,10 @@ export type CardInfoType = {
   isNew: boolean;
 };
 
-interface CardProps
-  extends Omit<ComponentProps<'article'>, 'title' | 'content'>, CardInfoType {
+interface MemoCardProps
+  extends
+    Omit<ComponentProps<'article'>, 'title' | 'content'>,
+    MemoCardInfoType {
   isSelected?: boolean;
   isDragging?: boolean;
 }
@@ -37,7 +39,7 @@ const MemoCard = ({
   isSelected = false,
   isDragging = false,
   ...props
-}: CardProps) => {
+}: MemoCardProps) => {
   return (
     <article
       {...props}
