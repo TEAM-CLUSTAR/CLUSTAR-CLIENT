@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-
-import Sidebar from '../sidebar/sidebar';
-import { SidebarProvider } from '../sidebar/sidebar-context';
+import { Sidebar, SidebarProvider } from '@features/sidebar';
 
 import * as styles from './dashboard-layout.css';
 
