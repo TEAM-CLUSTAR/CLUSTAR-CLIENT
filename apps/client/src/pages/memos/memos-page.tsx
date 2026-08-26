@@ -2,9 +2,12 @@ import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import EmptyView from '@shared/components/empty-view/empty-view';
-import MemoListView from '@shared/components/memo-list-view/memo-list-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
+import MemoCardList from './components/memo-card-list/memo-card-list';
+import { useInfiniteScroll } from './hooks/use-infinite-scroll';
+
+import * as styles from './memos-page.css';
 
 import emptyImage from '/empty.svg';
 
@@ -12,33 +15,49 @@ const AllMemoPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const tagParam = searchParams.get('tag');
-  const tagId = tagParam !== null ? [Number(tagParam)] : undefined;
+  const tagIds = tagParam !== null ? [Number(tagParam)] : undefined;
 
   const {
-    data: filteredMemos,
+    data: memosList,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(tagId);
-  const { data: totalCount } = useGetMemoTotalCount(tagId);
+  } = useGetAllMemo(tagIds);
+  const { data: totalCount } = useGetMemoTotalCount(tagIds);
 
-  return totalCount === 0 ? (
-    <EmptyView
-      imgSrc={emptyImage}
-      title="작성된 메모가 없습니다."
-      description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
-      buttonText="메모 작성하러 가기"
-      onButtonClick={() => navigate(PATH.MEMO)}
-    />
-  ) : (
-    <MemoListView
-      title="전체 메모"
-      initialMemos={filteredMemos}
-      hasNextPage={hasNextPage}
-      isFetchingNextPage={isFetchingNextPage}
-      fetchNextPage={fetchNextPage}
-      totalCount={totalCount ?? 0}
-    />
+  const loadMoreRef = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  return (
+    <>
+      {/* MemoHeader 컴포넌트 */}
+
+      <div className={styles.container}>
+        {totalCount === 0 ? (
+          <EmptyView
+            imgSrc={emptyImage}
+            title="작성된 메모가 없습니다."
+            description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
+            buttonText="메모 작성하러 가기"
+            onButtonClick={() => navigate(PATH.MEMO)}
+          />
+        ) : (
+          <>
+            {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
+            <MemoCardList
+              cards={memosList ?? []}
+              isSelected={false}
+              isDragging={false}
+              onClickCard={() => {}}
+            />
+            <div ref={loadMoreRef} />
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

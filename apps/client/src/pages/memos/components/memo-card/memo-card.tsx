@@ -6,48 +6,45 @@ import { Tag, Title } from '@cds/ui';
 import { components } from '@shared/types/schema';
 import { formatDate } from '@shared/utils/format-date';
 
-import * as styles from './card.css';
+import * as styles from './memo-card.css';
 
-type CardInfoType = {
-  tagList: components['schemas']['TagResponse'][];
+export type MemoCardInfoType = {
   title: string;
   content: string;
+  createdAt: string;
+  tagList: components['schemas']['TagResponse'][];
   fileCount: number;
   imageCount: number;
-  createAt: string;
   isAiGenerated: boolean;
   isNew: boolean;
 };
-interface CardProps extends ComponentProps<'article'> {
-  card: CardInfoType;
+
+interface MemoCardProps
+  extends
+    Omit<ComponentProps<'article'>, 'title' | 'content'>,
+    MemoCardInfoType {
   isSelected?: boolean;
   isDragging?: boolean;
 }
 
-const Card = ({
-  card: {
-    tagList,
-    title,
-    content,
-    fileCount,
-    imageCount,
-    createAt,
-    isAiGenerated,
-    isNew,
-  },
+const MemoCard = ({
+  title,
+  content,
+  createdAt,
+  tagList = [],
+  fileCount = 0,
+  imageCount = 0,
+  isAiGenerated = false,
+  isNew = false,
   isSelected = false,
   isDragging = false,
   ...props
-}: CardProps) => {
+}: MemoCardProps) => {
   return (
     <article
-      className={styles.cardContainer({
-        isSelected,
-        isDragging,
-        isNew,
-      })}
-      draggable
       {...props}
+      className={styles.cardContainer({ isSelected, isDragging, isNew })}
+      draggable
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
@@ -79,10 +76,10 @@ const Card = ({
             <span>{imageCount}</span>
           </div>
         </div>
-        <time>{formatDate(createAt)}</time>
+        <time>{formatDate(createdAt)}</time>
       </div>
     </article>
   );
 };
 
-export default Card;
+export default MemoCard;

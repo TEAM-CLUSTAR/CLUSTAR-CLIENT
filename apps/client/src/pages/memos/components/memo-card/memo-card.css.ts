@@ -12,6 +12,7 @@ const baseStyle = {
   padding: '2.4rem',
   width: '38rem',
   minWidth: '34rem',
+  maxWidth: '100%',
   height: '22rem',
   borderRadius: '12px',
   backgroundColor: themeVars.color.white,
