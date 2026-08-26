@@ -1,16 +1,11 @@
-/**
- * 블록이 화면에 어떻게 보이는지. 에디터가 만든 엘리먼트에 직접 붙는 클래스다.
- *
- * 편집 영역의 노드는 React가 아니라 에디터가 만들기 때문에, 클래스도 만드는
- * 시점에 함께 붙인다. 밖에서 자손 셀렉터로 넘겨다보지 않게 하려는 것이다.
- */
+/** 에디터가 만든 블록 엘리먼트에 직접 붙는 클래스. */
 import { style } from '@vanilla-extract/css';
 
 import { themeVars } from '@cds/ui';
 
 const ORDERED_COUNTER = 'markdownOrdered';
 
-/** 숫자 리스트 번호는 CSS 카운터로 매긴다. 목록이 아닌 블록이 카운터를 되돌린다. */
+/** 숫자 리스트 번호는 CSS 카운터로 매긴다. */
 const block = style({
   margin: 0,
   selectors: {

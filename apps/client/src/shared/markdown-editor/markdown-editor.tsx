@@ -1,6 +1,3 @@
-/**
- * 합성 컴포넌트. 편집 동작은 useMarkdownEditor가 하고 여기서는 조립만 한다.
- */
 import { createContext, useContext } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 
@@ -40,7 +37,6 @@ const Root = ({ children, ...options }: RootProps) => {
 
 type ToolbarProps = {
   className?: string;
-  /** 함수를 주면 지원하는 블록 문법마다 한 번씩 호출한다. */
   children?: ReactNode | ((command: MarkdownCommand) => ReactNode);
 };
 
@@ -62,7 +58,6 @@ type ButtonProps = {
   command: MarkdownCommand;
   className?: string;
   children?: ReactNode;
-  /** 블록을 바꾸는 일은 버튼이 하고, 그 다음 할 일은 쓰는 쪽이 정한다. */
   onSelect?: (command: MarkdownCommand) => void;
 };
 
@@ -70,7 +65,6 @@ const Button = ({ command, className, children, onSelect }: ButtonProps) => {
   const { activeType, setBlockType } = useMarkdownEditorContext('Button');
 
   const preserveCaret = (event: MouseEvent<HTMLButtonElement>) => {
-    // 이걸 빼면 포커스가 편집 영역 밖으로 나가 커서 위치가 날아간다.
     event.preventDefault();
   };
 
@@ -94,9 +88,7 @@ const Button = ({ command, className, children, onSelect }: ButtonProps) => {
 };
 
 type InputProps = {
-  /** 편집 영역의 크기·테두리처럼 바깥 상자에 해당하는 스타일. */
   className?: string;
-  /** 내용이 비었을 때 보여줄 안내 문구 */
   placeholder?: string;
 };
 
