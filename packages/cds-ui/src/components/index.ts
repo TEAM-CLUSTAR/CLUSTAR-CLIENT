@@ -1,6 +1,7 @@
 export { default as Button } from './button/button';
 export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
+export { default as HoverTooltip } from './hover-tooltip/hover-tooltip';
 export { default as ImageContainer } from './image-container/image-container';
 export { default as Modal } from './modal/modal';
 export { default as PageTitle } from './page-title/page-title';
