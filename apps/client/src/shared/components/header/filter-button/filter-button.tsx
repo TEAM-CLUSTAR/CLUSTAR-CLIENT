@@ -14,6 +14,7 @@ const FilterButton = ({ isActive, onClick }: FilterButtonProps) => {
       className={styles.filterButton({ isActive })}
       onClick={onClick}
       aria-label="필터링"
+      aria-pressed={isActive}
     >
       <Icon
         name="ic_filter"
