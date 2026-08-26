@@ -17,6 +17,7 @@ export const content = style({
 export const mainContent = recipe({
   base: {
     flexGrow: 1,
+    height: '100vh',
     minWidth: 0,
     overflow: 'auto',
     transition: 'margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1)',

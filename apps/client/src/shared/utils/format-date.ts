@@ -1,21 +1,40 @@
+interface DatePartsTypes {
+  year: string;
+  month: string;
+  day: string;
+}
+
+const getDateParts = (dateString: string): DatePartsTypes => {
+  const date = new Date(dateString);
+  return {
+    year: date.getFullYear().toString(),
+    month: (date.getMonth() + 1).toString().padStart(2, '0'),
+    day: date.getDate().toString().padStart(2, '0'),
+  };
+};
+
 /**
  * ISO 8601 날짜 문자열을 YY.MM.DD 형식으로 변환
  * @param dateString - ISO 8601 형식의 날짜 문자열 (예: "2026-01-21T02:31:08.223443")
  * @returns YY.MM.DD 형식의 날짜 문자열 (예: "26.01.21")
  */
 export const formatDate = (dateString: string): string => {
-  if (!dateString) return '';
+  if (dateString == null) return '';
 
-  try {
-    const date = new Date(dateString);
-    const year = date.getFullYear().toString().slice(-2);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
+  const { year, month, day } = getDateParts(dateString);
+  return `${year.slice(-2)}.${month}.${day}`;
+};
 
-    return `${year}.${month}.${day}`;
-  } catch {
-    return dateString;
-  }
+/**
+ * ISO 8601 날짜 문자열을 YYYY.MM.DD 형식으로 변환
+ * @param dateString - ISO 8601 형식의 날짜 문자열 (예: "2026-01-21T02:31:08.223443")
+ * @returns YYYY.MM.DD 형식의 날짜 문자열 (예: "2026.01.21")
+ */
+export const formatFullDate = (dateString: string): string => {
+  if (dateString == null) return '';
+
+  const { year, month, day } = getDateParts(dateString);
+  return `${year}.${month}.${day}`;
 };
 
 /**
