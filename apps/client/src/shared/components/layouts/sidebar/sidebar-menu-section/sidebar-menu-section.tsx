@@ -1,7 +1,9 @@
+import { useState } from 'react';
+import MemoSearchModalContainer from '@features/memo-search-modal/memo-search-modal-container';
 import { PATH } from '@router/path';
 
 import { IconName } from '@cds/icon';
-import { Modal, Tooltip } from '@cds/ui';
+import { Tooltip } from '@cds/ui';
 
 import MenuItem from '@shared/components/menu-item/menu-item';
 
@@ -48,21 +50,30 @@ const SidebarMenuSection = ({
   onSelectMenu,
   onExpand,
 }: SidebarMenuSectionProps) => {
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const selectedMenuPath = selection.type === 'menu' ? selection.path : null;
+
+  const handleClickSearch = () => {
+    onExpand();
+    setIsSearchModalOpen(true);
+  };
 
   return (
     <ul className={styles.pannelList}>
-      <Modal>
-        <Modal.Trigger>
-          <li key="search" className={styles.pannelItem}>
-            <MenuItem iconName="ic_search" content="검색" onClick={onExpand} />
-            <div className={styles.tooltip}>
-              <Tooltip title="검색" />
-            </div>
-          </li>
-        </Modal.Trigger>
-        <Modal.Content>임시 모달</Modal.Content>
-      </Modal>
+      <li key="search" className={styles.pannelItem}>
+        <MenuItem
+          iconName="ic_search"
+          content="검색"
+          onClick={handleClickSearch}
+        />
+        <div className={styles.tooltip}>
+          <Tooltip title="검색" />
+        </div>
+      </li>
+      <MemoSearchModalContainer
+        open={isSearchModalOpen}
+        onOpenChange={setIsSearchModalOpen}
+      />
       {MENU_ITEMS.map(({ id, iconName, text, path }) => (
         <li key={id} className={styles.pannelItem}>
           <MenuItem
