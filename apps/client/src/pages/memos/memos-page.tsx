@@ -3,6 +3,7 @@ import FilterModal from '@features/filter-modal/filter-modal';
 import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
+import { useFlatTags } from '@shared/apis/tag/queries';
 import EmptyView from '@shared/components/empty-view/empty-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
@@ -16,10 +17,16 @@ import emptyImage from '/empty.svg';
 
 const AllMemoPage = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const tagParam = searchParams.get('tag');
-  const tagIds = tagParam !== null ? [Number(tagParam)] : undefined;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedTagIds = searchParams.getAll('tag').map(Number);
+  const tagIds = selectedTagIds.length ? selectedTagIds : undefined;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const { data: flatTags = [] } = useFlatTags();
+  const filterChips = selectedTagIds
+    .map((id) => flatTags.find((tag) => tag.tagId === id))
+    .filter((tag) => tag !== undefined)
+    .map((tag) => ({ id: tag.tagId, tagName: tag.name }));
 
   const {
     data: memosList,
@@ -28,6 +35,16 @@ const AllMemoPage = () => {
     fetchNextPage,
   } = useGetAllMemo(tagIds);
   const { data: totalCount } = useGetMemoTotalCount(tagIds);
+
+  const handleApplyFilter = (tagIds: number[]) => {
+    const nextParams = new URLSearchParams();
+    tagIds.forEach((id) => nextParams.append('tag', String(id)));
+    setSearchParams(nextParams);
+  };
+
+  const handleRemoveFilter = (tagId: number) => {
+    handleApplyFilter(selectedTagIds.filter((id) => id !== tagId));
+  };
 
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
@@ -52,16 +69,16 @@ const AllMemoPage = () => {
               <Header
                 title="전체 메모"
                 count={totalCount ?? 0}
-                isFilterActive={false}
+                isFilterActive={selectedTagIds.length > 0}
                 onOpenFilter={() => setIsFilterOpen(true)}
-                filterChips={[]}
-                onRemoveFilter={() => {}}
+                filterChips={filterChips}
+                onRemoveFilter={handleRemoveFilter}
               />
               <FilterModal
                 open={isFilterOpen}
-                selectedTagIds={[]}
+                selectedTagIds={selectedTagIds}
                 onOpenChange={setIsFilterOpen}
-                onApply={() => setIsFilterOpen(false)}
+                onApply={handleApplyFilter}
               />
             </div>
             {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
