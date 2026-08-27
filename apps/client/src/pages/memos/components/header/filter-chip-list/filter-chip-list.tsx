@@ -19,9 +19,7 @@ const FilterChipList = ({ chips, onRemoveFilter }: FilterChipListProps) => {
     <div className={styles.container}>
       {chips.map(({ id, tagName }) => (
         <div key={id} className={styles.chip}>
-          <p className={styles.tagName} aria-hidden="true">
-            {tagName}
-          </p>
+          <p className={styles.tagName}>{tagName}</p>
           <button
             type="button"
             onClick={() => onRemoveFilter(id)}
