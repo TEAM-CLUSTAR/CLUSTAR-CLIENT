@@ -18,6 +18,9 @@ export const filterButton = recipe({
       },
       false: {
         border: `1px solid ${themeVars.color.grey400}`,
+        ':hover': {
+          backgroundColor: themeVars.color.grey200,
+        },
       },
     },
   },
