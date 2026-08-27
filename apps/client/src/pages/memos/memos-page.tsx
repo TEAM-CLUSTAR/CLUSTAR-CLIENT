@@ -52,47 +52,53 @@ const AllMemoPage = () => {
     fetchNextPage,
   });
 
+  const isFilterActive = selectedTagIds.length > 0;
+  const showHeaderSection = isFilterActive || totalCount !== 0;
+
   return (
-    <>
-      <div className={styles.container}>
-        {totalCount === 0 ? (
-          <EmptyView
-            imgSrc={emptyImage}
-            title="작성된 메모가 없습니다."
-            description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
-            buttonText="메모 작성하러 가기"
-            onButtonClick={() => navigate(PATH.MEMO)}
-          />
-        ) : (
-          <>
-            <div className={styles.headerContainer}>
-              <Header
-                title="전체 메모"
-                count={totalCount ?? 0}
-                isFilterActive={selectedTagIds.length > 0}
-                onOpenFilter={() => setIsFilterOpen(true)}
-                filterChips={filterChips}
-                onRemoveFilter={handleRemoveFilter}
-              />
-              <FilterModal
-                open={isFilterOpen}
-                selectedTagIds={selectedTagIds}
-                onOpenChange={setIsFilterOpen}
-                onApply={handleApplyFilter}
-              />
-            </div>
-            {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
-            <MemoCardList
-              cards={memosList ?? []}
-              isSelected={false}
-              isDragging={false}
-              onClickCard={() => {}}
+    <div className={styles.container}>
+      {showHeaderSection && (
+        <>
+          <div className={styles.headerContainer}>
+            <Header
+              title="전체 메모"
+              count={totalCount ?? 0}
+              isFilterActive={isFilterActive}
+              onOpenFilter={() => setIsFilterOpen(true)}
+              filterChips={filterChips}
+              onRemoveFilter={handleRemoveFilter}
             />
-            <div ref={loadMoreRef} />
-          </>
-        )}
-      </div>
-    </>
+          </div>
+          <FilterModal
+            open={isFilterOpen}
+            selectedTagIds={selectedTagIds}
+            onOpenChange={setIsFilterOpen}
+            onApply={handleApplyFilter}
+          />
+        </>
+      )}
+
+      {totalCount === 0 ? (
+        <EmptyView
+          imgSrc={emptyImage}
+          title="작성된 메모가 없습니다."
+          description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
+          buttonText="메모 작성하러 가기"
+          onButtonClick={() => navigate(PATH.MEMO)}
+        />
+      ) : (
+        <>
+          {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
+          <MemoCardList
+            cards={memosList ?? []}
+            isSelected={false}
+            isDragging={false}
+            onClickCard={() => {}}
+          />
+          <div ref={loadMoreRef} />
+        </>
+      )}
+    </div>
   );
 };
 
