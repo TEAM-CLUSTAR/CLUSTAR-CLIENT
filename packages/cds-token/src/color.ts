@@ -81,4 +81,5 @@ export const color = {
 
   // Opacity Colors
   opacity35: 'var(--opaticy35, rgba(60, 60, 60, 0.35))',
+  opacity90: 'rgba(239, 239, 243, 0.9)',
 } as const;
