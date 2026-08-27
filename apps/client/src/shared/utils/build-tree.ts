@@ -42,7 +42,3 @@ export const buildTree = <T, K>(
 
   return roots;
 };
-
-/** 중첩 트리를 평면 목록으로 변환 (`buildTree`의 역연산). */
-export const flattenTree = <T>(nodes: TreeNode<T>[]): TreeNode<T>[] =>
-  nodes.flatMap((node) => [node, ...flattenTree(node.children)]);

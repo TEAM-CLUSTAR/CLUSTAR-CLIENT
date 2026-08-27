@@ -1,14 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Button, Modal } from '@cds/ui';
 
-import { useGetTag } from '@shared/apis/tag/queries';
+import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
 import tagImage from '@shared/assets/images/empty-state/tag_image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';
-import { flattenTree } from '@shared/utils/build-tree';
 
 import TagSelectField from './tag-select-field/tag-select-field';
 
@@ -39,7 +38,7 @@ const FilterModal = ({
 
   const activeRoot =
     roots.find((root) => root.tagId === activeRootId) ?? roots[0];
-  const flatTags = useMemo(() => flattenTree(roots), [roots]);
+  const { data: flatTags = [] } = useFlatTags();
   const selectedTags = flatTags.filter((tag) =>
     selectedIds.includes(tag.tagId),
   );
