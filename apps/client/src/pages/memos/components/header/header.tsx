@@ -1,5 +1,3 @@
-import { PageTitle } from '@cds/ui';
-
 import FilterButton from './filter-button/filter-button';
 import FilterChipList from './filter-chip-list/filter-chip-list';
 
@@ -30,7 +28,10 @@ const Header = ({
   return (
     <header className={styles.header}>
       <div className={styles.titleFilterRow}>
-        <PageTitle title={title} count={count} />
+        <div className={styles.titleGroup}>
+          <h2 className={styles.title}>{title}</h2>
+          <span className={styles.count}>{count}</span>
+        </div>
         <FilterButton isActive={isFilterActive} onClick={onOpenFilter} />
       </div>
       <FilterChipList chips={filterChips} onRemoveFilter={onRemoveFilter} />
