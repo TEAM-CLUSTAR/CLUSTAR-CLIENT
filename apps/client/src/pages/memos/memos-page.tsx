@@ -19,12 +19,13 @@ const AllMemoPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTagIds = searchParams.getAll('tag').map(Number);
-  const tagIds = selectedTagIds.length ? selectedTagIds : undefined;
+  const activeTagIds = selectedTagIds.length ? selectedTagIds : undefined;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const { data: flatTags = [] } = useFlatTags();
+  const tagsById = new Map(flatTags.map((tag) => [tag.tagId, tag]));
   const filterChips = selectedTagIds
-    .map((id) => flatTags.find((tag) => tag.tagId === id))
+    .map((id) => tagsById.get(id))
     .filter((tag) => tag !== undefined)
     .map((tag) => ({ id: tag.tagId, tagName: tag.name }));
 
@@ -33,8 +34,8 @@ const AllMemoPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(tagIds);
-  const { data: totalCount } = useGetMemoTotalCount(tagIds);
+  } = useGetAllMemo(activeTagIds);
+  const { data: totalCount } = useGetMemoTotalCount(activeTagIds);
 
   const handleApplyFilter = (tagIds: number[]) => {
     const nextParams = new URLSearchParams();
