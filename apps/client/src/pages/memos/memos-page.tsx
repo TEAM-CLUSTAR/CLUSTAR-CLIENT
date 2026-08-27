@@ -37,22 +37,6 @@ const AllMemoPage = () => {
 
   return (
     <>
-      <Header
-        title="전체 메모"
-        count={totalCount ?? 0}
-        isFilterActive={false}
-        onOpenFilter={() => setIsFilterOpen(true)}
-        filterChips={[]}
-        onRemoveFilter={() => {}}
-      />
-
-      <FilterModal
-        open={isFilterOpen}
-        selectedTagIds={[]}
-        onOpenChange={setIsFilterOpen}
-        onApply={() => setIsFilterOpen(false)}
-      />
-
       <div className={styles.container}>
         {totalCount === 0 ? (
           <EmptyView
@@ -64,6 +48,22 @@ const AllMemoPage = () => {
           />
         ) : (
           <>
+            <div className={styles.headerContainer}>
+              <Header
+                title="전체 메모"
+                count={totalCount ?? 0}
+                isFilterActive={false}
+                onOpenFilter={() => setIsFilterOpen(true)}
+                filterChips={[]}
+                onRemoveFilter={() => {}}
+              />
+              <FilterModal
+                open={isFilterOpen}
+                selectedTagIds={[]}
+                onOpenChange={setIsFilterOpen}
+                onApply={() => setIsFilterOpen(false)}
+              />
+            </div>
             {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
             <MemoCardList
               cards={memosList ?? []}
