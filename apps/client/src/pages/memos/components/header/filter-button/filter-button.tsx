@@ -21,7 +21,7 @@ const FilterButton = ({ isActive, onClick }: FilterButtonProps) => {
         size={28}
         color={isActive ? 'blue500' : 'grey700'}
       />
-      <p className={styles.label({ isActive })}>필터링</p>
+      <span className={styles.label({ isActive })}>필터링</span>
     </button>
   );
 };
