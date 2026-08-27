@@ -1,9 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
 import { zIndex } from '@cds/token';
-import { themeVars } from '@cds/ui';
+import { slideInLeft, themeVars } from '@cds/ui';
 
 export const sidebar = style({
+  position: 'sticky',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: themeVars.color.grey50,
@@ -11,7 +12,8 @@ export const sidebar = style({
   padding: '2rem',
   height: '100vh',
   flexShrink: '0',
-  transition: 'width 0.2s ease',
+  animation: `${slideInLeft} 0.3s cubic-bezier(0.4, 0, 0.2, 1)`,
+  transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   selectors: {
     '&[data-expanded="true"]': { width: '26rem' },
     '&[data-expanded="false"]': { width: '8rem' },
