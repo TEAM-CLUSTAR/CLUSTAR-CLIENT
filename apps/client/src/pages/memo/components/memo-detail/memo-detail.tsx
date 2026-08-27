@@ -1,10 +1,10 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
 
 import { Icon } from '@cds/icon';
 import { HoverTooltip } from '@cds/ui';
 
 import { TagNode } from '@shared/apis/tag/type';
+import TagInputField from '@shared/tag-input-field/tag-input-field';
 import { formatFullDate } from '@shared/utils/format-date';
 
 import DeleteMemoModal from './components/delete-memo-modal/delete-memo-modal';

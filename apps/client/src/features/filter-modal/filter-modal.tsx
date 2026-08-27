@@ -8,7 +8,8 @@ import tagImage from '@shared/assets/images/empty-state/tag_image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';
-import TagSelectField from '@shared/components/tag-select-field/tag-select-field';
+
+import TagSelectField from './tag-select-field/tag-select-field';
 
 import * as styles from './filter-modal.css';
 
