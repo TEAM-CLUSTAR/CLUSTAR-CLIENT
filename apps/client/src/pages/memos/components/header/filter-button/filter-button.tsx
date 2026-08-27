@@ -13,7 +13,6 @@ const FilterButton = ({ isActive, onClick }: FilterButtonProps) => {
       type="button"
       className={styles.filterButton({ isActive })}
       onClick={onClick}
-      aria-label="필터링"
       aria-pressed={isActive}
     >
       <Icon
