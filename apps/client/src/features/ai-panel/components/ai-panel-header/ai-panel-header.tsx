@@ -39,7 +39,7 @@ const AiPanelHeader = ({ onCreateNewChat, onClose }: AiPanelHeaderProps) => {
             <Icon name="ic_close" size={24} color="grey600" />
           </button>
           <div className={styles.tooltip({ align: 'end' })}>
-            <Tooltip title="대화창 닫기" />
+            <Tooltip title="AI 패널 닫기" />
           </div>
         </div>
       </div>

@@ -87,18 +87,24 @@ export const itemContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.8rem',
-  padding: '0 0.4rem',
   width: '100%',
   height: '3.6rem',
+});
+
+export const openMemo = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
+  flex: 1,
+  minWidth: 0,
+  height: '100%',
+  padding: '0 0.4rem',
   borderRadius: '8px',
   backgroundColor: themeVars.color.white,
   cursor: 'pointer',
   selectors: {
     '&:hover': {
       backgroundColor: themeVars.color.grey100,
-    },
-    '&:has(button:hover):hover, &:has(button:focus):hover': {
-      backgroundColor: themeVars.color.white,
     },
   },
 });

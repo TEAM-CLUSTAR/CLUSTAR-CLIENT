@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -88,24 +88,17 @@ const SuggestedMemoItem = ({
     onSelectMemo();
   };
 
-  const handleOpenMemoByKeyboard = (e: KeyboardEvent<HTMLLIElement>) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-
-    e.preventDefault();
-    onOpenMemo();
-  };
-
   return (
-    <li
-      className={styles.itemContainer}
-      // TODO: 리스트 클릭 시 메모 상세로 이동
-      onClick={onOpenMemo}
-      onKeyDown={handleOpenMemoByKeyboard}
-      role="button"
-      tabIndex={0}
-    >
-      <Icon name="ic_memo" size={24} color="grey700" />
-      <span className={styles.memo}>{title}</span>
+    <li className={styles.itemContainer}>
+      <button
+        type="button"
+        className={styles.openMemo}
+        aria-label={`${title} 메모 열기`}
+        onClick={onOpenMemo}
+      >
+        <Icon name="ic_memo" size={24} color="grey700" />
+        <span className={styles.memo}>{title}</span>
+      </button>
       <button
         type="button"
         aria-label={
