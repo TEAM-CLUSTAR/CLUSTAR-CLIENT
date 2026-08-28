@@ -19,35 +19,31 @@ interface SuggestedMemoSection {
 
 interface AiPanelProps {
   isDragOver?: boolean;
-  chatRoomId?: number | null;
   suggestedMemoSection?: SuggestedMemoSection;
-  onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const AiPanel = ({
   isDragOver = false,
-  chatRoomId: externalChatRoomId,
   suggestedMemoSection,
-  onLoadingChange,
 }: AiPanelProps) => {
   const { isOpen, selectedMemos, close, addMemo, removeMemo } = useAiPanel();
   const {
-    chatRoomId,
     messages,
     isLoading,
     isAnswerLoading,
+    promptValue,
     answerGeneratingMemoCount,
     isSaveConfirmModalOpen,
     setIsSaveConfirmModalOpen,
     handleCreateNewChat,
+    handlePromptChange,
+    handleOptionSelect,
     handleSubmit,
     handleRegenerate,
     handleSaveToMemo,
   } = useAiPanelChat({
     isOpen,
     selectedMemos,
-    externalChatRoomId,
-    onLoadingChange,
   });
 
   const shouldShowSuggestedMemos =
@@ -82,7 +78,9 @@ const AiPanel = ({
         />
 
         <PromptInput
-          key={chatRoomId}
+          value={promptValue}
+          onPromptChange={handlePromptChange}
+          onOptionSelect={handleOptionSelect}
           onSubmit={handleSubmit}
           disabled={isLoading}
           selectedMemos={selectedMemos}
