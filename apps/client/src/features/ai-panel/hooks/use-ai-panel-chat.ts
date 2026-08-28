@@ -16,9 +16,12 @@ import {
 interface UseAiPanelChatParams {
   isOpen: boolean;
   selectedMemos: SelectedMemoType[];
-  externalChatRoomId?: number | null;
-  onLoadingChange?: (isLoading: boolean) => void;
 }
+
+const DEFAULT_PROMPT_VALUE: PromptInputValueType = {
+  userPrompt: '',
+  option: 'MERGE',
+};
 
 const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE'] as const;
 
@@ -61,8 +64,6 @@ const createAiMessage = ({
 export const useAiPanelChat = ({
   isOpen,
   selectedMemos,
-  externalChatRoomId,
-  onLoadingChange,
 }: UseAiPanelChatParams) => {
   const [internalChatRoomId, setInternalChatRoomId] = useState<number | null>(
     null,
@@ -70,111 +71,133 @@ export const useAiPanelChat = ({
   const [messages, setMessages] = useState<AiPanelMessage[]>([]);
   const [answerGeneratingMemoCount, setAnswerGeneratingMemoCount] = useState(0);
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
+  const [promptValue, setPromptValue] =
+    useState<PromptInputValueType>(DEFAULT_PROMPT_VALUE);
 
   const createChatRoomMutation = useCreateChatRoom();
   const createAiChatMutation = useCreateAiChat();
   const saveAiMemoMutation = useSaveAiMemo();
 
-  const chatRoomId = externalChatRoomId ?? internalChatRoomId;
+  const chatRoomId = internalChatRoomId;
   const memoIds = useMemo(() => getMemoIds(selectedMemos), [selectedMemos]);
   const isLoading =
     createChatRoomMutation.isPending ||
     createAiChatMutation.isPending ||
     saveAiMemoMutation.isPending;
 
-  useEffect(() => {
-    if (!isOpen) {
-      setMessages([]);
-      setInternalChatRoomId(null);
-      return;
-    }
-
-    if (chatRoomId || createChatRoomMutation.isPending) return;
-
-    createChatRoomMutation.mutate(undefined, {
-      onSuccess: (data) => {
-        const newChatRoomId = data.data?.chatRoomId;
-        if (newChatRoomId) {
-          setInternalChatRoomId(newChatRoomId);
-        }
-      },
-    });
-  }, [isOpen, chatRoomId, createChatRoomMutation]);
-
-  useEffect(() => {
-    onLoadingChange?.(isLoading);
-  }, [isLoading, onLoadingChange]);
-
-  const resetChat = () => {
+  const resetChat = useCallback(() => {
     setMessages([]);
     setAnswerGeneratingMemoCount(0);
     setInternalChatRoomId(null);
-  };
+    setPromptValue(DEFAULT_PROMPT_VALUE);
+  }, []);
 
-  const handleSubmit = useCallback(
-    (value: PromptInputValueType) => {
-      const userPrompt = value.userPrompt.trim();
-      if (!userPrompt || !chatRoomId) return false;
+  const appendMessage = useCallback((message: AiPanelMessage) => {
+    setMessages((prev) => [...prev, message]);
+  }, []);
 
-      const option: AiOption = isValidOption(value.option)
-        ? value.option
-        : null;
+  const createChatRoomIfAbsent = useCallback(async () => {
+    if (chatRoomId) return chatRoomId;
 
-      setAnswerGeneratingMemoCount(memoIds.length);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createMessageId('user'),
-          text: userPrompt,
-          type: 'user',
-        },
-      ]);
+    const response = await createChatRoomMutation.mutateAsync();
+    const newChatRoomId = response.data?.chatRoomId ?? null;
 
-      void (async () => {
-        try {
-          const response = await createAiChatMutation.mutateAsync({
-            chatRoomId,
-            body: {
-              userPrompt,
-              option,
-              memoIds,
-            },
-          });
+    if (newChatRoomId) {
+      setInternalChatRoomId(newChatRoomId);
+    }
 
-          const responseData = response.data;
-          if (!responseData) return;
+    return newChatRoomId;
+  }, [chatRoomId, createChatRoomMutation]);
 
-          setMessages((prev) => [
-            ...prev,
-            createAiMessage({
-              content: responseData.content,
-              title: responseData.title,
-              memoIds: responseData.memoIds ?? memoIds,
-              userPrompt,
-              option: isValidOption(responseData.option)
-                ? responseData.option
-                : option,
-            }),
-          ]);
-        } catch {
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: createMessageId('error'),
-              text: 'AI 응답 생성에 실패했습니다. 다시 시도해주세요.',
-              type: 'ai',
-              memoIds,
-              userPrompt,
-              option,
-            },
-          ]);
-        }
-      })();
+  useEffect(() => {
+    if (isOpen) return;
 
-      return true;
+    resetChat();
+  }, [isOpen, resetChat]);
+
+  const handlePromptChange = useCallback((userPrompt: string) => {
+    setPromptValue((prev) => ({ ...prev, userPrompt }));
+  }, []);
+
+  const handleOptionSelect = useCallback(
+    (option: PromptInputValueType['option']) => {
+      setPromptValue((prev) => {
+        if (prev.option === option) return prev;
+
+        return { ...prev, option };
+      });
     },
-    [chatRoomId, createAiChatMutation, memoIds],
+    [],
   );
+
+  const handleSubmit = useCallback(() => {
+    const userPrompt = promptValue.userPrompt.trim();
+    if (!userPrompt) return false;
+
+    const option: AiOption = isValidOption(promptValue.option)
+      ? promptValue.option
+      : null;
+
+    setAnswerGeneratingMemoCount(memoIds.length);
+    appendMessage({
+      id: createMessageId('user'),
+      text: userPrompt,
+      type: 'user',
+    });
+
+    void (async () => {
+      try {
+        const nextChatRoomId = await createChatRoomIfAbsent();
+        if (!nextChatRoomId) {
+          throw new Error('Failed to create AI chat room');
+        }
+
+        const response = await createAiChatMutation.mutateAsync({
+          chatRoomId: nextChatRoomId,
+          body: {
+            userPrompt,
+            option,
+            memoIds,
+          },
+        });
+
+        const responseData = response.data;
+        if (!responseData) return;
+
+        appendMessage(
+          createAiMessage({
+            content: responseData.content,
+            title: responseData.title,
+            memoIds: responseData.memoIds ?? memoIds,
+            userPrompt,
+            option: isValidOption(responseData.option)
+              ? responseData.option
+              : option,
+          }),
+        );
+      } catch {
+        appendMessage({
+          id: createMessageId('error'),
+          text: 'AI 응답 생성에 실패했습니다. 다시 시도해주세요.',
+          type: 'ai',
+          memoIds,
+          userPrompt,
+          option,
+        });
+      }
+    })();
+
+    setPromptValue((prev) => ({ ...prev, userPrompt: '' }));
+
+    return true;
+  }, [
+    appendMessage,
+    createAiChatMutation,
+    createChatRoomIfAbsent,
+    memoIds,
+    promptValue.option,
+    promptValue.userPrompt,
+  ]);
 
   const handleRegenerate = async (messageId: string) => {
     const message = messages.find((item) => item.id === messageId);
@@ -243,14 +266,16 @@ export const useAiPanelChat = ({
   };
 
   return {
-    chatRoomId,
     messages,
     isLoading,
     isAnswerLoading: createAiChatMutation.isPending,
+    promptValue,
     answerGeneratingMemoCount,
     isSaveConfirmModalOpen,
     setIsSaveConfirmModalOpen,
     handleCreateNewChat: resetChat,
+    handlePromptChange,
+    handleOptionSelect,
     handleSubmit,
     handleRegenerate,
     handleSaveToMemo,
