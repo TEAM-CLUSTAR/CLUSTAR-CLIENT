@@ -8,25 +8,26 @@ import SuggestedMemoList, {
   SuggestedMemo,
 } from './components/suggested-memo-list/suggested-memo-list';
 import { useAiPanelChat } from './hooks/use-ai-panel-chat';
-import { SelectedMemoType } from './types/ai-panel.types';
 
 import * as styles from './ai-panel.css';
+
+interface SuggestedMemoSection {
+  memos: SuggestedMemo[];
+  onSelectMemo?: (memo: SuggestedMemo) => void;
+  onOpenMemo?: (memoId: number) => void;
+}
 
 interface AiPanelProps {
   isDragOver?: boolean;
   chatRoomId?: number | null;
-  suggestedMemos?: SuggestedMemo[];
-  onSelectSuggestedMemo?: (memo: SelectedMemoType) => void;
-  onOpenSuggestedMemo?: (memoId: number) => void;
+  suggestedMemoSection?: SuggestedMemoSection;
   onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const AiPanel = ({
   isDragOver = false,
   chatRoomId: externalChatRoomId,
-  suggestedMemos = [],
-  onSelectSuggestedMemo,
-  onOpenSuggestedMemo,
+  suggestedMemoSection,
   onLoadingChange,
 }: AiPanelProps) => {
   const { isOpen, selectedMemos, close, addMemo, removeMemo } = useAiPanel();
@@ -49,11 +50,12 @@ const AiPanel = ({
     onLoadingChange,
   });
 
-  const shouldShowSuggestedMemos = suggestedMemos.length > 0;
+  const shouldShowSuggestedMemos =
+    !!suggestedMemoSection && suggestedMemoSection.memos.length > 0;
 
   const handleSelectSuggestedMemo = (memo: SuggestedMemo) => {
     addMemo(memo);
-    onSelectSuggestedMemo?.(memo);
+    suggestedMemoSection?.onSelectMemo?.(memo);
   };
 
   if (!isOpen) return null;
@@ -65,9 +67,9 @@ const AiPanel = ({
       <div className={styles.content}>
         {shouldShowSuggestedMemos && (
           <SuggestedMemoList
-            memos={suggestedMemos}
+            memos={suggestedMemoSection.memos}
             onSelectMemo={handleSelectSuggestedMemo}
-            onOpenMemo={onOpenSuggestedMemo}
+            onOpenMemo={suggestedMemoSection.onOpenMemo}
           />
         )}
 
