@@ -1,5 +1,6 @@
 import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 
+import { useAiPanel } from './ai-panel-context';
 import AiPanelHeader from './components/ai-panel-header/ai-panel-header';
 import AiPanelChat from './components/chat/ai-panel-chat/ai-panel-chat';
 import PromptInput from './components/prompt-input/prompt-input';
@@ -12,10 +13,6 @@ import { SelectedMemoType } from './types/ai-panel.types';
 import * as styles from './ai-panel.css';
 
 interface AiPanelProps {
-  isAIOpen: boolean;
-  selectedMemos: SelectedMemoType[];
-  handleClose: () => void;
-  onRemoveMemo: (memoId: number) => void;
   isDragOver?: boolean;
   chatRoomId?: number | null;
   suggestedMemos?: SuggestedMemo[];
@@ -25,10 +22,6 @@ interface AiPanelProps {
 }
 
 const AiPanel = ({
-  isAIOpen,
-  selectedMemos,
-  handleClose,
-  onRemoveMemo,
   isDragOver = false,
   chatRoomId: externalChatRoomId,
   suggestedMemos = [],
@@ -36,6 +29,7 @@ const AiPanel = ({
   onOpenSuggestedMemo,
   onLoadingChange,
 }: AiPanelProps) => {
+  const { isOpen, selectedMemos, close, addMemo, removeMemo } = useAiPanel();
   const {
     chatRoomId,
     messages,
@@ -49,29 +43,30 @@ const AiPanel = ({
     handleRegenerate,
     handleSaveToMemo,
   } = useAiPanelChat({
-    isOpen: isAIOpen,
+    isOpen,
     selectedMemos,
     externalChatRoomId,
     onLoadingChange,
   });
 
-  const shouldShowSuggestedMemos =
-    suggestedMemos.length > 0 && !!onSelectSuggestedMemo;
+  const shouldShowSuggestedMemos = suggestedMemos.length > 0;
 
-  if (!isAIOpen) return null;
+  const handleSelectSuggestedMemo = (memo: SuggestedMemo) => {
+    addMemo(memo);
+    onSelectSuggestedMemo?.(memo);
+  };
+
+  if (!isOpen) return null;
 
   return (
     <aside className={styles.container} aria-label="AI 생성하기">
-      <AiPanelHeader
-        onCreateNewChat={handleCreateNewChat}
-        onClose={handleClose}
-      />
+      <AiPanelHeader onCreateNewChat={handleCreateNewChat} onClose={close} />
 
       <div className={styles.content}>
         {shouldShowSuggestedMemos && (
           <SuggestedMemoList
             memos={suggestedMemos}
-            onSelectMemo={onSelectSuggestedMemo}
+            onSelectMemo={handleSelectSuggestedMemo}
             onOpenMemo={onOpenSuggestedMemo}
           />
         )}
@@ -89,7 +84,7 @@ const AiPanel = ({
           onSubmit={handleSubmit}
           disabled={isLoading}
           selectedMemos={selectedMemos}
-          onRemoveMemo={onRemoveMemo}
+          onRemoveMemo={removeMemo}
           isDragOver={isDragOver}
         />
       </div>
