@@ -9,10 +9,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>
       <div className={styles.root}>
-        <div className={styles.content}>
-          <Sidebar />
-          <div className={styles.mainContent}>{children}</div>
-        </div>
+        <Sidebar />
+        <div className={styles.mainContent}>{children}</div>
       </div>
     </SidebarProvider>
   );
