@@ -2,14 +2,16 @@ import { Icon } from '@cds/icon';
 
 import * as styles from './file.css';
 
-interface MemoDetailFile {
+// TODO: memo-editor.tsx의 MemoEditorFile을 import하는 상위 브랜치에서
+// 이 로컬 타입을 지우고 그쪽 타입으로 교체해주세요.
+interface MemoEditorFile {
   fileUrl: string;
   fileName: string;
   fileSize: string;
 }
 
 interface FileProps {
-  file: MemoDetailFile;
+  file: MemoEditorFile;
 }
 
 const File = ({ file }: FileProps) => {
