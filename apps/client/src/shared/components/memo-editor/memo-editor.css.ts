@@ -39,11 +39,15 @@ export const contentGroup = style({
 
 export const title = style({
   ...themeVars.fontStyles.title_sb_24,
+  width: '100%',
   color: themeVars.color.grey800,
   overflowX: 'auto',
   whiteSpace: 'nowrap',
   scrollbarWidth: 'none',
   padding: '1.2rem',
+  border: 'none',
+  outline: 'none',
+  backgroundColor: 'transparent',
 
   selectors: {
     '&::-webkit-scrollbar': {
@@ -54,10 +58,16 @@ export const title = style({
 
 export const content = style({
   ...themeVars.fontStyles.body_m_16,
+  width: '100%',
+  minHeight: '20rem',
   color: themeVars.color.grey800,
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',
   padding: '1.2rem',
+  border: 'none',
+  outline: 'none',
+  resize: 'none',
+  backgroundColor: 'transparent',
 });
 
 export const fileList = style({
@@ -146,4 +156,28 @@ export const iconButton = style({
 
 export const hiddenInput = style({
   display: 'none',
+});
+
+export const tooltipWrapper = style({
+  position: 'relative',
+  display: 'inline-flex',
+});
+
+export const tooltipBubble = style({
+  position: 'absolute',
+  bottom: '100%',
+  left: 0,
+  transform: 'translateY(-0.4rem)',
+  visibility: 'hidden',
+  opacity: 0,
+  transition: 'opacity 0.15s ease',
+  zIndex: themeVars.zIndex.default,
+  pointerEvents: 'none',
+
+  selectors: {
+    [`${tooltipWrapper}:hover &`]: {
+      visibility: 'visible',
+      opacity: 1,
+    },
+  },
 });
