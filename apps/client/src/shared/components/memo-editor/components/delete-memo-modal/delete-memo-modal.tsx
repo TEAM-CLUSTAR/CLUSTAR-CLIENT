@@ -4,11 +4,12 @@ import { Button, Modal } from '@cds/ui';
 import * as styles from './delete-memo-modal.css';
 
 interface DeleteMemoModalProps {
-  memoId: number;
+  /** null이면 아직 저장되지 않은 새 메모라서 API 요청 없이 삭제해요. */
+  memoId: number | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   /** 메모 삭제 성공 시 호출돼요. 상위(탭)에서 닫기 등 후처리를 담당해요. */
-  onDeleted?: () => void;
+  onDeleted: () => void;
 }
 
 const DeleteMemoModal = ({
@@ -18,10 +19,13 @@ const DeleteMemoModal = ({
   onDeleted,
 }: DeleteMemoModalProps) => {
   const handleDeleteMemo = () => {
-    // TODO: 메모 삭제 API 연동이 다른 브랜치 작업으로 빠졌어요.
-    // memoId로 삭제 Mutation을 추가하고, 성공 시 onDeleted를 호출해요.
-    void memoId;
-    void onDeleted;
+    if (memoId == null) {
+      onDeleted();
+      return;
+    }
+
+    // TODO: 기존 메모 삭제 API 작업에서 memoId로 Mutation을 호출하고,
+    // 성공한 경우에만 onDeleted를 호출해요.
   };
 
   return (
