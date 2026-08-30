@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router';
 
 import { Modal } from '@cds/ui';
 
-import memoImage from '@shared/assets/images/empty-state/memo_image.svg';
-import searchImage from '@shared/assets/images/empty-state/search_image.svg';
+import memoImage from '@shared/assets/images/empty-state/memo-image.svg';
+import searchImage from '@shared/assets/images/empty-state/search-image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 
 import type { MemoRecentViewedSource } from './apis/type';
