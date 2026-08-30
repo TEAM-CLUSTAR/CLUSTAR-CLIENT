@@ -1,13 +1,29 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const container = style({
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
+export const container = recipe({
+  base: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  variants: {
+    fullHeight: {
+      true: {
+        width: '100%',
+        minHeight: '100vh',
+        backgroundColor: themeVars.color.grey50,
+      },
+      false: {},
+    },
+  },
+  defaultVariants: {
+    fullHeight: false,
+  },
 });
 
 export const img = style({
@@ -36,6 +52,7 @@ export const button = style({
   height: '4rem',
   marginTop: '3.2rem',
   padding: '0 2rem',
+  border: 'none',
   borderRadius: '8px',
   backgroundColor: themeVars.color.blue500,
   color: themeVars.color.white,
