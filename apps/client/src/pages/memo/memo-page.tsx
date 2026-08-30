@@ -1,7 +1,7 @@
 import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
-import MemoEditor from '@shared/components/memo-editor/memo-editor';
+import MemoDetail from '@shared/components/memo-detail/memo-detail';
 
 import * as styles from './memo-page.css';
 
@@ -10,7 +10,7 @@ const NewMemoPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <MemoEditor memoId={null} onDeleted={() => navigate(PATH.MEMOS)} />
+      <MemoDetail memoId={null} onDeleted={() => navigate(PATH.MEMOS)} />
     </div>
   );
 };

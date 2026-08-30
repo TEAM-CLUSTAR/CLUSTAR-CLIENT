@@ -4,7 +4,6 @@ import { Button, Modal } from '@cds/ui';
 import * as styles from './delete-memo-modal.css';
 
 interface DeleteMemoModalProps {
-  /** null이면 아직 저장되지 않은 새 메모라서 API 요청 없이 삭제해요. */
   memoId: number | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;

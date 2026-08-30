@@ -1,11 +1,11 @@
 import { Icon } from '@cds/icon';
 
-import { MemoEditorFile } from '../../memo-editor';
+import { MemoDetailFile } from '../../memo-detail';
 
 import * as styles from './file.css';
 
 interface FileProps {
-  file: MemoEditorFile;
+  file: MemoDetailFile;
 }
 
 const File = ({ file }: FileProps) => {
