@@ -4,6 +4,7 @@ import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
+import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
 import DeleteMemoModal from './components/delete-memo-modal/delete-memo-modal';
@@ -113,19 +114,20 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
                 }
               />
             </div>
-
-            <textarea
-              className={styles.content}
+            <MarkdownEditor
               value={content}
-              placeholder="내용을 입력해주세요."
-              aria-label="메모 내용"
-              onChange={(event) =>
+              onChange={(markdown) =>
                 setMemo((previousMemo) => ({
                   ...previousMemo,
-                  content: event.target.value,
+                  content: markdown,
                 }))
               }
-            />
+            >
+              <MarkdownEditor.Input
+                className={styles.content}
+                placeholder="내용을 입력해주세요."
+              />
+            </MarkdownEditor>
           </div>
 
           {files.length > 0 && (

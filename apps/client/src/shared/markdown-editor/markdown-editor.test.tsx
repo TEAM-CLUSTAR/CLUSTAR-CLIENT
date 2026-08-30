@@ -16,7 +16,7 @@ const renderEditor = (initialValue: string) => {
 
     return (
       <MarkdownEditor value={value} onChange={setValue}>
-        <MarkdownEditor.Input />
+        <MarkdownEditor.Input placeholder="내용을 입력해주세요." />
       </MarkdownEditor>
     );
   };
