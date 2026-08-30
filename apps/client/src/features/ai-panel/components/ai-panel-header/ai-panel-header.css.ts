@@ -52,7 +52,7 @@ export const tooltip = recipe({
   base: {
     position: 'absolute',
     top: 'calc(100% + 0.4rem)',
-    zIndex: themeVars.zIndex.modalContent,
+    zIndex: themeVars.zIndex.aiPanel,
     opacity: 0,
     pointerEvents: 'none',
     transition: 'opacity 120ms ease',
