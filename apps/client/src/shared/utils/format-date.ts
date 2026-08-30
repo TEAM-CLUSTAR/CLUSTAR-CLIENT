@@ -4,6 +4,7 @@ interface DatePartsTypes {
   day: string;
 }
 
+// @TODO: format 함수를 하나로 만들기(확장성)
 const getDateParts = (dateString: string): DatePartsTypes => {
   const date = new Date(dateString);
   return {
