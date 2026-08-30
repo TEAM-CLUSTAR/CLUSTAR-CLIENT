@@ -1,3 +1,6 @@
+import { PATH } from '@router/path';
+import { useNavigate } from 'react-router';
+
 import { Modal } from '@cds/ui';
 
 import memoImage from '@shared/assets/images/empty-state/memo_image.svg';
@@ -34,6 +37,7 @@ const getRecentSectionTitle = (source: MemoRecentViewedSource) => {
 };
 
 const MemoSearchModal = ({ open, onOpenChange }: MemoSearchModalProps) => {
+  const navigate = useNavigate();
   const {
     searchValue,
     recentMemos,
@@ -53,8 +57,9 @@ const MemoSearchModal = ({ open, onOpenChange }: MemoSearchModalProps) => {
     : getRecentSectionTitle(recentSource);
   const emptyState = isSearchResult ? EMPTY_STATE.search : EMPTY_STATE.recent;
 
-  const handleClickMemo = () => {
-    onOpenChange(false);
+  const handleClickMemo = (memoId: number) => {
+    navigate(`${PATH.MEMO}/${memoId}`);
+    handleOpenChange(false);
   };
 
   return (

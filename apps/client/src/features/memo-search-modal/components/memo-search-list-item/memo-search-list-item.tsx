@@ -19,7 +19,6 @@ const MemoSearchListItem = ({ memo, onClickMemo }: MemoSearchListItemProps) => {
   const visibleTags = tags.slice(0, MAX_TAG_COUNT);
 
   const handleClickMemo = () => {
-    // TODO: 메모 상세 페이지 URL이 추가되면 Link으로 변경 예정
     onClickMemo(memoId);
   };
 
