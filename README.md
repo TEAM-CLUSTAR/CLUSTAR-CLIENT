@@ -418,21 +418,29 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
     │   ├── main.tsx
     │   └── App.tsx
     ├── pages/
-    │   ├── home/               // 페이지 단위 도메인 폴더
+    │   ├── memos/               // 페이지 단위 도메인 폴더
     │   │   ├── apis/           // 도메인 관련 API
     │   │   ├── components/     // 도메인 관련 컴포넌트
     │   │   ├── utils/          // 도메인 관련 유틸 함수
     │   │   ├── hooks/          // 도메인 관련 훅
     │   │   └── home-page.tsx  // 도메인 UI
-    │   ├── ai-results/
-    │   ├── login/
     │   ├── memo/
+    │   ├── structure/
+    │   ├── login/
     │   ├── landing/
+    │   └── ...
+    ├── layouts/
+    │   ├── dashboard-layout/
+    │   ├── auth-layout/
     │   └── ...
     ├── router/                  // 라우팅 설정
     │   ├── path.ts
     │   ├── lazy.ts
     │   ├── router.ts
+    │   └── ...
+    ├── features/
+    │   ├── ai-pannel/
+    │   ├── sidebar/
     │   └── ...
     └── shared/                  // 공통으로 사용되는 것들을 모아놓은 폴더
         ├── api/                 // 공통 API 설정
@@ -455,9 +463,9 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
     │   └── src/
     |       ├── components
     |       ├── styles
-    |       ├── token
     │       └── ...
     ├── cds-icons/             // 아이콘 패키지(React 컴포넌트화된 SVG 등)
+    ├── cds-token/
     ├── eslint-config/         // 공통 ESLint 설정 패키지
     └── typescript-config/     // 공통 TS config 패키지
 └── pnpm-workspace.yaml        // 카탈로그 설정 파일
