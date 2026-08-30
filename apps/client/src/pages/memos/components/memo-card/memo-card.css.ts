@@ -10,7 +10,6 @@ const baseStyle = {
   gap: '1.8rem',
 
   padding: '2.4rem',
-  width: '38rem',
   minWidth: '34rem',
   maxWidth: '100%',
   height: '22rem',

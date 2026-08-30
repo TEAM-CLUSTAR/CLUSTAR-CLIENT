@@ -1,9 +1,12 @@
+import { useState } from 'react';
+import FilterModal from '@features/filter-modal/filter-modal';
 import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import EmptyView from '@shared/components/empty-view/empty-view';
 
 import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
+import Header from './components/header/header';
 import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
 
@@ -16,6 +19,7 @@ const AllMemoPage = () => {
   const [searchParams] = useSearchParams();
   const tagParam = searchParams.get('tag');
   const tagIds = tagParam !== null ? [Number(tagParam)] : undefined;
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const {
     data: memosList,
@@ -33,8 +37,6 @@ const AllMemoPage = () => {
 
   return (
     <>
-      {/* MemoHeader 컴포넌트 */}
-
       <div className={styles.container}>
         {totalCount === 0 ? (
           <EmptyView
@@ -46,6 +48,22 @@ const AllMemoPage = () => {
           />
         ) : (
           <>
+            <div className={styles.headerContainer}>
+              <Header
+                title="전체 메모"
+                count={totalCount ?? 0}
+                isFilterActive={false}
+                onOpenFilter={() => setIsFilterOpen(true)}
+                filterChips={[]}
+                onRemoveFilter={() => {}}
+              />
+              <FilterModal
+                open={isFilterOpen}
+                selectedTagIds={[]}
+                onOpenChange={setIsFilterOpen}
+                onApply={() => setIsFilterOpen(false)}
+              />
+            </div>
             {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
             <MemoCardList
               cards={memosList ?? []}
