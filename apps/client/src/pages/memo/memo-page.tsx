@@ -52,7 +52,7 @@ const MemoPage = () => {
         memoId={memoId}
         onDeleteMemo={() => closeTab(activeTabId, true)}
         onTitleChange={(title) => renameTab(activeTabId, title)}
-        initialTagPopoverOpen={locationState?.openTagPopover ?? false}
+        defaultTagPopoverOpen={locationState?.openTagPopover ?? false}
       />
     </div>
   );

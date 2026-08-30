@@ -69,14 +69,14 @@ interface MemoDetailProps {
   memoId: number | null;
   onDeleteMemo: () => void;
   onTitleChange: (title: string) => void;
-  initialTagPopoverOpen?: boolean;
+  defaultTagPopoverOpen?: boolean;
 }
 
 const MemoDetail = ({
   memoId: selectedMemoId,
   onDeleteMemo,
   onTitleChange,
-  initialTagPopoverOpen = false,
+  defaultTagPopoverOpen = false,
 }: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -85,7 +85,7 @@ const MemoDetail = ({
 
   // TODO: 자동 저장 API 작업에서 memo 변경을 debounce하여 저장해요.
   const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(
-    initialTagPopoverOpen,
+    defaultTagPopoverOpen,
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { memoId, title, content, images, files, updatedAt } = memo;
