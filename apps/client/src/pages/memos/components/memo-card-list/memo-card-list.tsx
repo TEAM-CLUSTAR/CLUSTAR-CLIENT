@@ -63,8 +63,7 @@ const MemoCardList = ({
       preview.style.width = `${rect.width}px`;
       preview.style.height = `${rect.height}px`;
       preview.style.pointerEvents = 'none';
-      // 복제 시점엔 아직 isDragging 리렌더가 반영되지 않으므로, 클래스를
-      // 드래그 상태 스타일로 직접 교체해 고스트가 드래그 중 모습으로 보이게 한다.
+      preview.setAttribute('aria-hidden', 'true');
       preview.className = cardContainer({
         isSelected: selectedMemoIds.includes(memo.memoId),
         isDragging: true,
