@@ -35,3 +35,15 @@ export type PatchMemoResponse =
  */
 export type DeleteMemoResponse =
   paths['/api/v1/memo/{memoId}']['delete']['responses']['200']['content']['*/*'];
+
+/**
+ * @description presigned URL 발급 요청 바디
+ */
+export type PostPresignedUrlsRequestBody =
+  paths['/api/v1/memo/presigned-urls']['post']['requestBody']['content']['application/json'];
+
+/**
+ * @description presigned URL 발급 응답
+ */
+export type PostPresignedUrlsResponse =
+  paths['/api/v1/memo/presigned-urls']['post']['responses']['200']['content']['*/*'];

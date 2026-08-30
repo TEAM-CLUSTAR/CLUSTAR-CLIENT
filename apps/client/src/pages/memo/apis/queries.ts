@@ -3,9 +3,11 @@ import {
   queryOptions,
   skipToken,
 } from '@tanstack/react-query';
+import axios from 'axios';
 
 import { api } from '@shared/apis/instance';
 
+import { MemoType } from '../types/memo-type';
 import { MEMO_END_POIINT } from './end-point';
 import { MEMO_KEY } from './query-key';
 import {
@@ -15,6 +17,8 @@ import {
   PatchMemoResponse,
   PostMemoRequestBody,
   PostMemoResponse,
+  PostPresignedUrlsRequestBody,
+  PostPresignedUrlsResponse,
 } from './type';
 
 interface PatchMemoParams {
@@ -32,6 +36,10 @@ const getMemo = async (memoId: number): Promise<GetMemoResponse> => {
   return response.data;
 };
 
+/**
+ * 훅이 아니라 queryOptions를 만드는 함수예요.
+ * 컴포넌트 밖(저장 직후 강제 갱신 등)에서도 같은 키·조회 방식을 쓰려고 이름에서 use를 뺐어요.
+ */
 export const useGetMemo = (memoId: number | null) => {
   return queryOptions({
     queryKey: MEMO_KEY.GET(memoId),
@@ -104,4 +112,59 @@ export const useDeleteMemo = () => {
     mutationKey: MEMO_KEY.DELETE(),
     mutationFn: deleteMemo,
   });
+};
+
+// ==========================================================================
+// ==========================================================================
+
+/**
+ * 이미지·파일 업로드용 presigned URL 발급
+ * @param body - 업로드할 이미지/파일의 확장자·크기·정렬 순서
+ * @returns 업로드할 presigned URL과 저장 시 함께 보낼 s3Key
+ */
+const issuePresignedUrls = async (
+  body: PostPresignedUrlsRequestBody,
+): Promise<PostPresignedUrlsResponse> => {
+  const response = await api.post<PostPresignedUrlsResponse>(
+    MEMO_END_POIINT.PRESIGNED_URLS,
+    body,
+  );
+  return response.data;
+};
+
+export const useIssuePresignedUrls = () => {
+  return mutationOptions({
+    mutationKey: MEMO_KEY.PRESIGNED_URLS(),
+    mutationFn: issuePresignedUrls,
+  });
+};
+
+/**
+ * S3에 파일 업로드
+ */
+export const uploadToS3 = async (
+  presignedUrl: string,
+  contentType: string,
+  file: File,
+) => {
+  await axios.put(presignedUrl, file, {
+    headers: { 'Content-Type': contentType },
+  });
+};
+
+/**
+ * 서버가 주는 첨부는 모두 저장된 상태라, 화면이 쓰는 도메인 모양으로 상태를 붙임.
+ */
+export const toMemoDetail = (response: GetMemoResponse): MemoType => {
+  const memoDetail = response.data;
+
+  if (memoDetail === undefined) {
+    throw new Error();
+  }
+
+  return {
+    ...memoDetail,
+    images: memoDetail.images.map((image) => ({ ...image, status: 'saved' })),
+    files: memoDetail.files.map((file) => ({ ...file, status: 'saved' })),
+  };
 };
