@@ -5,6 +5,7 @@ import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { useFlatTags } from '@shared/apis/tag/queries';
+import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
 import EmptyView from '@shared/components/empty-view/empty-view';
 
 import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
@@ -13,8 +14,6 @@ import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
 
 import * as styles from './memos-page.css';
-
-import emptyImage from '/empty.svg';
 
 const MemosPage = () => {
   const navigate = useNavigate();
@@ -93,7 +92,7 @@ const MemosPage = () => {
       <div className={styles.scrollArea}>
         {totalCount === 0 ? (
           <EmptyView
-            imgSrc={emptyImage}
+            imgSrc={emptyMemoImage}
             title="작성된 메모가 없습니다."
             description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
             buttonText="메모 작성하러 가기"
