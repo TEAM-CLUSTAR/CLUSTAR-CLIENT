@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import MemoSearchModal from '@features/memo-search-modal/memo-search-modal';
 import { PATH } from '@router/path';
 
@@ -14,7 +13,10 @@ import * as styles from '../sidebar.css';
 interface SidebarMenuSectionProps {
   selection: SidebarSelection;
   onSelectMenu: (path: string) => void;
+  onClickSearch: () => void;
   onExpand: () => void;
+  isSearchMoalOpen: boolean;
+  setIsSearchModalOpen: (value: boolean) => void;
 }
 
 interface MenuEntry {
@@ -42,30 +44,22 @@ const MENU_ITEMS: MenuEntry[] = [
 const SidebarMenuSection = ({
   selection,
   onSelectMenu,
-  onExpand,
+  onClickSearch,
+  isSearchMoalOpen,
+  setIsSearchModalOpen,
 }: SidebarMenuSectionProps) => {
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const selectedMenuPath = selection.type === 'menu' ? selection.path : null;
-
-  const handleClickSearch = () => {
-    onExpand();
-    setIsSearchModalOpen(true);
-  };
 
   return (
     <ul className={styles.pannelList}>
       <li key="search" className={styles.pannelItem}>
-        <MenuItem
-          iconName="ic_search"
-          content="검색"
-          onClick={handleClickSearch}
-        />
+        <MenuItem iconName="ic_search" content="검색" onClick={onClickSearch} />
         <div className={styles.tooltip}>
           <Tooltip title="검색" />
         </div>
       </li>
       <MemoSearchModal
-        open={isSearchModalOpen}
+        open={isSearchMoalOpen}
         onOpenChange={setIsSearchModalOpen}
       />
       {MENU_ITEMS.map(({ id, iconName, text, path }) => (

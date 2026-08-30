@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useAiPanel } from '@features/ai-panel';
 import { PATH } from '@router/path';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
@@ -5,6 +7,8 @@ import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
 import MenuItem from '@shared/components/menu-item/menu-item';
+import { DESKTOP_MEDIA_QUERY } from '@shared/constants/media-query';
+import { useMediaQuery } from '@shared/hooks/use-media-query';
 
 import { useSidebar } from './sidebar-context';
 import SidebarMenuSection from './sidebar-menu-section/sidebar-menu-section';
@@ -15,11 +19,17 @@ import * as styles from './sidebar.css';
 
 const Sidebar = () => {
   const { isExpanded, toggleSidebar, expand } = useSidebar();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const { isOpen } = useAiPanel();
+  const isNarrowLayout = useMediaQuery(`(max-width: ${DESKTOP_MEDIA_QUERY})`);
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const tagParam = searchParams.get('tag');
+
+  const isSidebarCollapse = isNarrowLayout && isOpen;
+  const isSidebarExpanded = isExpanded && !isSidebarCollapse;
 
   // 태그 선택은 `/memos?tag=`로 이동해 pathname이 모든 메모와 같아지므로,
   // 태그가 경로보다 우선한다는 규칙을 여기 한 곳에서만 정한다.
@@ -33,18 +43,23 @@ const Sidebar = () => {
     expand();
   };
 
+  const handleSelectSearch = () => {
+    expand();
+    setIsSearchModalOpen(true);
+  };
+
   const handleSelectTag = (tagId: number) => {
     navigate(`${PATH.MEMOS}?tag=${tagId}`);
   };
 
   return (
-    <nav className={styles.sidebar} data-expanded={isExpanded}>
+    <nav className={styles.sidebar} data-expanded={isSidebarExpanded}>
       {/* header */}
       <header className={styles.header}>
         <button
           className={styles.logoButton}
           onClick={toggleSidebar}
-          disabled={isExpanded}
+          disabled={isSidebarCollapse}
           aria-label="사이드바 토글"
         >
           <Icon name="ic_logo_symbol" size={32} className={styles.logoSymbol} />
@@ -71,6 +86,9 @@ const Sidebar = () => {
           selection={selection}
           onSelectMenu={handleSelectMenu}
           onExpand={expand}
+          onClickSearch={handleSelectSearch}
+          setIsSearchModalOpen={setIsSearchModalOpen}
+          isSearchMoalOpen={isSearchModalOpen}
         />
       </section>
 
@@ -79,7 +97,7 @@ const Sidebar = () => {
         <span className={styles.sectionTitle}>태그</span>
         <hr className={styles.collapsedDivider} />
         <SidebarTagSection
-          isExpanded={isExpanded}
+          isExpanded={isSidebarExpanded}
           selection={selection}
           onSelectTag={handleSelectTag}
           onExpand={expand}
