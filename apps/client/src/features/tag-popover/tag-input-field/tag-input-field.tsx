@@ -3,17 +3,9 @@ import { KeyboardEvent } from 'react';
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
 
-import { TagNode } from '@shared/apis/tag/type';
+import { TagInputFieldProps } from '../type';
 
 import * as styles from './tag-input-field.css';
-
-interface TagInputFieldProps {
-  selectedTags: TagNode[];
-  onRemoveTag: (tagId: number) => void;
-  isOpen: boolean;
-  onFocus: () => void;
-  onEnter?: (value: string) => boolean;
-}
 
 const TagInputField = ({
   selectedTags,
