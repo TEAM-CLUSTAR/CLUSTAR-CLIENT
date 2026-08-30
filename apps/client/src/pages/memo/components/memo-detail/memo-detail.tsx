@@ -4,14 +4,24 @@ import TagPopover from '@features/tag-popover/tag-popover';
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
-import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
+import { TagNode } from '@shared/apis/tag/type';
 import { MarkdownEditor } from '@shared/markdown-editor';
+import { TreeNode } from '@shared/utils/build-tree';
 import { formatFullDate } from '@shared/utils/format-date';
 
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 
 import * as styles from './memo-detail.css';
+
+// TODO: 태그 트리 임시 데이터
+const EMPTY_TAG_TREE: TreeNode<TagNode> = {
+  tagId: 0,
+  name: '',
+  color: '',
+  parentId: null,
+  children: [],
+};
 
 const getMemoDetail = (memoId: number | null): MemoDetailValue => {
   const currentDate = new Date().toISOString();
@@ -92,24 +102,6 @@ const MemoDetail = ({
   const currentDate = new Date().toISOString();
   const footerDate = memoId == null ? currentDate : updatedAt;
 
-  const { data: tagRoots = [] } = useGetTag();
-  const { data: flatTags = [] } = useFlatTags();
-  const [activeParentId, setActiveParentId] = useState<number>();
-  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
-
-  const activeParent =
-    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
-  const selectedTags = flatTags.filter((tag) =>
-    selectedTagIds.includes(tag.tagId),
-  );
-
-  const handleToggleTag = (tagId: number) => {
-    setSelectedTagIds((prev) =>
-      prev.includes(tagId)
-        ? prev.filter((id) => id !== tagId)
-        : [...prev, tagId],
-    );
-  };
   const handleAttachClick = () => {};
   const handleFileChange = () => {};
 
@@ -125,22 +117,20 @@ const MemoDetail = ({
         <div className={styles.container}>
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
-              {activeParent && (
-                <TagPopover
-                  mode="browse"
-                  selectedTags={selectedTags}
-                  onRemoveTag={handleToggleTag}
-                  isOpen={isTagPopoverOpen}
-                  onFocus={() => setIsTagPopoverOpen(true)}
-                  parentTags={tagRoots}
-                  selectedParentId={activeParent.tagId}
-                  onSelectParent={setActiveParentId}
-                  tagTree={activeParent}
-                  selectedIds={selectedTagIds}
-                  onToggleTag={handleToggleTag}
-                  onClose={() => setIsTagPopoverOpen(false)}
-                />
-              )}
+              <TagPopover
+                mode="browse"
+                selectedTags={[]}
+                onRemoveTag={() => {}}
+                isOpen={isTagPopoverOpen}
+                onFocus={() => setIsTagPopoverOpen(true)}
+                parentTags={[]}
+                selectedParentId={EMPTY_TAG_TREE.tagId}
+                onSelectParent={() => {}}
+                tagTree={EMPTY_TAG_TREE}
+                selectedIds={[]}
+                onToggleTag={() => {}}
+                onClose={() => setIsTagPopoverOpen(false)}
+              />
 
               <input
                 className={styles.title}
