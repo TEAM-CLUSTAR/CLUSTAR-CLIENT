@@ -1,11 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { mutationOptions, useQuery } from '@tanstack/react-query';
 
 import { buildTree } from '@shared/utils/build-tree';
 
 import { api } from '../instance';
 import { TAG_END_POINT } from './end-point';
 import { TAG_KEY } from './query-key';
-import { TagListApiResponse, TagNode, TagType } from './type';
+import {
+  TagCreateRequest,
+  TagCreateResponse,
+  TagListApiResponse,
+  TagNode,
+  TagType,
+} from './type';
 
 /**
  * 태그 정보 조회
@@ -44,5 +50,27 @@ export const useFlatTags = () => {
     queryKey: TAG_KEY.GET_ALL(),
     queryFn: getTag,
     select: (response) => response.data?.tags?.filter(hasTagId) ?? [],
+  });
+};
+
+/**
+ * 태그 생성
+ * @param body - 태그 이름과, 하위 태그로 만들 경우의 부모 태그 ID
+ * @returns 생성된 태그 정보
+ */
+const createTag = async (
+  body: TagCreateRequest,
+): Promise<TagCreateResponse> => {
+  const response = await api.post<TagCreateResponse>(
+    TAG_END_POINT.POST_TAG,
+    body,
+  );
+  return response.data;
+};
+
+export const usePostTag = () => {
+  return mutationOptions({
+    mutationKey: TAG_KEY.POST(),
+    mutationFn: createTag,
   });
 };

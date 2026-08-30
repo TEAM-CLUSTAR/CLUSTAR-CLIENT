@@ -7,7 +7,9 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
+import { useFlatTags, useGetTag, usePostTag } from '@shared/apis/tag/queries';
+import { TAG_KEY } from '@shared/apis/tag/query-key';
+import { TagNode } from '@shared/apis/tag/type';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -96,6 +98,96 @@ const MemoDetail = ({
     editMemo({ tagList: [...tagList, tagToAdd] });
   };
 
+  const nextLocalTagIdRef = useRef(-1);
+  const tagListRef = useRef(tagList);
+  tagListRef.current = tagList;
+
+  const { mutateAsync: createTag } = useMutation(usePostTag());
+
+  const resolveTagCreateRequest = (
+    name: string,
+  ): { name: string; parentTagId?: number; parentColor?: string } => {
+    const segments = name.split('/').map((segment) => segment.trim());
+    if (segments.length === 1 || segments.some((segment) => segment === '')) {
+      return { name: segments[segments.length - 1] };
+    }
+
+    const childName = segments[segments.length - 1];
+    const immediateParentName = segments[segments.length - 2];
+
+    const parentTag = flatTags.find(
+      (tag) => tag.name.toLowerCase() === immediateParentName.toLowerCase(),
+    );
+
+    if (!parentTag) {
+      return { name };
+    }
+
+    return {
+      name: childName,
+      parentTagId: parentTag.tagId,
+      parentColor: parentTag.color,
+    };
+  };
+
+  const handleCreateTag = (rawName: string) => {
+    const trimmedName = rawName.trim();
+    if (trimmedName === '') {
+      return false;
+    }
+
+    const { name, parentTagId, parentColor } =
+      resolveTagCreateRequest(trimmedName);
+
+    const isAlreadySelected = tagList.some(
+      (tag) => tag.name.toLowerCase() === name.toLowerCase(),
+    );
+    if (isAlreadySelected) {
+      return false;
+    }
+
+    const existingTag = flatTags.find(
+      (tag) =>
+        tag.name.toLowerCase() === name.toLowerCase() &&
+        (parentTagId === undefined || tag.parentId === parentTagId),
+    );
+    if (existingTag) {
+      editMemo({ tagList: [...tagList, existingTag] });
+      return true;
+    }
+
+    const tempTagId = nextLocalTagIdRef.current--;
+    const tempTag: TagNode = {
+      tagId: tempTagId,
+      name,
+      color: parentColor ?? 'blue',
+      parentId: parentTagId ?? null,
+    };
+    editMemo({ tagList: [...tagList, tempTag] });
+
+    createTag({ name, parentTagId })
+      .then((response) => {
+        const createdTag = response.data;
+        if (createdTag === undefined) {
+          return;
+        }
+
+        editMemo({
+          tagList: tagListRef.current.map((tag) =>
+            tag.tagId === tempTagId ? createdTag : tag,
+          ),
+        });
+        queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
+      })
+      .catch(() => {
+        editMemo({
+          tagList: tagListRef.current.filter((tag) => tag.tagId !== tempTagId),
+        });
+      });
+
+    return true;
+  };
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextTitle = event.target.value;
 
@@ -155,6 +247,7 @@ const MemoDetail = ({
                   onRemoveTag={handleToggleTag}
                   isOpen={isTagPopoverOpen}
                   onFocus={() => setIsTagPopoverOpen(true)}
+                  onEnter={handleCreateTag}
                   parentTags={tagRoots}
                   selectedParentId={activeParent.tagId}
                   onSelectParent={setActiveParentId}
