@@ -11,6 +11,8 @@ import { useAiPanelChat } from './hooks/use-ai-panel-chat';
 
 import * as styles from './ai-panel.css';
 
+const AI_PANEL_TITLE_ID = 'ai-panel-title';
+
 interface SuggestedMemoSection {
   memos: SuggestedMemo[];
   onSelectMemo?: (memo: SuggestedMemo) => void;
@@ -57,8 +59,12 @@ const AiPanel = ({
   if (!isOpen) return null;
 
   return (
-    <aside className={styles.container} aria-label="AI 생성하기">
-      <AiPanelHeader onCreateNewChat={handleCreateNewChat} onClose={close} />
+    <aside className={styles.container} aria-labelledby={AI_PANEL_TITLE_ID}>
+      <AiPanelHeader
+        titleId={AI_PANEL_TITLE_ID}
+        onCreateNewChat={handleCreateNewChat}
+        onClose={close}
+      />
 
       <div className={styles.content}>
         {shouldShowSuggestedMemos && (

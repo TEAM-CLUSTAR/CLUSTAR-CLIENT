@@ -4,16 +4,23 @@ import { Tooltip } from '@cds/ui';
 import * as styles from './ai-panel-header.css';
 
 interface AiPanelHeaderProps {
+  titleId: string;
   onCreateNewChat: () => void;
   onClose: () => void;
 }
 
-const AiPanelHeader = ({ onCreateNewChat, onClose }: AiPanelHeaderProps) => {
+const AiPanelHeader = ({
+  titleId,
+  onCreateNewChat,
+  onClose,
+}: AiPanelHeaderProps) => {
   return (
     <header className={styles.header}>
       <div className={styles.titleGroup}>
         <Icon name="ic_ai" size={32} color="grey800" />
-        <h2 className={styles.title}>AI 생성하기</h2>
+        <h2 id={titleId} className={styles.title}>
+          AI 생성하기
+        </h2>
       </div>
       <div className={styles.headerActions}>
         <div className={styles.actionContainer}>
