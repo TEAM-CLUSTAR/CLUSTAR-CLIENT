@@ -155,7 +155,7 @@ export const tooltip = style({
   marginLeft: '1.2rem',
 
   transform: 'translateY(-50%)',
-  zIndex: zIndex.sidebar,
+  zIndex: zIndex.tooltip,
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
 

@@ -10,7 +10,6 @@ export const root = style({
 });
 
 export const content = style({
-  zIndex: themeVars.zIndex.sidebar,
   display: 'flex',
 });
 
