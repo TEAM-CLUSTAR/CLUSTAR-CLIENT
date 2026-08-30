@@ -24,10 +24,10 @@ const AllMemoPage = () => {
 
   const { data: flatTags = [] } = useFlatTags();
   const tagsById = new Map(flatTags.map((tag) => [tag.tagId, tag]));
-  const filterChips = selectedTagIds
-    .map((id) => tagsById.get(id))
-    .filter((tag) => tag !== undefined)
-    .map((tag) => ({ id: tag.tagId, tagName: tag.name }));
+  const filterChips = selectedTagIds.flatMap((id) => {
+    const tag = tagsById.get(id);
+    return tag ? [{ id: tag.tagId, tagName: tag.name }] : [];
+  });
 
   const {
     data: memosList,
