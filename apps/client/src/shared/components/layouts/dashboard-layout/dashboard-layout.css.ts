@@ -37,5 +37,5 @@ export const aiPanelFab = style({
   position: 'fixed',
   right: '4.4rem',
   bottom: '5.4rem',
-  zIndex: themeVars.zIndex.modalContent,
+  zIndex: themeVars.zIndex.shell,
 });

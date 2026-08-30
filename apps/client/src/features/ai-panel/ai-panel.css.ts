@@ -6,7 +6,7 @@ export const container = style({
   position: 'fixed',
   top: 0,
   right: 0,
-  zIndex: themeVars.zIndex.aiPanel,
+  zIndex: themeVars.zIndex.shell,
   display: 'flex',
   flexDirection: 'column',
   width: '48rem',
