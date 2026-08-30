@@ -90,6 +90,7 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
       nextTab.memoId == null
         ? PATH.MEMO_NEW
         : getMemoDetailPath(nextTab.memoId),
+      { replace: true },
     );
   };
 
