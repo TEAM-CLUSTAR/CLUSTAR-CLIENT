@@ -3,30 +3,30 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const container = style({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-});
-
 export const header = style({
   display: 'flex',
   alignItems: 'center',
-  padding: '0 1.2rem',
+  justifyContent: 'space-between',
+  height: '7.2rem',
+  padding: '0 2rem',
+  borderBottom: `1px solid ${themeVars.color.grey200}`,
+});
+
+export const titleGroup = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.2rem',
 });
 
 export const title = style({
-  display: 'flex',
-  alignItems: 'center',
-  ...themeVars.fontStyles.body_m_14,
-  color: themeVars.color.grey800,
-  paddingLeft: '0.4rem',
-  paddingRight: '1.2rem',
+  ...themeVars.fontStyles.body_sb_16,
+  color: themeVars.color.grey700,
 });
 
-export const actions = style({
+export const headerActions = style({
   display: 'flex',
-  marginLeft: 'auto',
+  alignItems: 'center',
+  gap: '0.4rem',
 });
 
 export const actionContainer = style({
@@ -34,7 +34,7 @@ export const actionContainer = style({
   display: 'flex',
 });
 
-export const actionButton = style({
+export const iconButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -60,9 +60,6 @@ export const tooltip = recipe({
       [`${actionContainer}:hover &`]: {
         opacity: 1,
       },
-      [`${actionContainer}:focus-within &`]: {
-        opacity: 1,
-      },
     },
   },
   variants: {
@@ -79,12 +76,4 @@ export const tooltip = recipe({
   defaultVariants: {
     align: 'center',
   },
-});
-
-export const content = style({
-  width: '100%',
-  padding: '1.6rem 1.8rem',
-  ...themeVars.fontStyles.body_m_16,
-  color: themeVars.color.grey800,
-  whiteSpace: 'pre-wrap',
 });
