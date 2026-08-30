@@ -7,21 +7,13 @@ import EmptyState from '@shared/components/empty-state/empty-state';
 import type { MemoRecentViewedSource } from './apis/type';
 import MemoSearchListItem from './components/memo-search-list-item/memo-search-list-item';
 import SearchBar from './components/search-bar/search-bar';
-import { MemoSearchItemData } from './types';
+import useMemoSearchModal from './hooks/use-memo-search-modal';
 
 import * as styles from './memo-search-modal.css';
 
 interface MemoSearchModalProps {
   open: boolean;
-  searchValue: string;
-  recentMemos: MemoSearchItemData[];
-  recentSource?: MemoRecentViewedSource;
-  searchResultMemos?: MemoSearchItemData[];
-  isLoading?: boolean;
   onOpenChange: (open: boolean) => void;
-  onChangeSearchValue: (value: string) => void;
-  onSearch: (value: string) => void;
-  onClickMemo: (memoId: number) => void;
 }
 
 const EMPTY_STATE = {
@@ -41,18 +33,17 @@ const getRecentSectionTitle = (source: MemoRecentViewedSource) => {
   return source === 'RECENT_CREATED' ? '최근 생성한 메모' : '최근 열람한 메모';
 };
 
-const MemoSearchModal = ({
-  open,
-  searchValue,
-  recentMemos,
-  recentSource = 'RECENT_VIEWED',
-  searchResultMemos,
-  isLoading = false,
-  onOpenChange,
-  onChangeSearchValue,
-  onSearch,
-  onClickMemo,
-}: MemoSearchModalProps) => {
+const MemoSearchModal = ({ open, onOpenChange }: MemoSearchModalProps) => {
+  const {
+    searchValue,
+    recentMemos,
+    recentSource,
+    searchResultMemos,
+    isLoading,
+    handleOpenChange,
+    handleSearch,
+    handleChangeSearchValue,
+  } = useMemoSearchModal({ open, onOpenChange });
   const isSearchResult = searchResultMemos !== undefined;
   const memos = searchResultMemos ?? recentMemos;
   const isEmpty = memos.length === 0;
@@ -62,14 +53,18 @@ const MemoSearchModal = ({
     : getRecentSectionTitle(recentSource);
   const emptyState = isSearchResult ? EMPTY_STATE.search : EMPTY_STATE.recent;
 
+  const handleClickMemo = () => {
+    onOpenChange(false);
+  };
+
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
+    <Modal open={open} onOpenChange={handleOpenChange}>
       <Modal.Content className={styles.content} ariaLabel="메모 검색">
         <div className={styles.container}>
           <SearchBar
             value={searchValue}
-            onChange={onChangeSearchValue}
-            onSearch={onSearch}
+            onChange={handleChangeSearchValue}
+            onSearch={handleSearch}
           />
           <div className={styles.body({ isEmpty })}>
             {!isEmpty ? (
@@ -80,7 +75,7 @@ const MemoSearchModal = ({
                     <MemoSearchListItem
                       key={memo.memoId}
                       memo={memo}
-                      onClickMemo={onClickMemo}
+                      onClickMemo={handleClickMemo}
                     />
                   ))}
                 </div>

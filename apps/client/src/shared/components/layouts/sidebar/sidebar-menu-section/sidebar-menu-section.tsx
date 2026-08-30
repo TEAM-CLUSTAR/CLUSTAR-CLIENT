@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import MemoSearchModalContainer from '@features/memo-search-modal/memo-search-modal-container';
+import MemoSearchModal from '@features/memo-search-modal/memo-search-modal';
 import { PATH } from '@router/path';
 
 import { IconName } from '@cds/icon';
@@ -64,7 +64,7 @@ const SidebarMenuSection = ({
           <Tooltip title="검색" />
         </div>
       </li>
-      <MemoSearchModalContainer
+      <MemoSearchModal
         open={isSearchModalOpen}
         onOpenChange={setIsSearchModalOpen}
       />
