@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
 
 import { Icon } from '@cds/icon';
@@ -66,10 +66,15 @@ export interface MemoDetailValue {
 
 interface MemoDetailProps {
   memoId: number | null;
-  onDeleted: () => void;
+  onDeleteMemo: () => void;
+  onTitleChange: (title: string) => void;
 }
 
-const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
+const MemoDetail = ({
+  memoId: selectedMemoId,
+  onDeleteMemo,
+  onTitleChange,
+}: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // TODO: selectedMemoId가 있으면 상세 조회 API 결과로 memo를 초기화해요.
@@ -86,6 +91,12 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
   const handleRemoveTag = () => {};
   const handleAttachClick = () => {};
   const handleFileChange = () => {};
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const nextTitle = e.target.value;
+    setMemo((previousMemo) => ({ ...previousMemo, title: nextTitle }));
+    onTitleChange(nextTitle);
+  };
 
   return (
     <>
@@ -106,12 +117,7 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
                 maxLength={36}
                 placeholder="제목을 입력해주세요."
                 aria-label="메모 제목"
-                onChange={(event) =>
-                  setMemo((previousMemo) => ({
-                    ...previousMemo,
-                    title: event.target.value,
-                  }))
-                }
+                onChange={handleTitleChange}
               />
             </div>
             <MarkdownEditor
@@ -204,7 +210,7 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
         memoId={memoId}
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
-        onDeleted={onDeleted}
+        onDeleted={onDeleteMemo}
       />
     </>
   );
