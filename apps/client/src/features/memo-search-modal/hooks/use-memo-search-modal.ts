@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import {
-  recentViewedMemosQueryOptions,
-  searchMemosQueryOptions,
-} from '../apis/queries';
+import { MEMO_SEARCH_QUERY_OPTIONS } from '../apis/queries';
 import type {
-  MemoRecentViewedItemResponse,
+  MemoRecentViewedResponse,
   MemoRecentViewedSource,
-  MemoSearchItemResponse,
+  MemoSearchResponse,
 } from '../apis/type';
 import type { MemoSearchItemData } from '../types';
 
@@ -18,6 +15,16 @@ interface UseMemoSearchModalParams {
 }
 
 const DEFAULT_RECENT_SOURCE: MemoRecentViewedSource = 'RECENT_VIEWED';
+
+type MemoSearchItemResponse = NonNullable<
+  MemoSearchResponse['data']
+>['results'][number] & {
+  lastViewedAt?: string | null;
+};
+
+type MemoRecentViewedItemResponse = NonNullable<
+  MemoRecentViewedResponse['data']
+>['results'][number];
 
 const mapMemoToData = (
   memo: MemoSearchItemResponse | MemoRecentViewedItemResponse,
@@ -40,7 +47,7 @@ const useMemoSearchModal = ({
   const hasSubmittedSearch = submittedSearchValue !== undefined;
 
   const recentViewedMemosQuery = useQuery({
-    ...recentViewedMemosQueryOptions(),
+    ...MEMO_SEARCH_QUERY_OPTIONS.RECENT_VIEWED(),
     enabled: open && !hasSubmittedSearch,
     select: (response) => ({
       source: response.data?.source ?? DEFAULT_RECENT_SOURCE,
@@ -49,7 +56,7 @@ const useMemoSearchModal = ({
   });
 
   const searchMemosQuery = useQuery({
-    ...searchMemosQueryOptions(submittedSearchValue ?? ''),
+    ...MEMO_SEARCH_QUERY_OPTIONS.SEARCH(submittedSearchValue ?? ''),
     enabled: open && hasSubmittedSearch,
     select: (response) => response.data?.results.map(mapMemoToData) ?? [],
   });
