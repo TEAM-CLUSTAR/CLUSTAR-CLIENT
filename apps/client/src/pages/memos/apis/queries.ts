@@ -18,7 +18,7 @@ type MemoDashboardResponse = components['schemas']['MemoDashboardResponse'];
 
 /**
  * API 응답에서 memos 배열을 추출하는 헬퍼 함수
- * getAllMemo에서 response.data를 반환하므로, AllMemoResponse는 ApiResponseMemoListDashboardResponse 형태
+ * AllsMemo에서 response.data를 반환하므로, MemosResponse는 ApiResponseMemoListDashboardResponse 형태
  * 즉, { code, msg, data: { totalCount, memos } } 형태
  */
 const getMemosFromResponse = (
@@ -27,7 +27,7 @@ const getMemosFromResponse = (
   return response.data?.memos ?? [];
 };
 
-const getAllMemo = async (
+const getMemos = async (
   tagIds?: number[],
   cursor?: MemoCursor,
   size = 20,
@@ -63,7 +63,7 @@ export const useGetMemoTotalCount = (tagIds?: number[]) => {
   });
 };
 
-export const useGetAllMemo = (tagIds?: number[], size = 20) => {
+export const useGetMemos = (tagIds?: number[], size = 20) => {
   return useInfiniteQuery<
     MemosResponse,
     Error,
@@ -72,7 +72,7 @@ export const useGetAllMemo = (tagIds?: number[], size = 20) => {
     MemoCursor
   >({
     queryKey: MEMOS_KEY.GET(tagIds),
-    queryFn: ({ pageParam }) => getAllMemo(tagIds, pageParam, size),
+    queryFn: ({ pageParam }) => getMemos(tagIds, pageParam, size),
     getNextPageParam: (lastPage) => {
       const memos = getMemosFromResponse(lastPage);
       const last = memos[memos.length - 1];

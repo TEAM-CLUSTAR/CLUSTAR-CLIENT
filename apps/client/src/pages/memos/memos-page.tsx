@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { useFlatTags } from '@shared/apis/tag/queries';
 import EmptyView from '@shared/components/empty-view/empty-view';
 
-import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
+import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
 import Header from './components/header/header';
 import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
@@ -34,7 +34,7 @@ const AllMemoPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(activeTagIds);
+  } = useGetMemos(activeTagIds);
   const { data: totalCount } = useGetMemoTotalCount(activeTagIds);
 
   const handleApplyFilter = (tagIds: number[]) => {
