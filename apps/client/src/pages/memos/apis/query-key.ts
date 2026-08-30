@@ -1,7 +1,7 @@
-export const ALL_MEMO_KEY = {
-  ALL: ['all/memos'],
+export const MEMOS_KEY = {
+  ALL: ['memos'],
   GET: (tagIds?: number[]) => [
-    ...ALL_MEMO_KEY.ALL,
+    ...MEMOS_KEY.ALL,
     'get',
     ...(tagIds ? [{ tagIds }] : []),
   ],

@@ -1,20 +1,27 @@
 import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import TagPopover from '@features/tag-popover/tag-popover';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
+
+import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
 import { TagNode } from '@shared/apis/tag/type';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { TreeNode } from '@shared/utils/build-tree';
 import { formatFullDate } from '@shared/utils/format-date';
 
+import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
+import { MEMO_KEY } from '../../apis/query-key';
+import { useMemoAttachments } from '../../hooks/use-memo-attachments';
+import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 
 import * as styles from './memo-detail.css';
 
-// TODO: 태그 트리 임시 데이터
+// TODO: 태그 트리 연동(다른 팀원 작업)이 끝나면 실제 데이터로 교체한다.
 const EMPTY_TAG_TREE: TreeNode<TagNode> = {
   tagId: 0,
   name: '',
@@ -23,57 +30,11 @@ const EMPTY_TAG_TREE: TreeNode<TagNode> = {
   children: [],
 };
 
-const getMemoDetail = (memoId: number | null): MemoDetailValue => {
-  const currentDate = new Date().toISOString();
+export type MemoEditTarget =
+  | { status: 'new'; memoId: number | null }
+  | { status: 'saved'; memoId: number };
 
-  return {
-    memoId,
-    title: '',
-    content: '',
-    images: [],
-    files: [],
-    tagList: [],
-    createdAt: currentDate,
-    updatedAt: currentDate,
-    isAiGenerated: false,
-    sourceMemoTitleList: [],
-  };
-};
-export interface MemoDetailImage {
-  imageId: number;
-  imageUrl: string;
-  imageName: string;
-  imageExtension: string;
-  imageSize: string;
-}
-
-export interface MemoDetailFile {
-  fileId: number;
-  fileUrl: string;
-  fileName: string;
-  fileExtension: string;
-  fileSize: string;
-}
-
-export interface MemoDetailTag {
-  tagId: number;
-  name: string;
-  color: string;
-  parentId: number | null;
-}
-
-export interface MemoDetailValue {
-  memoId: number | null;
-  title: string;
-  content: string;
-  images: MemoDetailImage[];
-  files: MemoDetailFile[];
-  tagList: MemoDetailTag[];
-  createdAt: string;
-  updatedAt: string;
-  isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
-}
+const UNSAVED_DATE_PLACEHOLDER = 'YYYY.MM.DD';
 
 interface MemoDetailProps {
   memoId: number | null;
@@ -83,33 +44,90 @@ interface MemoDetailProps {
 }
 
 const MemoDetail = ({
-  memoId: selectedMemoId,
+  memoId,
   onDeleteMemo,
   onTitleChange,
   defaultTagPopoverOpen = false,
 }: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
-  // TODO: selectedMemoId가 있으면 상세 조회 API 결과로 memo를 초기화해요.
-  const [memo, setMemo] = useState(getMemoDetail(selectedMemoId));
+  const initialTarget: MemoEditTarget =
+    memoId === null
+      ? { status: 'new', memoId: null }
+      : { status: 'saved', memoId };
 
-  // TODO: 자동 저장 API 작업에서 memo 변경을 debounce하여 저장해요.
+  const { data: memoData } = useQuery({
+    ...useGetMemo(memoId),
+    select: toMemoDetail,
+  });
+
+  const { memo, target, lastSavedDate, editMemo } = useMemoAutoSave({
+    initialTarget,
+    savedMemo: memoData,
+  });
+
+  const { attachFiles } = useMemoAttachments();
+
+  const { mutate: deleteMemo } = useMutation({
+    ...useDeleteMemo(),
+    onSuccess: (_, deletedMemoId) => {
+      queryClient.invalidateQueries({ queryKey: MEMOS_KEY.ALL });
+      queryClient.removeQueries({ queryKey: MEMO_KEY.GET(deletedMemoId) });
+    },
+  });
+
   const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(
     defaultTagPopoverOpen,
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { memoId, title, content, images, files, updatedAt } = memo;
-  const currentDate = new Date().toISOString();
-  const footerDate = memoId == null ? currentDate : updatedAt;
+  const { title, content, images, files } = memo;
+  const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
-  const handleAttachClick = () => {};
-  const handleFileChange = () => {};
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextTitle = event.target.value;
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const nextTitle = e.target.value;
-    setMemo((previousMemo) => ({ ...previousMemo, title: nextTitle }));
+    editMemo({ title: nextTitle });
     onTitleChange(nextTitle);
   };
+
+  const handleAttachClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files ?? []);
+    event.target.value = '';
+
+    if (selectedFiles.length === 0) {
+      return;
+    }
+
+    attachFiles(
+      { selectedFiles, currentImages: images, currentFiles: files },
+      {
+        onSuccess: (attached) => {
+          editMemo({
+            images: [...images, ...attached.images],
+            files: [...files, ...attached.files],
+          });
+        },
+      },
+    );
+  };
+  const handleConfirmDelete = () => {
+    if (deletableMemoId !== null) {
+      deleteMemo(deletableMemoId);
+    }
+
+    onDeleteMemo();
+  };
+
+  // 기존 메모를 다 받아오기 전에 편집하지 못하도록 가드.
+  // TODO: 디자인이 나오면 스켈레톤으로 교체.
+  if (memoId !== null && memoData === undefined) {
+    return <div className={styles.root} aria-busy="true" />;
+  }
 
   return (
     <>
@@ -117,6 +135,7 @@ const MemoDetail = ({
         <div className={styles.container}>
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
+              {/* 태그 선택 섹션 */}
               <TagPopover
                 mode="browse"
                 selectedTags={[]}
@@ -132,6 +151,7 @@ const MemoDetail = ({
                 onClose={() => setIsTagPopoverOpen(false)}
               />
 
+              {/* 제목 섹션 */}
               <input
                 className={styles.title}
                 value={title}
@@ -141,14 +161,11 @@ const MemoDetail = ({
                 onChange={handleTitleChange}
               />
             </div>
+
+            {/* 마크다운 본문 섹션 */}
             <MarkdownEditor
               value={content}
-              onChange={(markdown) =>
-                setMemo((previousMemo) => ({
-                  ...previousMemo,
-                  content: markdown,
-                }))
-              }
+              onChange={(markdown) => editMemo({ content: markdown })}
             >
               <MarkdownEditor.Input
                 className={styles.content}
@@ -157,19 +174,27 @@ const MemoDetail = ({
             </MarkdownEditor>
           </div>
 
+          {/* 파일 섹션 */}
           {files.length > 0 && (
             <div className={styles.fileList}>
               {files.map((file) => (
-                <File key={file.fileId} file={file} />
+                <File
+                  key={file.status === 'saved' ? file.fileId : file.s3Key}
+                  file={file}
+                />
               ))}
             </div>
           )}
 
+          {/* 이미지 섹션 */}
           {images.length > 0 && (
             <div className={styles.imageGrid}>
               {images.map((image) => (
                 // TODO: 이미지 개별 삭제 기능 추가
-                <div key={image.imageId} className={styles.imageItem}>
+                <div
+                  key={image.status === 'saved' ? image.imageId : image.s3Key}
+                  className={styles.imageItem}
+                >
                   <img
                     className={styles.image}
                     src={image.imageUrl}
@@ -181,8 +206,13 @@ const MemoDetail = ({
           )}
         </div>
 
+        {/* footer 섹션 */}
         <div className={styles.footer}>
-          <time className={styles.date}>{formatFullDate(footerDate)}</time>
+          <time className={styles.date}>
+            {lastSavedDate === null
+              ? UNSAVED_DATE_PLACEHOLDER
+              : formatFullDate(lastSavedDate)}
+          </time>
           <Divider />
 
           <div className={styles.count}>
@@ -228,10 +258,9 @@ const MemoDetail = ({
       </div>
 
       <DeleteMemoModal
-        memoId={memoId}
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
-        onDeleted={onDeleteMemo}
+        onDeleted={handleConfirmDelete}
       />
     </>
   );

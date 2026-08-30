@@ -4,7 +4,7 @@ import { Icon } from '@cds/icon';
 import { Button, Modal } from '@cds/ui';
 
 import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
-import tagImage from '@shared/assets/images/empty-state/tag_image.svg';
+import tagImage from '@shared/assets/images/empty-state/tag-image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';

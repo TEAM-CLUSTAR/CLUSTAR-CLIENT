@@ -4,10 +4,11 @@ import {
   redirect,
 } from 'react-router';
 
-import { ErrorPage } from '@pages/error';
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
-import { NotFoundPage } from '@pages/not-found';
+
+import ErrorFallback from '@shared/components/error-fallback/error-fallback';
+import NotFound from '@shared/components/not-found/not-found';
 
 import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
   {
     path: PATH.ROOT,
     Component: RootRoute,
-    ErrorBoundary: ErrorPage,
+    ErrorBoundary: ErrorFallback,
     children: [
       {
         element: <RouteGuard mode="public" />,
@@ -68,6 +69,7 @@ export const router = createBrowserRouter([
                   {
                     path: PATH.MEMO,
                     children: [
+                      { index: true, loader: () => redirect(PATH.MEMO_NEW) },
                       { path: 'new', Component: MemoPage },
                       { path: ':memoId', Component: MemoPage },
                     ],
@@ -80,7 +82,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '*',
-        Component: NotFoundPage,
+        Component: NotFound,
       },
     ],
   },

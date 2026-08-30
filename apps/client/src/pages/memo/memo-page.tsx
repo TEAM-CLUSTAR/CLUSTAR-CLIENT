@@ -46,7 +46,6 @@ const MemoPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      {/* key로 탭이 바뀔 때 MemoDetail을 다시 마운트해 편집 중이던 값을 초기화한다 */}
       <MemoDetail
         key={activeTabId}
         memoId={memoId}
