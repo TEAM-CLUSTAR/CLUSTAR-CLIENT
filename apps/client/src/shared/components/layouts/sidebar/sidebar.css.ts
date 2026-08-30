@@ -6,6 +6,7 @@ import { themeVars } from '@cds/ui';
 export const sidebar = style({
   position: 'sticky',
   top: '0',
+  zIndex: zIndex.shell,
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: themeVars.color.grey50,
