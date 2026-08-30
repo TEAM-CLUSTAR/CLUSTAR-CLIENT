@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactNode, useRef, useState } from 'react';
-import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
+import TagPopover from '@features/tag-popover/tag-popover';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Icon } from '@cds/icon';
@@ -7,6 +7,7 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
+import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -29,12 +30,14 @@ interface MemoDetailProps {
   memoId: number | null;
   onDeleteMemo: () => void;
   onTitleChange: (title: string) => void;
+  defaultTagPopoverOpen?: boolean;
 }
 
 const MemoDetail = ({
   memoId,
   onDeleteMemo,
   onTitleChange,
+  defaultTagPopoverOpen = false,
 }: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
@@ -64,13 +67,34 @@ const MemoDetail = ({
     },
   });
 
-  // TODO: 태그 검색/추가 Popover가 아직 없어서 포커스만 열림 상태로 반영했어요.
-  const [isTagFieldOpen, setIsTagFieldOpen] = useState(false);
+  const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(
+    defaultTagPopoverOpen,
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { title, content, tagList, images, files } = memo;
+  const { title, content, images, files, tagList } = memo;
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
-  const handleRemoveTag = () => {};
+  const { data: tagRoots = [] } = useGetTag();
+  const { data: flatTags = [] } = useFlatTags();
+  const [activeParentId, setActiveParentId] = useState<number>();
+
+  const activeParent =
+    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
+
+  const handleToggleTag = (tagId: number) => {
+    const isSelected = tagList.some((tag) => tag.tagId === tagId);
+
+    if (isSelected) {
+      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
+      return;
+    }
+
+    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
+    if (!tagToAdd) {
+      return;
+    }
+    editMemo({ tagList: [...tagList, tagToAdd] });
+  };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextTitle = event.target.value;
@@ -124,12 +148,22 @@ const MemoDetail = ({
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
               {/* 태그 선택 섹션 */}
-              <TagInputField
-                selectedTags={tagList}
-                onRemoveTag={handleRemoveTag}
-                isOpen={isTagFieldOpen}
-                onFocus={() => setIsTagFieldOpen(true)}
-              />
+              {activeParent && (
+                <TagPopover
+                  mode="browse"
+                  selectedTags={tagList}
+                  onRemoveTag={handleToggleTag}
+                  isOpen={isTagPopoverOpen}
+                  onFocus={() => setIsTagPopoverOpen(true)}
+                  parentTags={tagRoots}
+                  selectedParentId={activeParent.tagId}
+                  onSelectParent={setActiveParentId}
+                  tagTree={activeParent}
+                  selectedIds={tagList.map((tag) => tag.tagId)}
+                  onToggleTag={handleToggleTag}
+                  onClose={() => setIsTagPopoverOpen(false)}
+                />
+              )}
 
               {/* 제목 섹션 */}
               <input

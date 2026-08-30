@@ -13,6 +13,7 @@ import * as styles from './memo-page.css';
 
 type LocationState = {
   title?: string;
+  openTagPopover?: boolean;
 };
 
 const MemoPage = () => {
@@ -49,6 +50,9 @@ const MemoPage = () => {
         memoId={memoId}
         onDeleteMemo={() => closeTab(activeTabId, true)}
         onTitleChange={(title) => renameTab(activeTabId, title)}
+        defaultTagPopoverOpen={
+          (location.state as LocationState | null)?.openTagPopover ?? false
+        }
       />
     </div>
   );

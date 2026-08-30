@@ -14,6 +14,7 @@ import { cardContainer } from '@pages/memos/components/memo-card/memo-card.css';
 type MemoCardResponse = components['schemas']['MemoDashboardResponse'];
 
 const getCardInfo = (memo: MemoCardResponse): MemoCardInfoType => ({
+  memoId: memo.memoId,
   title: memo.title,
   content: memo.content,
   createdAt: memo.createdAt,
@@ -29,6 +30,7 @@ interface MemoCardListProps {
   selectedMemoIds?: number[];
   isDraggable?: boolean;
   onClickCard: (memoId: number) => void;
+  onSelectTag: (memoId: number) => void;
   onDraggingChange?: (isDragging: boolean) => void;
 }
 
@@ -37,6 +39,7 @@ const MemoCardList = ({
   selectedMemoIds = [],
   isDraggable = false,
   onClickCard,
+  onSelectTag,
   onDraggingChange,
 }: MemoCardListProps) => {
   const [draggingId, setDraggingId] = useState<number | null>(null);
@@ -104,6 +107,7 @@ const MemoCardList = ({
             onDragStart={handleDragStart(card)}
             onDragEnd={handleDragEnd}
             onClick={() => onClickCard(card.memoId)}
+            onSelectTag={onSelectTag}
           />
         ))}
       </div>

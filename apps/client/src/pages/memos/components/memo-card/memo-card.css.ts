@@ -87,6 +87,21 @@ export const tagContainer = style({
   gap: '0.8rem',
 });
 
+export const tagSelectButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.2rem',
+  height: '2.4rem',
+  padding: '0 0.8rem 0 0.4rem',
+  border: `0.5px solid ${themeVars.color.grey300}`,
+  borderRadius: '4px',
+});
+
+export const tagSelectButtonText = style({
+  ...themeVars.fontStyles.label_m_12,
+  color: themeVars.color.grey500,
+});
+
 export const contentsContainer = style({
   display: 'flex',
   flexDirection: 'column',

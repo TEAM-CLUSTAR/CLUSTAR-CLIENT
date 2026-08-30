@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeVars } from '@cds/ui';
+
 const HEADER_CONTAINER = 'header';
 const HEADER_MAX_WIDTH = '1180px';
 const HEADER_MIN_WIDTH = '800px';
@@ -26,6 +28,9 @@ export const headerContainer = style({
   minWidth: HEADER_MIN_WIDTH,
   maxWidth: HEADER_MIN_WIDTH,
   marginInline: 'auto',
+  position: 'sticky',
+  top: 0,
+  backgroundColor: themeVars.color.grey50,
 
   '@container': {
     [`${HEADER_CONTAINER} (min-width: 1060px)`]: {
