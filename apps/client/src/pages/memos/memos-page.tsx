@@ -56,6 +56,13 @@ const AllMemoPage = () => {
     navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
   };
 
+  const handleSelectTag = (memoId: number) => {
+    const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
+    navigate(`${PATH.MEMO}/${memoId}`, {
+      state: { title, openTagPopover: true },
+    });
+  };
+
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
@@ -106,7 +113,7 @@ const AllMemoPage = () => {
               selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
               isDraggable={isAiPanelOpen}
               onClickCard={handleClickCard}
-              onSelectTag={() => {}} // TODO: 태그 선택 팝오버 연결
+              onSelectTag={handleSelectTag}
             />
             <div ref={loadMoreRef} />
           </>
