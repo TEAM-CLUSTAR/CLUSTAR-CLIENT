@@ -2,6 +2,7 @@ import { Icon } from '@cds/icon';
 
 import { AiPanelMessage } from '../../../types/ai-panel.types';
 import AiAnswer from '../ai-answer/ai-answer';
+import AiPanelEmptyChat from '../ai-panel-empty-chat/ai-panel-empty-chat';
 
 import * as styles from './ai-panel-chat.css';
 
@@ -23,10 +24,7 @@ const AiPanelChat = ({
   return (
     <div className={styles.chatArea}>
       {messages.length === 0 ? (
-        <div className={styles.empty}>
-          <Icon name="ic_star_gra" size={48} />
-          <p className={styles.emptyText()}>새 메모에 대해서 질문해보세요.</p>
-        </div>
+        <AiPanelEmptyChat />
       ) : (
         messages.map((message) =>
           message.type === 'user' ? (
