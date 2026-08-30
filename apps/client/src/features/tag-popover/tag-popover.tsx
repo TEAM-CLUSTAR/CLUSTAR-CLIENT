@@ -35,6 +35,8 @@ type TagPopoverProps = TagInputFieldProps &
 
 const TagPopover = (props: TagPopoverProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(props.onClose);
+  onCloseRef.current = props.onClose;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -45,6 +47,21 @@ const TagPopover = (props: TagPopoverProps) => {
     ) {
       container.focus();
     }
+  }, [props.isOpen]);
+
+  useEffect(() => {
+    if (!props.isOpen) return;
+
+    const handlePointerDownOutside = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        onCloseRef.current();
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDownOutside);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDownOutside);
+    };
   }, [props.isOpen]);
 
   const handleBlur = ({
