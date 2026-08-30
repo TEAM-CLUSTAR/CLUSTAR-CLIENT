@@ -17,3 +17,6 @@ export type PostMemoRequestBody =
  */
 export type PostMemoResponse =
   paths['/api/v1/memo']['post']['responses']['200']['content']['*/*'];
+
+export type DeleteMemoResponse =
+  paths['/api/v1/memo']['delete']['responses']['200']['content']['*/*'];

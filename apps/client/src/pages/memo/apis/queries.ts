@@ -4,7 +4,12 @@ import { api } from '@shared/apis/instance';
 
 import { MEMO_END_POIINT } from './end-point';
 import { MEMO_KEY } from './query-key';
-import { GetMemoResponse, PostMemoRequestBody, PostMemoResponse } from './type';
+import {
+  DeleteMemoResponse,
+  GetMemoResponse,
+  PostMemoRequestBody,
+  PostMemoResponse,
+} from './type';
 
 /**
  * 상세 메모 정보 조회
@@ -38,5 +43,24 @@ export const usePostMemo = () => {
   return mutationOptions({
     mutationKey: MEMO_KEY.POST(),
     mutationFn: postMemo,
+  });
+};
+
+/**
+ * 메모 삭제
+ * @param memoId - 삭제할 메모 ID
+ * @returns 메모 삭제 응답 데이터
+ */
+const deleteMemo = async (memoId: number): Promise<DeleteMemoResponse> => {
+  const response = await api.delete<DeleteMemoResponse>(
+    MEMO_END_POIINT.DELETE(memoId),
+  );
+  return response.data;
+};
+
+export const deletePostMemo = (memoId: number) => {
+  return mutationOptions({
+    mutationKey: MEMO_KEY.DELETE(memoId),
+    mutationFn: deleteMemo,
   });
 };
