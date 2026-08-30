@@ -106,6 +106,7 @@ const AllMemoPage = () => {
               selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
               isDraggable={isAiPanelOpen}
               onClickCard={handleClickCard}
+              onSelectTag={() => {}} // TODO: 태그 선택 팝오버 연결
             />
             <div ref={loadMoreRef} />
           </>
