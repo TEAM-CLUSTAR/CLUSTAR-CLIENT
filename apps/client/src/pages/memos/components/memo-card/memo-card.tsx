@@ -44,7 +44,6 @@ const MemoCard = ({
     <article
       {...props}
       className={styles.cardContainer({ isSelected, isDragging, isNew })}
-      draggable
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>

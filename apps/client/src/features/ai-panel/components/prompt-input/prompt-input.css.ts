@@ -1,31 +1,19 @@
 import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
-export const container = recipe({
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    backgroundColor: themeVars.color.white,
-    borderRadius: '12px',
-    padding: '1.6rem 1.8rem',
-    border: `1px solid ${themeVars.color.grey300}`,
-    transition: 'border-color 180ms cubic-bezier(0.4, 0, 0.2, 1)',
-    selectors: {
-      '&:focus-within': {
-        borderColor: themeVars.color.blue500,
-      },
-    },
-  },
-  variants: {
-    isDragOver: {
-      true: {
-        borderStyle: 'dashed',
-        borderColor: themeVars.color.grey400,
-      },
-      false: {},
+export const container = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  backgroundColor: themeVars.color.white,
+  borderRadius: '12px',
+  padding: '1.6rem 1.8rem',
+  border: `1px solid ${themeVars.color.grey300}`,
+  transition: 'border-color 180ms cubic-bezier(0.4, 0, 0.2, 1)',
+  selectors: {
+    '&:focus-within': {
+      borderColor: themeVars.color.blue500,
     },
   },
 });

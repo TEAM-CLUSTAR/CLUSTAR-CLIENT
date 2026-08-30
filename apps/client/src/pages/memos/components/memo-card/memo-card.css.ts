@@ -25,24 +25,25 @@ const baseStyle = {
 } as const;
 
 const selectedStyle = {
-  border: `1px solid ${themeVars.color.grey400}`,
+  border: `1.5px solid ${themeVars.color.grey400}`,
   backgroundColor: themeVars.color.grey100,
 } as const;
 
 const draggingStyle = {
+  border: `1.5px solid ${themeVars.color.blue400}`,
   backgroundColor: themeVars.color.blue50,
   cursor: 'grabbing',
+  selectors: {
+    '&:hover': {
+      border: `1.5px solid ${themeVars.color.blue400}`,
+      backgroundColor: themeVars.color.blue50,
+    },
+  },
 } as const;
 
 const isNewSelectedStyle = {
   border: `1px solid ${themeVars.color.grey400}`,
   background: themeVars.color.grey100,
-  selectors: {
-    '&:hover': {
-      border: `1px solid ${themeVars.color.grey400}`,
-      background: themeVars.color.grey100,
-    },
-  },
 } as const;
 
 const isNewStyle = {

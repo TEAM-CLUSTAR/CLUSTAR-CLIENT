@@ -1,8 +1,6 @@
 import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
-import { PATH } from '@router/path';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
@@ -25,19 +23,29 @@ export type MemoEditTarget =
   | { status: 'new'; memoId: number | null }
   | { status: 'saved'; memoId: number };
 
-interface MemoDetailProps {
-  target: MemoEditTarget;
-}
-
 const UNSAVED_DATE_PLACEHOLDER = 'YYYY.MM.DD';
 
-const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
+interface MemoDetailProps {
+  memoId: number | null;
+  onDeleteMemo: () => void;
+  onTitleChange: (title: string) => void;
+}
+
+const MemoDetail = ({
+  memoId,
+  onDeleteMemo,
+  onTitleChange,
+}: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
-  const naviagte = useNavigate();
+
+  const initialTarget: MemoEditTarget =
+    memoId === null
+      ? { status: 'new', memoId: null }
+      : { status: 'saved', memoId };
 
   const { data: memoData } = useQuery({
-    ...useGetMemo(initialTarget.memoId),
+    ...useGetMemo(memoId),
     select: toMemoDetail,
   });
 
@@ -60,10 +68,16 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
   const [isTagFieldOpen, setIsTagFieldOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { title, content, tagList, images, files } = memo;
-  // 새 메모라도 자동저장으로 생성된 뒤에는 삭제할 수 있어요.
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
   const handleRemoveTag = () => {};
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextTitle = event.target.value;
+
+    editMemo({ title: nextTitle });
+    onTitleChange(nextTitle);
+  };
 
   const handleAttachClick = () => {
     fileInputRef.current?.click();
@@ -93,12 +107,13 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
     if (deletableMemoId !== null) {
       deleteMemo(deletableMemoId);
     }
-    naviagte(PATH.MEMOS);
+
+    onDeleteMemo();
   };
 
-  // 기존 메모를 다 받아오기 전에 편집하면 빈 값이 그대로 저장되므로 편집기를 아직 열지 않아요.
-  // TODO: 디자인이 나오면 스켈레톤으로 교체해요.
-  if (initialTarget.memoId !== null && memoData === undefined) {
+  // 기존 메모를 다 받아오기 전에 편집하지 못하도록 가드.
+  // TODO: 디자인이 나오면 스켈레톤으로 교체.
+  if (memoId !== null && memoData === undefined) {
     return <div className={styles.root} aria-busy="true" />;
   }
 
@@ -123,7 +138,7 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
                 maxLength={36}
                 placeholder="제목을 입력해주세요."
                 aria-label="메모 제목"
-                onChange={(event) => editMemo({ title: event.target.value })}
+                onChange={handleTitleChange}
               />
             </div>
 
