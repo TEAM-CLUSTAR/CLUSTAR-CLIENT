@@ -11,16 +11,16 @@ export const container = style({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  containerType: 'inline-size',
-  containerName: HEADER_CONTAINER,
-  overflow: 'hidden',
-  scrollbarGutter: 'stable',
 });
 
 export const headerSection = style({
   width: '100%',
   paddingInline: '4rem',
   flexShrink: 0,
+  containerType: 'inline-size',
+  containerName: HEADER_CONTAINER,
+  overflow: 'hidden',
+  scrollbarGutter: 'stable',
 });
 
 export const headerContainer = style({
