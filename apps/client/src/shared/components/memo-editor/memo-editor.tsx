@@ -11,6 +11,7 @@ import File from './components/file/file';
 
 import * as styles from './memo-editor.css';
 
+// @TODO: MemoDetail로 컴포넌트 리네이밍
 export interface MemoEditorImage {
   imageId: number;
   imageUrl: string;
@@ -35,7 +36,6 @@ export interface MemoEditorTag {
 }
 
 export interface MemoEditorValue {
-  /** null이면 아직 저장되지 않은 새 메모예요. */
   memoId: number | null;
   title: string;
   content: string;
@@ -49,7 +49,6 @@ export interface MemoEditorValue {
 }
 
 interface MemoEditorProps {
-  /** null이면 신규 메모라서 상세 조회 API를 호출하지 않아요. */
   memoId: number | null;
   onDeleted: () => void;
 }
