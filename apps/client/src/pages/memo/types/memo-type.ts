@@ -1,18 +1,34 @@
-type ImageType = {
-  imageId: number;
-  imageUrl: string;
-  imageName: string;
-  imageExtension: string;
-  imageSize: string;
-};
+export type ImageType =
+  | {
+      status: 'saved';
+      imageId: number;
+      imageUrl: string;
+      imageName: string;
+      imageSize: string;
+    }
+  | {
+      status: 'uploaded';
+      s3Key: string;
+      imageUrl: string;
+      imageName: string;
+      imageSize: string;
+    };
 
-export type FileType = {
-  fileId: number;
-  fileUrl: string;
-  fileName: string;
-  fileExtension: string;
-  fileSize: string;
-};
+export type FileType =
+  | {
+      status: 'saved';
+      fileId: number;
+      fileUrl: string;
+      fileName: string;
+      fileSize: string;
+    }
+  | {
+      status: 'uploaded';
+      s3Key: string;
+      fileUrl: string;
+      fileName: string;
+      fileSize: string;
+    };
 
 export type TagType = {
   tagId: number;

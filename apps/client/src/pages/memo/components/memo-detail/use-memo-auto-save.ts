@@ -4,17 +4,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MemoType } from '@pages/memo/types/memo-type';
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { usePatchMemo, usePostMemo } from '../../apis/queries';
-import { MEMO_KEY } from '../../apis/query-key';
 import {
-  PatchMemoRequestBody,
-  PostMemoRequestBody,
-  PostMemoResponse,
-} from '../../apis/type';
+  toMemoDetail,
+  useGetMemo as memoDetailQuery,
+  usePatchMemo,
+  usePostMemo,
+} from '../../apis/queries';
+import { MEMO_KEY } from '../../apis/query-key';
+import { PatchMemoRequestBody, PostMemoRequestBody } from '../../apis/type';
 import type { MemoEditTarget } from './memo-detail';
 
 const AUTO_SAVE_DELAY_MS = 1000;
 
+/** 저장을 직렬로 실행해요. 생성 응답의 memoId를 다음 저장이 써야 하거든요. */
 const AUTO_SAVE_SCOPE = { id: 'memo-auto-save' };
 
 const EMPTY_MEMO: MemoType = {
@@ -35,33 +37,54 @@ interface UseMemoAutoSaveParams {
   savedMemo: MemoType | undefined;
 }
 
+/** 저장이 실제로 일어나지 않았으면 null. (제목·본문이 비어 아직 만들 수 없는 새 메모) */
 type SaveResult = {
-  savedMemo: NonNullable<PostMemoResponse['data']>;
-  isCreated: boolean;
+  savedMemoId: number;
+  lastSavedDate: string;
+  savedAttachments: Pick<MemoType, 'images' | 'files'> | null;
 } | null;
 
-/**
- * 첨부 업로드(presigned URL)가 아직 없어서 새 메모는 첨부 없이 생성돼요.
- */
-const toCreateRequest = (memo: MemoType): PostMemoRequestBody => ({
+const toMemoBody = (memo: MemoType) => ({
   title: memo.title,
   content: memo.content,
   tagNames: memo.tagList.map((tag) => tag.name),
 });
 
-const toUpdateRequest = (memo: MemoType): PatchMemoRequestBody => ({
-  title: memo.title,
-  content: memo.content,
-  tagNames: memo.tagList.map((tag) => tag.name),
-  images: memo.images.map((image, index) => ({
-    imageId: image.imageId,
-    priority: index,
-  })),
-  files: memo.files.map((file, index) => ({
-    fileId: file.fileId,
-    priority: index,
-  })),
+const toCreateRequest = (memo: MemoType): PostMemoRequestBody => ({
+  ...toMemoBody(memo),
+  images: memo.images.flatMap((image, index) =>
+    image.status === 'uploaded'
+      ? [{ s3Key: image.s3Key, imageName: image.imageName, priority: index }]
+      : [],
+  ),
+  files: memo.files.flatMap((file, index) =>
+    file.status === 'uploaded'
+      ? [{ s3Key: file.s3Key, fileName: file.fileName, priority: index }]
+      : [],
+  ),
 });
+
+/**
+ * 이미 저장된 첨부는 id만 보내 유지하고, 새로 올린 첨부는 s3Key와 원본 파일명만 보냄.
+ */
+const toUpdateRequest = (memo: MemoType): PatchMemoRequestBody => ({
+  ...toMemoBody(memo),
+  images: memo.images.map((image, index) =>
+    image.status === 'saved'
+      ? { imageId: image.imageId, priority: index }
+      : { s3Key: image.s3Key, imageName: image.imageName, priority: index },
+  ),
+  files: memo.files.map((file, index) =>
+    file.status === 'saved'
+      ? { fileId: file.fileId, priority: index }
+      : { s3Key: file.s3Key, fileName: file.fileName, priority: index },
+  ),
+});
+
+/** 아직 저장된 적 없는 첨부가 있으면, 저장 후에 서버가 준 id로 바꿈 */
+const hasUploadedAttachment = (memo: MemoType) =>
+  memo.images.some((image) => image.status === 'uploaded') ||
+  memo.files.some((file) => file.status === 'uploaded');
 
 const readSavedMemo = <TSavedMemo>(response: { data?: TSavedMemo }) => {
   if (response.data === undefined) {
@@ -87,6 +110,28 @@ export const useMemoAutoSave = ({
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<(() => void) | null>(null);
 
+  /**
+   * 저장 직후 상세를 다시 받아 저장된 첨부로 바꿔요.
+   */
+  const readSavedAttachments = async (
+    memoToSave: MemoType,
+    savedMemoId: number,
+  ) => {
+    if (!hasUploadedAttachment(memoToSave)) {
+      return null;
+    }
+
+    const savedDetail = toMemoDetail(
+      await queryClient.fetchQuery({
+        ...memoDetailQuery(savedMemoId),
+        // 방금 저장해서 캐시가 남아 있어도 반드시 새로 받아야 해요.
+        staleTime: 0,
+      }),
+    );
+
+    return { images: savedDetail.images, files: savedDetail.files };
+  };
+
   const saveMemo = useMutation({
     scope: AUTO_SAVE_SCOPE,
     mutationFn: async (memoToSave: MemoType): Promise<SaveResult> => {
@@ -100,7 +145,14 @@ export const useMemoAutoSave = ({
           }),
         );
 
-        return { savedMemo: updatedMemo, isCreated: false };
+        return {
+          savedMemoId: currentMemoId,
+          lastSavedDate: updatedMemo.updatedAt,
+          savedAttachments: await readSavedAttachments(
+            memoToSave,
+            currentMemoId,
+          ),
+        };
       }
 
       if (memoToSave.title === '' || memoToSave.content === '') {
@@ -113,21 +165,34 @@ export const useMemoAutoSave = ({
 
       savedMemoIdRef.current = createdMemo.memoId;
 
-      return { savedMemo: createdMemo, isCreated: true };
+      return {
+        savedMemoId: createdMemo.memoId,
+        lastSavedDate: createdMemo.createdAt,
+        savedAttachments: await readSavedAttachments(
+          memoToSave,
+          createdMemo.memoId,
+        ),
+      };
     },
     onSuccess: (result) => {
       if (result === null) {
         return;
       }
 
-      // 자동저장은 1초마다 일어날 수 있어서, 열려 있는 화면을 매번 다시 요청하지 않고
-      // stale 표시만 남김. 목록은 다음 진입 때 새로 받아옴.
+      if (result.savedAttachments !== null) {
+        setDraft((previousDraft) =>
+          previousDraft === null
+            ? previousDraft
+            : { ...previousDraft, ...result.savedAttachments },
+        );
+      }
+
       queryClient.invalidateQueries({
         queryKey: MEMOS_KEY.ALL,
         refetchType: 'none',
       });
       queryClient.invalidateQueries({
-        queryKey: MEMO_KEY.GET(result.savedMemo.memoId),
+        queryKey: MEMO_KEY.GET(result.savedMemoId),
         refetchType: 'none',
       });
     },
@@ -135,23 +200,14 @@ export const useMemoAutoSave = ({
 
   const memo = draft ?? savedMemo ?? EMPTY_MEMO;
 
-  // 저장 결과는 뮤테이션이 들고 있어서 따로 복사해두지 않기
-  const lastSaveResult = saveMemo.data ?? null;
-  const savedMemoId = lastSaveResult?.savedMemo.memoId ?? initialSavedMemoId;
+  const savedMemoId = saveMemo.data?.savedMemoId ?? initialSavedMemoId;
   const target: MemoEditTarget =
     savedMemoId === null
       ? { status: 'new', memoId: null }
       : { status: 'saved', memoId: savedMemoId };
 
-  const getLastSavedDate = () => {
-    if (lastSaveResult === null) {
-      return savedMemo?.updatedAt ?? null;
-    }
-
-    return lastSaveResult.isCreated
-      ? lastSaveResult.savedMemo.createdAt
-      : lastSaveResult.savedMemo.updatedAt;
-  };
+  const lastSavedDate =
+    saveMemo.data?.lastSavedDate ?? savedMemo?.updatedAt ?? null;
 
   const scheduleAutoSave = (nextMemo: MemoType) => {
     if (saveTimerRef.current !== null) {
@@ -189,9 +245,8 @@ export const useMemoAutoSave = ({
   return {
     memo,
     target,
-    lastSavedDate: getLastSavedDate(),
+    lastSavedDate,
     editMemo,
-    isSaving: saveMemo.isPending,
     saveError: saveMemo.error,
   };
 };

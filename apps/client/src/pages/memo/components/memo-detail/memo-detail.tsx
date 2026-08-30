@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
 import { PATH } from '@router/path';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,10 +12,11 @@ import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
-import { useDeleteMemo, useGetMemo } from '../../apis/queries';
+import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
 import { MEMO_KEY } from '../../apis/query-key';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
+import { useMemoAttachments } from './use-memo-attachments';
 import { useMemoAutoSave } from './use-memo-auto-save';
 
 import * as styles from './memo-detail.css';
@@ -35,12 +36,17 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
   const queryClient = useQueryClient();
   const naviagte = useNavigate();
 
-  const { data: memoData } = useQuery(useGetMemo(initialTarget.memoId));
+  const { data: memoData } = useQuery({
+    ...useGetMemo(initialTarget.memoId),
+    select: toMemoDetail,
+  });
 
   const { memo, target, lastSavedDate, editMemo } = useMemoAutoSave({
     initialTarget,
-    savedMemo: memoData?.data,
+    savedMemo: memoData,
   });
+
+  const { attachFiles } = useMemoAttachments();
 
   const { mutate: deleteMemo } = useMutation({
     ...useDeleteMemo(),
@@ -58,8 +64,31 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
   const handleRemoveTag = () => {};
-  const handleAttachClick = () => {};
-  const handleFileChange = () => {};
+
+  const handleAttachClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files ?? []);
+    event.target.value = '';
+
+    if (selectedFiles.length === 0) {
+      return;
+    }
+
+    attachFiles(
+      { selectedFiles, currentImages: images, currentFiles: files },
+      {
+        onSuccess: (attached) => {
+          editMemo({
+            images: [...images, ...attached.images],
+            files: [...files, ...attached.files],
+          });
+        },
+      },
+    );
+  };
   const handleConfirmDelete = () => {
     if (deletableMemoId !== null) {
       deleteMemo(deletableMemoId);
@@ -114,7 +143,10 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
           {files.length > 0 && (
             <div className={styles.fileList}>
               {files.map((file) => (
-                <File key={file.fileId} file={file} />
+                <File
+                  key={file.status === 'saved' ? file.fileId : file.s3Key}
+                  file={file}
+                />
               ))}
             </div>
           )}
@@ -124,7 +156,10 @@ const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
             <div className={styles.imageGrid}>
               {images.map((image) => (
                 // TODO: 이미지 개별 삭제 기능 추가
-                <div key={image.imageId} className={styles.imageItem}>
+                <div
+                  key={image.status === 'saved' ? image.imageId : image.s3Key}
+                  className={styles.imageItem}
+                >
                   <img
                     className={styles.image}
                     src={image.imageUrl}
