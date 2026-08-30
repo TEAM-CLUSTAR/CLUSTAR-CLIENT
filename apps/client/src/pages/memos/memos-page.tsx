@@ -8,14 +8,14 @@ import { useFlatTags } from '@shared/apis/tag/queries';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
 import EmptyView from '@shared/components/empty-view/empty-view';
 
-import { useGetAllMemo, useGetMemoTotalCount } from './apis/queries';
+import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
 import Header from './components/header/header';
 import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
 
 import * as styles from './memos-page.css';
 
-const AllMemoPage = () => {
+const MemosPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTagIds = searchParams.getAll('tag').map(Number);
@@ -35,7 +35,7 @@ const AllMemoPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetAllMemo(activeTagIds);
+  } = useGetMemos(activeTagIds);
   const { data: totalCount } = useGetMemoTotalCount(activeTagIds);
 
   const handleApplyFilter = (tagIds: number[]) => {
@@ -114,4 +114,4 @@ const AllMemoPage = () => {
   );
 };
 
-export default AllMemoPage;
+export default MemosPage;

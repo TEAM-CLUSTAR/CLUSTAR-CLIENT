@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ALL_MEMO_KEY } from '@pages/memos/apis/query-key';
+import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
 import { api } from '../instance';
 import { AI_END_POINT } from './end-point';
@@ -98,7 +98,7 @@ export const useSaveAiMemo = () => {
     mutationKey: AI_KEY.SAVE(),
     mutationFn: saveAiMemo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ALL_MEMO_KEY.ALL });
+      queryClient.invalidateQueries({ queryKey: MEMOS_KEY.ALL });
     },
   });
 };

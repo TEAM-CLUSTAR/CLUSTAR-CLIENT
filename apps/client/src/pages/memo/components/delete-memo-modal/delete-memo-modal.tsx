@@ -4,29 +4,16 @@ import { Button, Modal } from '@cds/ui';
 import * as styles from './delete-memo-modal.css';
 
 interface DeleteMemoModalProps {
-  memoId: number | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** 메모 삭제 성공 시 호출돼요. 상위(탭)에서 닫기 등 후처리를 담당해요. */
   onDeleted: () => void;
 }
 
 const DeleteMemoModal = ({
-  memoId,
   open,
   onOpenChange,
   onDeleted,
 }: DeleteMemoModalProps) => {
-  const handleDeleteMemo = () => {
-    if (memoId == null) {
-      onDeleted();
-      return;
-    }
-
-    // TODO: 기존 메모 삭제 API 작업에서 memoId로 Mutation을 호출하고,
-    // 성공한 경우에만 onDeleted를 호출해요.
-  };
-
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <Modal.Content>
@@ -50,7 +37,7 @@ const DeleteMemoModal = ({
               </Button>
             </Modal.Close>
             <Modal.Close>
-              <Button size="lg" onClick={handleDeleteMemo}>
+              <Button size="lg" onClick={onDeleted}>
                 삭제
               </Button>
             </Modal.Close>

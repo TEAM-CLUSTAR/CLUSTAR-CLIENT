@@ -69,6 +69,7 @@ export const router = createBrowserRouter([
                   {
                     path: PATH.MEMO,
                     children: [
+                      { index: true, loader: () => redirect(PATH.MEMO_NEW) },
                       { path: 'new', Component: MemoPage },
                       { path: ':memoId', Component: MemoPage },
                     ],
