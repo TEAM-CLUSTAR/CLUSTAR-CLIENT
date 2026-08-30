@@ -24,7 +24,6 @@ const MemoPage = () => {
 
   const memoId = memoIdParam == null ? null : Number(memoIdParam);
   const activeTabId = memoId == null ? DRAFT_TAB_ID : getMemoTabId(memoId);
-  const locationState = location.state as LocationState | null;
   const ensuredTabIdRef = useRef<string | null>(null);
   useEffect(() => {
     if (ensuredTabIdRef.current === activeTabId) {
@@ -39,10 +38,10 @@ const MemoPage = () => {
       openDraftTab();
       return;
     }
-    // TODO: 상세 조회 API가 붙으면 제목을 그 응답에서 받아 채운다.
-    // 지금은 목록에서 넘어온 힌트가 없으면(딥링크로 직접 들어온 경우) 빈 값으로 연다.
-    openMemoTab(memoId, locationState?.title ?? '');
-  }, [activeTabId, memoId, tabs, locationState, openDraftTab, openMemoTab]);
+
+    const state = location.state as LocationState | null;
+    openMemoTab(memoId, state?.title ?? '');
+  }, [activeTabId, memoId, tabs, location.state, openDraftTab, openMemoTab]);
 
   return (
     <div className={styles.pageContainer}>
@@ -51,7 +50,9 @@ const MemoPage = () => {
         memoId={memoId}
         onDeleteMemo={() => closeTab(activeTabId, true)}
         onTitleChange={(title) => renameTab(activeTabId, title)}
-        defaultTagPopoverOpen={locationState?.openTagPopover ?? false}
+        defaultTagPopoverOpen={
+          (location.state as LocationState | null)?.openTagPopover ?? false
+        }
       />
     </div>
   );
