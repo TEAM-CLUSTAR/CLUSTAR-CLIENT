@@ -459,7 +459,7 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 메모 전체 조회(모달창)
+     * 메모 상세 조회
      * @description 하나의 메모를 상세조회 합니다.
      *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
      *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
@@ -507,11 +507,32 @@ export interface paths {
     };
     /**
      * 메모 검색
-     * @description 검색어를 입력하면 최대 5개의 메모를 반환합니다.
-     *     - 텍스트 매칭(제목/본문/태그) 최대 3개
-     *     - 의미 기반 벡터 검색 최대 2개
+     * @description 키워드가 제목/태그/본문에 포함된 모든 메모를 반환합니다.
+     *     정렬: 필드 우선순위(제목 > 태그 > 본문) + 필드 내 온전한 키워드 매칭 우선, 동점은 최신순.
+     *     (의미 기반 검색은 기획 결정으로 비활성화되었습니다.)
      */
     get: operations['searchMemos'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memo/recent-viewed': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 최근 열람한 메모
+     * @description 검색 모달 [입력 완료 전] 화면용. 사용자가 최근에 열람한 메모를 최신 열람순으로 반환합니다.
+     *     (열람 = 메모 상세조회. 한 번도 열람하지 않은 메모는 포함되지 않습니다.)
+     */
+    get: operations['getRecentViewedMemos'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1147,6 +1168,11 @@ export interface components {
        */
       createdAt: string;
       /**
+       * Format: date-time
+       * @description 메모 마지막 수정 시각
+       */
+      updatedAt: string;
+      /**
        * @description AI 생성 여부
        * @example false
        */
@@ -1205,12 +1231,32 @@ export interface components {
       tagList: components['schemas']['TagResponse'][];
       /** Format: date-time */
       createdAt: string;
+      /** Format: date-time */
+      lastViewedAt?: string | null;
       /** @enum {string} */
-      searchType: 'TEXT' | 'SEMANTIC';
+      searchType: 'TEXT';
     };
     MemoSearchResponse: {
       results: components['schemas']['MemoSearchItemResponse'][];
       message: string | null;
+    };
+    ApiResponseMemoRecentViewedResponse: {
+      /** Format: int32 */
+      code: number;
+      msg: string;
+      data?: components['schemas']['MemoRecentViewedResponse'];
+    };
+    Item: {
+      /** Format: int64 */
+      memoId: number;
+      title: string;
+      content: string;
+      tagList: components['schemas']['TagResponse'][];
+      /** Format: date-time */
+      lastViewedAt: string;
+    };
+    MemoRecentViewedResponse: {
+      results: components['schemas']['Item'][];
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
@@ -2416,6 +2462,26 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseMemoSearchResponse'];
+        };
+      };
+    };
+  };
+  getRecentViewedMemos: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoRecentViewedResponse'];
         };
       };
     };
