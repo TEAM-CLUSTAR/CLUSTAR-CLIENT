@@ -191,7 +191,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
 > **네이밍**
 
 - **리액트 컴포넌트만 PascalCase**를 사용
-  - ex: Header, MemoCard, AiSummaryPanel)
+  - ex: Header, MemoCard, AiSummaryPanel
 - 그 외 유틸/함수/변수는 camelCase
 
 > **export 규칙**
@@ -414,37 +414,37 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
 
 ```
 └── src/
-    ├── app/                     // 앱 진입점 및 전역 Provider 설정
+    ├── app/                    // 앱 진입점 및 전역 Provider 설정
     │   ├── main.tsx
     │   └── App.tsx
     ├── pages/
-    │   ├── memos/               // 페이지 단위 도메인 폴더
+    │   ├── memos/              // 페이지 단위 도메인 폴더
     │   │   ├── apis/           // 도메인 관련 API
     │   │   ├── components/     // 도메인 관련 컴포넌트
     │   │   ├── utils/          // 도메인 관련 유틸 함수
     │   │   ├── hooks/          // 도메인 관련 훅
-    │   │   └── home-page.tsx  // 도메인 UI
+    │   │   └── home-page.tsx   // 도메인 UI
     │   ├── memo/
     │   ├── structure/
     │   ├── login/
     │   ├── landing/
     │   └── ...
-    ├── layouts/                 // 여러 페이지가 공유하는 레이아웃
+    ├── layouts/                // 여러 페이지가 공유하는 레이아웃
     │   ├── dashboard-layout/
     │   ├── auth-layout/
     │   └── ...
-    ├── router/                  // 라우팅 설정
+    ├── router/                 // 라우팅 설정
     │   ├── path.ts
     │   ├── lazy.ts
     │   ├── router.ts
     │   └── ...
-    ├── features/                // 재페이지에 종속되지 않는 기능 단위 모듈
+    ├── features/               // 재페이지에 종속되지 않는 기능 단위 모듈
     │   ├── ai-pannel/
     │   ├── sidebar/
     │   └── ...
-    └── shared/                  // 공통으로 사용되는 것들을 모아놓은 폴더
-        ├── api/                 // 공통 API 설정
-        │   ├── interceptor/     // Axios 인터셉터
+    └── shared/                 // 공통으로 사용되는 것들을 모아놓은 폴더
+        ├── api/                // 공통 API 설정
+        │   ├── interceptor/    // Axios 인터셉터
         │   ├── instance.ts
         │   └── status.ts
         ├── components/         // 두 곳 이상에서 재사용되는 공통 컴포넌트
@@ -456,19 +456,19 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
         ├── hooks/              // 공통 커스텀 훅
         ├── utils/              // 공통 유틸 함수
         ├── libs/               // 공통 라이브러리 래퍼/설정(외부 라이브러리 초기화 등)
-        └── types/             // 공통 타입 정의
+        └── types/              // 공통 타입 정의
 
-└── packages/                  // 모노레포 워크스페이스: 앱과 공통 패키지를 분리해 재사용/버전관리
-    ├── cds-ui/                // Clustar 디자인 시스템
+└── packages/                   // 모노레포 워크스페이스: 앱과 공통 패키지를 분리해 재사용/버전관리
+    ├── cds-ui/                 // Clustar 디자인 시스템
     │   └── src/
     |       ├── components
     |       ├── styles
     │       └── ...
-    ├── cds-icons/             // 아이콘 패키지(React 컴포넌트화된 SVG 등)
-    ├── cds-token/             // 디자인 토큰 패키지(색상, 타이포그래피, z-index 등)
-    ├── eslint-config/         // 공통 ESLint 설정 패키지
-    └── typescript-config/     // 공통 TS config 패키지
-└── pnpm-workspace.yaml        // 카탈로그 설정 파일
+    ├── cds-icons/              // 아이콘 패키지(React 컴포넌트화된 SVG 등)
+    ├── cds-token/              // 디자인 토큰 패키지(색상, 타이포그래피, z-index 등)
+    ├── eslint-config/          // 공통 ESLint 설정 패키지
+    └── typescript-config/      // 공통 TS config 패키지
+└── pnpm-workspace.yaml         // 카탈로그 설정 파일
 ```
 
 ## keunnnnnlobstar
