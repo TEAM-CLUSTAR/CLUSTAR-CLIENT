@@ -414,7 +414,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
 
 ```
 └── src/
-    ├── app/
+    ├── app/                     // 앱 진입점 및 전역 Provider 설정
     │   ├── main.tsx
     │   └── App.tsx
     ├── pages/
@@ -429,7 +429,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
     │   ├── login/
     │   ├── landing/
     │   └── ...
-    ├── layouts/
+    ├── layouts/                 // 여러 페이지가 공유하는 레이아웃
     │   ├── dashboard-layout/
     │   ├── auth-layout/
     │   └── ...
@@ -438,7 +438,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
     │   ├── lazy.ts
     │   ├── router.ts
     │   └── ...
-    ├── features/
+    ├── features/                // 재페이지에 종속되지 않는 기능 단위 모듈
     │   ├── ai-pannel/
     │   ├── sidebar/
     │   └── ...
@@ -447,7 +447,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
         │   ├── interceptor/     // Axios 인터셉터
         │   ├── instance.ts
         │   └── status.ts
-        ├── components/         // 공통 컴포넌트
+        ├── components/         // 두 곳 이상에서 재사용되는 공통 컴포넌트
         │   ├── header/
         │   ├── sidebar/
         │   └── ...
@@ -465,7 +465,7 @@ GitHub Flow: 브랜치/규칙이 단순해서 온보딩이 빠르고, 기능 단
     |       ├── styles
     │       └── ...
     ├── cds-icons/             // 아이콘 패키지(React 컴포넌트화된 SVG 등)
-    ├── cds-token/
+    ├── cds-token/             // 디자인 토큰 패키지(색상, 타이포그래피, z-index 등)
     ├── eslint-config/         // 공통 ESLint 설정 패키지
     └── typescript-config/     // 공통 TS config 패키지
 └── pnpm-workspace.yaml        // 카탈로그 설정 파일
