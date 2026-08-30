@@ -1,18 +1,25 @@
-import { PATH } from '@router/path';
-import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 
-import MemoDetail from '@pages/memo/components/memo-detail/memo-detail';
+import MemoDetail, {
+  type MemoEditTarget,
+} from '@pages/memo/components/memo-detail/memo-detail';
 
 import * as styles from './memo-page.css';
 
-const NewMemoPage = () => {
-  const navigate = useNavigate();
+const MemoPage = () => {
+  const { memoId } = useParams();
+
+  const selectedMemoId = memoId === undefined ? null : Number(memoId);
+  const target: MemoEditTarget =
+    selectedMemoId === null
+      ? { status: 'new', memoId: null }
+      : { status: 'saved', memoId: selectedMemoId };
 
   return (
     <div className={styles.pageContainer}>
-      <MemoDetail memoId={null} onDeleted={() => navigate(PATH.MEMOS)} />
+      <MemoDetail key={selectedMemoId ?? 'new'} target={target} />
     </div>
   );
 };
 
-export default NewMemoPage;
+export default MemoPage;

@@ -1,91 +1,77 @@
 import { ReactNode, useRef, useState } from 'react';
 import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
+import { PATH } from '@router/path';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
+import { MEMOS_KEY } from '@pages/memos/apis/query-key';
+
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
+import { useDeleteMemo, useGetMemo } from '../../apis/queries';
+import { MEMO_KEY } from '../../apis/query-key';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
+import { useMemoAutoSave } from './use-memo-auto-save';
 
 import * as styles from './memo-detail.css';
 
-const getMemoDetail = (memoId: number | null): MemoDetailValue => {
-  const currentDate = new Date().toISOString();
-
-  return {
-    memoId,
-    title: '',
-    content: '',
-    images: [],
-    files: [],
-    tagList: [],
-    createdAt: currentDate,
-    updatedAt: currentDate,
-    isAiGenerated: false,
-    sourceMemoTitleList: [],
-  };
-};
-export interface MemoDetailImage {
-  imageId: number;
-  imageUrl: string;
-  imageName: string;
-  imageExtension: string;
-  imageSize: string;
-}
-
-export interface MemoDetailFile {
-  fileId: number;
-  fileUrl: string;
-  fileName: string;
-  fileExtension: string;
-  fileSize: string;
-}
-
-export interface MemoDetailTag {
-  tagId: number;
-  name: string;
-  color: string;
-  parentId: number | null;
-}
-
-export interface MemoDetailValue {
-  memoId: number | null;
-  title: string;
-  content: string;
-  images: MemoDetailImage[];
-  files: MemoDetailFile[];
-  tagList: MemoDetailTag[];
-  createdAt: string;
-  updatedAt: string;
-  isAiGenerated: boolean;
-  sourceMemoTitleList: string[];
-}
+export type MemoEditTarget =
+  | { status: 'new'; memoId: number | null }
+  | { status: 'saved'; memoId: number };
 
 interface MemoDetailProps {
-  memoId: number | null;
-  onDeleted: () => void;
+  target: MemoEditTarget;
 }
 
-const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
+const UNSAVED_DATE_PLACEHOLDER = 'YYYY.MM.DD';
+
+const MemoDetail = ({ target: initialTarget }: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const naviagte = useNavigate();
 
-  // TODO: selectedMemoId가 있으면 상세 조회 API 결과로 memo를 초기화해요.
-  const [memo, setMemo] = useState(getMemoDetail(selectedMemoId));
+  const { data: memoData } = useQuery(useGetMemo(initialTarget.memoId));
 
-  // TODO: 자동 저장 API 작업에서 memo 변경을 debounce하여 저장해요.
+  const { memo, target, lastSavedDate, editMemo } = useMemoAutoSave({
+    initialTarget,
+    savedMemo: memoData?.data,
+  });
+
+  const { mutate: deleteMemo } = useMutation({
+    ...useDeleteMemo(),
+    onSuccess: (_, deletedMemoId) => {
+      queryClient.invalidateQueries({ queryKey: MEMOS_KEY.ALL });
+      queryClient.removeQueries({ queryKey: MEMO_KEY.GET(deletedMemoId) });
+    },
+  });
+
   // TODO: 태그 검색/추가 Popover가 아직 없어서 포커스만 열림 상태로 반영했어요.
   const [isTagFieldOpen, setIsTagFieldOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { memoId, title, content, tagList, images, files, updatedAt } = memo;
-  const currentDate = new Date().toISOString();
-  const footerDate = memoId == null ? currentDate : updatedAt;
+  const { title, content, tagList, images, files } = memo;
+  // 새 메모라도 자동저장으로 생성된 뒤에는 삭제할 수 있어요.
+  const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
   const handleRemoveTag = () => {};
   const handleAttachClick = () => {};
   const handleFileChange = () => {};
+  const handleConfirmDelete = () => {
+    if (deletableMemoId !== null) {
+      deleteMemo(deletableMemoId);
+    }
+    naviagte(PATH.MEMOS);
+  };
+
+  // 기존 메모를 다 받아오기 전에 편집하면 빈 값이 그대로 저장되므로 편집기를 아직 열지 않아요.
+  // TODO: 디자인이 나오면 스켈레톤으로 교체해요.
+  if (initialTarget.memoId !== null && memoData === undefined) {
+    return <div className={styles.root} aria-busy="true" />;
+  }
 
   return (
     <>
@@ -93,6 +79,7 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
         <div className={styles.container}>
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
+              {/* 태그 선택 섹션 */}
               <TagInputField
                 selectedTags={tagList}
                 onRemoveTag={handleRemoveTag}
@@ -100,28 +87,21 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
                 onFocus={() => setIsTagFieldOpen(true)}
               />
 
+              {/* 제목 섹션 */}
               <input
                 className={styles.title}
                 value={title}
                 maxLength={36}
                 placeholder="제목을 입력해주세요."
                 aria-label="메모 제목"
-                onChange={(event) =>
-                  setMemo((previousMemo) => ({
-                    ...previousMemo,
-                    title: event.target.value,
-                  }))
-                }
+                onChange={(event) => editMemo({ title: event.target.value })}
               />
             </div>
+
+            {/* 마크다운 본문 섹션 */}
             <MarkdownEditor
               value={content}
-              onChange={(markdown) =>
-                setMemo((previousMemo) => ({
-                  ...previousMemo,
-                  content: markdown,
-                }))
-              }
+              onChange={(markdown) => editMemo({ content: markdown })}
             >
               <MarkdownEditor.Input
                 className={styles.content}
@@ -130,6 +110,7 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
             </MarkdownEditor>
           </div>
 
+          {/* 파일 섹션 */}
           {files.length > 0 && (
             <div className={styles.fileList}>
               {files.map((file) => (
@@ -138,6 +119,7 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
             </div>
           )}
 
+          {/* 이미지 섹션 */}
           {images.length > 0 && (
             <div className={styles.imageGrid}>
               {images.map((image) => (
@@ -154,8 +136,13 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
           )}
         </div>
 
+        {/* footer 섹션 */}
         <div className={styles.footer}>
-          <time className={styles.date}>{formatFullDate(footerDate)}</time>
+          <time className={styles.date}>
+            {lastSavedDate === null
+              ? UNSAVED_DATE_PLACEHOLDER
+              : formatFullDate(lastSavedDate)}
+          </time>
           <Divider />
 
           <div className={styles.count}>
@@ -201,10 +188,9 @@ const MemoDetail = ({ memoId: selectedMemoId, onDeleted }: MemoDetailProps) => {
       </div>
 
       <DeleteMemoModal
-        memoId={memoId}
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
-        onDeleted={onDeleted}
+        onDeleted={handleConfirmDelete}
       />
     </>
   );
