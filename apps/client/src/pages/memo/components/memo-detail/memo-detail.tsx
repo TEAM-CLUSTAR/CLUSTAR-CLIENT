@@ -1,9 +1,10 @@
 import { ChangeEvent, ReactNode, useRef, useState } from 'react';
-import TagInputField from '@features/tag-popover/tag-input-field/tag-input-field';
+import TagPopover from '@features/tag-popover/tag-popover';
 
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
 
+import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -68,12 +69,14 @@ interface MemoDetailProps {
   memoId: number | null;
   onDeleteMemo: () => void;
   onTitleChange: (title: string) => void;
+  initialTagPopoverOpen?: boolean;
 }
 
 const MemoDetail = ({
   memoId: selectedMemoId,
   onDeleteMemo,
   onTitleChange,
+  initialTagPopoverOpen = false,
 }: MemoDetailProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,14 +84,32 @@ const MemoDetail = ({
   const [memo, setMemo] = useState(getMemoDetail(selectedMemoId));
 
   // TODO: 자동 저장 API 작업에서 memo 변경을 debounce하여 저장해요.
-  // TODO: 태그 검색/추가 Popover가 아직 없어서 포커스만 열림 상태로 반영했어요.
-  const [isTagFieldOpen, setIsTagFieldOpen] = useState(false);
+  const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(
+    initialTagPopoverOpen,
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { memoId, title, content, tagList, images, files, updatedAt } = memo;
+  const { memoId, title, content, images, files, updatedAt } = memo;
   const currentDate = new Date().toISOString();
   const footerDate = memoId == null ? currentDate : updatedAt;
 
-  const handleRemoveTag = () => {};
+  const { data: tagRoots = [] } = useGetTag();
+  const { data: flatTags = [] } = useFlatTags();
+  const [activeParentId, setActiveParentId] = useState<number>();
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+
+  const activeParent =
+    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
+  const selectedTags = flatTags.filter((tag) =>
+    selectedTagIds.includes(tag.tagId),
+  );
+
+  const handleToggleTag = (tagId: number) => {
+    setSelectedTagIds((prev) =>
+      prev.includes(tagId)
+        ? prev.filter((id) => id !== tagId)
+        : [...prev, tagId],
+    );
+  };
   const handleAttachClick = () => {};
   const handleFileChange = () => {};
 
@@ -104,12 +125,22 @@ const MemoDetail = ({
         <div className={styles.container}>
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
-              <TagInputField
-                selectedTags={tagList}
-                onRemoveTag={handleRemoveTag}
-                isOpen={isTagFieldOpen}
-                onFocus={() => setIsTagFieldOpen(true)}
-              />
+              {activeParent && (
+                <TagPopover
+                  mode="browse"
+                  selectedTags={selectedTags}
+                  onRemoveTag={handleToggleTag}
+                  isOpen={isTagPopoverOpen}
+                  onFocus={() => setIsTagPopoverOpen(true)}
+                  parentTags={tagRoots}
+                  selectedParentId={activeParent.tagId}
+                  onSelectParent={setActiveParentId}
+                  tagTree={activeParent}
+                  selectedIds={selectedTagIds}
+                  onToggleTag={handleToggleTag}
+                  onClose={() => setIsTagPopoverOpen(false)}
+                />
+              )}
 
               <input
                 className={styles.title}
