@@ -7,9 +7,8 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { TagNode } from '@shared/apis/tag/type';
+import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
 import { MarkdownEditor } from '@shared/markdown-editor';
-import { TreeNode } from '@shared/utils/build-tree';
 import { formatFullDate } from '@shared/utils/format-date';
 
 import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
@@ -20,15 +19,6 @@ import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 
 import * as styles from './memo-detail.css';
-
-// TODO: 태그 트리 연동(다른 팀원 작업)이 끝나면 실제 데이터로 교체한다.
-const EMPTY_TAG_TREE: TreeNode<TagNode> = {
-  tagId: 0,
-  name: '',
-  color: '',
-  parentId: null,
-  children: [],
-};
 
 export type MemoEditTarget =
   | { status: 'new'; memoId: number | null }
@@ -81,8 +71,30 @@ const MemoDetail = ({
     defaultTagPopoverOpen,
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { title, content, images, files } = memo;
+  const { title, content, images, files, tagList } = memo;
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
+
+  const { data: tagRoots = [] } = useGetTag();
+  const { data: flatTags = [] } = useFlatTags();
+  const [activeParentId, setActiveParentId] = useState<number>();
+
+  const activeParent =
+    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
+
+  const handleToggleTag = (tagId: number) => {
+    const isSelected = tagList.some((tag) => tag.tagId === tagId);
+
+    if (isSelected) {
+      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
+      return;
+    }
+
+    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
+    if (!tagToAdd) {
+      return;
+    }
+    editMemo({ tagList: [...tagList, tagToAdd] });
+  };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextTitle = event.target.value;
@@ -136,20 +148,22 @@ const MemoDetail = ({
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
               {/* 태그 선택 섹션 */}
-              <TagPopover
-                mode="browse"
-                selectedTags={[]}
-                onRemoveTag={() => {}}
-                isOpen={isTagPopoverOpen}
-                onFocus={() => setIsTagPopoverOpen(true)}
-                parentTags={[]}
-                selectedParentId={EMPTY_TAG_TREE.tagId}
-                onSelectParent={() => {}}
-                tagTree={EMPTY_TAG_TREE}
-                selectedIds={[]}
-                onToggleTag={() => {}}
-                onClose={() => setIsTagPopoverOpen(false)}
-              />
+              {activeParent && (
+                <TagPopover
+                  mode="browse"
+                  selectedTags={tagList}
+                  onRemoveTag={handleToggleTag}
+                  isOpen={isTagPopoverOpen}
+                  onFocus={() => setIsTagPopoverOpen(true)}
+                  parentTags={tagRoots}
+                  selectedParentId={activeParent.tagId}
+                  onSelectParent={setActiveParentId}
+                  tagTree={activeParent}
+                  selectedIds={tagList.map((tag) => tag.tagId)}
+                  onToggleTag={handleToggleTag}
+                  onClose={() => setIsTagPopoverOpen(false)}
+                />
+              )}
 
               {/* 제목 섹션 */}
               <input
