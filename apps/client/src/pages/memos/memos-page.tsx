@@ -15,7 +15,7 @@ import * as styles from './memos-page.css';
 
 import emptyImage from '/empty.svg';
 
-const AllMemoPage = () => {
+const MemosPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTagIds = searchParams.getAll('tag').map(Number);
@@ -105,4 +105,4 @@ const AllMemoPage = () => {
   );
 };
 
-export default AllMemoPage;
+export default MemosPage;
