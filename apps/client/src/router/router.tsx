@@ -7,7 +7,8 @@ import {
 import { ErrorPage } from '@pages/error';
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
-import { NotFoundPage } from '@pages/not-found';
+
+import NotFound from '@shared/components/not-found/not-found';
 
 import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
@@ -80,7 +81,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '*',
-        Component: NotFoundPage,
+        Component: NotFound,
       },
     ],
   },

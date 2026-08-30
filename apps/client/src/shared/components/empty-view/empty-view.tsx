@@ -1,5 +1,3 @@
-import { Button } from '@cds/ui';
-
 import * as styles from './empty-view.css';
 
 interface EmptyViewProps {
@@ -24,11 +22,9 @@ const EmptyView = ({
       <p className={styles.description}>{description}</p>
 
       {buttonText && onButtonClick && (
-        <div className={styles.buttonContainer}>
-          <Button size="xl" textSize="lg" onClick={onButtonClick}>
-            {buttonText}
-          </Button>
-        </div>
+        <button type="button" className={styles.button} onClick={onButtonClick}>
+          {buttonText}
+        </button>
       )}
     </div>
   );
