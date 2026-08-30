@@ -1,4 +1,4 @@
-import { FocusEvent } from 'react';
+import { FocusEvent, useEffect, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 
@@ -34,6 +34,19 @@ type TagPopoverProps = TagInputFieldProps &
   };
 
 const TagPopover = (props: TagPopoverProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (
+      props.isOpen &&
+      container &&
+      !container.contains(document.activeElement)
+    ) {
+      container.focus();
+    }
+  }, [props.isOpen]);
+
   const handleBlur = ({
     currentTarget,
     relatedTarget,
@@ -46,7 +59,12 @@ const TagPopover = (props: TagPopoverProps) => {
   };
 
   return (
-    <div className={styles.container} onBlur={handleBlur} tabIndex={-1}>
+    <div
+      ref={containerRef}
+      className={styles.container}
+      onBlur={handleBlur}
+      tabIndex={-1}
+    >
       <TagInputField
         selectedTags={props.selectedTags}
         onRemoveTag={props.onRemoveTag}
