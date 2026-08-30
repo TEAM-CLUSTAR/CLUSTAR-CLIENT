@@ -9,6 +9,7 @@ import { formatDate } from '@shared/utils/format-date';
 import * as styles from './memo-card.css';
 
 export type MemoCardInfoType = {
+  memoId: number;
   title: string;
   content: string;
   createdAt: string;
@@ -25,9 +26,11 @@ interface MemoCardProps
     MemoCardInfoType {
   isSelected?: boolean;
   isDragging?: boolean;
+  onSelectTag?: (memoId: number) => void;
 }
 
 const MemoCard = ({
+  memoId,
   title,
   content,
   createdAt,
@@ -38,6 +41,7 @@ const MemoCard = ({
   isNew = false,
   isSelected = false,
   isDragging = false,
+  onSelectTag,
   ...props
 }: MemoCardProps) => {
   return (
@@ -50,14 +54,28 @@ const MemoCard = ({
           {isAiGenerated && (
             <Tag size="lg" variant="outlined" text="AI 결과물" />
           )}
-          {tagList.map((tag) => (
-            <Tag
-              key={tag.tagId}
-              size="lg"
-              color={tag.color ?? ''}
-              text={tag.name ?? ''}
-            />
-          ))}
+          {tagList.length === 0 ? (
+            <button
+              type="button"
+              className={styles.tagSelectButton}
+              onClick={(event) => {
+                event.stopPropagation();
+                onSelectTag?.(memoId);
+              }}
+            >
+              <Icon name="ic_plus" size={16} color="grey500" />
+              <span className={styles.tagSelectButtonText}>태그 선택</span>
+            </button>
+          ) : (
+            tagList.map((tag) => (
+              <Tag
+                key={tag.tagId}
+                size="lg"
+                color={tag.color ?? ''}
+                text={tag.name ?? ''}
+              />
+            ))
+          )}
         </div>
         <div className={styles.contentsContainer}>
           <Title title={title} />
