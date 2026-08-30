@@ -24,7 +24,16 @@ const marker = {
 } as const;
 
 export const container = style({
+  position: 'relative',
   counterReset: ORDERED_COUNTER,
+  selectors: {
+    '&[data-empty="true"]::before': {
+      content: 'attr(data-placeholder)',
+      position: 'absolute',
+      color: themeVars.color.grey400,
+      pointerEvents: 'none',
+    },
+  },
 });
 
 export const paragraph = block;
