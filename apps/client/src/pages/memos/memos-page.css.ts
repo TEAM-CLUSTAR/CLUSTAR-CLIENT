@@ -7,11 +7,18 @@ const HEADER_MIN_WIDTH = '800px';
 export const container = style({
   width: '100%',
   height: '100%',
-  paddingInline: '4rem',
   display: 'flex',
   flexDirection: 'column',
+});
+
+export const headerSection = style({
+  width: '100%',
+  paddingInline: '4rem',
+  flexShrink: 0,
   containerType: 'inline-size',
   containerName: HEADER_CONTAINER,
+  overflow: 'hidden',
+  scrollbarGutter: 'stable',
 });
 
 export const headerContainer = style({
@@ -25,4 +32,11 @@ export const headerContainer = style({
       maxWidth: HEADER_MAX_WIDTH,
     },
   },
+});
+
+export const scrollArea = style({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  scrollbarGutter: 'stable',
 });
