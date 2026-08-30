@@ -1,4 +1,8 @@
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
+import {
+  mutationOptions,
+  queryOptions,
+  skipToken,
+} from '@tanstack/react-query';
 
 import { api } from '@shared/apis/instance';
 
@@ -13,8 +17,14 @@ import {
   PostMemoResponse,
 } from './type';
 
+interface PatchMemoParams {
+  memoId: number;
+  body: PatchMemoRequestBody;
+}
+
 /**
  * 상세 메모 정보 조회
+ * @param memoId - 조회할 메모 ID
  * @returns 상세 메모 정보
  */
 const getMemo = async (memoId: number): Promise<GetMemoResponse> => {
@@ -22,17 +32,17 @@ const getMemo = async (memoId: number): Promise<GetMemoResponse> => {
   return response.data;
 };
 
-export const useGetMemo = (memoId: number) => {
+export const useGetMemo = (memoId: number | null) => {
   return queryOptions({
     queryKey: MEMO_KEY.GET(memoId),
-    queryFn: () => getMemo(memoId),
+    queryFn: memoId === null ? skipToken : () => getMemo(memoId),
   });
 };
 
 /**
  * 새 메모 작성
- *  @param body - 메모 작성 요청 데이터
- * @returns 메모 작성 응답 데이터
+ * @param body - 메모 작성 요청 데이터
+ * @returns 생성된 메모의 memoId, createdAt, updatedAt
  */
 const postMemo = async (
   body: PostMemoRequestBody,
@@ -52,7 +62,7 @@ export const usePostMemo = () => {
  * 메모 수정
  * @param memoId - 수정할 메모 ID
  * @param body - 메모 수정 요청 데이터
- * @returns 메모 수정 응답 데이터
+ * @returns 수정된 메모의 memoId, createdAt, updatedAt
  */
 const patchMemo = async (
   memoId: number,
@@ -66,10 +76,14 @@ const patchMemo = async (
   return response.data;
 };
 
-export const usePatchMemo = (memoId: number) => {
+/**
+ * 새 메모는 작성 응답을 받은 뒤에야 memoId가 생겨서, 훅을 부르는 시점에는 아직 없어요.
+ * 그래서 memoId를 훅 인자가 아니라 mutation 변수로 함께 넘겨요.
+ */
+export const usePatchMemo = () => {
   return mutationOptions({
-    mutationKey: MEMO_KEY.PATCH(memoId),
-    mutationFn: (body: PatchMemoRequestBody) => patchMemo(memoId, body),
+    mutationKey: MEMO_KEY.PATCH(),
+    mutationFn: ({ memoId, body }: PatchMemoParams) => patchMemo(memoId, body),
   });
 };
 
