@@ -99,9 +99,9 @@ const deleteMemo = async (memoId: number): Promise<DeleteMemoResponse> => {
   return response.data;
 };
 
-export const useDeleteMemo = (memoId: number) => {
+export const useDeleteMemo = () => {
   return mutationOptions({
-    mutationKey: MEMO_KEY.DELETE(memoId),
-    mutationFn: () => deleteMemo(memoId),
+    mutationKey: MEMO_KEY.DELETE(),
+    mutationFn: deleteMemo,
   });
 };

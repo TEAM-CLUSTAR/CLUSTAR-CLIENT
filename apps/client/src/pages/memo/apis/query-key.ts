@@ -3,5 +3,5 @@ export const MEMO_KEY = {
   GET: (memoId: number | null) => [...MEMO_KEY.ALL, 'get', memoId],
   POST: () => [...MEMO_KEY.ALL, 'post'],
   PATCH: () => [...MEMO_KEY.ALL, 'patch'],
-  DELETE: (memoId: number) => [...MEMO_KEY.ALL, 'delete', memoId],
+  DELETE: () => [...MEMO_KEY.ALL, 'delete'],
 };
