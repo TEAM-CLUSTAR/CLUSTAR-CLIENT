@@ -11,5 +11,3 @@ export const PATH = {
 } as const;
 
 export type Routes = (typeof PATH)[keyof typeof PATH];
-
-export const getMemoDetailPath = (memoId: number) => `${PATH.MEMO}/${memoId}`;

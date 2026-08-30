@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useContext, useState } from 'react';
-import { getMemoDetailPath, PATH } from '@router/path';
+import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
 import { clearMemoTabs, getMemoTabs, setMemoTabs } from './memo-tab-storage';
@@ -87,9 +87,7 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
 
     updateTabs(remainingTabs.length === 0 ? [DRAFT_TAB] : remainingTabs);
     navigate(
-      nextTab.memoId == null
-        ? PATH.MEMO_NEW
-        : getMemoDetailPath(nextTab.memoId),
+      nextTab.memoId == null ? PATH.MEMO_NEW : `${PATH.MEMO}/${nextTab.memoId}`,
       { replace: true },
     );
   };

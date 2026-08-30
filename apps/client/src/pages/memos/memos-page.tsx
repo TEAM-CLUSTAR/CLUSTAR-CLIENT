@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAiPanel } from '@features/ai-panel';
 import FilterModal from '@features/filter-modal/filter-modal';
-import { getMemoDetailPath, PATH } from '@router/path';
+import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { useFlatTags } from '@shared/apis/tag/queries';
@@ -53,7 +53,7 @@ const AllMemoPage = () => {
 
   const handleClickCard = (memoId: number) => {
     const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
-    navigate(getMemoDetailPath(memoId), { state: { title } });
+    navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
   };
 
   const loadMoreRef = useInfiniteScroll({

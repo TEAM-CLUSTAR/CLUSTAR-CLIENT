@@ -1,4 +1,4 @@
-import { getMemoDetailPath, PATH } from '@router/path';
+import { PATH } from '@router/path';
 import { useLocation, useMatch, useNavigate } from 'react-router';
 
 import AddMemoButton from './components/add-memo-button/add-memo-button';
@@ -22,7 +22,7 @@ const MemoTabBar = () => {
         : getMemoTabId(Number(memoIdParam));
 
   const handleSelectTab = (memoId: number | null) => {
-    navigate(memoId == null ? PATH.MEMO_NEW : getMemoDetailPath(memoId));
+    navigate(memoId == null ? PATH.MEMO_NEW : `${PATH.MEMO}/${memoId}`);
   };
 
   const handleAddTab = () => {
