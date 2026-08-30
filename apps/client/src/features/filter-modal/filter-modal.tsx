@@ -58,66 +58,64 @@ const FilterModal = ({
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      <Modal.Content ariaLabel="태그 필터링">
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <p className={styles.headerTitle}>태그 필터링</p>
-            <Modal.Close>
-              <button type="button" aria-label="닫기">
-                <Icon name="ic_delete" size={24} color="grey700" />
-              </button>
-            </Modal.Close>
-          </div>
+      <Modal.Content className={styles.container} ariaLabel="태그 필터링">
+        <div className={styles.header}>
+          <p className={styles.headerTitle}>태그 필터링</p>
+          <Modal.Close>
+            <button type="button" aria-label="닫기">
+              <Icon name="ic_delete" size={24} color="grey700" />
+            </button>
+          </Modal.Close>
+        </div>
 
-          {roots.length ? (
-            <div className={styles.body}>
-              <ParentTagList
-                tags={roots}
-                selectedTagId={activeRoot?.tagId ?? 0}
-                onSelect={setActiveRootId}
+        {roots.length ? (
+          <div className={styles.body}>
+            <ParentTagList
+              tags={roots}
+              selectedTagId={activeRoot?.tagId ?? 0}
+              onSelect={setActiveRootId}
+            />
+
+            <div className={styles.panel}>
+              <TagSelectField
+                selectedTags={selectedTags}
+                onRemoveTag={handleToggle}
               />
 
-              <div className={styles.panel}>
-                <TagSelectField
-                  selectedTags={selectedTags}
-                  onRemoveTag={handleToggle}
-                />
-
-                <p className={styles.selectedLabel}>
-                  {`선택된 태그(${selectedIds.length}개)`}
-                </p>
-                {activeRoot && (
-                  <div className={styles.treeScroll}>
-                    <TagCheckTree
-                      tag={activeRoot}
-                      selectedIds={selectedIds}
-                      onToggle={handleToggle}
-                    />
-                  </div>
-                )}
-
-                <div className={styles.footer}>
-                  <Modal.Close>
-                    <Button size="md" variant="outlined">
-                      취소
-                    </Button>
-                  </Modal.Close>
-                  <Button size="md" variant="solid" onClick={handleApply}>
-                    적용하기
-                  </Button>
+              <p className={styles.selectedLabel}>
+                {`선택된 태그(${selectedIds.length}개)`}
+              </p>
+              {activeRoot && (
+                <div className={styles.treeScroll}>
+                  <TagCheckTree
+                    tag={activeRoot}
+                    selectedIds={selectedIds}
+                    onToggle={handleToggle}
+                  />
                 </div>
+              )}
+
+              <div className={styles.footer}>
+                <Modal.Close>
+                  <Button size="md" variant="outlined">
+                    취소
+                  </Button>
+                </Modal.Close>
+                <Button size="md" variant="solid" onClick={handleApply}>
+                  적용하기
+                </Button>
               </div>
             </div>
-          ) : (
-            <div className={styles.emptyBody}>
-              <EmptyState
-                imageSrc={tagImage}
-                title="생성된 태그가 없습니다."
-                description="새 메모 창에 들어가서 새로운 태그를 생성해보세요."
-              />
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className={styles.emptyBody}>
+            <EmptyState
+              imageSrc={tagImage}
+              title="생성된 태그가 없습니다."
+              description="새 메모 창에 들어가서 새로운 태그를 생성해보세요."
+            />
+          </div>
+        )}
       </Modal.Content>
     </Modal>
   );
