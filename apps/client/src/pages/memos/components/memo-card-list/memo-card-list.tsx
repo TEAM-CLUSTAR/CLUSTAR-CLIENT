@@ -1,10 +1,15 @@
+import { DragEvent, useState } from 'react';
+import { SelectedMemoType } from '@features/ai-panel/types/ai-panel.types';
+
 import MemoCard, {
   MemoCardInfoType,
 } from '@pages/memos/components/memo-card/memo-card';
 
+import { MEMO_DRAG_DATA_FORMAT } from '@shared/constants/memo-drag-data';
 import { components } from '@shared/types/schema';
 
 import * as styles from './memo-card-list.css';
+import { cardContainer } from '@pages/memos/components/memo-card/memo-card.css';
 
 type MemoCardResponse = components['schemas']['MemoDashboardResponse'];
 
@@ -21,17 +26,72 @@ const CardInfo = (memo: MemoCardResponse): MemoCardInfoType => ({
 
 interface MemoCardListProps {
   cards: MemoCardResponse[];
-  isSelected: boolean;
-  isDragging: boolean;
+  selectedMemoIds?: number[];
+  isDraggable?: boolean;
   onClickCard: () => void;
+  onDraggingChange?: (isDragging: boolean) => void;
 }
 
 const MemoCardList = ({
   cards,
-  isSelected,
-  isDragging,
+  selectedMemoIds = [],
+  isDraggable = false,
   onClickCard,
+  onDraggingChange,
 }: MemoCardListProps) => {
+  const [draggingId, setDraggingId] = useState<number | null>(null);
+
+  const handleDragStart =
+    (memo: MemoCardResponse) => (event: DragEvent<HTMLElement>) => {
+      const dragData: SelectedMemoType = {
+        memoId: memo.memoId,
+        title: memo.title,
+      };
+      event.dataTransfer.setData(
+        MEMO_DRAG_DATA_FORMAT,
+        JSON.stringify(dragData),
+      );
+      event.dataTransfer.effectAllowed = 'copy';
+
+      const cardElement = event.currentTarget;
+      const mountTarget = cardElement.parentElement ?? document.body;
+      const rect = cardElement.getBoundingClientRect();
+      const preview = cardElement.cloneNode(true) as HTMLElement;
+      preview.style.position = 'fixed';
+      preview.style.top = '-9999px';
+      preview.style.left = '-9999px';
+      preview.style.width = `${rect.width}px`;
+      preview.style.height = `${rect.height}px`;
+      preview.style.pointerEvents = 'none';
+      // 복제 시점엔 아직 isDragging 리렌더가 반영되지 않으므로, 클래스를
+      // 드래그 상태 스타일로 직접 교체해 고스트가 드래그 중 모습으로 보이게 한다.
+      preview.className = cardContainer({
+        isSelected: selectedMemoIds.includes(memo.memoId),
+        isDragging: true,
+        isNew: memo.isNew,
+      });
+      mountTarget.appendChild(preview);
+
+      event.dataTransfer.setDragImage(
+        preview,
+        event.clientX - rect.left,
+        event.clientY - rect.top,
+      );
+
+      setTimeout(() => {
+        if (preview.parentNode === mountTarget)
+          mountTarget.removeChild(preview);
+      }, 0);
+
+      setDraggingId(memo.memoId);
+      onDraggingChange?.(true);
+    };
+
+  const handleDragEnd = () => {
+    setDraggingId(null);
+    onDraggingChange?.(false);
+  };
+
   return (
     <div className={styles.memoListContainer}>
       <div className={styles.memoListGrid}>
@@ -39,8 +99,11 @@ const MemoCardList = ({
           <MemoCard
             key={card.memoId}
             {...CardInfo(card)}
-            isSelected={isSelected}
-            isDragging={isDragging}
+            isSelected={selectedMemoIds.includes(card.memoId)}
+            isDragging={draggingId === card.memoId}
+            draggable={isDraggable}
+            onDragStart={handleDragStart(card)}
+            onDragEnd={handleDragEnd}
             onClick={onClickCard}
           />
         ))}
