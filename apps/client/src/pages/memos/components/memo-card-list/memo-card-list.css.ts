@@ -7,6 +7,7 @@ const columns = (count: number) => `repeat(${count}, minmax(34rem, 1fr))`;
 
 export const memoListContainer = style({
   width: '100%',
+  paddingInline: '4rem',
   containerType: 'inline-size',
   containerName: MEMO_LIST_CONTAINER,
 });

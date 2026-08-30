@@ -51,6 +51,11 @@ const AllMemoPage = () => {
     handleApplyFilter(selectedTagIds.filter((id) => id !== tagId));
   };
 
+  const handleClickCard = (memoId: number) => {
+    const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
+    navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
+  };
+
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
@@ -64,15 +69,17 @@ const AllMemoPage = () => {
     <div className={styles.container}>
       {showHeaderSection && (
         <>
-          <div className={styles.headerContainer}>
-            <Header
-              title="전체 메모"
-              count={totalCount ?? 0}
-              isFilterActive={isFilterActive}
-              onOpenFilter={() => setIsFilterOpen(true)}
-              filterChips={filterChips}
-              onRemoveFilter={handleRemoveFilter}
-            />
+          <div className={styles.headerSection}>
+            <div className={styles.headerContainer}>
+              <Header
+                title="전체 메모"
+                count={totalCount ?? 0}
+                isFilterActive={isFilterActive}
+                onOpenFilter={() => setIsFilterOpen(true)}
+                filterChips={filterChips}
+                onRemoveFilter={handleRemoveFilter}
+              />
+            </div>
           </div>
           <FilterModal
             open={isFilterOpen}
@@ -83,25 +90,27 @@ const AllMemoPage = () => {
         </>
       )}
 
-      {totalCount === 0 ? (
-        <EmptyView
-          imgSrc={emptyImage}
-          title="작성된 메모가 없습니다."
-          description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
-          buttonText="메모 작성하러 가기"
-          onButtonClick={() => navigate(PATH.MEMO)}
-        />
-      ) : (
-        <>
-          <MemoCardList
-            cards={memosList ?? []}
-            selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
-            isDraggable={isAiPanelOpen}
-            onClickCard={() => {}} // TODO: 상세 페이지 연결
+      <div className={styles.scrollArea}>
+        {totalCount === 0 ? (
+          <EmptyView
+            imgSrc={emptyImage}
+            title="작성된 메모가 없습니다."
+            description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
+            buttonText="메모 작성하러 가기"
+            onButtonClick={() => navigate(PATH.MEMO_NEW)}
           />
-          <div ref={loadMoreRef} />
-        </>
-      )}
+        ) : (
+          <>
+            <MemoCardList
+              cards={memosList ?? []}
+              selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
+              isDraggable={isAiPanelOpen}
+              onClickCard={handleClickCard}
+            />
+            <div ref={loadMoreRef} />
+          </>
+        )}
+      </div>
     </div>
   );
 };
