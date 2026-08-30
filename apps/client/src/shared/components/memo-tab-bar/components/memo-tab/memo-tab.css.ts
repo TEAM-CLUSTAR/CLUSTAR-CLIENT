@@ -10,20 +10,21 @@ export const container = recipe({
     width: '18.8rem',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    borderBottom: '2.5px solid transparent',
+    // border 대신 inset box-shadow로 그려서 레이아웃 높이에 영향을 주지 않게 함
+    boxShadow: 'inset 0 -2.5px 0 0 transparent',
   },
 
   variants: {
     isSelected: {
       true: {
-        borderBottomColor: themeVars.color.blue400,
+        boxShadow: `inset 0 -2.5px 0 0 ${themeVars.color.blue400}`,
         color: themeVars.color.blue500,
       },
     },
     isHoverActive: {
       true: {
-        transition: 'border-bottom-color 0.2s ease',
-        borderBottomColor: themeVars.color.grey500,
+        transition: 'box-shadow 0.1s ease',
+        boxShadow: `inset 0 -2.5px 0 0 ${themeVars.color.grey500}`,
         color: themeVars.color.grey600,
       },
     },
