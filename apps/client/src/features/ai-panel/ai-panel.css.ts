@@ -25,3 +25,11 @@ export const content = style({
   overflowY: 'auto',
   padding: '1.6rem',
 });
+
+export const chatWrapper = style({
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  minHeight: 0,
+});
