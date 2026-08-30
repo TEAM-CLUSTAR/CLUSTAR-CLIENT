@@ -1,3 +1,5 @@
+import { FocusEvent } from 'react';
+
 import { Icon } from '@cds/icon';
 
 import { TagNode } from '@shared/apis/tag/type';
@@ -26,11 +28,25 @@ type TagPopoverPanelProps =
       onCreate: () => void;
     };
 
-type TagPopoverProps = TagInputFieldProps & TagPopoverPanelProps;
+type TagPopoverProps = TagInputFieldProps &
+  TagPopoverPanelProps & {
+    onClose: () => void;
+  };
 
 const TagPopover = (props: TagPopoverProps) => {
+  const handleBlur = ({
+    currentTarget,
+    relatedTarget,
+  }: FocusEvent<HTMLElement>) => {
+    if (
+      !(relatedTarget instanceof Node && currentTarget.contains(relatedTarget))
+    ) {
+      props.onClose();
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onBlur={handleBlur} tabIndex={-1}>
       <TagInputField
         selectedTags={props.selectedTags}
         onRemoveTag={props.onRemoveTag}
