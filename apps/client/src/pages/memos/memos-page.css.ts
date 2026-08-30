@@ -6,7 +6,10 @@ const HEADER_MIN_WIDTH = '800px';
 
 export const container = style({
   width: '100%',
+  height: '100%',
   paddingInline: '4rem',
+  display: 'flex',
+  flexDirection: 'column',
   containerType: 'inline-size',
   containerName: HEADER_CONTAINER,
 });
