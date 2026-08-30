@@ -37,10 +37,6 @@ const EMPTY_STATE = {
   },
 } as const;
 
-const getSearchResultSectionTitle = (count: number) => {
-  return `검색 결과(${count}개)`;
-};
-
 const getRecentSectionTitle = (source: MemoRecentViewedSource) => {
   return source === 'RECENT_CREATED' ? '최근 생성한 메모' : '최근 열람한 메모';
 };
@@ -60,10 +56,9 @@ const MemoSearchModal = ({
   const isSearchResult = searchResultMemos !== undefined;
   const memos = searchResultMemos ?? recentMemos;
   const isEmpty = memos.length === 0;
-  const shouldShowEmptyState = isEmpty && !isLoading;
   const resultCount = searchResultMemos?.length ?? 0;
   const sectionTitle = isSearchResult
-    ? getSearchResultSectionTitle(resultCount)
+    ? `검색 결과(${resultCount}개)`
     : getRecentSectionTitle(recentSource);
   const emptyState = isSearchResult ? EMPTY_STATE.search : EMPTY_STATE.recent;
 
@@ -90,7 +85,7 @@ const MemoSearchModal = ({
                   ))}
                 </div>
               </>
-            ) : shouldShowEmptyState ? (
+            ) : !isLoading ? (
               <div className={styles.emptyStateContainer}>
                 <EmptyState
                   imageSrc={emptyState.imageSrc}
