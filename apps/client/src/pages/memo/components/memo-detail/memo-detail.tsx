@@ -12,10 +12,10 @@ import { formatFullDate } from '@shared/utils/format-date';
 
 import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
 import { MEMO_KEY } from '../../apis/query-key';
+import { useMemoAttachments } from '../../hooks/use-memo-attachments';
+import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
-import { useMemoAttachments } from './use-memo-attachments';
-import { useMemoAutoSave } from './use-memo-auto-save';
 
 import * as styles from './memo-detail.css';
 

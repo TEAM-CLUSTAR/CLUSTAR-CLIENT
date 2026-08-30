@@ -9,14 +9,13 @@ import {
   useGetMemo as memoDetailQuery,
   usePatchMemo,
   usePostMemo,
-} from '../../apis/queries';
-import { MEMO_KEY } from '../../apis/query-key';
-import { PatchMemoRequestBody, PostMemoRequestBody } from '../../apis/type';
-import type { MemoEditTarget } from './memo-detail';
+} from '../apis/queries';
+import { MEMO_KEY } from '../apis/query-key';
+import { PatchMemoRequestBody, PostMemoRequestBody } from '../apis/type';
+import type { MemoEditTarget } from '../components/memo-detail/memo-detail';
 
 const AUTO_SAVE_DELAY_MS = 1000;
 
-/** 저장을 직렬로 실행해요. 생성 응답의 memoId를 다음 저장이 써야 하거든요. */
 const AUTO_SAVE_SCOPE = { id: 'memo-auto-save' };
 
 const EMPTY_MEMO: MemoType = {
@@ -111,7 +110,7 @@ export const useMemoAutoSave = ({
   const pendingSaveRef = useRef<(() => void) | null>(null);
 
   /**
-   * 저장 직후 상세를 다시 받아 저장된 첨부로 바꿔요.
+   * 저장 직후 상세를 다시 받아 저장된 첨부로 변경
    */
   const readSavedAttachments = async (
     memoToSave: MemoType,
@@ -124,7 +123,6 @@ export const useMemoAutoSave = ({
     const savedDetail = toMemoDetail(
       await queryClient.fetchQuery({
         ...memoDetailQuery(savedMemoId),
-        // 방금 저장해서 캐시가 남아 있어도 반드시 새로 받아야 해요.
         staleTime: 0,
       }),
     );
