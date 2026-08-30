@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAiPanel } from '@features/ai-panel';
 import FilterModal from '@features/filter-modal/filter-modal';
-import { PATH } from '@router/path';
+import { getMemoDetailPath, PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { useFlatTags } from '@shared/apis/tag/queries';
@@ -51,6 +51,11 @@ const AllMemoPage = () => {
     handleApplyFilter(selectedTagIds.filter((id) => id !== tagId));
   };
 
+  const handleClickCard = (memoId: number) => {
+    const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
+    navigate(getMemoDetailPath(memoId), { state: { title } });
+  };
+
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
@@ -97,7 +102,7 @@ const AllMemoPage = () => {
             cards={memosList ?? []}
             selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
             isDraggable={isAiPanelOpen}
-            onClickCard={() => {}} // TODO: 상세 페이지 연결
+            onClickCard={handleClickCard}
           />
           <div ref={loadMoreRef} />
         </>
