@@ -1,6 +1,6 @@
 import { Icon } from '@cds/icon';
 
-import { MemoDetailFile } from '../../memo-detail';
+import { MemoDetailFile } from '../memo-detail/memo-detail';
 
 import * as styles from './file.css';
 

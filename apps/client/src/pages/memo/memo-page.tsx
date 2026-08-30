@@ -1,7 +1,7 @@
 import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
-import MemoDetail from '@shared/components/memo-detail/memo-detail';
+import MemoDetail from '@pages/memo/components/memo-detail/memo-detail';
 
 import * as styles from './memo-page.css';
 

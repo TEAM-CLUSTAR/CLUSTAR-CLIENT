@@ -7,8 +7,8 @@ import { Tooltip } from '@cds/ui';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
-import DeleteMemoModal from './components/delete-memo-modal/delete-memo-modal';
-import File from './components/file/file';
+import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
+import File from '../file/file';
 
 import * as styles from './memo-detail.css';
 
