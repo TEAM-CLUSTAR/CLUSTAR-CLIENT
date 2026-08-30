@@ -9,7 +9,7 @@ import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { NotFoundPage } from '@pages/not-found';
 
-import { LoginPage, MemoPage, MemosPage, StructurePage } from './lazy';
+import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
@@ -64,10 +64,6 @@ export const router = createBrowserRouter([
               {
                 path: PATH.MEMO,
                 Component: MemoPage,
-              },
-              {
-                path: PATH.STRUCTURE,
-                Component: StructurePage,
               },
             ],
           },

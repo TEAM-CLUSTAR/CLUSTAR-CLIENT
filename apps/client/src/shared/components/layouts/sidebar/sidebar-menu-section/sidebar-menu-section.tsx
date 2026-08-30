@@ -37,12 +37,6 @@ const MENU_ITEMS: MenuEntry[] = [
     text: '모든 메모',
     path: PATH.MEMOS,
   },
-  {
-    id: 'structure',
-    iconName: 'ic_treeview',
-    text: '구조화뷰',
-    path: PATH.STRUCTURE,
-  },
 ];
 
 const SidebarMenuSection = ({
