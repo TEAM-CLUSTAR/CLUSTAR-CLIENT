@@ -12,6 +12,23 @@ import File from './components/file/file';
 import * as styles from './memo-editor.css';
 
 // @TODO: MemoDetail로 컴포넌트 리네이밍
+
+const getMemoDetail = (memoId: number | null): MemoEditorValue => {
+  const currentDate = new Date().toISOString();
+
+  return {
+    memoId,
+    title: '',
+    content: '',
+    images: [],
+    files: [],
+    tagList: [],
+    createdAt: currentDate,
+    updatedAt: currentDate,
+    isAiGenerated: false,
+    sourceMemoTitleList: [],
+  };
+};
 export interface MemoEditorImage {
   imageId: number;
   imageUrl: string;
@@ -191,23 +208,6 @@ const MemoEditor = ({ memoId: selectedMemoId, onDeleted }: MemoEditorProps) => {
       />
     </>
   );
-};
-
-const getMemoDetail = (memoId: number | null): MemoEditorValue => {
-  const currentDate = new Date().toISOString();
-
-  return {
-    memoId,
-    title: '',
-    content: '',
-    images: [],
-    files: [],
-    tagList: [],
-    createdAt: currentDate,
-    updatedAt: currentDate,
-    isAiGenerated: false,
-    sourceMemoTitleList: [],
-  };
 };
 
 const Divider = () => <span className={styles.divider} />;
