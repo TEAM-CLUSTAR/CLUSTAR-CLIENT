@@ -4,6 +4,7 @@ export const zIndex = {
   default: '0',
   panelOverlay: '50',
   sidebar: '100',
+  aiPanel: '100',
   button: '200',
   modalOverlay: '300',
   modalContent: '400',
