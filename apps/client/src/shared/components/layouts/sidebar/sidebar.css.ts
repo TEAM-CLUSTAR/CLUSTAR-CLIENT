@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 import { zIndex } from '@cds/token';
-import { slideInLeft, themeVars } from '@cds/ui';
+import { themeVars } from '@cds/ui';
 
 export const sidebar = style({
   position: 'sticky',
@@ -13,7 +13,6 @@ export const sidebar = style({
   padding: '2rem',
   height: '100vh',
   flexShrink: '0',
-  animation: `${slideInLeft} 0.3s cubic-bezier(0.4, 0, 0.2, 1)`,
   transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   selectors: {
     '&[data-expanded="true"]': { width: '26rem' },
