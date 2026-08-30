@@ -16,7 +16,7 @@ interface MemoTabContextValue {
   tabs: MemoTabItem[];
   openMemoTab: (memoId: number, title: string) => void;
   openDraftTab: () => void;
-  closeTab: (tabId: string) => void;
+  closeTab: (tabId: string, isActiveTab: boolean) => void;
   renameTab: (tabId: string, title: string) => void;
 }
 
@@ -71,10 +71,15 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const closeTab = (tabId: string) => {
-    const closedIndex = tabs.findIndex((tab) => tab.tabId === tabId);
+  const closeTab = (tabId: string, isActiveTab: boolean) => {
     const remainingTabs = tabs.filter((tab) => tab.tabId !== tabId);
 
+    if (!isActiveTab) {
+      updateTabs(remainingTabs);
+      return;
+    }
+
+    const closedIndex = tabs.findIndex((tab) => tab.tabId === tabId);
     const nextTab =
       remainingTabs.length === 0
         ? DRAFT_TAB

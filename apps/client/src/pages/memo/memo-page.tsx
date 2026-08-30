@@ -49,7 +49,7 @@ const MemoPage = () => {
       <MemoDetail
         key={activeTabId}
         memoId={memoId}
-        onDeleteMemo={() => closeTab(activeTabId)}
+        onDeleteMemo={() => closeTab(activeTabId, true)}
         onTitleChange={(title) => renameTab(activeTabId, title)}
       />
     </div>

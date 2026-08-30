@@ -39,7 +39,7 @@ const MemoTabBar = () => {
             memoTitle={tab.title || '제목 없음'}
             isSelected={tab.tabId === activeTabId}
             onSelectTab={() => handleSelectTab(tab.memoId)}
-            onCloseTab={() => closeTab(tab.tabId)}
+            onCloseTab={() => closeTab(tab.tabId, tab.tabId === activeTabId)}
           />
         ))}
       </div>
