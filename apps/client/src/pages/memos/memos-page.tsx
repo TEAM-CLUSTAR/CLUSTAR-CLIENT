@@ -38,9 +38,11 @@ const AllMemoPage = () => {
   const { data: totalCount } = useGetMemoTotalCount(activeTagIds);
 
   const handleApplyFilter = (tagIds: number[]) => {
-    const nextParams = new URLSearchParams();
-    tagIds.forEach((id) => nextParams.append('tag', String(id)));
-    setSearchParams(nextParams);
+    setSearchParams((prev) => {
+      prev.delete('tag');
+      tagIds.forEach((id) => prev.append('tag', String(id)));
+      return prev;
+    });
   };
 
   const handleRemoveFilter = (tagId: number) => {
