@@ -5,7 +5,6 @@ export const PATH = {
   LOGIN_CALLBACK: '/oauth/callback',
   MEMO: '/memo',
   MEMO_NEW: '/memo/new',
-  /** 라우트 정의용 패턴이에요. 실제 경로는 getMemoDetailPath로 만들어요. */
   MEMO_DETAIL: '/memo/:memoId',
   MEMOS: '/memos',
   STRUCTURE: '/structure',
