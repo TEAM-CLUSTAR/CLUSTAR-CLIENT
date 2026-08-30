@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAiPanel } from '@features/ai-panel';
 import FilterModal from '@features/filter-modal/filter-modal';
 import { PATH } from '@router/path';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -21,6 +22,7 @@ const AllMemoPage = () => {
   const selectedTagIds = searchParams.getAll('tag').map(Number);
   const activeTagIds = selectedTagIds.length ? selectedTagIds : undefined;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const { isOpen: isAiPanelOpen, selectedMemos } = useAiPanel();
 
   const { data: flatTags = [] } = useFlatTags();
   const tagsById = new Map(flatTags.map((tag) => [tag.tagId, tag]));
@@ -91,12 +93,11 @@ const AllMemoPage = () => {
         />
       ) : (
         <>
-          {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
           <MemoCardList
             cards={memosList ?? []}
-            isSelected={false}
-            isDragging={false}
-            onClickCard={() => {}}
+            selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
+            isDraggable={isAiPanelOpen}
+            onClickCard={() => {}} // TODO: 상세 페이지 연결
           />
           <div ref={loadMoreRef} />
         </>
