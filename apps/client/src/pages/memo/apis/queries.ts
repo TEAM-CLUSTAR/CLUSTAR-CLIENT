@@ -7,6 +7,8 @@ import { MEMO_KEY } from './query-key';
 import {
   DeleteMemoResponse,
   GetMemoResponse,
+  PatchMemoRequestBody,
+  PatchMemoResponse,
   PostMemoRequestBody,
   PostMemoResponse,
 } from './type';
@@ -47,6 +49,31 @@ export const usePostMemo = () => {
 };
 
 /**
+ * 메모 수정
+ * @param memoId - 수정할 메모 ID
+ * @param body - 메모 수정 요청 데이터
+ * @returns 메모 수정 응답 데이터
+ */
+const patchMemo = async (
+  memoId: number,
+  body: PatchMemoRequestBody,
+): Promise<PatchMemoResponse> => {
+  const response = await api.patch<PatchMemoResponse>(
+    MEMO_END_POIINT.PATCH(memoId),
+    body,
+  );
+
+  return response.data;
+};
+
+export const usePatchMemo = (memoId: number) => {
+  return mutationOptions({
+    mutationKey: MEMO_KEY.PATCH(memoId),
+    mutationFn: (body: PatchMemoRequestBody) => patchMemo(memoId, body),
+  });
+};
+
+/**
  * 메모 삭제
  * @param memoId - 삭제할 메모 ID
  * @returns 메모 삭제 응답 데이터
@@ -58,9 +85,9 @@ const deleteMemo = async (memoId: number): Promise<DeleteMemoResponse> => {
   return response.data;
 };
 
-export const deletePostMemo = (memoId: number) => {
+export const useDeleteMemo = (memoId: number) => {
   return mutationOptions({
     mutationKey: MEMO_KEY.DELETE(memoId),
-    mutationFn: deleteMemo,
+    mutationFn: () => deleteMemo(memoId),
   });
 };
