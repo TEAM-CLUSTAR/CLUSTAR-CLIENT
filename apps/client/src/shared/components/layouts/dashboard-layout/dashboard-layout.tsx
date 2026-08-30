@@ -3,12 +3,18 @@ import { AiPanel, AiPanelProvider, useAiPanel } from '@features/ai-panel';
 
 import { FloatingButton } from '@cds/ui';
 
+import { MemoTabProvider } from '@shared/components/memo-tab-bar/memo-tab-context';
+
 import Sidebar from '../sidebar/sidebar';
 import { SidebarProvider } from '../sidebar/sidebar-context';
 
 import * as styles from './dashboard-layout.css';
 
-const DashboardLayoutContent = ({ children }: { children: ReactNode }) => {
+interface DashboardLayoutContentProps {
+  children: ReactNode;
+}
+
+const DashboardLayoutContent = ({ children }: DashboardLayoutContentProps) => {
   const { isOpen: isAiPanelOpen, open: openAiPanel } = useAiPanel();
 
   return (
@@ -29,12 +35,20 @@ const DashboardLayoutContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
+
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <SidebarProvider>
-      <AiPanelProvider>
-        <DashboardLayoutContent>{children}</DashboardLayoutContent>
-      </AiPanelProvider>
+      <MemoTabProvider>
+        <AiPanelProvider>
+          <DashboardLayoutContent>{children}</DashboardLayoutContent>
+        </AiPanelProvider>
+      </MemoTabProvider>
     </SidebarProvider>
   );
-}
+};
+
+export default DashboardLayout;

@@ -14,6 +14,7 @@ import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
 import DashboardRoute from './routes/dashboard-route';
+import MemoWorkspaceRoute from './routes/memo-workspace-route';
 import RootRoute from './routes/root-route';
 
 export const router = createBrowserRouter([
@@ -58,12 +59,20 @@ export const router = createBrowserRouter([
                 },
               },
               {
-                path: PATH.MEMOS,
-                Component: MemosPage,
-              },
-              {
-                path: PATH.MEMO,
-                Component: MemoPage,
+                Component: MemoWorkspaceRoute,
+                children: [
+                  {
+                    path: PATH.MEMOS,
+                    Component: MemosPage,
+                  },
+                  {
+                    path: PATH.MEMO,
+                    children: [
+                      { index: true, Component: MemoPage },
+                      { path: ':memoId', Component: MemoPage },
+                    ],
+                  },
+                ],
               },
             ],
           },
