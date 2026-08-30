@@ -171,7 +171,7 @@ export const tooltipBubble = style({
   visibility: 'hidden',
   opacity: 0,
   transition: 'opacity 0.15s ease',
-  zIndex: themeVars.zIndex.default,
+  zIndex: themeVars.zIndex.tooltip,
   pointerEvents: 'none',
 
   selectors: {
