@@ -23,7 +23,7 @@ interface MemoCardListProps {
   cards: MemoCardResponse[];
   isSelected: boolean;
   isDragging: boolean;
-  onClickCard: () => void;
+  onClickCard: (memoId: number) => void;
 }
 
 const MemoCardList = ({
@@ -41,7 +41,7 @@ const MemoCardList = ({
             {...CardInfo(card)}
             isSelected={isSelected}
             isDragging={isDragging}
-            onClick={onClickCard}
+            onClick={() => onClickCard(card.memoId)}
           />
         ))}
       </div>

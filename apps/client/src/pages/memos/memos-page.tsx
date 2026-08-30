@@ -87,16 +87,16 @@ const MemosPage = () => {
           title="작성된 메모가 없습니다."
           description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
           buttonText="메모 작성하러 가기"
-          onButtonClick={() => navigate(PATH.MEMO)}
+          onButtonClick={() => navigate(PATH.MEMO_NEW)}
         />
       ) : (
         <>
-          {/* 카드 선택/드래그, 상세 페이지 연결 전까지 임시 값 전달 */}
+          {/* 카드 선택/드래그 전까지 임시 값 전달 */}
           <MemoCardList
             cards={memosList ?? []}
             isSelected={false}
             isDragging={false}
-            onClickCard={() => {}}
+            onClickCard={(memoId) => navigate(`${PATH.MEMO}/${memoId}`)}
           />
           <div ref={loadMoreRef} />
         </>

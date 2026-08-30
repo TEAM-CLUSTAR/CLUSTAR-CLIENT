@@ -63,6 +63,14 @@ export const router = createBrowserRouter([
               },
               {
                 path: PATH.MEMO,
+                loader: () => redirect(PATH.MEMO_NEW),
+              },
+              {
+                path: PATH.MEMO_NEW,
+                Component: MemoPage,
+              },
+              {
+                path: PATH.MEMO_DETAIL,
                 Component: MemoPage,
               },
             ],
