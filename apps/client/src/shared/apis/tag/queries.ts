@@ -34,3 +34,15 @@ export const useGetTag = () => {
     select: selectTagTree,
   });
 };
+
+/**
+ * 태그 목록 조회 (평탄한 목록).
+ * useGetTag와 같은 쿼리를 공유하되, 트리로 조립했다가 다시 펼치는 과정 없이 바로 평탄한 목록을 반환.
+ */
+export const useFlatTags = () => {
+  return useQuery({
+    queryKey: TAG_KEY.GET_ALL(),
+    queryFn: getTag,
+    select: (response) => response.data?.tags?.filter(hasTagId) ?? [],
+  });
+};
