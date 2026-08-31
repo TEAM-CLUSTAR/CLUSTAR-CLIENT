@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { Icon } from '@cds/icon';
 import { Button, Modal } from '@cds/ui';
 
-import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
+import {
+  useFlatTags,
+  useGetChildTags,
+  useGetParentTags,
+} from '@shared/apis/tag/queries';
 import tagImage from '@shared/assets/images/empty-state/tag-image.svg';
 import EmptyState from '@shared/components/empty-state/empty-state';
 import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
@@ -26,7 +30,7 @@ const FilterModal = ({
   onOpenChange,
   onApply,
 }: FilterModalProps) => {
-  const { data: roots = [] } = useGetTag();
+  const { data: roots = [] } = useGetParentTags();
   const [activeRootId, setActiveRootId] = useState<number>();
   const [selectedIds, setSelectedIds] = useState<number[]>(selectedTagIds);
   const [prevOpen, setPrevOpen] = useState(open);
@@ -36,8 +40,12 @@ const FilterModal = ({
     if (open) setSelectedIds(selectedTagIds);
   }
 
+  const isActiveRootValid = roots.some((root) => root.tagId === activeRootId);
+  const selectedRootId = isActiveRootValid ? activeRootId : roots[0]?.tagId;
+  const selectedRoot = roots.find((root) => root.tagId === selectedRootId);
+  const { data: activeRootTree } = useGetChildTags(selectedRootId);
   const activeRoot =
-    roots.find((root) => root.tagId === activeRootId) ?? roots[0];
+    activeRootTree ?? (selectedRoot && { ...selectedRoot, children: [] });
   const { data: flatTags = [] } = useFlatTags();
   const selectedTags = flatTags.filter((tag) =>
     selectedIds.includes(tag.tagId),

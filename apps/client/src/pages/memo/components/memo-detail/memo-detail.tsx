@@ -7,7 +7,6 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { useFlatTags, useGetTag } from '@shared/apis/tag/queries';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -15,6 +14,7 @@ import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
 import { MEMO_KEY } from '../../apis/query-key';
 import { useMemoAttachments } from '../../hooks/use-memo-attachments';
 import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
+import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 
@@ -74,27 +74,13 @@ const MemoDetail = ({
   const { title, content, images, files, tagList } = memo;
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
-  const { data: tagRoots = [] } = useGetTag();
-  const { data: flatTags = [] } = useFlatTags();
-  const [activeParentId, setActiveParentId] = useState<number>();
-
-  const activeParent =
-    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
-
-  const handleToggleTag = (tagId: number) => {
-    const isSelected = tagList.some((tag) => tag.tagId === tagId);
-
-    if (isSelected) {
-      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
-      return;
-    }
-
-    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
-    if (!tagToAdd) {
-      return;
-    }
-    editMemo({ tagList: [...tagList, tagToAdd] });
-  };
+  const {
+    parentTags,
+    activeParent,
+    setActiveParentId,
+    handleToggleTag,
+    handleCreateTag,
+  } = useMemoTagEditor({ tagList, editMemo });
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextTitle = event.target.value;
@@ -155,7 +141,8 @@ const MemoDetail = ({
                   onRemoveTag={handleToggleTag}
                   isOpen={isTagPopoverOpen}
                   onFocus={() => setIsTagPopoverOpen(true)}
-                  parentTags={tagRoots}
+                  onEnter={handleCreateTag}
+                  parentTags={parentTags}
                   selectedParentId={activeParent.tagId}
                   onSelectParent={setActiveParentId}
                   tagTree={activeParent}
