@@ -6,7 +6,7 @@ export const container = style({
   position: 'fixed',
   top: 0,
   right: 0,
-  zIndex: themeVars.zIndex.aiPanel,
+  zIndex: themeVars.zIndex.shell,
   display: 'flex',
   flexDirection: 'column',
   width: '48rem',
@@ -29,6 +29,7 @@ export const content = style({
 export const chatWrapper = style({
   position: 'relative',
   display: 'flex',
+  gap: '2rem',
   flexDirection: 'column',
   flex: 1,
   minHeight: 0,

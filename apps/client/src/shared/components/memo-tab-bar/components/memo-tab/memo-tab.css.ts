@@ -54,7 +54,6 @@ export const closeTab = recipe({
     top: '50%',
     right: '0.8rem',
     transform: 'translateY(-50%)',
-    zIndex: themeVars.zIndex.button,
     borderRadius: '0.8rem',
     padding: '0.4rem',
     backgroundColor: 'transparent',

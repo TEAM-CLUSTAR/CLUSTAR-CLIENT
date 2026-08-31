@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { Icon } from '@cds/icon';
 
 import { AiPanelMessage } from '../../../types/ai-panel.types';
@@ -21,8 +23,24 @@ const AiPanelChat = ({
   onRegenerate,
   onSaveToMemo,
 }: AiPanelChatProps) => {
+  const chatAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const chatArea = chatAreaRef.current;
+    if (!chatArea) return;
+
+    const animationFrameId = requestAnimationFrame(() => {
+      chatArea.scrollTo({
+        top: chatArea.scrollHeight,
+        behavior: 'smooth',
+      });
+    });
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [messages, isAnswerLoading]);
+
   return (
-    <div className={styles.chatArea}>
+    <div ref={chatAreaRef} className={styles.chatArea}>
       {messages.length === 0 ? (
         <AiPanelEmptyChat />
       ) : (
