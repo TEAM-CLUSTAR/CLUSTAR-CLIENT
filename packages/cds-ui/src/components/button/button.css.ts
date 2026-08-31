@@ -1,4 +1,3 @@
-import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '../../styles';
@@ -15,17 +14,15 @@ export const button = recipe({
   variants: {
     size: {
       sm: {
-        width: '3.6rem',
-        height: '3.6rem',
+        width: '3.2rem',
+        height: '3.2rem',
         borderRadius: '8px',
       },
       md: {
-        width: '10.8rem',
-        height: '3.2rem',
+        width: '12rem',
+        height: '3.6rem',
         borderRadius: '8px',
-        position: 'relative',
-        isolation: 'isolate',
-        ...themeVars.fontStyles.label_sb_12,
+        ...themeVars.fontStyles.body_m_16,
       },
       lg: {
         width: '100%',
@@ -72,7 +69,7 @@ export const button = recipe({
     {
       variants: { size: 'sm', disabled: true },
       style: {
-        backgroundColor: themeVars.color.grey500,
+        backgroundColor: themeVars.color.grey400,
       },
     },
 
@@ -88,33 +85,17 @@ export const button = recipe({
     {
       variants: { size: 'md', variant: 'outlined' },
       style: {
-        border: '1px solid transparent',
-        selectors: {
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            inset: '-1px',
-            borderRadius: '8px',
-            background: themeVars.color.gradient01,
-            zIndex: themeVars.zIndex.deep,
-            pointerEvents: 'none',
-          },
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            inset: '-1px',
-            borderRadius: '8px',
-            background: themeVars.color.gradient03,
-            backgroundClip: 'content-box',
-            border: '1px solid transparent',
-            zIndex: themeVars.zIndex.back,
-            pointerEvents: 'none',
-          },
-          '&:hover::after': {
-            borderWidth: '2px',
-            transition: 'border-width 0.1s ease',
-          },
-        },
+        backgroundColor: themeVars.color.white,
+        color: themeVars.color.grey700,
+        border: `1px solid ${themeVars.color.grey400}`,
+      },
+    },
+    {
+      variants: { size: 'md', disabled: true },
+      style: {
+        backgroundColor: themeVars.color.grey600,
+        color: themeVars.color.white,
+        border: 'none',
       },
     },
 
@@ -134,7 +115,7 @@ export const button = recipe({
       style: {
         backgroundColor: 'transparent',
         color: themeVars.color.grey700,
-        border: `1px solid ${themeVars.color.grey700}`,
+        border: `1px solid ${themeVars.color.grey400}`,
       },
     },
     {
@@ -151,13 +132,4 @@ export const button = recipe({
     variant: 'solid',
     disabled: false,
   },
-});
-
-export const outlinedText = style({
-  position: 'relative',
-  zIndex: 1,
-  backgroundImage: themeVars.color.gradient01,
-  backgroundClip: 'text',
-  WebkitBackgroundClip: 'text',
-  color: 'transparent',
 });

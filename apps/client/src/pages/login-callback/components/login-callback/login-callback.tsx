@@ -3,7 +3,7 @@ import { PATH } from '@router/path';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoadingPage } from '@pages/loading';
-import { exchangeGoogleCode } from '@pages/login/apis/exchange-google-code';
+import { exchangeGoogleCode } from '@pages/login-callback/apis/exchange-google-code';
 
 import { setAccessToken } from '@shared/utils/token-storage';
 
@@ -50,7 +50,7 @@ const LoginCallback = () => {
 
         setAccessToken(response.accessToken);
 
-        const from = state?.from?.pathname || PATH.NEW_MEMO;
+        const from = state?.from?.pathname || PATH.ROOT;
         navigate(from, { replace: true });
       } catch (error) {
         console.error('로그인 실패:', error);

@@ -1,48 +1,44 @@
-import GlobalLayout from '@app/layouts/global-layout';
-import PrivateLayout from '@app/layouts/private-layout/private-layout';
-import PublicLayout from '@app/layouts/public-layout';
-import { createBrowserRouter } from 'react-router';
+import {
+  createBrowserRouter,
+  type LoaderFunctionArgs,
+  redirect,
+} from 'react-router';
 
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
-import { NotFoundPage } from '@pages/not-found';
 
-import {
-  AiResultsPage,
-  AllMemoPage,
-  LabelPage,
-  LoginPage,
-  NewMemoPage,
-} from './lazy';
+import ErrorFallback from '@shared/components/error-fallback/error-fallback';
+import NotFound from '@shared/components/not-found/not-found';
+
+import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
-
-const GuardedPublicLayout = () => (
-  <RouteGuard mode="public">
-    <PublicLayout />
-  </RouteGuard>
-);
-
-const GuardedPrivateLayout = () => (
-  <RouteGuard mode="private">
-    <PrivateLayout />
-  </RouteGuard>
-);
+import AuthRoute from './routes/auth-route';
+import DashboardRoute from './routes/dashboard-route';
+import MemoWorkspaceRoute from './routes/memo-workspace-route';
+import RootRoute from './routes/root-route';
 
 export const router = createBrowserRouter([
   {
-    Component: GlobalLayout,
+    path: PATH.ROOT,
+    Component: RootRoute,
+    ErrorBoundary: ErrorFallback,
     children: [
       {
-        Component: GuardedPublicLayout,
+        element: <RouteGuard mode="public" />,
         children: [
           {
-            path: PATH.LANDING,
-            Component: LandingPage,
-          },
-          {
-            path: PATH.LOGIN,
-            Component: LoginPage,
+            Component: AuthRoute,
+            children: [
+              {
+                path: PATH.LANDING,
+                Component: LandingPage,
+              },
+              {
+                path: PATH.LOGIN,
+                Component: LoginPage,
+              },
+            ],
           },
           {
             path: PATH.LOGIN_CALLBACK,
@@ -51,31 +47,43 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        Component: GuardedPrivateLayout,
+        element: <RouteGuard mode="private" />,
         children: [
           {
-            path: PATH.NEW_MEMO,
-            Component: NewMemoPage,
-          },
-          {
-            path: PATH.ALL_MEMO,
-            Component: AllMemoPage,
-          },
-          {
-            path: PATH.AI_RESULTS,
-            Component: AiResultsPage,
-          },
-          {
-            path: PATH.LABEL,
-            Component: LabelPage,
+            Component: DashboardRoute,
+            children: [
+              {
+                index: true,
+                loader: ({ request }: LoaderFunctionArgs) => {
+                  const { search } = new URL(request.url);
+                  return redirect(`${PATH.MEMOS}${search}`);
+                },
+              },
+              {
+                Component: MemoWorkspaceRoute,
+                children: [
+                  {
+                    path: PATH.MEMOS,
+                    Component: MemosPage,
+                  },
+                  {
+                    path: PATH.MEMO,
+                    children: [
+                      { index: true, loader: () => redirect(PATH.MEMO_NEW) },
+                      { path: 'new', Component: MemoPage },
+                      { path: ':memoId', Component: MemoPage },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
       {
         path: '*',
-        Component: NotFoundPage,
+        Component: NotFound,
       },
     ],
-    ErrorBoundary: NotFoundPage,
   },
 ]);
