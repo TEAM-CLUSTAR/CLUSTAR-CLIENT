@@ -8,8 +8,10 @@ import { TAG_KEY } from './query-key';
 import {
   TagCreateRequest,
   TagCreateResponse,
+  TagHierarchyApiResponse,
   TagListApiResponse,
   TagNode,
+  TagParentListApiResponse,
   TagType,
 } from './type';
 
@@ -24,11 +26,14 @@ const getTag = async (): Promise<TagListApiResponse> => {
 
 const hasTagId = (tag: TagType): tag is TagNode => tag.tagId !== undefined;
 
-/**
- * 응답에서 태그 목록을 꺼내 트리로 변환.
- */
+const selectTags = (tags: TagType[] | undefined) =>
+  tags?.filter(hasTagId) ?? [];
+
+const selectTagList = (response: TagListApiResponse) =>
+  selectTags(response.data?.tags);
+
 const selectTagTree = (response: TagListApiResponse) =>
-  buildTree(response.data?.tags?.filter(hasTagId) ?? [], {
+  buildTree(selectTagList(response), {
     getId: (tag) => tag.tagId,
     getParentId: (tag) => tag.parentId,
   });
@@ -43,13 +48,69 @@ export const useGetTag = () => {
 
 /**
  * 태그 목록 조회 (평탄한 목록).
- * useGetTag와 같은 쿼리를 공유하되, 트리로 조립했다가 다시 펼치는 과정 없이 바로 평탄한 목록을 반환.
  */
 export const useFlatTags = () => {
   return useQuery({
     queryKey: TAG_KEY.GET_ALL(),
     queryFn: getTag,
-    select: (response) => response.data?.tags?.filter(hasTagId) ?? [],
+    select: selectTagList,
+  });
+};
+
+/**
+ * 부모 태그 최대 10개 조회 (생성일 내림차순)
+ */
+const getParentTags = async (): Promise<TagParentListApiResponse> => {
+  const response = await api.get<TagParentListApiResponse>(
+    TAG_END_POINT.GET_PARENT_TAGS,
+  );
+  return response.data;
+};
+
+export const useGetParentTags = () => {
+  return useQuery({
+    queryKey: TAG_KEY.GET_PARENTS(),
+    queryFn: getParentTags,
+    select: (response) => selectTags(response.data?.tags),
+  });
+};
+
+/**
+ * 부모 태그 기준 자식+손자 태그 조회
+ */
+const getChildTags = async (
+  parentTagId: number,
+): Promise<TagHierarchyApiResponse> => {
+  const response = await api.get<TagHierarchyApiResponse>(
+    TAG_END_POINT.GET_CHILD_TAGS(parentTagId),
+  );
+  return response.data;
+};
+
+/**
+ * 응답의 parentTag를 루트로, childTags(자식+손자 평탄 목록)를 buildTree로 조립.
+ */
+const selectTagHierarchyTree = (response: TagHierarchyApiResponse) => {
+  const hierarchy = response.data;
+  if (hierarchy === undefined) {
+    return undefined;
+  }
+
+  return {
+    ...hierarchy.parentTag,
+    children: buildTree(selectTags(hierarchy.childTags), {
+      getId: (tag) => tag.tagId,
+      getParentId: (tag) => tag.parentId,
+    }),
+  };
+};
+
+export const useGetChildTags = (parentTagId: number | undefined) => {
+  return useQuery({
+    queryKey: TAG_KEY.GET_CHILDREN(parentTagId ?? -1),
+    queryFn: () => getChildTags(parentTagId as number),
+    enabled: parentTagId !== undefined,
+    select: selectTagHierarchyTree,
   });
 };
 

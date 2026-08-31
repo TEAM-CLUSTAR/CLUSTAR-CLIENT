@@ -75,7 +75,7 @@ const MemoDetail = ({
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
   const {
-    tagRoots,
+    parentTags,
     activeParent,
     setActiveParentId,
     handleToggleTag,
@@ -142,7 +142,7 @@ const MemoDetail = ({
                   isOpen={isTagPopoverOpen}
                   onFocus={() => setIsTagPopoverOpen(true)}
                   onEnter={handleCreateTag}
-                  parentTags={tagRoots}
+                  parentTags={parentTags}
                   selectedParentId={activeParent.tagId}
                   onSelectParent={setActiveParentId}
                   tagTree={activeParent}

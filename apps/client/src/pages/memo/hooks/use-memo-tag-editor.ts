@@ -3,7 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { MemoType } from '@pages/memo/types/memo-type';
 
-import { useFlatTags, useGetTag, usePostTag } from '@shared/apis/tag/queries';
+import {
+  useFlatTags,
+  useGetChildTags,
+  useGetParentTags,
+  usePostTag,
+} from '@shared/apis/tag/queries';
 import { TAG_KEY } from '@shared/apis/tag/query-key';
 import { TagNode } from '@shared/apis/tag/type';
 
@@ -32,12 +37,12 @@ export const useMemoTagEditor = ({
 }: UseMemoTagEditorParams) => {
   const queryClient = useQueryClient();
 
-  const { data: tagRoots = [] } = useGetTag();
+  const { data: parentTags = [] } = useGetParentTags();
   const { data: flatTags = [] } = useFlatTags();
   const [activeParentId, setActiveParentId] = useState<number>();
 
-  const activeParent =
-    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
+  const selectedParentId = activeParentId ?? parentTags[0]?.tagId;
+  const { data: activeParent } = useGetChildTags(selectedParentId);
 
   const nextLocalTagIdRef = useRef(-1);
   const tagListRef = useRef(tagList);
@@ -183,7 +188,7 @@ export const useMemoTagEditor = ({
   };
 
   return {
-    tagRoots,
+    parentTags,
     activeParent,
     setActiveParentId,
     handleToggleTag,
