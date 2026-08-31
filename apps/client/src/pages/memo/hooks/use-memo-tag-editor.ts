@@ -17,18 +17,15 @@ interface UseMemoTagEditorParams {
   editMemo: (changes: Partial<MemoType>) => void;
 }
 
-const resolveTagSegments = (
-  name: string,
-): { childName: string; immediateParentName?: string } => {
+const MAX_TAG_DEPTH = 3;
+
+const resolveTagPath = (name: string): string[] => {
   const segments = name.split('/').map((segment) => segment.trim());
-  if (segments.length === 1 || segments.some((segment) => segment === '')) {
-    return { childName: segments[segments.length - 1] };
+  if (segments.some((segment) => segment === '')) {
+    return [segments[segments.length - 1]];
   }
 
-  return {
-    childName: segments[segments.length - 1],
-    immediateParentName: segments[segments.length - 2],
-  };
+  return segments;
 };
 
 export const useMemoTagEditor = ({
@@ -51,7 +48,6 @@ export const useMemoTagEditor = ({
     (tag) => tag.tagId === selectedParentId,
   );
   const { data: activeParentTree } = useGetChildTags(selectedParentId);
-  // 자식 목록 로딩 중에도 팝오버가 사라지지 않도록 자식 없는 트리로 임시 대체
   const activeParent =
     activeParentTree ?? (selectedParent && { ...selectedParent, children: [] });
 
@@ -80,69 +76,80 @@ export const useMemoTagEditor = ({
     editMemo({ tagList: [...tagList, tag] });
   };
 
-  const createAndAttachTag = (
-    name: string,
-    parentTagId?: number,
-    parentColor?: string,
-  ) => {
-    const tempTagId = nextLocalTagIdRef.current--;
-    const tempTag: TagNode = {
-      tagId: tempTagId,
-      name,
-      color: parentColor ?? 'blue',
-      parentId: parentTagId ?? null,
-    };
-    addTagToMemo(tempTag);
-
-    createTag({ name, parentTagId })
-      .then((response) => {
-        const createdTag = response.data;
-        if (createdTag === undefined) {
-          return;
-        }
-
-        editMemo({
-          tagList: tagListRef.current.map((tag) =>
-            tag.tagId === tempTagId ? createdTag : tag,
-          ),
-        });
-        queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
-      })
-      .catch(() => {
-        editMemo({
-          tagList: tagListRef.current.filter((tag) => tag.tagId !== tempTagId),
-        });
-      });
+  const resolveAncestorParentId = (ancestorNames: string[]) => {
+    let parentId: number | null = null;
+    for (const name of ancestorNames) {
+      const found = flatTags.find(
+        (tag) =>
+          tag.name.toLowerCase() === name.toLowerCase() &&
+          tag.parentId === parentId,
+      );
+      if (!found) {
+        return undefined;
+      }
+      parentId = found.tagId;
+    }
+    return parentId;
   };
 
-  const createParentThenChildTag = async (
-    parentName: string,
-    childName: string,
+  const createTagAlongPath = async (
+    path: string[],
+    resolvedParentId: number | null | undefined,
   ) => {
+    const childName = path[path.length - 1];
+    const ancestorNames = path.slice(0, -1);
+
+    const immediateParent =
+      resolvedParentId != null
+        ? flatTags.find((tag) => tag.tagId === resolvedParentId)
+        : undefined;
+
     const tempTagId = nextLocalTagIdRef.current--;
     const tempTag: TagNode = {
       tagId: tempTagId,
       name: childName,
-      color: 'blue',
+      color: immediateParent?.color ?? 'blue',
       parentId: null,
     };
     addTagToMemo(tempTag);
 
     try {
-      const parentResponse = await createTag({ name: parentName });
-      const createdParent = parentResponse.data;
-      if (createdParent?.tagId === undefined) {
-        throw new Error('부모 태그 생성 실패');
+      let parentId = resolvedParentId;
+
+      if (parentId === undefined) {
+        parentId = null;
+        for (const name of ancestorNames) {
+          const existingAncestor = flatTags.find(
+            (tag) =>
+              tag.name.toLowerCase() === name.toLowerCase() &&
+              tag.parentId === parentId,
+          );
+
+          if (existingAncestor) {
+            parentId = existingAncestor.tagId;
+            continue;
+          }
+
+          const response = await createTag({
+            name,
+            parentTagId: parentId ?? undefined,
+          });
+          const createdAncestor = response.data;
+          if (createdAncestor?.tagId === undefined) {
+            throw new Error('상위 태그 생성 실패');
+          }
+          queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
+          parentId = createdAncestor.tagId;
+        }
       }
-      queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
 
       const childResponse = await createTag({
         name: childName,
-        parentTagId: createdParent.tagId,
+        parentTagId: parentId ?? undefined,
       });
       const createdChild = childResponse.data;
       if (createdChild === undefined) {
-        throw new Error('자식 태그 생성 실패');
+        throw new Error('태그 생성 실패');
       }
 
       editMemo({
@@ -164,23 +171,22 @@ export const useMemoTagEditor = ({
       return false;
     }
 
-    const { childName, immediateParentName } = resolveTagSegments(trimmedName);
-    if (childName === '') {
+    const path = resolveTagPath(trimmedName);
+    const childName = path[path.length - 1];
+    if (childName === '' || path.length > MAX_TAG_DEPTH) {
       return false;
     }
 
-    const parentTag = immediateParentName
-      ? flatTags.find(
-          (tag) => tag.name.toLowerCase() === immediateParentName.toLowerCase(),
-        )
-      : undefined;
+    const ancestorNames = path.slice(0, -1);
+    const resolvedParentId = resolveAncestorParentId(ancestorNames);
 
     const matchesResolvedTag = (tag: {
       name: string;
       parentId: number | null;
     }) =>
+      resolvedParentId !== undefined &&
       tag.name.toLowerCase() === childName.toLowerCase() &&
-      (parentTag === undefined || tag.parentId === parentTag.tagId);
+      tag.parentId === resolvedParentId;
 
     const isAlreadySelected = tagList.some(matchesResolvedTag);
     if (isAlreadySelected) {
@@ -193,12 +199,7 @@ export const useMemoTagEditor = ({
       return true;
     }
 
-    if (immediateParentName && !parentTag) {
-      createParentThenChildTag(immediateParentName, childName);
-      return true;
-    }
-
-    createAndAttachTag(childName, parentTag?.tagId, parentTag?.color);
+    createTagAlongPath(path, resolvedParentId);
     return true;
   };
 

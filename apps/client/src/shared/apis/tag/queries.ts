@@ -1,6 +1,6 @@
 import { mutationOptions, useQuery } from '@tanstack/react-query';
 
-import { buildTree } from '@shared/utils/build-tree';
+import { buildTree, TreeNode } from '@shared/utils/build-tree';
 
 import { api } from '../instance';
 import { TAG_END_POINT } from './end-point';
@@ -91,7 +91,37 @@ const getChildTags = async (
 };
 
 /**
- * 응답의 parentTag를 루트로, childTags(자식+손자 평탄 목록)를 buildTree로 조립.
+ * 실제 응답은 손자 태그가 평탄한 목록이 아니라 자식 태그 안에 childTags로
+ * 한 번 더 중첩되어 온다
+ */
+interface TagHierarchyNode {
+  tagId?: number;
+  name: string;
+  color: string;
+  parentId: number | null;
+  childTags?: TagHierarchyNode[];
+}
+
+const toTagTreeNode = (
+  node: TagHierarchyNode,
+): TreeNode<TagNode> | undefined => {
+  if (node.tagId === undefined) {
+    return undefined;
+  }
+
+  return {
+    tagId: node.tagId,
+    name: node.name,
+    color: node.color,
+    parentId: node.parentId,
+    children: (node.childTags ?? [])
+      .map(toTagTreeNode)
+      .filter((child): child is TreeNode<TagNode> => child !== undefined),
+  };
+};
+
+/**
+ * 응답의 parentTag를 루트로, 중첩된 childTags를 그대로 트리로 변환.
  */
 const selectTagHierarchyTree = (response: TagHierarchyApiResponse) => {
   const hierarchy = response.data;
@@ -101,10 +131,9 @@ const selectTagHierarchyTree = (response: TagHierarchyApiResponse) => {
 
   return {
     ...hierarchy.parentTag,
-    children: buildTree(selectTags(hierarchy.childTags), {
-      getId: (tag) => tag.tagId,
-      getParentId: (tag) => tag.parentId,
-    }),
+    children: (hierarchy.childTags ?? [])
+      .map(toTagTreeNode)
+      .filter((child): child is TreeNode<TagNode> => child !== undefined),
   };
 };
 
