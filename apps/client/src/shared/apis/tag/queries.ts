@@ -32,6 +32,9 @@ const selectTags = (tags: TagType[] | undefined) =>
 const selectTagList = (response: TagListApiResponse) =>
   selectTags(response.data?.tags);
 
+/**
+ * 응답에서 태그 목록을 꺼내 트리로 변환.
+ */
 const selectTagTree = (response: TagListApiResponse) =>
   buildTree(selectTagList(response), {
     getId: (tag) => tag.tagId,

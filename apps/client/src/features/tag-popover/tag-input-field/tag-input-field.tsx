@@ -47,6 +47,9 @@ const TagInputField = ({
           placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
           onFocus={onFocus}
           onKeyDown={handleKeyDown}
+          onBlur={(event) => {
+            event.currentTarget.value = '';
+          }}
         />
       </div>
     </div>
