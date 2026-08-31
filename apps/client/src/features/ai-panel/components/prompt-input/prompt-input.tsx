@@ -49,7 +49,8 @@ const PromptInput = ({
   };
 
   const trimmedText = value.userPrompt.trim();
-  const canSend = trimmedText.length > 0 && !disabled;
+  const canSend =
+    trimmedText.length > 0 && selectedMemos.length > 0 && !disabled;
 
   const handleSend = () => {
     if (!canSend) return;
