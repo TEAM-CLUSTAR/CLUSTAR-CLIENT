@@ -7,9 +7,6 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { useFlatTags, useGetTag, usePostTag } from '@shared/apis/tag/queries';
-import { TAG_KEY } from '@shared/apis/tag/query-key';
-import { TagNode } from '@shared/apis/tag/type';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -17,6 +14,7 @@ import { toMemoDetail, useDeleteMemo, useGetMemo } from '../../apis/queries';
 import { MEMO_KEY } from '../../apis/query-key';
 import { useMemoAttachments } from '../../hooks/use-memo-attachments';
 import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
+import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 
@@ -76,117 +74,13 @@ const MemoDetail = ({
   const { title, content, images, files, tagList } = memo;
   const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
-  const { data: tagRoots = [] } = useGetTag();
-  const { data: flatTags = [] } = useFlatTags();
-  const [activeParentId, setActiveParentId] = useState<number>();
-
-  const activeParent =
-    tagRoots.find((root) => root.tagId === activeParentId) ?? tagRoots[0];
-
-  const handleToggleTag = (tagId: number) => {
-    const isSelected = tagList.some((tag) => tag.tagId === tagId);
-
-    if (isSelected) {
-      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
-      return;
-    }
-
-    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
-    if (!tagToAdd) {
-      return;
-    }
-    editMemo({ tagList: [...tagList, tagToAdd] });
-  };
-
-  const nextLocalTagIdRef = useRef(-1);
-  const tagListRef = useRef(tagList);
-  tagListRef.current = tagList;
-
-  const { mutateAsync: createTag } = useMutation(usePostTag());
-
-  const resolveTagCreateRequest = (
-    name: string,
-  ): { name: string; parentTagId?: number; parentColor?: string } => {
-    const segments = name.split('/').map((segment) => segment.trim());
-    if (segments.length === 1 || segments.some((segment) => segment === '')) {
-      return { name: segments[segments.length - 1] };
-    }
-
-    const childName = segments[segments.length - 1];
-    const immediateParentName = segments[segments.length - 2];
-
-    const parentTag = flatTags.find(
-      (tag) => tag.name.toLowerCase() === immediateParentName.toLowerCase(),
-    );
-
-    if (!parentTag) {
-      return { name };
-    }
-
-    return {
-      name: childName,
-      parentTagId: parentTag.tagId,
-      parentColor: parentTag.color,
-    };
-  };
-
-  const handleCreateTag = (rawName: string) => {
-    const trimmedName = rawName.trim();
-    if (trimmedName === '') {
-      return false;
-    }
-
-    const { name, parentTagId, parentColor } =
-      resolveTagCreateRequest(trimmedName);
-
-    const isAlreadySelected = tagList.some(
-      (tag) => tag.name.toLowerCase() === name.toLowerCase(),
-    );
-    if (isAlreadySelected) {
-      return false;
-    }
-
-    const existingTag = flatTags.find(
-      (tag) =>
-        tag.name.toLowerCase() === name.toLowerCase() &&
-        (parentTagId === undefined || tag.parentId === parentTagId),
-    );
-    if (existingTag) {
-      editMemo({ tagList: [...tagList, existingTag] });
-      return true;
-    }
-
-    const tempTagId = nextLocalTagIdRef.current--;
-    const tempTag: TagNode = {
-      tagId: tempTagId,
-      name,
-      color: parentColor ?? 'blue',
-      parentId: parentTagId ?? null,
-    };
-    editMemo({ tagList: [...tagList, tempTag] });
-
-    createTag({ name, parentTagId })
-      .then((response) => {
-        const createdTag = response.data;
-        if (createdTag === undefined) {
-          return;
-        }
-
-        editMemo({
-          tagList: tagListRef.current.map((tag) =>
-            tag.tagId === tempTagId ? createdTag : tag,
-          ),
-        });
-        queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
-      })
-      .catch(() => {
-        editMemo({
-          tagList: tagListRef.current.filter((tag) => tag.tagId !== tempTagId),
-        });
-      });
-
-    return true;
-  };
+  const {
+    tagRoots,
+    activeParent,
+    setActiveParentId,
+    handleToggleTag,
+    handleCreateTag,
+  } = useMemoTagEditor({ tagList, editMemo });
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextTitle = event.target.value;
