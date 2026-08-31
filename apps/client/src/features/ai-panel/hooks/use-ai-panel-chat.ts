@@ -3,15 +3,24 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   useCreateAiChat,
   useCreateChatRoom,
+  useGetActiveChatRoom,
+  useGetRecommendedMemos,
   useSaveAiMemo,
 } from '@shared/apis/prompt/queries';
-import type { AiOption } from '@shared/apis/prompt/type';
+import type {
+  AiOption,
+  MemoRecommendationItemResponse,
+} from '@shared/apis/prompt/type';
 
 import {
   AiPanelMessage,
   PromptInputValueType,
   SelectedMemoType,
 } from '../types/ai-panel.types';
+import {
+  mapActiveChatMessages,
+  mapRecommendedMemos,
+} from './ai-panel-chat.mapper';
 
 interface UseAiPanelChatParams {
   isOpen: boolean;
@@ -23,7 +32,7 @@ const DEFAULT_PROMPT_VALUE: PromptInputValueType = {
   option: 'MERGE',
 };
 
-const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE'] as const;
+const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE', 'DEFAULT'] as const;
 
 const isValidOption = (
   value: string | null | undefined,
@@ -70,6 +79,9 @@ export const useAiPanelChat = ({
   );
   const [messages, setMessages] = useState<AiPanelMessage[]>([]);
   const [answerGeneratingMemoCount, setAnswerGeneratingMemoCount] = useState(0);
+  const [initialRecommendedMemos, setInitialRecommendedMemos] = useState<
+    MemoRecommendationItemResponse[] | null
+  >(null);
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
   const [promptValue, setPromptValue] =
     useState<PromptInputValueType>(DEFAULT_PROMPT_VALUE);
@@ -80,17 +92,16 @@ export const useAiPanelChat = ({
 
   const chatRoomId = internalChatRoomId;
   const memoIds = useMemo(() => getMemoIds(selectedMemos), [selectedMemos]);
+  const activeChatRoomQuery = useGetActiveChatRoom(isOpen);
+  const recommendedMemosQuery = useGetRecommendedMemos(
+    memoIds,
+    memoIds.length > 0 && initialRecommendedMemos === null,
+  );
   const isLoading =
+    activeChatRoomQuery.isFetching ||
     createChatRoomMutation.isPending ||
     createAiChatMutation.isPending ||
     saveAiMemoMutation.isPending;
-
-  const resetChat = useCallback(() => {
-    setMessages([]);
-    setAnswerGeneratingMemoCount(0);
-    setInternalChatRoomId(null);
-    setPromptValue(DEFAULT_PROMPT_VALUE);
-  }, []);
 
   const appendMessage = useCallback((message: AiPanelMessage) => {
     setMessages((prev) => [...prev, message]);
@@ -110,10 +121,42 @@ export const useAiPanelChat = ({
   }, [chatRoomId, createChatRoomMutation]);
 
   useEffect(() => {
-    if (isOpen) return;
+    const activeChatRoom = activeChatRoomQuery.data?.data;
+    if (!activeChatRoom) return;
 
-    resetChat();
-  }, [isOpen, resetChat]);
+    setInternalChatRoomId(activeChatRoom.chatRoomId);
+    setMessages(mapActiveChatMessages(activeChatRoom.messages));
+  }, [activeChatRoomQuery.data]);
+
+  useEffect(() => {
+    const recommendedMemos = recommendedMemosQuery.data?.data?.results;
+    if (!recommendedMemos || initialRecommendedMemos !== null) return;
+
+    setInitialRecommendedMemos(recommendedMemos);
+  }, [initialRecommendedMemos, recommendedMemosQuery.data]);
+
+  useEffect(() => {
+    if (memoIds.length > 0) return;
+
+    setInitialRecommendedMemos(null);
+  }, [memoIds.length]);
+
+  const handleCreateNewChat = useCallback(() => {
+    void (async () => {
+      try {
+        const response = await createChatRoomMutation.mutateAsync();
+        const newChatRoomId = response.data?.chatRoomId ?? null;
+
+        setInternalChatRoomId(newChatRoomId);
+        setMessages([]);
+        setInitialRecommendedMemos(null);
+        setAnswerGeneratingMemoCount(0);
+        setPromptValue(DEFAULT_PROMPT_VALUE);
+      } catch {
+        return;
+      }
+    })();
+  }, [createChatRoomMutation]);
 
   const handlePromptChange = useCallback((userPrompt: string) => {
     setPromptValue((prev) => ({ ...prev, userPrompt }));
@@ -133,6 +176,7 @@ export const useAiPanelChat = ({
   const handleSubmit = useCallback(() => {
     const userPrompt = promptValue.userPrompt.trim();
     if (!userPrompt) return false;
+    if (memoIds.length === 0) return false;
 
     const option: AiOption = isValidOption(promptValue.option)
       ? promptValue.option
@@ -271,9 +315,13 @@ export const useAiPanelChat = ({
     isAnswerLoading: createAiChatMutation.isPending,
     promptValue,
     answerGeneratingMemoCount,
+    recommendedMemos:
+      memoIds.length > 0 && initialRecommendedMemos !== null
+        ? mapRecommendedMemos(initialRecommendedMemos, selectedMemos)
+        : [],
     isSaveConfirmModalOpen,
     setIsSaveConfirmModalOpen,
-    handleCreateNewChat: resetChat,
+    handleCreateNewChat,
     handlePromptChange,
     handleOptionSelect,
     handleSubmit,
