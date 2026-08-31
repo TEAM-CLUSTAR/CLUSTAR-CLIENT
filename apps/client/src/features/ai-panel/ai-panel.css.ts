@@ -29,6 +29,7 @@ export const content = style({
 export const chatWrapper = style({
   position: 'relative',
   display: 'flex',
+  gap: '2rem',
   flexDirection: 'column',
   flex: 1,
   minHeight: 0,
