@@ -1,12 +1,11 @@
-export interface TagListTypes {
-  tagId: number;
+export interface LabelListTypes {
+  labelId: number;
   name: string;
-  color: string;
 }
 
 export interface StructureMemoTypes {
   memoId: number;
   title: string;
   content: string;
-  tagList: TagListTypes[];
+  labelList: LabelListTypes[];
 }

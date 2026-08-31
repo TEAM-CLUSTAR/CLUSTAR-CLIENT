@@ -12,7 +12,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run --passWithNoTests",
-    "generate:types": "dotenv -- sh scripts/generate-types.sh"
+    "generate:types": "openapi-typescript https://dev.clustar.cloud/v3/api-docs -o ./src/shared/types/schema.d.ts"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
@@ -22,9 +22,14 @@
     "@tanstack/react-query": "^5.90.16",
     "@xyflow/react": "^12.10.0",
     "axios": "^1.15.0",
+    "quill": "^2.0.3",
+    "quill-markdown-shortcuts": "^0.0.10",
     "react": "catalog:react-core",
     "react-dom": "catalog:react-core",
-    "react-router": "^7.18.0"
+    "react-quill-new": "^3.7.0",
+    "react-router": "^7.11.0",
+    "turndown": "^7.2.2",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@clustar/eslint-config": "workspace:*",
@@ -38,6 +43,7 @@
     "@types/node": "catalog:typescript-core",
     "@types/react": "catalog:react-core",
     "@types/react-dom": "catalog:react-core",
+    "@types/turndown": "^5.0.6",
     "@vanilla-extract/css": "catalog:vanilla-extract-core",
     "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
     "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",

@@ -22,6 +22,9 @@ const Button = ({
   disabled = false,
   textSize,
 }: ButtonProps) => {
+  const applyOutlinedText =
+    size === 'md' && variant === 'outlined' && typeof children === 'string';
+
   return (
     <button
       type="button"
@@ -29,7 +32,11 @@ const Button = ({
       disabled={disabled}
       className={styles.button({ size, variant, disabled, textSize })}
     >
-      {children}
+      {applyOutlinedText ? (
+        <span className={styles.outlinedText}>{children}</span>
+      ) : (
+        children
+      )}
     </button>
   );
 };

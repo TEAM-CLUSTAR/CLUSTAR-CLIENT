@@ -9,9 +9,6 @@ globalStyle('html, body', {
   padding: 0,
   fontSize: '62.5%',
   fontFamily: `'Pretendard Variable', sans-serif`,
-});
-
-globalStyle('*', {
   scrollbarWidth: 'thin',
   scrollbarColor: `${themeVars.color.grey300} transparent`,
   scrollBehavior: 'smooth',

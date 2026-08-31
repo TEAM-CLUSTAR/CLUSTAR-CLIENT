@@ -4,31 +4,6 @@
  */
 
 export interface paths {
-  '/api/v1/tag/{tagId}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    /**
-     * 태그 수정
-     * @description 태그 이름을 수정합니다.
-     */
-    put: operations['updateTag'];
-    post?: never;
-    /**
-     * 태그 삭제
-     * @description 태그를 삭제합니다.
-     *     태그에 연결된 메모-태그 관계도 함께 정리합니다.
-     */
-    delete: operations['deleteTag'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/oauth/reissue': {
     parameters: {
       query?: never;
@@ -67,32 +42,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/tag': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * [Legacy] 태그 전체 조회
-     * @description 사용자가 생성한 모든 태그 목록을 조회합니다.
-     *     메모에 사용된 태그와 미사용 태그를 모두 포함합니다.
-     */
-    get: operations['getAllTags'];
-    put?: never;
-    /**
-     * 태그 생성
-     * @description 태그를 생성합니다.
-     *     parentTagId가 있으면 하위 태그로 생성하고, 없으면 부모 태그로 생성합니다.
-     */
-    post: operations['createTag'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/api/v1/memo': {
     parameters: {
       query?: never;
@@ -103,7 +52,7 @@ export interface paths {
     /**
      * 메모 전체 조회(대시보드)
      * @description 메모를 전체 조회합니다.
-     *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
+     *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
      *       이미지/파일 개수 정보를 포함합니다.
@@ -117,27 +66,6 @@ export interface paths {
      *     s3Key 정보를 함께 전달해야 합니다.
      */
     post: operations['createMemo'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/memo/recommendations': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * AI 추천 메모
-     * @description 선택한 메모들과 의미적으로 유사한 메모를 최대 3개 추천합니다.
-     *     유사한 메모가 없을 경우 빈 결과와 안내 메시지를 반환합니다.
-     */
-    post: operations['recommendMemos'];
     delete?: never;
     options?: never;
     head?: never;
@@ -175,7 +103,7 @@ export interface paths {
     /**
      * AI가 생성한 메모 전체 조회(대시보드)
      * @description AI가 생성한 메모를 전체 조회합니다.
-     *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
+     *     - labelIds가 있으면 해당 라벨이 포함된 메모만 조회합니다.
      *     - 커서 기반 페이지네이션을 지원합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
      *       이미지/파일 개수 정보를 포함합니다.
@@ -304,91 +232,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/admin/memos/{memoId}/re-embed': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 특정 메모 재임베딩(수동 재시도)
-     * @description 특정 memoId 하나만 동기적으로 재임베딩합니다.
-     *     text/image/file은 서로 독립적으로 시도되어, 하나가 실패해도 나머지는 계속 진행됩니다.
-     *     타입별로 성공한 것만 해당 타입의 미해결 임베딩 실패 기록이 해결 처리됩니다.
-     *     (imageSucceeded/fileSucceeded가 null이면 해당 타입의 첨부가 없어 시도하지 않은 것입니다.)
-     */
-    post: operations['reEmbedOne'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/admin/memos/re-embed': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 전체 메모 재임베딩
-     * @description 삭제되지 않은 전체 메모를 대상으로 재임베딩 배치를 시작합니다.
-     *     비동기로 실행되며, 호출 즉시 시작 응답을 반환합니다.
-     *     메모별로 기존 벡터는 새 벡터 적재에 성공한 후에만 삭제됩니다.
-     */
-    post: operations['reEmbedAll'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/memo/{memoId}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 메모 상세 조회
-     * @description 하나의 메모를 상세조회 합니다.
-     *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
-     *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
-     *     태그는 리스트의 앞부터 우선순위가 높은 순서 입니다.
-     */
-    get: operations['getOneDetailMemo'];
-    put?: never;
-    post?: never;
-    /**
-     * 메모 삭제
-     * @description 특정 메모를 삭제합니다.
-     */
-    delete: operations['deleteMemo'];
-    options?: never;
-    head?: never;
-    /**
-     * 메모 수정
-     * @description 제목/본문/태그/첨부를 **항상 최종 상태로** 보내면 서버가 현재와 비교해 반영합니다. (모든 필드 null 금지 — 빈 건 ""/[])
-     *
-     *     - **title/content**: 값으로 교체 (빈 문자열 허용)
-     *     - **tagNames**: 목록으로 태그 교체 (순서=우선순위, 없는 이름은 자동 생성, 없으면 [])
-     *     - **images/files**: 최종 목록 전송 → 서버가 유지/추가/삭제 계산
-     *       - 유지: `imageId`(또는 `fileId`)만  |  추가: presigned 업로드 후 `s3Key`+메타  |  삭제: 목록에서 빠뜨림
-     *       - 안 바꿔도 현재 목록 그대로, 없으면 []
-     *       - 제약: 각 최대 5개, 이미지 5MB/파일 10MB
-     *
-     *     응답의 `updatedAt`은 수정 시각으로 갱신됩니다.
-     */
-    patch: operations['updateMemo'];
-    trace?: never;
-  };
   '/oauth/google': {
     parameters: {
       query?: never;
@@ -419,8 +262,8 @@ export interface paths {
     };
     /**
      * 구글 인증서버 토큰 검증 API
-     * @description 구글 콜백에서 받은 인가코드로 로그인 처리를 한 뒤
-     *     프론트엔드의 콜백 URL로 code만 전달해 리다이렉트합니다.
+     * @description 리다이렉트에서 AccessCode를 가지고 서버로 돌아오기 위한 엔드포인트입니다
+     *     해당 코드를 이용해서 사용자 정보를 파싱하고 액세스 토큰는 헤더에, 리프레시 토큰은 쿠키에 담아 반환합니다
      */
     get: operations['callback'];
     put?: never;
@@ -451,7 +294,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/tag/parents': {
+  '/api/v1/memo/{memoId}': {
     parameters: {
       query?: never;
       header?: never;
@@ -459,33 +302,20 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 부모 태그 최대 10개 조회
-     * @description 사용자의 부모 태그 최대 10개를 생성일 내림차순으로 조회합니다.
+     * 메모 전체 조회(모달창)
+     * @description 하나의 메모를 상세조회 합니다.
+     *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
+     *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
+     *     라벨은 리스트의 앞부터 우선순위가 높은 순서 입니다.
      */
-    get: operations['getParentTags'];
+    get: operations['getOneDetailMemo'];
     put?: never;
     post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/tag/parents/{parentTagId}/children': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
     /**
-     * 부모 태그 기반 하위 태그 조회
-     * @description 부모 태그를 기준으로 자식 태그와 손자 태그를 계층 구조로 조회합니다.
+     * 메모 삭제
+     * @description 특정 메모를 삭제합니다.
      */
-    get: operations['getChildAndGrandChildTags'];
-    put?: never;
-    post?: never;
-    delete?: never;
+    delete: operations['deleteMemo'];
     options?: never;
     head?: never;
     patch?: never;
@@ -511,7 +341,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/memo/search': {
+  '/api/v1/label': {
     parameters: {
       query?: never;
       header?: never;
@@ -519,35 +349,11 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 메모 검색
-     * @description 키워드가 제목/태그/본문에 포함된 모든 메모를 반환합니다.
-     *     정렬: 필드 우선순위(제목 > 태그 > 본문) + 필드 내 온전한 키워드 매칭 우선, 동점은 최신순.
-     *     (의미 기반 검색은 기획 결정으로 비활성화되었습니다.)
+     * 라벨 전체 조회
+     * @description 사용자가 생성한 모든 라벨 목록을 조회합니다.
+     *     메모에 사용된 라벨과 미사용 라벨을 모두 포함합니다.
      */
-    get: operations['searchMemos'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/memo/recent-viewed': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 최근 열람한 메모
-     * @description 검색 모달 [입력 완료 전] 화면용. 사용자가 최근에 열람한 메모를 최신 열람순으로 반환합니다.
-     *     (열람 = 메모 상세조회.)
-     *     열람 이력이 하나도 없으면 최근 생성 메모(생성 최신순)로 폴백합니다.
-     *     목록 출처는 data.source로 구분합니다. RECENT_VIEWED / RECENT_CREATED
-     */
-    get: operations['getRecentViewedMemos'];
+    get: operations['getAllLabels'];
     put?: never;
     post?: never;
     delete?: never;
@@ -568,26 +374,6 @@ export interface paths {
      * @description 로그인한 사용자의 최근 AI 채팅방을 조회합니다.
      */
     get: operations['findLatestChatRoomByUser'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/v1/admin/memos/embedding-failures': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 미해결 임베딩 실패 목록 조회
-     * @description 재시도가 필요한(is_resolved=false) 임베딩 실패 기록을 조회합니다.
-     */
-    get: operations['getEmbeddingFailures'];
     put?: never;
     post?: never;
     delete?: never;
@@ -640,51 +426,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    TagUpdateRequest: {
-      /**
-       * @description 태그 이름
-       * @example SOPT
-       */
-      name: string;
-    };
-    ApiResponseTagSummaryResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['TagSummaryResponse'];
-    };
-    TagSummaryResponse: {
-      /** Format: int64 */
-      tagId: number;
-      name: string;
-      color: string;
-      /** Format: int64 */
-      parentId: number | null;
-    };
     ApiResponseVoid: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: Record<string, never>;
     };
     ApiResponseString: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: string;
-    };
-    TagCreateRequest: {
-      /**
-       * @description 태그 이름
-       * @example SOPT
-       */
-      name: string;
-      /**
-       * Format: int64
-       * @description 부모 태그 ID
-       * @example 1
-       */
-      parentTagId?: number;
     };
     /** @description 파일 메타데이터 목록 (선택) */
     FileRequest: {
@@ -694,16 +446,27 @@ export interface components {
        */
       s3Key?: string;
       /**
-       * @description 원본 파일명 (필수)
+       * @description 원본 파일명
        * @example SOPT_7th_seminar.pdf
        */
-      fileName: string;
+      fileName?: string;
+      /**
+       * Format: int64
+       * @description 파일 크기(bytes)
+       * @example 1048576
+       */
+      bytes?: number;
+      /**
+       * @description 확장자
+       * @example pdf
+       */
+      extension?: string;
       /**
        * Format: int32
-       * @description 정렬 우선순위 (필수)
+       * @description 정렬 우선순위
        * @example 0
        */
-      priority: number;
+      priority?: number;
     };
     /** @description 이미지 메타데이터 목록 (선택) */
     ImageRequest: {
@@ -713,37 +476,48 @@ export interface components {
        */
       s3Key?: string;
       /**
-       * @description 원본 이미지 파일명 (필수)
+       * @description 원본 이미지 파일명
        * @example seminar_slide.png
        */
-      imageName: string;
+      imageName?: string;
+      /**
+       * Format: int64
+       * @description 파일 크기(bytes)
+       * @example 245678
+       */
+      bytes?: number;
+      /**
+       * @description 확장자
+       * @example png
+       */
+      extension?: string;
       /**
        * Format: int32
-       * @description 정렬 우선순위 (필수)
+       * @description 정렬 우선순위
        * @example 0
        */
-      priority: number;
+      priority?: number;
     };
     MemoCreateRequest: {
       /**
-       * @description 제목 (빈 문자열 허용)
+       * @description 제목
        * @example SOPT 세미나
        */
       title: string;
       /**
-       * @description 내용 (빈 문자열 허용)
+       * @description 내용
        * @example 7차 세미나 내용은 ~가 중요~.
        */
       content: string;
       /**
-       * @description 태그 이름 목록
+       * @description 라벨 이름 목록
        * @example [
        *       "SOPT",
        *       "교양",
        *       "레퍼런스"
        *     ]
        */
-      tagNames?: string[];
+      labelNames?: string[];
       /** @description 이미지 메타데이터 목록 (선택) */
       images?: components['schemas']['ImageRequest'][];
       /** @description 파일 메타데이터 목록 (선택) */
@@ -751,8 +525,8 @@ export interface components {
     };
     ApiResponseMemoResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoResponse'];
     };
     MemoResponse: {
@@ -761,40 +535,17 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId: number;
+      memoId?: number;
       /**
        * @description 메모 제목
        * @example 세미나 정리
        */
-      title: string;
+      title?: string;
       /**
        * Format: date-time
        * @description 생성 시각
        */
-      createdAt: string;
-      /**
-       * Format: date-time
-       * @description 마지막 수정 시각
-       */
-      updatedAt: string;
-    };
-    MemoRecommendationRequest: {
-      memoIds: number[];
-    };
-    ApiResponseMemoRecommendationResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['MemoRecommendationResponse'];
-    };
-    MemoRecommendationItemResponse: {
-      /** Format: int64 */
-      memoId: number;
-      title: string;
-    };
-    MemoRecommendationResponse: {
-      results: components['schemas']['MemoRecommendationItemResponse'][];
-      message: string | null;
+      createdAt?: string;
     };
     /** @description 메모 이미지/파일 업로드용 presigned URL 발급 요청 */
     MemoPresignedUrlRequest: {
@@ -857,46 +608,22 @@ export interface components {
     };
     ApiResponseMemoPresignedUrlResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoPresignedUrlResponse'];
     };
     MemoPresignedUrlResponse: {
-      images: components['schemas']['PresignedUrlResponse'][];
-      files: components['schemas']['PresignedUrlResponse'][];
+      images?: components['schemas']['PresignedUrlResponse'][];
+      files?: components['schemas']['PresignedUrlResponse'][];
     };
     PresignedUrlResponse: {
-      /**
-       * @description 업로드 후 메모 저장 시 함께 보낼 S3 key
-       * @example memo-file/1/uuid.hwp
-       */
-      s3Key: string;
-      /** @description 이 URL로 PUT 업로드한다 (유효시간 10분) */
-      presignedUrl: string;
-      /**
-       * @description 업로드(PUT) 시 `Content-Type` 헤더에 **이 값을 그대로** 넣어야 한다.
-       *     presigned URL 서명에 포함된 값이라, 다른 값을 보내면 S3가 403(SignatureDoesNotMatch)을 반환한다.
-       *     브라우저가 판단한 타입을 쓰지 말고 서버가 준 값을 그대로 되돌려줄 것.
-       * @example application/octet-stream
-       */
-      contentType: string;
-      /**
-       * Format: int64
-       * @description 요청에서 받은 파일 크기
-       * @example 102400
-       */
-      bytes: number;
-      /**
-       * @description 요청에서 받은 확장자
-       * @example hwp
-       */
-      extension: string;
-      /**
-       * Format: int32
-       * @description 요청에서 받은 정렬 우선순위
-       * @example 0
-       */
-      priority: number;
+      s3Key?: string;
+      presignedUrl?: string;
+      /** Format: int64 */
+      bytes?: number;
+      extension?: string;
+      /** Format: int32 */
+      priority?: number;
     };
     MemoAiCreateRequest: {
       title: string;
@@ -905,13 +632,13 @@ export interface components {
     };
     ApiResponseCreateChatRoomResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['CreateChatRoomResponse'];
     };
     CreateChatRoomResponse: {
       /** Format: int64 */
-      chatRoomId: number;
+      chatRoomId?: number;
     };
     MemoAiRequest: {
       userPrompt?: string;
@@ -921,17 +648,17 @@ export interface components {
     };
     ApiResponseMemoAiResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoAiResponse'];
     };
     MemoAiResponse: {
-      title: string;
-      content: string;
+      title?: string;
+      content?: string;
       /** @enum {string} */
-      option: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
-      memoIds: number[];
-      usedPrompt: string;
+      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
+      memoIds?: number[];
+      usedPrompt?: string;
     };
     /** @description 플랜 기반 메모 AI 요청 DTO */
     MemoAiRequestForPlan: {
@@ -977,210 +704,73 @@ export interface components {
     };
     AiEvaluationResult: {
       /** Format: double */
-      relevancePass: number;
+      relevancePass?: number;
       /** Format: double */
-      promptFaithfulnessScore: number;
+      promptFaithfulnessScore?: number;
       /** Format: double */
-      groundednessScore: number;
-      taskAlignmentPass: boolean;
+      groundednessScore?: number;
+      taskAlignmentPass?: boolean;
     };
     ApiResponseMemoAiResponseForPlan: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoAiResponseForPlan'];
     };
     MemoAiResponseForPlan: {
-      aiResponse: components['schemas']['MemoAiResponse'];
-      evaluation: components['schemas']['AiEvaluationResult'];
-    };
-    ApiResponseReEmbeddingResultResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['ReEmbeddingResultResponse'];
-    };
-    ReEmbeddingResultResponse: {
-      /** Format: int64 */
-      memoId: number;
-      textSucceeded: boolean;
-      /** @description 이미지 재임베딩 성공 여부. 이미지 첨부가 없어 시도하지 않은 경우 null */
-      imageSucceeded: boolean | null;
-      /** @description 파일 재임베딩 성공 여부. 파일 첨부가 없어 시도하지 않은 경우 null */
-      fileSucceeded: boolean | null;
-    };
-    ApiResponseReEmbeddingStartedResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['ReEmbeddingStartedResponse'];
-    };
-    ReEmbeddingStartedResponse: {
-      message: string;
-    };
-    /** @description 파일 최종 상태 목록 (유지=fileId, 추가=s3Key, 없으면 []) */
-    FileEdit: {
-      /**
-       * Format: int64
-       * @description 유지할 기존 파일 ID. 새로 추가하는 파일은 null
-       * @example 20
-       */
-      fileId?: number | null;
-      /**
-       * @description 새로 추가하는 파일의 S3 key. 기존 유지 시 null
-       * @example memo-file/1/uuid.pdf
-       */
-      s3Key?: string | null;
-      /**
-       * @description 원본 파일명. 추가(s3Key) 시 필수, 유지 시 null
-       * @example SOPT_7th_seminar.pdf
-       */
-      fileName?: string | null;
-      /**
-       * Format: int32
-       * @description 정렬 우선순위 (유지·추가 모두 필수)
-       * @example 0
-       */
-      priority: number;
-    };
-    /** @description 이미지 최종 상태 목록 (유지=imageId, 추가=s3Key, 없으면 []) */
-    ImageEdit: {
-      /**
-       * Format: int64
-       * @description 유지할 기존 이미지 ID. 새로 추가하는 이미지는 null
-       * @example 10
-       */
-      imageId?: number | null;
-      /**
-       * @description 새로 추가하는 이미지의 S3 key. 기존 유지 시 null
-       * @example memo-image/1/uuid.png
-       */
-      s3Key?: string | null;
-      /**
-       * @description 원본 이미지 파일명. 추가(s3Key) 시 필수, 유지 시 null
-       * @example seminar_slide.png
-       */
-      imageName?: string | null;
-      /**
-       * Format: int32
-       * @description 정렬 우선순위 (유지·추가 모두 필수)
-       * @example 0
-       */
-      priority: number;
-    };
-    MemoUpdateRequest: {
-      /**
-       * @description 제목 (빈 문자열 허용)
-       * @example SOPT 세미나 (수정)
-       */
-      title: string;
-      /**
-       * @description 내용 (빈 문자열 허용)
-       * @example 7차 세미나 내용 수정본.
-       */
-      content: string;
-      /**
-       * @description 태그 이름 목록 (최종 상태, 항상 전달. 태그 없으면 [])
-       * @example [
-       *       "SOPT",
-       *       "교양"
-       *     ]
-       */
-      tagNames: string[];
-      /** @description 이미지 최종 상태 목록 (유지=imageId, 추가=s3Key, 없으면 []) */
-      images: components['schemas']['ImageEdit'][];
-      /** @description 파일 최종 상태 목록 (유지=fileId, 추가=s3Key, 없으면 []) */
-      files: components['schemas']['FileEdit'][];
+      aiResponse?: components['schemas']['MemoAiResponse'];
+      evaluation?: components['schemas']['AiEvaluationResult'];
     };
     ApiResponseUserInfoResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['UserInfoResponse'];
     };
     UserInfoResponse: {
       /** Format: int64 */
-      userId: number;
-      name: string;
-      email: string;
-      profileImageUrl: string | null;
-    };
-    ApiResponseTagListResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['TagListResponse'];
-    };
-    TagListResponse: {
-      tags: components['schemas']['TagResponse'][];
-    };
-    TagResponse: {
-      /** Format: int64 */
-      tagId: number;
-      name: string;
-      color: string;
-      /** Format: int64 */
-      parentId: number | null;
-    };
-    ApiResponseTagParentListResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['TagParentListResponse'];
-    };
-    TagParentListResponse: {
-      tags: components['schemas']['TagSummaryResponse'][];
-    };
-    ApiResponseTagHierarchyResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['TagHierarchyResponse'];
-    };
-    TagHierarchyResponse: {
-      parentTag: components['schemas']['TagSummaryResponse'];
-      childTags: components['schemas']['TagTreeResponse'][];
-    };
-    TagTreeResponse: {
-      /** Format: int64 */
-      tagId: number;
-      name: string;
-      color: string;
-      /** Format: int64 */
-      parentId: number | null;
+      userId?: number;
+      name?: string;
+      email?: string;
+      profileImageUrl?: string;
     };
     ApiResponseMemoListDashboardResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoListDashboardResponse'];
+    };
+    LabelResponse: {
+      /** Format: int64 */
+      labelId?: number;
+      name?: string;
     };
     MemoDashboardResponse: {
       /** Format: int64 */
-      memoId: number;
-      title: string;
-      content: string;
-      representativeImageUrl: string | null;
+      memoId?: number;
+      title?: string;
+      content?: string;
+      representativeImageUrl?: string;
       /** Format: int32 */
-      imageCount: number;
+      imageCount?: number;
       /** Format: int32 */
-      fileCount: number;
-      isPinned: boolean;
-      isAiGenerated: boolean;
-      isNew: boolean;
+      fileCount?: number;
+      isPinned?: boolean;
+      isAiGenerated?: boolean;
+      isNew?: boolean;
       /** Format: date-time */
-      createdAt: string;
-      tagList: components['schemas']['TagResponse'][];
+      createdAt?: string;
+      labelList?: components['schemas']['LabelResponse'][];
     };
     MemoListDashboardResponse: {
       /** Format: int64 */
-      totalCount: number;
-      memos: components['schemas']['MemoDashboardResponse'][];
+      totalCount?: number;
+      memos?: components['schemas']['MemoDashboardResponse'][];
     };
     ApiResponseMemoDetailResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoDetailResponse'];
     };
     /** @description 첨부 파일 정보 */
@@ -1190,24 +780,24 @@ export interface components {
        * @description 파일 ID
        * @example 1
        */
-      fileId: number;
+      fileId?: number;
       /** @description 파일 다운로드 URL (Presigned URL) */
-      fileUrl: string;
+      fileUrl?: string;
       /**
        * @description 파일명
        * @example SOPT_7th_seminar.pdf
        */
-      fileName: string;
+      fileName?: string;
       /**
        * @description 파일 확장자
        * @example pdf
        */
-      fileExtension: string;
+      fileExtension?: string;
       /**
        * @description 파일 크기
        * @example 1.00GB
        */
-      fileSize: string;
+      fileSize?: string;
     };
     /** @description 이미지 정보 */
     ImageInfo: {
@@ -1216,24 +806,24 @@ export interface components {
        * @description 이미지 ID
        * @example 1
        */
-      imageId: number;
+      imageId?: number;
       /** @description 이미지 URL (Presigned URL) */
-      imageUrl: string;
+      imageUrl?: string;
       /**
        * @description 이미지 파일명
        * @example seminar_slide.png
        */
-      imageName: string;
+      imageName?: string;
       /**
        * @description 이미지 확장자
        * @example png
        */
-      imageExtension: string;
+      imageExtension?: string;
       /**
        * @description 이미지 크기
        * @example 0.24MB
        */
-      imageSize: string;
+      imageSize?: string;
     };
     MemoDetailResponse: {
       /**
@@ -1241,38 +831,33 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId: number;
+      memoId?: number;
       /**
        * @description 메모 제목
        * @example 집에 빨리 가는 법
        */
-      title: string;
+      title?: string;
       /**
        * @description 메모 내용
        * @example 발박수 치며 날아 간다.
        */
-      content: string;
+      content?: string;
       /** @description 이미지 정보 목록 */
-      images: components['schemas']['ImageInfo'][];
+      images?: components['schemas']['ImageInfo'][];
       /** @description 첨부 파일 정보 목록 */
-      files: components['schemas']['FileInfo'][];
-      /** @description 메모에 딸린 태그들 */
-      tagList: components['schemas']['TagResponse'][];
+      files?: components['schemas']['FileInfo'][];
+      /** @description 메모에 딸린 라벨들 */
+      labelList?: components['schemas']['LabelResponse'][];
       /**
        * Format: date-time
        * @description 메모 생성 시각
        */
-      createdAt: string;
-      /**
-       * Format: date-time
-       * @description 메모 마지막 수정 시각
-       */
-      updatedAt: string;
+      createdAt?: string;
       /**
        * @description AI 생성 여부
        * @example false
        */
-      isAiGenerated: boolean;
+      isAiGenerated?: boolean;
       /**
        * @description AI 생성 시 참고한 메모 제목 목록
        * @example [
@@ -1280,17 +865,17 @@ export interface components {
        *       "시험 대비 요약"
        *     ]
        */
-      sourceMemoTitleList: string[];
+      sourceMemoTitleList?: string[];
     };
     ApiResponseMemoStructureListResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['MemoStructureListResponse'];
     };
     MemoStructureListResponse: {
       /** @description 구조화뷰 메모 목록 */
-      memos: components['schemas']['MemoStructureResponse'][];
+      memos?: components['schemas']['MemoStructureResponse'][];
     };
     /** @description 구조화뷰 메모 목록 */
     MemoStructureResponse: {
@@ -1299,110 +884,49 @@ export interface components {
        * @description 메모 ID
        * @example 1
        */
-      memoId: number;
+      memoId?: number;
       /**
        * @description 메모 제목
        * @example 집에 빨리 가는 법
        */
-      title: string;
+      title?: string;
       /**
        * @description 메모 내용
        * @example 발박수 치며 날아 간다.
        */
-      content: string;
-      /** @description 메모에 딸린 태그 목록 */
-      tagList: components['schemas']['TagResponse'][];
+      content?: string;
+      /** @description 메모에 딸린 라벨 목록 */
+      labelList?: components['schemas']['LabelResponse'][];
     };
-    ApiResponseMemoSearchResponse: {
+    ApiResponseLabelListResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['MemoSearchResponse'];
+      code?: number;
+      msg?: string;
+      data?: components['schemas']['LabelListResponse'];
     };
-    MemoSearchItemResponse: {
-      /** Format: int64 */
-      memoId: number;
-      title: string;
-      content: string;
-      tagList: components['schemas']['TagResponse'][];
-      /** Format: date-time */
-      createdAt: string;
-      /** Format: date-time */
-      lastViewedAt?: string | null;
-      /** @enum {string} */
-      searchType: 'TEXT';
-    };
-    MemoSearchResponse: {
-      results: components['schemas']['MemoSearchItemResponse'][];
-      message: string | null;
-    };
-    ApiResponseMemoRecentViewedResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['MemoRecentViewedResponse'];
-    };
-    Item: {
-      /** Format: int64 */
-      memoId: number;
-      title: string;
-      content: string;
-      tagList: components['schemas']['TagResponse'][];
-      /**
-       * Format: date-time
-       * @description 마지막 열람 시각. null이면 열람 이력이 없어 최근 생성 메모로 폴백된 아이템이라는 뜻이며, 이 경우 클라이언트는 createdAt으로 날짜를 표기한다. null이 아니면 실제 최근 열람 메모다.
-       */
-      lastViewedAt?: string | null;
-      /**
-       * Format: date-time
-       * @description 생성 시각. 항상 존재하며, 폴백(lastViewedAt=null) 아이템의 날짜 표기에 사용한다.
-       */
-      createdAt: string;
-    };
-    MemoRecentViewedResponse: {
-      /**
-       * @description 목록 출처. RECENT_VIEWED=최근 열람 메모, RECENT_CREATED=열람 이력이 없어 최근 생성 메모로 폴백.
-       * @enum {string}
-       */
-      source: 'RECENT_VIEWED' | 'RECENT_CREATED';
-      results: components['schemas']['Item'][];
+    LabelListResponse: {
+      labels?: components['schemas']['LabelResponse'][];
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['ChatRoomListResponse'];
     };
     ChatRoomListResponse: {
-      chatRooms: components['schemas']['ChatRoomResponse'][];
+      chatRooms?: components['schemas']['ChatRoomResponse'][];
     };
     ChatRoomResponse: {
       /** Format: int64 */
-      chatRoomId: number;
+      chatRoomId?: number;
       /** Format: date-time */
-      createdAt: string;
+      createdAt?: string;
     };
     ApiResponseChatRoomResponse: {
       /** Format: int32 */
-      code: number;
-      msg: string;
+      code?: number;
+      msg?: string;
       data?: components['schemas']['ChatRoomResponse'];
-    };
-    ApiResponseListEmbeddingFailureResponse: {
-      /** Format: int32 */
-      code: number;
-      msg: string;
-      data?: components['schemas']['EmbeddingFailureResponse'][];
-    };
-    EmbeddingFailureResponse: {
-      /** Format: int64 */
-      id: number;
-      /** Format: int64 */
-      memoId: number;
-      embeddingType: string;
-      /** Format: date-time */
-      failedAt: string;
-      errorMessage: string | null;
     };
   };
   responses: never;
@@ -1413,54 +937,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  updateTag: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        tagId: number;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TagUpdateRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseTagSummaryResponse'];
-        };
-      };
-    };
-  };
-  deleteTag: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        tagId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseString'];
-        };
-      };
-    };
-  };
   reissueToken: {
     parameters: {
       query?: never;
@@ -1597,54 +1073,10 @@ export interface operations {
       };
     };
   };
-  getAllTags: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseTagListResponse'];
-        };
-      };
-    };
-  };
-  createTag: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TagCreateRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseTagSummaryResponse'];
-        };
-      };
-    };
-  };
   getMemos: {
     parameters: {
       query?: {
-        tagIds?: number[];
+        labelIds?: number[];
         cursorCreatedAt?: string;
         cursorMemoId?: number;
         size?: number;
@@ -1794,30 +1226,6 @@ export interface operations {
       };
     };
   };
-  recommendMemos: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['MemoRecommendationRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseMemoRecommendationResponse'];
-        };
-      };
-    };
-  };
   issuePresignedUrls: {
     parameters: {
       query?: never;
@@ -1893,7 +1301,7 @@ export interface operations {
   getAiMemos: {
     parameters: {
       query?: {
-        tagIds?: number[];
+        labelIds?: number[];
         cursorCreatedAt?: string;
         cursorMemoId?: number;
         size?: number;
@@ -2135,13 +1543,79 @@ export interface operations {
       };
     };
   };
-  reEmbedOne: {
+  redirectToGoogleAuth: {
     parameters: {
       query?: never;
       header?: never;
-      path: {
-        memoId: number;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  callback: {
+    parameters: {
+      query: {
+        code: string;
+      };
+      header?: never;
+      path?: never;
       cookie?: never;
     };
     requestBody?: never;
@@ -2152,12 +1626,60 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseReEmbeddingResultResponse'];
+          '*/*': components['schemas']['ApiResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
         };
       };
     };
   };
-  reEmbedAll: {
+  getUserInfo: {
     parameters: {
       query?: never;
       header?: never;
@@ -2172,7 +1694,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseReEmbeddingStartedResponse'];
+          '*/*': components['schemas']['ApiResponseUserInfoResponse'];
         };
       };
     };
@@ -2333,288 +1855,6 @@ export interface operations {
       };
     };
   };
-  updateMemo: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        memoId: number;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['MemoUpdateRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseMemoResponse'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  redirectToGoogleAuth: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  callback: {
-    parameters: {
-      query: {
-        params: {
-          [key: string]: string;
-        };
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': Record<string, never>;
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  getUserInfo: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseUserInfoResponse'];
-        };
-      };
-    };
-  };
-  getParentTags: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseTagParentListResponse'];
-        };
-      };
-    };
-  };
-  getChildAndGrandChildTags: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        parentTagId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseTagHierarchyResponse'];
-        };
-      };
-    };
-  };
   getStructureMemo: {
     parameters: {
       query?: never;
@@ -2635,29 +1875,7 @@ export interface operations {
       };
     };
   };
-  searchMemos: {
-    parameters: {
-      query: {
-        query: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseMemoSearchResponse'];
-        };
-      };
-    };
-  };
-  getRecentViewedMemos: {
+  getAllLabels: {
     parameters: {
       query?: never;
       header?: never;
@@ -2672,7 +1890,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['ApiResponseMemoRecentViewedResponse'];
+          '*/*': components['schemas']['ApiResponseLabelListResponse'];
         };
       };
     };
@@ -2693,26 +1911,6 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseChatRoomResponse'];
-        };
-      };
-    };
-  };
-  getEmbeddingFailures: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseListEmbeddingFailureResponse'];
         };
       };
     };

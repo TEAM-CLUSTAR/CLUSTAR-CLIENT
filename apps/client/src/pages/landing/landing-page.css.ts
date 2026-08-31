@@ -20,6 +20,31 @@ globalStyle(`${container}::-webkit-scrollbar`, {
   display: 'none',
 });
 
+export const headerContainer = style({
+  backgroundColor: themeVars.color.blue25,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '3rem 12rem',
+  borderBottom: `1px solid ${themeVars.color.grey300}`,
+  zIndex: 100,
+  width: '100%',
+  flexShrink: 0,
+  alignSelf: 'stretch',
+});
+
+export const headerContent = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1.1rem',
+});
+
+export const loginLink = style({
+  color: themeVars.color.blue500,
+  ...themeVars.fontStyles.title_sb_20,
+});
+
 export const contentContainer = style({
   display: 'flex',
   flexDirection: 'column',
@@ -45,10 +70,6 @@ export const content01 = style({
   width: '100%',
   justifyContent: 'flex-start',
   alignItems: 'center',
-});
-
-export const landingImage = style({
-  marginTop: '5.3rem',
 });
 
 export const content01Content = style({
