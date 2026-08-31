@@ -1,5 +1,7 @@
 import { DragEvent, useRef, useState } from 'react';
 import { SelectedMemoType } from '@features/ai-panel/types/ai-panel.types';
+import { PATH } from '@router/path';
+import { useNavigate } from 'react-router';
 
 import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 import { MEMO_DRAG_DATA_FORMAT } from '@shared/constants/memo-drag-data';
@@ -8,6 +10,7 @@ import { useAiPanel } from './ai-panel-context';
 import AiPanelHeader from './components/ai-panel-header/ai-panel-header';
 import AiPanelChat from './components/chat/ai-panel-chat/ai-panel-chat';
 import MemoDropOverlay from './components/memo-drop-overlay/memo-drop-overlay';
+import NewChatConfirmModal from './components/new-chat-confirm-modal/new-chat-confirm-modal';
 import PromptInput from './components/prompt-input/prompt-input';
 import SuggestedMemoList, {
   SuggestedMemo,
@@ -32,9 +35,13 @@ interface AiPanelProps {
 }
 
 const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
-  const { isOpen, selectedMemos, close, addMemo, removeMemo } = useAiPanel();
+  const { isOpen, selectedMemos, close, addMemo, removeMemo, clearMemos } =
+    useAiPanel();
+  const navigate = useNavigate();
 
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isNewChatConfirmModalOpen, setIsNewChatConfirmModalOpen] =
+    useState(false);
   const dragDepthRef = useRef(0);
 
   const handleDragEnter = (event: DragEvent<HTMLElement>) => {
@@ -75,6 +82,7 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
     isAnswerLoading,
     promptValue,
     answerGeneratingMemoCount,
+    recommendedMemos,
     isSaveConfirmModalOpen,
     setIsSaveConfirmModalOpen,
     handleCreateNewChat,
@@ -88,12 +96,26 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
     selectedMemos,
   });
 
-  const shouldShowSuggestedMemos =
-    !!suggestedMemoSection && suggestedMemoSection.memos.length > 0;
+  const suggestedMemos = suggestedMemoSection?.memos ?? recommendedMemos;
+  const shouldShowSuggestedMemos = suggestedMemos.length > 0;
 
   const handleSelectSuggestedMemo = (memo: SuggestedMemo) => {
     addMemo(memo);
     suggestedMemoSection?.onSelectMemo?.(memo);
+  };
+
+  const handleOpenSuggestedMemo = (memo: SuggestedMemo) => {
+    suggestedMemoSection?.onOpenMemo?.(memo.memoId);
+    navigate(`${PATH.MEMO}/${memo.memoId}`, { state: { title: memo.title } });
+  };
+
+  const handleOpenNewChatConfirmModal = () => {
+    setIsNewChatConfirmModalOpen(true);
+  };
+
+  const handleConfirmCreateNewChat = () => {
+    handleCreateNewChat();
+    clearMemos();
   };
 
   if (!isOpen) return null;
@@ -109,7 +131,7 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
     >
       <AiPanelHeader
         titleId={AI_PANEL_TITLE_ID}
-        onCreateNewChat={handleCreateNewChat}
+        onCreateNewChat={handleOpenNewChatConfirmModal}
         onClose={close}
       />
 
@@ -117,9 +139,9 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
         <div className={styles.chatWrapper}>
           {shouldShowSuggestedMemos && (
             <SuggestedMemoList
-              memos={suggestedMemoSection.memos}
+              memos={suggestedMemos}
               onSelectMemo={handleSelectSuggestedMemo}
-              onOpenMemo={suggestedMemoSection.onOpenMemo}
+              onOpenMemo={handleOpenSuggestedMemo}
             />
           )}
 
@@ -149,6 +171,12 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
         open={isSaveConfirmModalOpen}
         onOpenChange={setIsSaveConfirmModalOpen}
         hasCancel={false}
+      />
+
+      <NewChatConfirmModal
+        open={isNewChatConfirmModalOpen}
+        onOpenChange={setIsNewChatConfirmModalOpen}
+        onConfirm={handleConfirmCreateNewChat}
       />
     </aside>
   );

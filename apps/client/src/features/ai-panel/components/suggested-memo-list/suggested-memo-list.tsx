@@ -13,7 +13,7 @@ export interface SuggestedMemo {
 interface SuggestedMemoListProps {
   memos: SuggestedMemo[];
   onSelectMemo: (memo: SuggestedMemo) => void;
-  onOpenMemo?: (memoId: number) => void;
+  onOpenMemo?: (memo: SuggestedMemo) => void;
 }
 
 const SuggestedMemoList = ({
@@ -62,7 +62,7 @@ const SuggestedMemoList = ({
             key={memo.memoId}
             memo={memo}
             onSelectMemo={() => onSelectMemo(memo)}
-            onOpenMemo={() => onOpenMemo?.(memo.memoId)}
+            onOpenMemo={() => onOpenMemo?.(memo)}
           />
         ))}
       </ul>

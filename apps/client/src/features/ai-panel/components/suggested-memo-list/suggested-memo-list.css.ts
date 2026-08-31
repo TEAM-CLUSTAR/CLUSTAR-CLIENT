@@ -89,6 +89,13 @@ export const itemContainer = style({
   gap: '0.8rem',
   width: '100%',
   height: '3.6rem',
+  paddingRight: '0.4rem',
+  borderRadius: '8px',
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.grey100,
+    },
+  },
 });
 
 export const openMemo = style({
@@ -100,19 +107,13 @@ export const openMemo = style({
   height: '100%',
   padding: '0 0.4rem',
   borderRadius: '8px',
-  backgroundColor: themeVars.color.white,
+  backgroundColor: 'transparent',
   cursor: 'pointer',
-  selectors: {
-    '&:hover': {
-      backgroundColor: themeVars.color.grey100,
-    },
-  },
 });
 
 export const memo = style({
   ...themeVars.fontStyles.body_m_14,
   color: themeVars.color.grey800,
-  flex: 1,
   minWidth: 0,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
