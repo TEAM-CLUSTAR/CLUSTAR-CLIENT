@@ -1,12 +1,10 @@
 import { ReactNode } from 'react';
 import { AiPanel, AiPanelProvider, useAiPanel } from '@features/ai-panel';
+import { Sidebar, SidebarProvider } from '@features/sidebar';
 
 import { FloatingButton } from '@cds/ui';
 
 import { MemoTabProvider } from '@shared/components/memo-tab-bar/memo-tab-context';
-
-import Sidebar from '../sidebar/sidebar';
-import { SidebarProvider } from '../sidebar/sidebar-context';
 
 import * as styles from './dashboard-layout.css';
 

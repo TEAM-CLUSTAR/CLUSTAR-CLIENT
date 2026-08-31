@@ -1,6 +1,5 @@
+import DashboardLayout from '@layouts/dashboard-layout/dashboard-layout';
 import { Outlet } from 'react-router';
-
-import DashboardLayout from '@shared/components/layouts/dashboard-layout/dashboard-layout';
 
 const DashboardRoute = () => {
   return (

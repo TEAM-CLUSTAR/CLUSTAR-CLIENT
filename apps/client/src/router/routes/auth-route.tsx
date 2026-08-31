@@ -1,6 +1,5 @@
+import AuthLayout from '@layouts/auth-layout/auth-layout';
 import { Outlet } from 'react-router';
-
-import AuthLayout from '@shared/components/layouts/auth-layout/auth-layout';
 
 const AuthRoute = () => {
   return (
