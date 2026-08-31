@@ -4,6 +4,9 @@ import { zIndex } from '@cds/token';
 import { themeVars } from '@cds/ui';
 
 export const sidebar = style({
+  position: 'sticky',
+  top: '0',
+  zIndex: zIndex.shell,
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: themeVars.color.grey50,
@@ -11,7 +14,7 @@ export const sidebar = style({
   padding: '2rem',
   height: '100vh',
   flexShrink: '0',
-  transition: 'width 0.2s ease',
+  transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   selectors: {
     '&[data-expanded="true"]': { width: '26rem' },
     '&[data-expanded="false"]': { width: '8rem' },
@@ -153,7 +156,7 @@ export const tooltip = style({
   marginLeft: '1.2rem',
 
   transform: 'translateY(-50%)',
-  zIndex: zIndex.sidebar,
+  zIndex: zIndex.tooltip,
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
 

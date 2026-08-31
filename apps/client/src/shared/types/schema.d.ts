@@ -349,6 +349,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memo/{memoId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 메모 상세 조회
+     * @description 하나의 메모를 상세조회 합니다.
+     *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
+     *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
+     *     태그는 리스트의 앞부터 우선순위가 높은 순서 입니다.
+     */
+    get: operations['getOneDetailMemo'];
+    put?: never;
+    post?: never;
+    /**
+     * 메모 삭제
+     * @description 특정 메모를 삭제합니다.
+     */
+    delete: operations['deleteMemo'];
+    options?: never;
+    head?: never;
+    /**
+     * 메모 수정
+     * @description 제목/본문/태그/첨부를 **항상 최종 상태로** 보내면 서버가 현재와 비교해 반영합니다. (모든 필드 null 금지 — 빈 건 ""/[])
+     *
+     *     - **title/content**: 값으로 교체 (빈 문자열 허용)
+     *     - **tagNames**: 목록으로 태그 교체 (순서=우선순위, 없는 이름은 자동 생성, 없으면 [])
+     *     - **images/files**: 최종 목록 전송 → 서버가 유지/추가/삭제 계산
+     *       - 유지: `imageId`(또는 `fileId`)만  |  추가: presigned 업로드 후 `s3Key`+메타  |  삭제: 목록에서 빠뜨림
+     *       - 안 바꿔도 현재 목록 그대로, 없으면 []
+     *       - 제약: 각 최대 5개, 이미지 5MB/파일 10MB
+     *
+     *     응답의 `updatedAt`은 수정 시각으로 갱신됩니다.
+     */
+    patch: operations['updateMemo'];
+    trace?: never;
+  };
   '/oauth/google': {
     parameters: {
       query?: never;
@@ -451,33 +491,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/memo/{memoId}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 메모 전체 조회(모달창)
-     * @description 하나의 메모를 상세조회 합니다.
-     *     AI가 생성한 메모일 경우 선택한 메모의 ID를 리스트로 반환합니다.
-     *     AI가 생성한 메모가 아닐 경우 선택한 메모가 없으므로 빈 리스트를 반환합니다.
-     *     태그는 리스트의 앞부터 우선순위가 높은 순서 입니다.
-     */
-    get: operations['getOneDetailMemo'];
-    put?: never;
-    post?: never;
-    /**
-     * 메모 삭제
-     * @description 특정 메모를 삭제합니다.
-     */
-    delete: operations['deleteMemo'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/api/v1/memo/structure': {
     parameters: {
       query?: never;
@@ -507,11 +520,34 @@ export interface paths {
     };
     /**
      * 메모 검색
-     * @description 검색어를 입력하면 최대 5개의 메모를 반환합니다.
-     *     - 텍스트 매칭(제목/본문/태그) 최대 3개
-     *     - 의미 기반 벡터 검색 최대 2개
+     * @description 키워드가 제목/태그/본문에 포함된 모든 메모를 반환합니다.
+     *     정렬: 필드 우선순위(제목 > 태그 > 본문) + 필드 내 온전한 키워드 매칭 우선, 동점은 최신순.
+     *     (의미 기반 검색은 기획 결정으로 비활성화되었습니다.)
      */
     get: operations['searchMemos'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memo/recent-viewed': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 최근 열람한 메모
+     * @description 검색 모달 [입력 완료 전] 화면용. 사용자가 최근에 열람한 메모를 최신 열람순으로 반환합니다.
+     *     (열람 = 메모 상세조회.)
+     *     열람 이력이 하나도 없으면 최근 생성 메모(생성 최신순)로 폴백합니다.
+     *     목록 출처는 data.source로 구분합니다. RECENT_VIEWED / RECENT_CREATED
+     */
+    get: operations['getRecentViewedMemos'];
     put?: never;
     post?: never;
     delete?: never;
@@ -658,27 +694,16 @@ export interface components {
        */
       s3Key?: string;
       /**
-       * @description 원본 파일명
+       * @description 원본 파일명 (필수)
        * @example SOPT_7th_seminar.pdf
        */
-      fileName?: string;
-      /**
-       * Format: int64
-       * @description 파일 크기(bytes)
-       * @example 1048576
-       */
-      bytes?: number;
-      /**
-       * @description 확장자
-       * @example pdf
-       */
-      extension?: string;
+      fileName: string;
       /**
        * Format: int32
-       * @description 정렬 우선순위
+       * @description 정렬 우선순위 (필수)
        * @example 0
        */
-      priority?: number;
+      priority: number;
     };
     /** @description 이미지 메타데이터 목록 (선택) */
     ImageRequest: {
@@ -688,36 +713,25 @@ export interface components {
        */
       s3Key?: string;
       /**
-       * @description 원본 이미지 파일명
+       * @description 원본 이미지 파일명 (필수)
        * @example seminar_slide.png
        */
-      imageName?: string;
-      /**
-       * Format: int64
-       * @description 파일 크기(bytes)
-       * @example 245678
-       */
-      bytes?: number;
-      /**
-       * @description 확장자
-       * @example png
-       */
-      extension?: string;
+      imageName: string;
       /**
        * Format: int32
-       * @description 정렬 우선순위
+       * @description 정렬 우선순위 (필수)
        * @example 0
        */
-      priority?: number;
+      priority: number;
     };
     MemoCreateRequest: {
       /**
-       * @description 제목
+       * @description 제목 (빈 문자열 허용)
        * @example SOPT 세미나
        */
       title: string;
       /**
-       * @description 내용
+       * @description 내용 (빈 문자열 허용)
        * @example 7차 세미나 내용은 ~가 중요~.
        */
       content: string;
@@ -758,6 +772,11 @@ export interface components {
        * @description 생성 시각
        */
       createdAt: string;
+      /**
+       * Format: date-time
+       * @description 마지막 수정 시각
+       */
+      updatedAt: string;
     };
     MemoRecommendationRequest: {
       memoIds: number[];
@@ -847,12 +866,36 @@ export interface components {
       files: components['schemas']['PresignedUrlResponse'][];
     };
     PresignedUrlResponse: {
+      /**
+       * @description 업로드 후 메모 저장 시 함께 보낼 S3 key
+       * @example memo-file/1/uuid.hwp
+       */
       s3Key: string;
+      /** @description 이 URL로 PUT 업로드한다 (유효시간 10분) */
       presignedUrl: string;
-      /** Format: int64 */
+      /**
+       * @description 업로드(PUT) 시 `Content-Type` 헤더에 **이 값을 그대로** 넣어야 한다.
+       *     presigned URL 서명에 포함된 값이라, 다른 값을 보내면 S3가 403(SignatureDoesNotMatch)을 반환한다.
+       *     브라우저가 판단한 타입을 쓰지 말고 서버가 준 값을 그대로 되돌려줄 것.
+       * @example application/octet-stream
+       */
+      contentType: string;
+      /**
+       * Format: int64
+       * @description 요청에서 받은 파일 크기
+       * @example 102400
+       */
       bytes: number;
+      /**
+       * @description 요청에서 받은 확장자
+       * @example hwp
+       */
       extension: string;
-      /** Format: int32 */
+      /**
+       * Format: int32
+       * @description 요청에서 받은 정렬 우선순위
+       * @example 0
+       */
       priority: number;
     };
     MemoAiCreateRequest: {
@@ -975,6 +1018,80 @@ export interface components {
     ReEmbeddingStartedResponse: {
       message: string;
     };
+    /** @description 파일 최종 상태 목록 (유지=fileId, 추가=s3Key, 없으면 []) */
+    FileEdit: {
+      /**
+       * Format: int64
+       * @description 유지할 기존 파일 ID. 새로 추가하는 파일은 null
+       * @example 20
+       */
+      fileId?: number | null;
+      /**
+       * @description 새로 추가하는 파일의 S3 key. 기존 유지 시 null
+       * @example memo-file/1/uuid.pdf
+       */
+      s3Key?: string | null;
+      /**
+       * @description 원본 파일명. 추가(s3Key) 시 필수, 유지 시 null
+       * @example SOPT_7th_seminar.pdf
+       */
+      fileName?: string | null;
+      /**
+       * Format: int32
+       * @description 정렬 우선순위 (유지·추가 모두 필수)
+       * @example 0
+       */
+      priority: number;
+    };
+    /** @description 이미지 최종 상태 목록 (유지=imageId, 추가=s3Key, 없으면 []) */
+    ImageEdit: {
+      /**
+       * Format: int64
+       * @description 유지할 기존 이미지 ID. 새로 추가하는 이미지는 null
+       * @example 10
+       */
+      imageId?: number | null;
+      /**
+       * @description 새로 추가하는 이미지의 S3 key. 기존 유지 시 null
+       * @example memo-image/1/uuid.png
+       */
+      s3Key?: string | null;
+      /**
+       * @description 원본 이미지 파일명. 추가(s3Key) 시 필수, 유지 시 null
+       * @example seminar_slide.png
+       */
+      imageName?: string | null;
+      /**
+       * Format: int32
+       * @description 정렬 우선순위 (유지·추가 모두 필수)
+       * @example 0
+       */
+      priority: number;
+    };
+    MemoUpdateRequest: {
+      /**
+       * @description 제목 (빈 문자열 허용)
+       * @example SOPT 세미나 (수정)
+       */
+      title: string;
+      /**
+       * @description 내용 (빈 문자열 허용)
+       * @example 7차 세미나 내용 수정본.
+       */
+      content: string;
+      /**
+       * @description 태그 이름 목록 (최종 상태, 항상 전달. 태그 없으면 [])
+       * @example [
+       *       "SOPT",
+       *       "교양"
+       *     ]
+       */
+      tagNames: string[];
+      /** @description 이미지 최종 상태 목록 (유지=imageId, 추가=s3Key, 없으면 []) */
+      images: components['schemas']['ImageEdit'][];
+      /** @description 파일 최종 상태 목록 (유지=fileId, 추가=s3Key, 없으면 []) */
+      files: components['schemas']['FileEdit'][];
+    };
     ApiResponseUserInfoResponse: {
       /** Format: int32 */
       code: number;
@@ -1077,20 +1194,20 @@ export interface components {
       /** @description 파일 다운로드 URL (Presigned URL) */
       fileUrl: string;
       /**
-       * @description 파일명. 저장된 파일명 정보가 없는 경우 null
+       * @description 파일명
        * @example SOPT_7th_seminar.pdf
        */
-      fileName: string | null;
+      fileName: string;
       /**
-       * @description 파일 확장자. 저장된 확장자 정보가 없는 경우 null
+       * @description 파일 확장자
        * @example pdf
        */
-      fileExtension: string | null;
+      fileExtension: string;
       /**
-       * @description 파일 크기. 저장된 파일 크기 정보가 없는 경우 null
+       * @description 파일 크기
        * @example 1.00GB
        */
-      fileSize: string | null;
+      fileSize: string;
     };
     /** @description 이미지 정보 */
     ImageInfo: {
@@ -1103,20 +1220,20 @@ export interface components {
       /** @description 이미지 URL (Presigned URL) */
       imageUrl: string;
       /**
-       * @description 이미지 파일명. 저장된 파일명 정보가 없는 경우 null
+       * @description 이미지 파일명
        * @example seminar_slide.png
        */
-      imageName: string | null;
+      imageName: string;
       /**
-       * @description 이미지 확장자. 저장된 확장자 정보가 없는 경우 null
+       * @description 이미지 확장자
        * @example png
        */
-      imageExtension: string | null;
+      imageExtension: string;
       /**
-       * @description 이미지 크기. 저장된 파일 크기 정보가 없는 경우 null
+       * @description 이미지 크기
        * @example 0.24MB
        */
-      imageSize: string | null;
+      imageSize: string;
     };
     MemoDetailResponse: {
       /**
@@ -1146,6 +1263,11 @@ export interface components {
        * @description 메모 생성 시각
        */
       createdAt: string;
+      /**
+       * Format: date-time
+       * @description 메모 마지막 수정 시각
+       */
+      updatedAt: string;
       /**
        * @description AI 생성 여부
        * @example false
@@ -1205,12 +1327,45 @@ export interface components {
       tagList: components['schemas']['TagResponse'][];
       /** Format: date-time */
       createdAt: string;
+      /** Format: date-time */
+      lastViewedAt?: string | null;
       /** @enum {string} */
-      searchType: 'TEXT' | 'SEMANTIC';
+      searchType: 'TEXT';
     };
     MemoSearchResponse: {
       results: components['schemas']['MemoSearchItemResponse'][];
       message: string | null;
+    };
+    ApiResponseMemoRecentViewedResponse: {
+      /** Format: int32 */
+      code: number;
+      msg: string;
+      data?: components['schemas']['MemoRecentViewedResponse'];
+    };
+    Item: {
+      /** Format: int64 */
+      memoId: number;
+      title: string;
+      content: string;
+      tagList: components['schemas']['TagResponse'][];
+      /**
+       * Format: date-time
+       * @description 마지막 열람 시각. null이면 열람 이력이 없어 최근 생성 메모로 폴백된 아이템이라는 뜻이며, 이 경우 클라이언트는 createdAt으로 날짜를 표기한다. null이 아니면 실제 최근 열람 메모다.
+       */
+      lastViewedAt?: string | null;
+      /**
+       * Format: date-time
+       * @description 생성 시각. 항상 존재하며, 폴백(lastViewedAt=null) 아이템의 날짜 표기에 사용한다.
+       */
+      createdAt: string;
+    };
+    MemoRecentViewedResponse: {
+      /**
+       * @description 목록 출처. RECENT_VIEWED=최근 열람 메모, RECENT_CREATED=열람 이력이 없어 최근 생성 메모로 폴백.
+       * @enum {string}
+       */
+      source: 'RECENT_VIEWED' | 'RECENT_CREATED';
+      results: components['schemas']['Item'][];
     };
     ApiResponseChatRoomListResponse: {
       /** Format: int32 */
@@ -2022,6 +2177,244 @@ export interface operations {
       };
     };
   };
+  getOneDetailMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoDetailResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  deleteMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['MemoUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   redirectToGoogleAuth: {
     parameters: {
       query?: never;
@@ -2222,162 +2615,6 @@ export interface operations {
       };
     };
   };
-  getOneDetailMemo: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        memoId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseMemoDetailResponse'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  deleteMemo: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        memoId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseVoid'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
   getStructureMemo: {
     parameters: {
       query?: never;
@@ -2416,6 +2653,26 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseMemoSearchResponse'];
+        };
+      };
+    };
+  };
+  getRecentViewedMemos: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoRecentViewedResponse'];
         };
       };
     };

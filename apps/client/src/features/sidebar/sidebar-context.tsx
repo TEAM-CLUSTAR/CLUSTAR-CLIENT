@@ -4,19 +4,27 @@ interface SidebarContextValue {
   isExpanded: boolean;
   toggleSidebar: () => void;
   expand: () => void;
-  collapse: () => void;
 }
+
+const SIDEBAR_EXPANDED_KEY = 'sidebarExpanded';
+
+const getStoredIsExpanded = () =>
+  localStorage.getItem(SIDEBAR_EXPANDED_KEY) !== 'false';
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 export const SidebarProvider = ({ children }: { children: ReactNode }) => {
-  const [isExpanded, setExpanded] = useState(true);
+  const [isExpanded, setExpanded] = useState(getStoredIsExpanded);
+
+  const updateExpanded = (nextIsExpanded: boolean) => {
+    localStorage.setItem(SIDEBAR_EXPANDED_KEY, String(nextIsExpanded));
+    setExpanded(nextIsExpanded);
+  };
 
   const value = {
     isExpanded,
-    toggleSidebar: () => setExpanded((prev) => !prev),
-    expand: () => setExpanded(true),
-    collapse: () => setExpanded(false),
+    toggleSidebar: () => updateExpanded(!isExpanded),
+    expand: () => updateExpanded(true),
   };
 
   return (

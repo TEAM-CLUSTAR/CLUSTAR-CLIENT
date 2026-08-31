@@ -10,7 +10,6 @@ const baseStyle = {
   gap: '1.8rem',
 
   padding: '2.4rem',
-  width: '38rem',
   minWidth: '34rem',
   maxWidth: '100%',
   height: '22rem',
@@ -26,24 +25,25 @@ const baseStyle = {
 } as const;
 
 const selectedStyle = {
-  border: `1px solid ${themeVars.color.grey400}`,
+  border: `1.5px solid ${themeVars.color.grey400}`,
   backgroundColor: themeVars.color.grey100,
 } as const;
 
 const draggingStyle = {
+  border: `1.5px solid ${themeVars.color.blue400}`,
   backgroundColor: themeVars.color.blue50,
   cursor: 'grabbing',
+  selectors: {
+    '&:hover': {
+      border: `1.5px solid ${themeVars.color.blue400}`,
+      backgroundColor: themeVars.color.blue50,
+    },
+  },
 } as const;
 
 const isNewSelectedStyle = {
   border: `1px solid ${themeVars.color.grey400}`,
   background: themeVars.color.grey100,
-  selectors: {
-    '&:hover': {
-      border: `1px solid ${themeVars.color.grey400}`,
-      background: themeVars.color.grey100,
-    },
-  },
 } as const;
 
 const isNewStyle = {
@@ -85,6 +85,21 @@ export const mainInfoContainer = style({
 export const tagContainer = style({
   display: 'flex',
   gap: '0.8rem',
+});
+
+export const tagSelectButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.2rem',
+  height: '2.4rem',
+  padding: '0 0.8rem 0 0.4rem',
+  border: `0.5px solid ${themeVars.color.grey300}`,
+  borderRadius: '4px',
+});
+
+export const tagSelectButtonText = style({
+  ...themeVars.fontStyles.label_m_12,
+  color: themeVars.color.grey500,
 });
 
 export const contentsContainer = style({

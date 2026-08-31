@@ -4,6 +4,22 @@ import { components, paths } from '@shared/types/schema';
 export type TagListApiResponse =
   paths['/api/v1/tag']['get']['responses']['200']['content']['*/*'];
 
+/** 부모 태그 최대 10개 조회 API의 응답 전체 (`{ code, msg, data }`) */
+export type TagParentListApiResponse =
+  paths['/api/v1/tag/parents']['get']['responses']['200']['content']['*/*'];
+
+/** 부모 태그 기반 하위(자식+손자) 태그 조회 API의 응답 전체 (`{ code, msg, data }`) */
+export type TagHierarchyApiResponse =
+  paths['/api/v1/tag/parents/{parentTagId}/children']['get']['responses']['200']['content']['*/*'];
+
+/** 태그 생성 요청 바디 */
+export type TagCreateRequest =
+  paths['/api/v1/tag']['post']['requestBody']['content']['application/json'];
+
+/** 태그 생성 API의 응답 전체 (`{ code, msg, data }`) */
+export type TagCreateResponse =
+  paths['/api/v1/tag']['post']['responses']['200']['content']['*/*'];
+
 /** Tag 응답값 */
 export type TagType = components['schemas']['TagResponse'];
 

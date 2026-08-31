@@ -42,3 +42,6 @@ yarn-error.log*
 
 # .lefthook
 .lefthook
+
+# ai-agent
+AGENTS.md

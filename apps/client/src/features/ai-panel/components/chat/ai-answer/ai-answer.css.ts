@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
 
@@ -28,12 +29,56 @@ export const actions = style({
   marginLeft: 'auto',
 });
 
+export const actionContainer = style({
+  position: 'relative',
+  display: 'flex',
+});
+
 export const actionButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: '3.2rem',
   height: '3.2rem',
+  borderRadius: '8px',
+  selectors: {
+    '&:hover': {
+      backgroundColor: themeVars.color.grey100,
+    },
+  },
+});
+
+export const tooltip = recipe({
+  base: {
+    position: 'absolute',
+    top: 'calc(100% + 0.4rem)',
+    zIndex: themeVars.zIndex.tooltip,
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: 'opacity 120ms ease',
+    selectors: {
+      [`${actionContainer}:hover &`]: {
+        opacity: 1,
+      },
+      [`${actionContainer}:focus-within &`]: {
+        opacity: 1,
+      },
+    },
+  },
+  variants: {
+    align: {
+      center: {
+        left: '50%',
+        transform: 'translateX(-50%)',
+      },
+      end: {
+        right: 0,
+      },
+    },
+  },
+  defaultVariants: {
+    align: 'center',
+  },
 });
 
 export const content = style({

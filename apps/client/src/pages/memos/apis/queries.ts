@@ -3,9 +3,9 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { api } from '@shared/apis/instance';
 import { components } from '@shared/types/schema';
 
-import { ALL_MEMO_END_POIINT } from './end-point';
-import { ALL_MEMO_KEY } from './query-key';
-import { type AllMemoResponse } from './type';
+import { MEMOS_END_POIINT } from './end-point';
+import { MEMOS_KEY } from './query-key';
+import { type MemosResponse } from './type';
 
 type MemoCursor =
   | {
@@ -18,21 +18,21 @@ type MemoDashboardResponse = components['schemas']['MemoDashboardResponse'];
 
 /**
  * API 응답에서 memos 배열을 추출하는 헬퍼 함수
- * getAllMemo에서 response.data를 반환하므로, AllMemoResponse는 ApiResponseMemoListDashboardResponse 형태
+ * AllsMemo에서 response.data를 반환하므로, MemosResponse는 ApiResponseMemoListDashboardResponse 형태
  * 즉, { code, msg, data: { totalCount, memos } } 형태
  */
 const getMemosFromResponse = (
-  response: AllMemoResponse,
+  response: MemosResponse,
 ): MemoDashboardResponse[] => {
   return response.data?.memos ?? [];
 };
 
-const getAllMemo = async (
+const getMemos = async (
   tagIds?: number[],
   cursor?: MemoCursor,
   size = 20,
-): Promise<AllMemoResponse> => {
-  const response = await api.get<AllMemoResponse>(ALL_MEMO_END_POIINT.GET, {
+): Promise<MemosResponse> => {
+  const response = await api.get<MemosResponse>(MEMOS_END_POIINT.GET, {
     params: {
       tagIds,
       cursorCreatedAt: cursor?.cursorCreatedAt,
@@ -46,7 +46,7 @@ const getAllMemo = async (
 const getMemoTotalCount = async (
   tagIds?: number[],
 ): Promise<number | undefined> => {
-  const response = await api.get<AllMemoResponse>(ALL_MEMO_END_POIINT.GET, {
+  const response = await api.get<MemosResponse>(MEMOS_END_POIINT.GET, {
     params: {
       tagIds,
       size: 1,
@@ -57,26 +57,22 @@ const getMemoTotalCount = async (
 
 export const useGetMemoTotalCount = (tagIds?: number[]) => {
   return useQuery({
-    queryKey: [
-      ...ALL_MEMO_KEY.ALL,
-      'totalCount',
-      ...(tagIds ? [{ tagIds }] : []),
-    ],
+    queryKey: [...MEMOS_KEY.ALL, 'totalCount', ...(tagIds ? [{ tagIds }] : [])],
     queryFn: () => getMemoTotalCount(tagIds),
     refetchOnMount: 'always', // 페이지로 돌아왔을 때 항상 refetch (staleTime 무시)
   });
 };
 
-export const useGetAllMemo = (tagIds?: number[], size = 20) => {
+export const useGetMemos = (tagIds?: number[], size = 20) => {
   return useInfiniteQuery<
-    AllMemoResponse,
+    MemosResponse,
     Error,
     MemoDashboardResponse[],
-    ReturnType<typeof ALL_MEMO_KEY.GET>,
+    ReturnType<typeof MEMOS_KEY.GET>,
     MemoCursor
   >({
-    queryKey: ALL_MEMO_KEY.GET(tagIds),
-    queryFn: ({ pageParam }) => getAllMemo(tagIds, pageParam, size),
+    queryKey: MEMOS_KEY.GET(tagIds),
+    queryFn: ({ pageParam }) => getMemos(tagIds, pageParam, size),
     getNextPageParam: (lastPage) => {
       const memos = getMemosFromResponse(lastPage);
       const last = memos[memos.length - 1];

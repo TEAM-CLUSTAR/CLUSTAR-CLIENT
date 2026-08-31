@@ -1,19 +1,13 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useId } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
 
-import { TagNode } from '@shared/apis/tag/type';
+import { TagInputFieldProps } from '../type';
 
 import * as styles from './tag-input-field.css';
 
-interface TagInputFieldProps {
-  selectedTags: TagNode[];
-  onRemoveTag: (tagId: number) => void;
-  isOpen: boolean;
-  onFocus: () => void;
-  onEnter?: (value: string) => boolean;
-}
+const MAX_TAG_DEPTH = 3;
 
 const TagInputField = ({
   selectedTags,
@@ -22,7 +16,17 @@ const TagInputField = ({
   onFocus,
   onEnter,
 }: TagInputFieldProps) => {
+  const inputId = useId();
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === '/') {
+      const slashCount = (event.currentTarget.value.match(/\//g) ?? []).length;
+      if (slashCount >= MAX_TAG_DEPTH - 1) {
+        event.preventDefault();
+      }
+      return;
+    }
+
     if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
 
     const isTagAdded = onEnter?.(event.currentTarget.value);
@@ -33,7 +37,7 @@ const TagInputField = ({
   };
 
   return (
-    <div className={styles.field({ isActive: isOpen })}>
+    <label className={styles.field({ isActive: isOpen })} htmlFor={inputId}>
       <Icon name="ic_tag" size={32} color={isOpen ? 'blue500' : 'grey600'} />
       <div className={styles.tagList}>
         {selectedTags.map(({ tagId, name, color }) =>
@@ -51,13 +55,17 @@ const TagInputField = ({
           ),
         )}
         <input
+          id={inputId}
           className={styles.input}
           placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
           onFocus={onFocus}
           onKeyDown={handleKeyDown}
+          onBlur={(event) => {
+            event.currentTarget.value = '';
+          }}
         />
       </div>
-    </div>
+    </label>
   );
 };
 
