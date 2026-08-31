@@ -3,9 +3,12 @@ import type {
   MemoRecommendationItemResponse,
 } from '@shared/apis/prompt/type';
 
-import type { AiPanelMessage, SelectedMemoType } from '../types/ai-panel.types';
-
-const FAILED_AI_MESSAGE = 'AI 응답 생성에 실패했습니다. 다시 시도해주세요.';
+import type {
+  AiPanelMessage,
+  SelectedMemoType,
+  SuggestedMemoType,
+} from '../types/ai-panel.types';
+import { FAILED_AI_MESSAGE } from './ai-panel-chat.helpers';
 
 export const mapActiveChatMessages = (
   messages: ActiveChatMessageResponse[],
@@ -56,7 +59,7 @@ export const mapActiveChatMessages = (
 export const mapRecommendedMemos = (
   memos: MemoRecommendationItemResponse[],
   selectedMemos: SelectedMemoType[],
-) => {
+): SuggestedMemoType[] => {
   const selectedMemoIds = new Set(selectedMemos.map((memo) => memo.memoId));
 
   return memos.map((memo) => ({

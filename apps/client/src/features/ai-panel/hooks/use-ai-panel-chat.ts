@@ -4,13 +4,9 @@ import {
   useCreateAiChat,
   useCreateChatRoom,
   useGetActiveChatRoom,
-  useGetRecommendedMemos,
   useSaveAiMemo,
 } from '@shared/apis/prompt/queries';
-import type {
-  AiOption,
-  MemoRecommendationItemResponse,
-} from '@shared/apis/prompt/type';
+import type { AiOption } from '@shared/apis/prompt/type';
 
 import {
   AiPanelMessage,
@@ -18,57 +14,22 @@ import {
   SelectedMemoType,
 } from '../types/ai-panel.types';
 import {
-  mapActiveChatMessages,
-  mapRecommendedMemos,
-} from './ai-panel-chat.mapper';
+  createAiMessage,
+  createMessageId,
+  DEFAULT_PROMPT_VALUE,
+  FAILED_AI_MESSAGE,
+  isValidOption,
+} from './ai-panel-chat.helpers';
+import { mapActiveChatMessages } from './ai-panel-chat.mapper';
+import { useAiPanelRecommendedMemos } from './use-ai-panel-recommended-memos';
 
 interface UseAiPanelChatParams {
   isOpen: boolean;
   selectedMemos: SelectedMemoType[];
 }
 
-const DEFAULT_PROMPT_VALUE: PromptInputValueType = {
-  userPrompt: '',
-  option: 'MERGE',
-};
-
-const VALID_OPTIONS = ['MERGE', 'SUMMARY', 'STRUCTURE', 'DEFAULT'] as const;
-
-const isValidOption = (
-  value: string | null | undefined,
-): value is Exclude<AiOption, null> => {
-  if (!value) return false;
-  return VALID_OPTIONS.includes(value as Exclude<AiOption, null>);
-};
-
-const createMessageId = (prefix: string) => {
-  return `${prefix}-${crypto.randomUUID()}`;
-};
-
 const getMemoIds = (memos: SelectedMemoType[]) =>
   memos.map((memo) => memo.memoId);
-
-const createAiMessage = ({
-  content,
-  title,
-  memoIds,
-  userPrompt,
-  option,
-}: {
-  content?: string | null;
-  title?: string;
-  memoIds: number[];
-  userPrompt: string;
-  option: AiOption;
-}): AiPanelMessage => ({
-  id: createMessageId('ai'),
-  text: content || '',
-  title,
-  type: 'ai',
-  memoIds,
-  userPrompt,
-  option,
-});
 
 export const useAiPanelChat = ({
   isOpen,
@@ -79,9 +40,6 @@ export const useAiPanelChat = ({
   );
   const [messages, setMessages] = useState<AiPanelMessage[]>([]);
   const [answerGeneratingMemoCount, setAnswerGeneratingMemoCount] = useState(0);
-  const [initialRecommendedMemos, setInitialRecommendedMemos] = useState<
-    MemoRecommendationItemResponse[] | null
-  >(null);
   const [isSaveConfirmModalOpen, setIsSaveConfirmModalOpen] = useState(false);
   const [promptValue, setPromptValue] =
     useState<PromptInputValueType>(DEFAULT_PROMPT_VALUE);
@@ -91,12 +49,13 @@ export const useAiPanelChat = ({
   const saveAiMemoMutation = useSaveAiMemo();
 
   const chatRoomId = internalChatRoomId;
-  const memoIds = useMemo(() => getMemoIds(selectedMemos), [selectedMemos]);
   const activeChatRoomQuery = useGetActiveChatRoom(isOpen);
-  const recommendedMemosQuery = useGetRecommendedMemos(
-    memoIds,
-    memoIds.length > 0 && initialRecommendedMemos === null,
-  );
+  const memoIds = useMemo(() => getMemoIds(selectedMemos), [selectedMemos]);
+  const { recommendedMemos, resetRecommendedMemos } =
+    useAiPanelRecommendedMemos({
+      memoIds,
+      selectedMemos,
+    });
   const isLoading =
     activeChatRoomQuery.isFetching ||
     createChatRoomMutation.isPending ||
@@ -128,19 +87,6 @@ export const useAiPanelChat = ({
     setMessages(mapActiveChatMessages(activeChatRoom.messages));
   }, [activeChatRoomQuery.data]);
 
-  useEffect(() => {
-    const recommendedMemos = recommendedMemosQuery.data?.data?.results;
-    if (!recommendedMemos || initialRecommendedMemos !== null) return;
-
-    setInitialRecommendedMemos(recommendedMemos);
-  }, [initialRecommendedMemos, recommendedMemosQuery.data]);
-
-  useEffect(() => {
-    if (memoIds.length > 0) return;
-
-    setInitialRecommendedMemos(null);
-  }, [memoIds.length]);
-
   const handleCreateNewChat = useCallback(() => {
     void (async () => {
       try {
@@ -149,14 +95,14 @@ export const useAiPanelChat = ({
 
         setInternalChatRoomId(newChatRoomId);
         setMessages([]);
-        setInitialRecommendedMemos(null);
+        resetRecommendedMemos();
         setAnswerGeneratingMemoCount(0);
         setPromptValue(DEFAULT_PROMPT_VALUE);
       } catch {
         return;
       }
     })();
-  }, [createChatRoomMutation]);
+  }, [createChatRoomMutation, resetRecommendedMemos]);
 
   const handlePromptChange = useCallback((userPrompt: string) => {
     setPromptValue((prev) => ({ ...prev, userPrompt }));
@@ -222,7 +168,7 @@ export const useAiPanelChat = ({
       } catch {
         appendMessage({
           id: createMessageId('error'),
-          text: 'AI 응답 생성에 실패했습니다. 다시 시도해주세요.',
+          text: FAILED_AI_MESSAGE,
           type: 'ai',
           memoIds,
           userPrompt,
@@ -315,10 +261,7 @@ export const useAiPanelChat = ({
     isAnswerLoading: createAiChatMutation.isPending,
     promptValue,
     answerGeneratingMemoCount,
-    recommendedMemos:
-      memoIds.length > 0 && initialRecommendedMemos !== null
-        ? mapRecommendedMemos(initialRecommendedMemos, selectedMemos)
-        : [],
+    recommendedMemos,
     isSaveConfirmModalOpen,
     setIsSaveConfirmModalOpen,
     handleCreateNewChat,
