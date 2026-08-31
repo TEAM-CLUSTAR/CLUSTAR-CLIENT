@@ -1,5 +1,8 @@
 import { DragEvent, useRef, useState } from 'react';
-import { SelectedMemoType } from '@features/ai-panel/types/ai-panel.types';
+import {
+  SelectedMemoType,
+  SuggestedMemoType,
+} from '@features/ai-panel/types/ai-panel.types';
 import { PATH } from '@router/path';
 import { useNavigate } from 'react-router';
 
@@ -12,9 +15,7 @@ import AiPanelChat from './components/chat/ai-panel-chat/ai-panel-chat';
 import MemoDropOverlay from './components/memo-drop-overlay/memo-drop-overlay';
 import NewChatConfirmModal from './components/new-chat-confirm-modal/new-chat-confirm-modal';
 import PromptInput from './components/prompt-input/prompt-input';
-import SuggestedMemoList, {
-  SuggestedMemo,
-} from './components/suggested-memo-list/suggested-memo-list';
+import SuggestedMemoList from './components/suggested-memo-list/suggested-memo-list';
 import { useAiPanelChat } from './hooks/use-ai-panel-chat';
 
 import * as styles from './ai-panel.css';
@@ -25,8 +26,8 @@ const isMemoDrag = (event: DragEvent<HTMLElement>) =>
   event.dataTransfer.types.includes(MEMO_DRAG_DATA_FORMAT);
 
 interface SuggestedMemoSection {
-  memos: SuggestedMemo[];
-  onSelectMemo?: (memo: SuggestedMemo) => void;
+  memos: SuggestedMemoType[];
+  onSelectMemo?: (memo: SuggestedMemoType) => void;
   onOpenMemo?: (memoId: number) => void;
 }
 
@@ -99,12 +100,12 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
   const suggestedMemos = suggestedMemoSection?.memos ?? recommendedMemos;
   const shouldShowSuggestedMemos = suggestedMemos.length > 0;
 
-  const handleSelectSuggestedMemo = (memo: SuggestedMemo) => {
+  const handleSelectSuggestedMemo = (memo: SuggestedMemoType) => {
     addMemo(memo);
     suggestedMemoSection?.onSelectMemo?.(memo);
   };
 
-  const handleOpenSuggestedMemo = (memo: SuggestedMemo) => {
+  const handleOpenSuggestedMemo = (memo: SuggestedMemoType) => {
     suggestedMemoSection?.onOpenMemo?.(memo.memoId);
     navigate(`${PATH.MEMO}/${memo.memoId}`, { state: { title: memo.title } });
   };

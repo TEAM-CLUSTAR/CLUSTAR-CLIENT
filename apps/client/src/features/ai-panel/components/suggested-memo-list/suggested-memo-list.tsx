@@ -2,18 +2,14 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@cds/icon';
 
+import type { SuggestedMemoType } from '../../types/ai-panel.types';
+
 import * as styles from './suggested-memo-list.css';
 
-export interface SuggestedMemo {
-  memoId: number;
-  title: string;
-  isSelected: boolean;
-}
-
 interface SuggestedMemoListProps {
-  memos: SuggestedMemo[];
-  onSelectMemo: (memo: SuggestedMemo) => void;
-  onOpenMemo?: (memo: SuggestedMemo) => void;
+  memos: SuggestedMemoType[];
+  onSelectMemo: (memo: SuggestedMemoType) => void;
+  onOpenMemo?: (memo: SuggestedMemoType) => void;
 }
 
 const SuggestedMemoList = ({
@@ -71,7 +67,7 @@ const SuggestedMemoList = ({
 };
 
 interface SuggestedMemoItemProps {
-  memo: SuggestedMemo;
+  memo: SuggestedMemoType;
   onSelectMemo: () => void;
   onOpenMemo: () => void;
 }

@@ -9,6 +9,10 @@ export type SelectedMemoType = Required<
   Pick<components['schemas']['MemoResponse'], 'memoId' | 'title'>
 >;
 
+export interface SuggestedMemoType extends SelectedMemoType {
+  isSelected: boolean;
+}
+
 export interface AiPanelMessage {
   id: string;
   text: string;
