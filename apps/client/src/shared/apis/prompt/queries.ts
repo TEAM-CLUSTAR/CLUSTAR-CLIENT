@@ -1,37 +1,64 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
 import { api } from '../instance';
+import { CHAT_ROOM_END_POINT } from './end-point';
 import { AI_END_POINT } from './end-point';
-import { PROMPT_END_POINT } from './end-point';
+import { CHAT_ROOM_KEY } from './query-key';
 import { AI_KEY } from './query-key';
-import { PROMPT_KEY } from './query-key';
 import {
+  ActiveChatRoomResponse,
   AiCreateRequest,
   AiCreateResponse,
   AiSaveRequest,
   AiSaveResponse,
-  PromptCreateResponse,
-  PromptDeleteRequest,
-  PromptDeleteResponse,
+  ChatRoomCreateResponse,
+  ChatRoomDeleteRequest,
+  ChatRoomDeleteResponse,
+  MemoRecommendationRequest,
+  MemoRecommendationResponse,
 } from './type';
+
+/**
+ * 활성 AI 채팅방 및 대화 조회
+ * @returns 활성 채팅방 ID와 대화 목록
+ */
+const getActiveChatRoom = async (): Promise<ActiveChatRoomResponse> => {
+  const response = await api.get<ActiveChatRoomResponse>(
+    CHAT_ROOM_END_POINT.ACTIVE,
+  );
+  return response.data;
+};
+
+export const useGetActiveChatRoom = (enabled: boolean) => {
+  return useQuery({
+    queryKey: CHAT_ROOM_KEY.ACTIVE(),
+    queryFn: getActiveChatRoom,
+    enabled,
+  });
+};
 
 /**
  * AI 채팅방 생성
  * @returns 생성된 채팅방 ID(chatRoomId)
  */
-const createChatRoom = async (): Promise<PromptCreateResponse> => {
-  const response = await api.post<PromptCreateResponse>(
-    PROMPT_END_POINT.CREATE,
+const createChatRoom = async (): Promise<ChatRoomCreateResponse> => {
+  const response = await api.post<ChatRoomCreateResponse>(
+    CHAT_ROOM_END_POINT.CREATE,
   );
   return response.data;
 };
 
 export const useCreateChatRoom = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationKey: PROMPT_KEY.CREATE(),
+    mutationKey: CHAT_ROOM_KEY.CREATE(),
     mutationFn: createChatRoom,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: CHAT_ROOM_KEY.ACTIVE() });
+    },
   });
 };
 
@@ -41,10 +68,10 @@ export const useCreateChatRoom = () => {
  * @returns 삭제 결과
  */
 const deleteChatRoom = async (
-  request: PromptDeleteRequest,
-): Promise<PromptDeleteResponse> => {
-  const response = await api.delete<PromptDeleteResponse>(
-    PROMPT_END_POINT.DELETE.replace(
+  request: ChatRoomDeleteRequest,
+): Promise<ChatRoomDeleteResponse> => {
+  const response = await api.delete<ChatRoomDeleteResponse>(
+    CHAT_ROOM_END_POINT.DELETE.replace(
       '{chatRoomId}',
       request.chatRoomId.toString(),
     ),
@@ -54,7 +81,7 @@ const deleteChatRoom = async (
 
 export const useDeleteChatRoom = () => {
   return useMutation({
-    mutationKey: PROMPT_KEY.DELETE(),
+    mutationKey: CHAT_ROOM_KEY.DELETE(),
     mutationFn: deleteChatRoom,
   });
 };
@@ -75,9 +102,37 @@ const createAiChat = async (
 };
 
 export const useCreateAiChat = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: AI_KEY.CREATE(),
     mutationFn: createAiChat,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: CHAT_ROOM_KEY.ACTIVE() });
+    },
+  });
+};
+
+/**
+ * 선택한 메모 기반 AI 추천 메모 조회
+ * @param request 추천 기준 메모 ID 목록
+ * @returns 추천 메모 목록
+ */
+const getRecommendedMemos = async (
+  request: MemoRecommendationRequest,
+): Promise<MemoRecommendationResponse> => {
+  const response = await api.post<MemoRecommendationResponse>(
+    AI_END_POINT.RECOMMENDATIONS,
+    request,
+  );
+  return response.data;
+};
+
+export const useGetRecommendedMemos = (memoIds: number[], enabled: boolean) => {
+  return useQuery({
+    queryKey: AI_KEY.RECOMMENDATIONS(memoIds),
+    queryFn: () => getRecommendedMemos({ memoIds }),
+    enabled,
   });
 };
 
