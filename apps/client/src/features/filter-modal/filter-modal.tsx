@@ -40,8 +40,12 @@ const FilterModal = ({
     if (open) setSelectedIds(selectedTagIds);
   }
 
-  const selectedRootId = activeRootId ?? roots[0]?.tagId;
-  const { data: activeRoot } = useGetChildTags(selectedRootId);
+  const isActiveRootValid = roots.some((root) => root.tagId === activeRootId);
+  const selectedRootId = isActiveRootValid ? activeRootId : roots[0]?.tagId;
+  const selectedRoot = roots.find((root) => root.tagId === selectedRootId);
+  const { data: activeRootTree } = useGetChildTags(selectedRootId);
+  const activeRoot =
+    activeRootTree ?? (selectedRoot && { ...selectedRoot, children: [] });
   const { data: flatTags = [] } = useFlatTags();
   const selectedTags = flatTags.filter((tag) =>
     selectedIds.includes(tag.tagId),

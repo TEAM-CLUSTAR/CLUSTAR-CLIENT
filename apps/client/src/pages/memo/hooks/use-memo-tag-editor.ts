@@ -41,8 +41,19 @@ export const useMemoTagEditor = ({
   const { data: flatTags = [] } = useFlatTags();
   const [activeParentId, setActiveParentId] = useState<number>();
 
-  const selectedParentId = activeParentId ?? parentTags[0]?.tagId;
-  const { data: activeParent } = useGetChildTags(selectedParentId);
+  const isActiveParentValid = parentTags.some(
+    (tag) => tag.tagId === activeParentId,
+  );
+  const selectedParentId = isActiveParentValid
+    ? activeParentId
+    : parentTags[0]?.tagId;
+  const selectedParent = parentTags.find(
+    (tag) => tag.tagId === selectedParentId,
+  );
+  const { data: activeParentTree } = useGetChildTags(selectedParentId);
+  // 자식 목록 로딩 중에도 팝오버가 사라지지 않도록 자식 없는 트리로 임시 대체
+  const activeParent =
+    activeParentTree ?? (selectedParent && { ...selectedParent, children: [] });
 
   const nextLocalTagIdRef = useRef(-1);
   const tagListRef = useRef(tagList);
@@ -154,11 +165,7 @@ export const useMemoTagEditor = ({
     }
 
     const { childName, immediateParentName } = resolveTagSegments(trimmedName);
-
-    const isAlreadySelected = tagList.some(
-      (tag) => tag.name.toLowerCase() === childName.toLowerCase(),
-    );
-    if (isAlreadySelected) {
+    if (childName === '') {
       return false;
     }
 
@@ -168,11 +175,19 @@ export const useMemoTagEditor = ({
         )
       : undefined;
 
-    const existingTag = flatTags.find(
-      (tag) =>
-        tag.name.toLowerCase() === childName.toLowerCase() &&
-        (parentTag === undefined || tag.parentId === parentTag.tagId),
-    );
+    const matchesResolvedTag = (tag: {
+      name: string;
+      parentId: number | null;
+    }) =>
+      tag.name.toLowerCase() === childName.toLowerCase() &&
+      (parentTag === undefined || tag.parentId === parentTag.tagId);
+
+    const isAlreadySelected = tagList.some(matchesResolvedTag);
+    if (isAlreadySelected) {
+      return false;
+    }
+
+    const existingTag = flatTags.find(matchesResolvedTag);
     if (existingTag) {
       addTagToMemo(existingTag);
       return true;
