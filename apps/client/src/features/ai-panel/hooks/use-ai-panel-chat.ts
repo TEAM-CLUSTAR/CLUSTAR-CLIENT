@@ -5,9 +5,8 @@ import {
   useCreateChatRoom,
   useGetActiveChatRoom,
   useSaveAiMemo,
-} from '@shared/apis/prompt/queries';
-import type { AiOption } from '@shared/apis/prompt/type';
-
+} from '../apis/queries';
+import type { AiOption } from '../apis/type';
 import {
   AiPanelMessage,
   PromptInputValueType,

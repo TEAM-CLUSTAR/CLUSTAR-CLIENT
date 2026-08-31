@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useGetRecommendedMemos } from '@shared/apis/prompt/queries';
-import type { MemoRecommendationItemResponse } from '@shared/apis/prompt/type';
-
+import { useGetRecommendedMemos } from '../apis/queries';
+import type { MemoRecommendationItemResponse } from '../apis/type';
 import type { SelectedMemoType } from '../types/ai-panel.types';
 import { mapRecommendedMemos } from './ai-panel-chat.mapper';
 

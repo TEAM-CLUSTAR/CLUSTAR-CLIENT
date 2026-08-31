@@ -9,7 +9,7 @@ const queryMocks = vi.hoisted(() => ({
   useSaveAiMemo: vi.fn(),
 }));
 
-vi.mock('@shared/apis/prompt/queries', () => queryMocks);
+vi.mock('../apis/queries', () => queryMocks);
 
 import { useAiPanelChat } from './use-ai-panel-chat';
 

@@ -1,8 +1,7 @@
 import type {
   ActiveChatMessageResponse,
   MemoRecommendationItemResponse,
-} from '@shared/apis/prompt/type';
-
+} from '../apis/type';
 import type {
   AiPanelMessage,
   SelectedMemoType,

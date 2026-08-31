@@ -1,5 +1,4 @@
-import type { AiOption } from '@shared/apis/prompt/type';
-
+import type { AiOption } from '../apis/type';
 import type {
   AiPanelMessage,
   PromptInputValueType,

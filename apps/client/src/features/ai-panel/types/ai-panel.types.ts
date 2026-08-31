@@ -1,5 +1,6 @@
-import type { AiOption } from '@shared/apis/prompt/type';
 import { components } from '@shared/types/schema';
+
+import type { AiOption } from '../apis/type';
 
 export type PromptInputValueType = Required<
   Pick<components['schemas']['MemoAiRequest'], 'userPrompt' | 'option'>

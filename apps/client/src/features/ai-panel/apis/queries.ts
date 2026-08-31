@@ -2,7 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
-import { api } from '../instance';
+import { api } from '@shared/apis/instance';
+
 import { CHAT_ROOM_END_POINT } from './end-point';
 import { AI_END_POINT } from './end-point';
 import { CHAT_ROOM_KEY } from './query-key';
