@@ -48,31 +48,24 @@ export const selectTab = style({
   paddingRight: '4.2rem',
 });
 
-export const closeTab = recipe({
-  base: {
-    position: 'absolute',
-    top: '50%',
-    right: '0.8rem',
-    transform: 'translateY(-50%)',
-    borderRadius: '0.8rem',
-    padding: '0.4rem',
-    backgroundColor: 'transparent',
-    selectors: {
-      [`${container.classNames.base}:focus-within &`]: {
-        opacity: 1,
-        pointerEvents: 'auto',
-      },
-      '&:hover': {
-        transition: 'background-color 0.2s ease',
-        backgroundColor: themeVars.color.grey100,
-      },
+export const closeTab = style({
+  position: 'absolute',
+  top: '50%',
+  right: '0.8rem',
+  transform: 'translateY(-50%)',
+  borderRadius: '0.8rem',
+  padding: '0.4rem',
+  opacity: 0,
+  pointerEvents: 'none',
+  backgroundColor: 'transparent',
+  selectors: {
+    [`${container.classNames.base}:hover &`]: {
+      opacity: 1,
+      pointerEvents: 'auto',
     },
-  },
-
-  variants: {
-    isHovered: {
-      true: { opacity: 1, pointerEvents: 'auto' },
-      false: { opacity: 0, pointerEvents: 'none' },
+    '&:hover': {
+      transition: 'background-color 0.2s ease',
+      backgroundColor: themeVars.color.grey100,
     },
   },
 });
