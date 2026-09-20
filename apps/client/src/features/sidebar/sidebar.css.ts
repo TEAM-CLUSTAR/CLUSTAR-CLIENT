@@ -11,7 +11,7 @@ export const sidebar = style({
   flexDirection: 'column',
   backgroundColor: themeVars.color.grey50,
   boxShadow: `inset -1px 0 0 ${themeVars.color.grey200}`,
-  padding: '2rem',
+  padding: '2rem 2rem 0 2rem',
   height: '100vh',
   flexShrink: '0',
   transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -147,6 +147,15 @@ export const pannelItem = style({
   position: 'relative',
   width: '100%',
 });
+
+export const mypagePannelItem = style([
+  pannelItem,
+  {
+    height: '8rem',
+    display: 'flex',
+    alignItems: 'center',
+  },
+]);
 
 export const tooltip = style({
   display: 'none',

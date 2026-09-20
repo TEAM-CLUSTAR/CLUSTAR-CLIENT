@@ -107,7 +107,7 @@ const Sidebar = () => {
       {/* footer section */}
       <section className={styles.footerSection}>
         <ul className={styles.pannelList}>
-          <li className={styles.pannelItem}>
+          <li className={styles.mypagePannelItem}>
             <MenuItem iconName="ic_profile" content="마이페이지" disabled />
             <div className={styles.tooltip}>
               <Tooltip title="마이페이지" />
