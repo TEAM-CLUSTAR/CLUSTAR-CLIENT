@@ -88,6 +88,8 @@ const TagPopover = (props: TagPopoverProps) => {
         isOpen={props.isOpen}
         onFocus={props.onFocus}
         onEnter={props.onEnter}
+        value={props.value}
+        onChange={props.onChange}
       />
 
       {props.isOpen && (
@@ -120,6 +122,7 @@ const TagPopover = (props: TagPopoverProps) => {
               <button
                 type="button"
                 className={styles.createFieldButton}
+                onMouseDown={(event) => event.preventDefault()}
                 onClick={props.onCreate}
               >
                 <Icon name="ic_plus" size={20} color="grey600" />

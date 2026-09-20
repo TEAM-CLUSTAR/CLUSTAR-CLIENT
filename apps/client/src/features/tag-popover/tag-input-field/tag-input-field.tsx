@@ -1,4 +1,4 @@
-import { KeyboardEvent, useId } from 'react';
+import { ChangeEvent, KeyboardEvent, useId } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
@@ -15,6 +15,8 @@ const TagInputField = ({
   isOpen,
   onFocus,
   onEnter,
+  value,
+  onChange,
 }: TagInputFieldProps) => {
   const inputId = useId();
 
@@ -32,8 +34,12 @@ const TagInputField = ({
     const isTagAdded = onEnter?.(event.currentTarget.value);
     if (!isTagAdded) return;
 
-    event.currentTarget.value = '';
+    onChange('');
     event.currentTarget.blur();
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
   };
 
   return (
@@ -58,11 +64,11 @@ const TagInputField = ({
           id={inputId}
           className={styles.input}
           placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
+          value={value}
           onFocus={onFocus}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
-          onBlur={(event) => {
-            event.currentTarget.value = '';
-          }}
+          onBlur={() => onChange('')}
         />
       </div>
     </label>

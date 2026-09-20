@@ -6,4 +6,6 @@ export interface TagInputFieldProps {
   isOpen: boolean;
   onFocus: () => void;
   onEnter?: (value: string) => boolean;
+  value: string;
+  onChange: (value: string) => void;
 }
