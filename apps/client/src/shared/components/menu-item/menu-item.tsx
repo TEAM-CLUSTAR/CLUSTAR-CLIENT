@@ -29,7 +29,7 @@ const MenuItem = ({
     >
       <Icon name={iconName} size={size === 'lg' ? 32 : 24} />
       {content != null && (
-        <span className={styles.text({ size })}>{content}</span>
+        <span className={styles.text({ size, isSelected })}>{content}</span>
       )}
     </button>
   );

@@ -1,5 +1,6 @@
 import { recipe } from '@vanilla-extract/recipes';
 
+import { color, fontStyles } from '@cds/token';
 import { themeVars } from '@cds/ui';
 
 export const container = recipe({
@@ -41,6 +42,13 @@ export const text = recipe({
     size: {
       sm: themeVars.fontStyles.body_m_14,
       lg: themeVars.fontStyles.body_m_16,
+    },
+    isSelected: {
+      true: {
+        ...fontStyles.body_m_16,
+        color: color.grey800,
+      },
+      false: {},
     },
   },
 });
