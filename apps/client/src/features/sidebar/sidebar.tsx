@@ -31,7 +31,7 @@ const Sidebar = () => {
   const isSidebarCollapse = isNarrowLayout && isOpen;
   const isSidebarExpanded = isExpanded && !isSidebarCollapse;
 
-  // 태그 선택은 `/memos?tag=`로 이동해 pathname이 모든 메모와 같아지므로,
+  // 태그 선택은 `/memos?tag=`로 이동해 pathname이 전체 메모와 같아지므로,
   // 태그가 경로보다 우선한다는 규칙을 여기 한 곳에서만 정한다.
   const selection: SidebarSelection =
     tagParam === null

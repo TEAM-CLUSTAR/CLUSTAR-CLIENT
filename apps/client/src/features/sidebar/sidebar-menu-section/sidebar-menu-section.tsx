@@ -36,7 +36,7 @@ const MENU_ITEMS: MenuEntry[] = [
   {
     id: 'all-memo',
     iconName: 'ic_allmemo',
-    text: '모든 메모',
+    text: '전체 메모',
     path: PATH.MEMOS,
   },
 ];
