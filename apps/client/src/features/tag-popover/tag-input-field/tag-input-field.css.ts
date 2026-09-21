@@ -30,13 +30,7 @@ export const tagList = style({
   gap: '0.4rem',
   flexWrap: 'nowrap',
   overflowX: 'auto',
-  scrollbarWidth: 'none',
-  msOverflowStyle: 'none',
-  selectors: {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
+
   flex: 1,
   minWidth: 0,
 });
