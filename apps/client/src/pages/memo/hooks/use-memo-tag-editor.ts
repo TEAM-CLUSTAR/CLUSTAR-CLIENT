@@ -19,14 +19,24 @@ interface UseMemoTagEditorParams {
 
 const MAX_TAG_DEPTH = 3;
 
-const resolveTagPath = (name: string): string[] => {
-  const segments = name.split('/').map((segment) => segment.trim());
-  if (segments.some((segment) => segment === '')) {
-    return [segments[segments.length - 1]];
-  }
+const resolveTagPath = (name: string): string[] =>
+  name
+    .split('/')
+    .map((segment) => segment.trim())
+    .filter((segment) => segment !== '');
 
-  return segments;
-};
+const toPathKey = (path: string[]) => path.join('/').toLowerCase();
+
+const findTagByName = (
+  tags: TagNode[],
+  name: string,
+  parentId: number | null,
+) =>
+  tags.find(
+    (tag) =>
+      tag.name.toLowerCase() === name.toLowerCase() &&
+      tag.parentId === parentId,
+  );
 
 export const useMemoTagEditor = ({
   tagList,
@@ -34,177 +44,136 @@ export const useMemoTagEditor = ({
 }: UseMemoTagEditorParams) => {
   const queryClient = useQueryClient();
 
-  const { data: parentTags = [] } = useGetParentTags();
+  const { data: parentTags = [], isSuccess: isParentTagsLoaded } =
+    useGetParentTags();
+  const hasNoParentTags = isParentTagsLoaded && parentTags.length === 0;
   const { data: flatTags = [] } = useFlatTags();
   const [activeParentId, setActiveParentId] = useState<number>();
 
-  const isActiveParentValid = parentTags.some(
-    (tag) => tag.tagId === activeParentId,
-  );
-  const selectedParentId = isActiveParentValid
-    ? activeParentId
-    : parentTags[0]?.tagId;
-  const selectedParent = parentTags.find(
-    (tag) => tag.tagId === selectedParentId,
-  );
-  const { data: activeParentTree } = useGetChildTags(selectedParentId);
+  const selectedParent =
+    parentTags.find((tag) => tag.tagId === activeParentId) ?? parentTags[0];
+  const { data: activeParentTree } = useGetChildTags(selectedParent?.tagId);
   const activeParent =
     activeParentTree ?? (selectedParent && { ...selectedParent, children: [] });
 
-  const nextLocalTagIdRef = useRef(-1);
+  const pendingPathKeysRef = useRef(new Set<string>());
   const tagListRef = useRef(tagList);
   tagListRef.current = tagList;
+  const editMemoRef = useRef(editMemo);
+  editMemoRef.current = editMemo;
 
   const { mutateAsync: createTag } = useMutation(usePostTag());
-
-  const handleToggleTag = (tagId: number) => {
-    const isSelected = tagList.some((tag) => tag.tagId === tagId);
-
-    if (isSelected) {
-      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
-      return;
-    }
-
-    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
-    if (!tagToAdd) {
-      return;
-    }
-    editMemo({ tagList: [...tagList, tagToAdd] });
-  };
 
   const addTagToMemo = (tag: TagNode) => {
     editMemo({ tagList: [...tagList, tag] });
   };
 
-  const resolveAncestorParentId = (ancestorNames: string[]) => {
+  const handleToggleTag = (tagId: number) => {
+    if (tagList.some((tag) => tag.tagId === tagId)) {
+      editMemo({ tagList: tagList.filter((tag) => tag.tagId !== tagId) });
+      return;
+    }
+
+    const tagToAdd = flatTags.find((tag) => tag.tagId === tagId);
+    if (tagToAdd) {
+      addTagToMemo(tagToAdd);
+    }
+  };
+
+  const findTagByPath = (path: string[]) => {
     let parentId: number | null = null;
-    for (const name of ancestorNames) {
-      const found = flatTags.find(
-        (tag) =>
-          tag.name.toLowerCase() === name.toLowerCase() &&
-          tag.parentId === parentId,
-      );
+    let found: TagNode | undefined;
+
+    for (const name of path) {
+      found = findTagByName(flatTags, name, parentId);
       if (!found) {
         return undefined;
       }
       parentId = found.tagId;
     }
-    return parentId;
+
+    return found;
   };
 
-  const createTagAlongPath = async (
-    path: string[],
-    resolvedParentId: number | null | undefined,
-  ) => {
+  const findRootTagId = (tagId: number): number => {
+    const parentId = flatTags.find((tag) => tag.tagId === tagId)?.parentId;
+    return parentId == null ? tagId : findRootTagId(parentId);
+  };
+
+  const createTagOrThrow = async (
+    name: string,
+    parentId: number | null,
+  ): Promise<TagNode> => {
+    const { data } = await createTag({
+      name,
+      parentTagId: parentId ?? undefined,
+    });
+    if (data?.tagId === undefined) {
+      throw new Error();
+    }
+
+    queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
+    return { ...data, tagId: data.tagId };
+  };
+
+  const createTagAlongPath = async (path: string[]) => {
+    const pathKey = toPathKey(path);
+    pendingPathKeysRef.current.add(pathKey);
+
     const childName = path[path.length - 1];
     const ancestorNames = path.slice(0, -1);
 
-    const immediateParent =
-      resolvedParentId != null
-        ? flatTags.find((tag) => tag.tagId === resolvedParentId)
-        : undefined;
-
-    const tempTagId = nextLocalTagIdRef.current--;
-    const tempTag: TagNode = {
-      tagId: tempTagId,
-      name: childName,
-      color: immediateParent?.color ?? 'blue',
-      parentId: null,
-    };
-    addTagToMemo(tempTag);
-
     try {
-      let parentId = resolvedParentId;
+      let parentId: number | null = null;
+      let rootTagId: number | undefined;
 
-      if (parentId === undefined) {
-        parentId = null;
-        for (const name of ancestorNames) {
-          const existingAncestor = flatTags.find(
-            (tag) =>
-              tag.name.toLowerCase() === name.toLowerCase() &&
-              tag.parentId === parentId,
-          );
-
-          if (existingAncestor) {
-            parentId = existingAncestor.tagId;
-            continue;
-          }
-
-          const response = await createTag({
-            name,
-            parentTagId: parentId ?? undefined,
-          });
-          const createdAncestor = response.data;
-          if (createdAncestor?.tagId === undefined) {
-            throw new Error('상위 태그 생성 실패');
-          }
-          queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
-          parentId = createdAncestor.tagId;
-        }
+      for (const name of ancestorNames) {
+        const ancestor: TagNode =
+          findTagByName(flatTags, name, parentId) ??
+          (await createTagOrThrow(name, parentId));
+        parentId = ancestor.tagId;
+        rootTagId ??= ancestor.tagId;
       }
 
-      const childResponse = await createTag({
-        name: childName,
-        parentTagId: parentId ?? undefined,
-      });
-      const createdChild = childResponse.data;
-      if (createdChild === undefined) {
-        throw new Error('태그 생성 실패');
-      }
+      const createdChild = await createTagOrThrow(childName, parentId);
 
-      editMemo({
-        tagList: tagListRef.current.map((tag) =>
-          tag.tagId === tempTagId ? createdChild : tag,
-        ),
-      });
-      queryClient.invalidateQueries({ queryKey: TAG_KEY.ALL });
+      editMemoRef.current({ tagList: [...tagListRef.current, createdChild] });
+      setActiveParentId(rootTagId ?? createdChild.tagId);
     } catch {
-      editMemo({
-        tagList: tagListRef.current.filter((tag) => tag.tagId !== tempTagId),
-      });
+      return;
+    } finally {
+      pendingPathKeysRef.current.delete(pathKey);
     }
   };
 
   const handleCreateTag = (rawName: string) => {
-    const trimmedName = rawName.trim();
-    if (trimmedName === '') {
+    const path = resolveTagPath(rawName);
+    if (path.length === 0 || path.length > MAX_TAG_DEPTH) {
       return false;
     }
 
-    const path = resolveTagPath(trimmedName);
-    const childName = path[path.length - 1];
-    if (childName === '' || path.length > MAX_TAG_DEPTH) {
-      return false;
-    }
-
-    const ancestorNames = path.slice(0, -1);
-    const resolvedParentId = resolveAncestorParentId(ancestorNames);
-
-    const matchesResolvedTag = (tag: {
-      name: string;
-      parentId: number | null;
-    }) =>
-      resolvedParentId !== undefined &&
-      tag.name.toLowerCase() === childName.toLowerCase() &&
-      tag.parentId === resolvedParentId;
-
-    const isAlreadySelected = tagList.some(matchesResolvedTag);
-    if (isAlreadySelected) {
-      return false;
-    }
-
-    const existingTag = flatTags.find(matchesResolvedTag);
+    const existingTag = findTagByPath(path);
     if (existingTag) {
+      if (tagList.some((tag) => tag.tagId === existingTag.tagId)) {
+        return false;
+      }
+
       addTagToMemo(existingTag);
+      setActiveParentId(findRootTagId(existingTag.tagId));
       return true;
     }
 
-    createTagAlongPath(path, resolvedParentId);
+    if (pendingPathKeysRef.current.has(toPathKey(path))) {
+      return false;
+    }
+
+    createTagAlongPath(path);
     return true;
   };
 
   return {
     parentTags,
+    hasNoParentTags,
     activeParent,
     setActiveParentId,
     handleToggleTag,

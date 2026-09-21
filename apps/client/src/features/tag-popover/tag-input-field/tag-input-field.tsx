@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useId } from 'react';
+import { KeyboardEvent, useId } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
@@ -15,14 +15,14 @@ const TagInputField = ({
   isOpen,
   onFocus,
   onEnter,
-  value,
+  value = '',
   onChange,
 }: TagInputFieldProps) => {
   const inputId = useId();
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === '/') {
-      const slashCount = (event.currentTarget.value.match(/\//g) ?? []).length;
+      const slashCount = event.currentTarget.value.split('/').length - 1;
       if (slashCount >= MAX_TAG_DEPTH - 1) {
         event.preventDefault();
       }
@@ -31,15 +31,10 @@ const TagInputField = ({
 
     if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
 
-    const isTagAdded = onEnter?.(event.currentTarget.value);
-    if (!isTagAdded) return;
+    if (!onEnter?.(event.currentTarget.value)) return;
 
     onChange('');
     event.currentTarget.blur();
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
   };
 
   return (
@@ -66,7 +61,7 @@ const TagInputField = ({
           placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
           value={value}
           onFocus={onFocus}
-          onChange={handleChange}
+          onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
           onBlur={() => onChange('')}
         />

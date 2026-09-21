@@ -40,12 +40,8 @@ const TagPopover = (props: TagPopoverProps) => {
 
   useEffect(() => {
     const container = containerRef.current;
-    if (
-      props.isOpen &&
-      container &&
-      !container.contains(document.activeElement)
-    ) {
-      container.focus();
+    if (props.isOpen && !container?.contains(document.activeElement)) {
+      container?.focus();
     }
   }, [props.isOpen]);
 
