@@ -24,7 +24,7 @@ const TagInputField = ({
   useEffect(() => {
     const tagList = tagListRef.current;
     if (tagList) tagList.scrollLeft = isOpen ? tagList.scrollWidth : 0;
-  }, [isOpen, value]);
+  }, [isOpen, value, selectedTags.length]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === '/') {
