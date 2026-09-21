@@ -37,8 +37,9 @@ export const tagList = style({
 
 export const input = style({
   ...themeVars.fontStyles.title_m_18,
-  flex: 1,
-  minWidth: 0,
+  fieldSizing: 'content',
+  flex: '1 0 auto',
+  minWidth: '10rem',
   color: themeVars.color.grey800,
   backgroundColor: 'transparent',
   outline: 'none',

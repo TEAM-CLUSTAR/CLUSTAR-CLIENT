@@ -1,4 +1,4 @@
-import { KeyboardEvent, useId } from 'react';
+import { KeyboardEvent, useEffect, useId, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
@@ -19,6 +19,12 @@ const TagInputField = ({
   onChange,
 }: TagInputFieldProps) => {
   const inputId = useId();
+  const tagListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tagList = tagListRef.current;
+    if (tagList) tagList.scrollLeft = isOpen ? tagList.scrollWidth : 0;
+  }, [isOpen, value]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === '/') {
@@ -40,7 +46,7 @@ const TagInputField = ({
   return (
     <label className={styles.field({ isActive: isOpen })} htmlFor={inputId}>
       <Icon name="ic_tag" size={32} color={isOpen ? 'blue500' : 'grey600'} />
-      <div className={styles.tagList}>
+      <div ref={tagListRef} className={styles.tagList}>
         {selectedTags.map(({ tagId, name, color }) =>
           isOpen ? (
             <Tag
