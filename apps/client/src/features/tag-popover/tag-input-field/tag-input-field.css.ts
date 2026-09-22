@@ -33,6 +33,13 @@ export const tagList = style({
 
   flex: 1,
   minWidth: 0,
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 export const input = style({
