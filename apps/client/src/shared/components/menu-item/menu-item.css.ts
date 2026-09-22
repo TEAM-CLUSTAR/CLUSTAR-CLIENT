@@ -1,3 +1,4 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { color, fontStyles } from '@cds/token';
@@ -51,4 +52,31 @@ export const text = recipe({
       false: {},
     },
   },
+});
+
+export const chevron = style({
+  marginLeft: 'auto',
+  flexShrink: 0,
+  opacity: 0,
+  transform: 'rotate(0deg)',
+  transition: 'transform 0.2s ease',
+  selectors: {
+    [`${container.classNames.base}:hover &`]: {
+      opacity: 1,
+    },
+    [`${container.classNames.base}[data-state="open"] &`]: {
+      transform: 'rotate(180deg)',
+    },
+  },
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
+    },
+  },
+});
+
+export const chevronContainer = style({
+  marginLeft: 'auto',
+  flexShrink: 0,
+  padding: '0.6rem',
 });

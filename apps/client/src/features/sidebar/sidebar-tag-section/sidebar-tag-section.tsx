@@ -1,6 +1,9 @@
+import { useState } from 'react';
+
 import { Tooltip } from '@cds/ui';
 
 import { useGetTag } from '@shared/apis/tag/queries';
+import Accordion from '@shared/components/accordion/accordion';
 import MenuItem from '@shared/components/menu-item/menu-item';
 import TreeLine from '@shared/components/tree-line/tree-line';
 
@@ -16,10 +19,6 @@ interface SidebarTagSectionProps {
   onExpand: () => void;
 }
 
-/**
- * 태그 섹션: 펼침 = 트리 / 접힘 = 아이콘 1개
- * (트리는 렌더 비용이 커 접힘 시 렌더하지 않는다)
- */
 const SidebarTagSection = ({
   isExpanded,
   selection,
@@ -27,24 +26,41 @@ const SidebarTagSection = ({
   onExpand,
 }: SidebarTagSectionProps) => {
   const { data: tagTree = [] } = useGetTag();
+  const [openTagIds, setOpenTagIds] = useState<Set<number>>(() => new Set());
 
   const selectedTagId = selection.type === 'tag' ? selection.tagId : null;
+
+  const changeTagOpen = (tagId: number, isOpen: boolean) => {
+    setOpenTagIds((previousOpenTagIds) => {
+      const nextOpenTagIds = new Set(previousOpenTagIds);
+
+      if (isOpen) {
+        nextOpenTagIds.add(tagId);
+      } else {
+        nextOpenTagIds.delete(tagId);
+      }
+
+      return nextOpenTagIds;
+    });
+  };
 
   return (
     <>
       {isExpanded ? (
-        <div className={styles.tagSectionContainer}>
+        <Accordion className={styles.tagSectionContainer}>
           <TreeLine>
             {tagTree.map((tag) => (
               <SidebarTagItem
                 key={tag.tagId}
                 tag={tag}
                 selectedTagId={selectedTagId}
+                openTagIds={openTagIds}
+                onOpenChange={changeTagOpen}
                 onClick={onSelectTag}
               />
             ))}
           </TreeLine>
-        </div>
+        </Accordion>
       ) : (
         <ul className={styles.pannelList}>
           <li className={styles.pannelItem}>
