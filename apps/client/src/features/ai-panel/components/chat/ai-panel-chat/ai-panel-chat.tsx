@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react';
-
 import { Icon } from '@cds/icon';
 
-import { AiPanelMessage } from '../../../types/ai-panel.types';
+import { useAiPanelChatScroll } from '../../../hooks/use-ai-panel-chat-scroll';
+import type { AiPanelMessage } from '../../../types/ai-panel.types';
 import AiAnswer from '../ai-answer/ai-answer';
 import AiPanelEmptyChat from '../ai-panel-empty-chat/ai-panel-empty-chat';
 
@@ -23,21 +22,10 @@ const AiPanelChat = ({
   onRegenerate,
   onSaveToMemo,
 }: AiPanelChatProps) => {
-  const chatAreaRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const chatArea = chatAreaRef.current;
-    if (!chatArea) return;
-
-    const animationFrameId = requestAnimationFrame(() => {
-      chatArea.scrollTo({
-        top: chatArea.scrollHeight,
-        behavior: 'smooth',
-      });
-    });
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [messages, isAnswerLoading]);
+  const { chatAreaRef, setAnswerRef } = useAiPanelChatScroll({
+    messages,
+    isAnswerLoading,
+  });
 
   return (
     <div ref={chatAreaRef} className={styles.chatArea}>
@@ -52,6 +40,7 @@ const AiPanelChat = ({
           ) : (
             <AiAnswer
               key={message.id}
+              ref={(element) => setAnswerRef(message.id, element)}
               content={message.text}
               usedMemosCount={message.memoIds?.length ?? 0}
               onRegenerate={() => onRegenerate(message.id)}
