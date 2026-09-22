@@ -10,7 +10,6 @@ export const container = recipe({
     borderRadius: '4px',
     width: 'fit-content',
     flexShrink: 0,
-    whiteSpace: 'nowrap',
     userSelect: 'none',
   },
   variants: {
