@@ -11,7 +11,7 @@ const MAX_TAG_COUNT = 4;
 
 interface MemoSearchListItemProps {
   memo: MemoSearchItemData;
-  onClickMemo: (memoId: number) => void;
+  onClickMemo: (memoId: number, title: string) => void;
 }
 
 const MemoSearchListItem = ({ memo, onClickMemo }: MemoSearchListItemProps) => {
@@ -19,7 +19,7 @@ const MemoSearchListItem = ({ memo, onClickMemo }: MemoSearchListItemProps) => {
   const visibleTags = tags.slice(0, MAX_TAG_COUNT);
 
   const handleClickMemo = () => {
-    onClickMemo(memoId);
+    onClickMemo(memoId, title);
   };
 
   return (
