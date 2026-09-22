@@ -5,6 +5,7 @@ import { Icon } from '@cds/icon';
 import { AiPanelMessage } from '../../../types/ai-panel.types';
 import AiAnswer from '../ai-answer/ai-answer';
 import AiPanelEmptyChat from '../ai-panel-empty-chat/ai-panel-empty-chat';
+import UserMessage from '../user-message/user-message';
 
 import * as styles from './ai-panel-chat.css';
 
@@ -46,9 +47,7 @@ const AiPanelChat = ({
       ) : (
         messages.map((message) =>
           message.type === 'user' ? (
-            <p key={message.id} className={styles.userMessage}>
-              {message.text}
-            </p>
+            <UserMessage key={message.id} content={message.text} />
           ) : (
             <AiAnswer
               key={message.id}
