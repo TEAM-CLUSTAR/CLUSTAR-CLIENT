@@ -26,7 +26,7 @@ const UserMessage = ({ content }: UserMessageProps) => {
   };
 
   return (
-    <div className={styles.bubbleBox}>
+    <div className={styles.userMessageContainer}>
       <p ref={contentRef} className={styles.textContent({ isExpanded })}>
         {content}
       </p>

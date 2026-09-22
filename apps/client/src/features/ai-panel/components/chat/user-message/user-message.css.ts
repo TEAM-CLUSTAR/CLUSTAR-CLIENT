@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { slideInUp, themeVars } from '@cds/ui';
 
-export const bubbleBox = style({
+export const userMessageContainer = style({
   display: 'inline-flex',
   flexDirection: 'column',
   alignSelf: 'flex-end',
