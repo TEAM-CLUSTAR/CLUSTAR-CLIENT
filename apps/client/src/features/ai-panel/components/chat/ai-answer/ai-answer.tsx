@@ -1,5 +1,9 @@
+import { forwardRef } from 'react';
+
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
+
+import { MarkdownViewer } from '@shared/markdown-editor';
 
 import UsedMemoBadge from './used-memo-badge/used-memo-badge';
 
@@ -12,14 +16,9 @@ interface AiAnswerProps {
   onSaveToMemo: () => void;
 }
 
-const AiAnswer = ({
-  content,
-  usedMemosCount = 0,
-  onRegenerate,
-  onSaveToMemo,
-}: AiAnswerProps) => {
-  return (
-    <div className={styles.container}>
+const AiAnswer = forwardRef<HTMLDivElement, AiAnswerProps>(
+  ({ content, usedMemosCount = 0, onRegenerate, onSaveToMemo }, ref) => (
+    <div ref={ref} className={styles.container}>
       <div className={styles.header}>
         <Icon name="ic_star" size={24} color="blue500" />
         <span className={styles.title}>AI 요약본</span>
@@ -54,9 +53,11 @@ const AiAnswer = ({
           </div>
         </div>
       </div>
-      <p className={styles.content}>{content}</p>
+      <MarkdownViewer value={content} className={styles.content} />
     </div>
-  );
-};
+  ),
+);
+
+AiAnswer.displayName = 'AiAnswer';
 
 export default AiAnswer;

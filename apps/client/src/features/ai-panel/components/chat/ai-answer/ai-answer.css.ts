@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { themeVars } from '@cds/ui';
@@ -86,5 +86,80 @@ export const content = style({
   padding: '1.6rem 1.8rem',
   ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey800,
-  whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
+  counterReset: 'aiAnswerOrdered',
+});
+
+globalStyle(`${content} [data-block]`, {
+  margin: 0,
+});
+
+globalStyle(`${content} [data-block]:not(:first-child)`, {
+  marginTop: '0.4rem',
+});
+
+globalStyle(`${content} [data-block="heading1"]`, {
+  ...themeVars.fontStyles.title_sb_20,
+});
+
+globalStyle(`${content} [data-block="heading2"]`, {
+  ...themeVars.fontStyles.title_sb_18,
+});
+
+globalStyle(`${content} [data-block="heading3"]`, {
+  ...themeVars.fontStyles.body_sb_16,
+});
+
+globalStyle(`${content} [data-block^="heading"]:not(:first-child)`, {
+  marginTop: '1.2rem',
+});
+
+globalStyle(`${content} [data-block="quote"]`, {
+  paddingLeft: '1.2rem',
+  borderLeft: `3px solid ${themeVars.color.grey300}`,
+  color: themeVars.color.grey700,
+});
+
+globalStyle(`${content} [data-block="bullet"]`, {
+  position: 'relative',
+  paddingLeft: '1.6rem',
+});
+
+globalStyle(`${content} [data-block="bullet"]::before`, {
+  content: '•',
+  position: 'absolute',
+  left: '0.4rem',
+  color: themeVars.color.grey700,
+});
+
+globalStyle(`${content} [data-block="ordered"]`, {
+  position: 'relative',
+  paddingLeft: '1.8rem',
+  counterIncrement: 'aiAnswerOrdered',
+});
+
+globalStyle(`${content} [data-block="ordered"]::before`, {
+  content: "counter(aiAnswerOrdered) '.'",
+  position: 'absolute',
+  left: 0,
+  color: themeVars.color.grey700,
+});
+
+globalStyle(`${content} [data-block]:not([data-block="ordered"])`, {
+  counterReset: 'aiAnswerOrdered',
+});
+
+globalStyle(`${content} code`, {
+  padding: '0.2rem 0.4rem',
+  borderRadius: '4px',
+  backgroundColor: themeVars.color.grey100,
+  ...themeVars.fontStyles.body_m_14,
+  fontFamily: 'monospace',
+});
+
+globalStyle(`${content} [data-block="divider"]`, {
+  marginTop: '1.2rem',
+  marginBottom: '1.2rem',
+  border: 0,
+  borderTop: `1px solid ${themeVars.color.grey200}`,
 });
