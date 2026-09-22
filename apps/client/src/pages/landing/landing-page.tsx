@@ -44,7 +44,7 @@ const LandingPage = () => {
       <div className={styles.contentContainer}>
         <div className={styles.content01}>
           <img
-            src="/landing_graphic.png"
+            src="/landing_graphic.webp"
             alt="landing graphic"
             width={525}
             height={357}
@@ -85,7 +85,12 @@ const LandingPage = () => {
               혹시 당신의 이야기인가요?
             </span>
           </p>
-          <img src="/img_card.png" alt="card image" width={1202} height={376} />
+          <img
+            src="/img_card.webp"
+            alt="card image"
+            width={1202}
+            height={376}
+          />
         </div>
 
         <div className={styles.content03}>
@@ -103,7 +108,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="/img_view1.png"
+            src="/img_view1.webp"
             alt="view1 image"
             width={1440}
             height={437}
@@ -125,7 +130,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="/img_view2.png"
+            src="/img_view2.webp"
             alt="view2 image"
             width={1052}
             height={687}
@@ -134,7 +139,7 @@ const LandingPage = () => {
 
         <div className={styles.content05}>
           <img
-            src="/img_view3.png"
+            src="/img_view3.webp"
             alt="view3 image"
             width={1213}
             height={688}
@@ -166,7 +171,7 @@ const LandingPage = () => {
             </p>
           </div>
           <img
-            src="/img_view4.png"
+            src="/img_view4.webp"
             alt="view4 image"
             width={1440}
             height={1024}

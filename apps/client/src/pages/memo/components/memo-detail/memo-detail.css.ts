@@ -120,7 +120,7 @@ export const footer = style({
 });
 
 export const date = style({
-  ...themeVars.fontStyles.title_m_18,
+  ...themeVars.fontStyles.body_m_16,
   color: themeVars.color.grey700,
 });
 

@@ -217,11 +217,11 @@ const MemoDetail = ({
           <Divider />
 
           <div className={styles.count}>
-            <Icon name="ic_file" size={32} color="grey700" />
+            <Icon name="ic_file" size={28} color="grey700" />
             <span>{files.length}</span>
           </div>
           <div className={styles.count}>
-            <Icon name="ic_img" size={32} color="grey700" />
+            <Icon name="ic_img" size={28} color="grey700" />
             <span>{images.length}</span>
           </div>
 
