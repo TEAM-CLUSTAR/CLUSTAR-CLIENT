@@ -17,6 +17,7 @@ import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
 import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
+import TagLimitModal from '../tag-limit-modal/tag-limit-modal';
 
 import * as styles from './memo-detail.css';
 
@@ -81,6 +82,8 @@ const MemoDetail = ({
     setActiveParentId,
     handleToggleTag,
     handleCreateTag,
+    isTagLimitExceeded,
+    setIsTagLimitExceeded,
   } = useMemoTagEditor({ tagList, editMemo });
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -279,6 +282,11 @@ const MemoDetail = ({
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
         onDeleted={handleConfirmDelete}
+      />
+
+      <TagLimitModal
+        open={isTagLimitExceeded}
+        onOpenChange={setIsTagLimitExceeded}
       />
     </>
   );
