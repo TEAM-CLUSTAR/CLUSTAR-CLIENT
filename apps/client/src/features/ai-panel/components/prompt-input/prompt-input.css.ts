@@ -24,6 +24,13 @@ export const memoList = style({
   gap: '0.8rem',
   width: '100%',
   overflowX: 'auto',
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 export const textarea = style({
