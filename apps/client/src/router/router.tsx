@@ -11,6 +11,7 @@ import { postMemo } from '@pages/memo/apis/queries';
 
 import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
+import { getAccessToken } from '@shared/utils/token-storage';
 
 import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
@@ -21,6 +22,10 @@ import MemoWorkspaceRoute from './routes/memo-workspace-route';
 import RootRoute from './routes/root-route';
 
 const createMemoLoader = async () => {
+  if (getAccessToken() === null) {
+    return redirect(PATH.LANDING);
+  }
+
   const response = await postMemo({ title: '', content: '' });
   const memoId = response.data?.memoId;
 
