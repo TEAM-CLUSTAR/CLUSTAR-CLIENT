@@ -7,8 +7,9 @@ import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';
 import { TreeNode } from '@shared/utils/build-tree';
 
-import TagInputField from './tag-input-field/tag-input-field';
-import { TagInputFieldProps } from './type';
+import TagInputField, {
+  TagInputFieldProps,
+} from './tag-input-field/tag-input-field';
 
 import * as styles from './tag-popover.css';
 

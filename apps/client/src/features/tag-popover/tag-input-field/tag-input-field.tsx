@@ -3,11 +3,21 @@ import { KeyboardEvent, useEffect, useId, useRef } from 'react';
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
 
-import { TagInputFieldProps } from '../type';
+import { TagNode } from '@shared/apis/tag/type';
 
 import * as styles from './tag-input-field.css';
 
 const MAX_TAG_DEPTH = 3;
+
+export interface TagInputFieldProps {
+  selectedTags: TagNode[];
+  onRemoveTag: (tagId: number) => void;
+  isOpen: boolean;
+  onFocus: () => void;
+  onEnter?: (value: string) => boolean;
+  value?: string;
+  onChange: (value: string) => void;
+}
 
 const TagInputField = ({
   selectedTags,
