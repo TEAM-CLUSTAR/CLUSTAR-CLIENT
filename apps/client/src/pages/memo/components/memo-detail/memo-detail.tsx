@@ -263,6 +263,7 @@ const MemoDetail = ({
             <button
               className={styles.iconButton}
               type="button"
+              disabled={target.status !== 'saved'}
               onClick={() => setIsDeleteModalOpen(true)}
             >
               <Icon name="ic_trash" size={24} color="grey700" />
