@@ -1,32 +1,30 @@
 import { PATH } from '@router/path';
-import { useLocation, useMatch, useNavigate } from 'react-router';
+import { useMatch, useNavigate, useNavigation } from 'react-router';
 
 import AddMemoButton from './components/add-memo-button/add-memo-button';
 import MemoTab from './components/memo-tab/memo-tab';
-import { DRAFT_TAB_ID, getMemoTabId, useMemoTabs } from './memo-tab-context';
+import { getMemoTabId, useMemoTabs } from './memo-tab-context';
 
 import * as styles from './memo-tab-bar.css';
 
 const MemoTabBar = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { tabs, openDraftTab, closeTab } = useMemoTabs();
+  const navigation = useNavigation();
+  const { tabs, closeTab } = useMemoTabs();
 
   const memoDetailMatch = useMatch(PATH.MEMO_DETAIL);
   const memoIdParam = memoDetailMatch?.params.memoId;
   const activeTabId =
-    pathname === PATH.MEMO_NEW
-      ? DRAFT_TAB_ID
-      : memoIdParam == null
-        ? null
-        : getMemoTabId(Number(memoIdParam));
+    memoIdParam == null ? null : getMemoTabId(Number(memoIdParam));
+  const isCreatingMemo =
+    navigation.state !== 'idle' &&
+    navigation.location?.pathname === PATH.MEMO_NEW;
 
-  const handleSelectTab = (memoId: number | null) => {
-    navigate(memoId == null ? PATH.MEMO_NEW : `${PATH.MEMOS}/${memoId}`);
+  const handleSelectTab = (memoId: number) => {
+    navigate(`${PATH.MEMOS}/${memoId}`);
   };
 
   const handleAddTab = () => {
-    openDraftTab();
     navigate(PATH.MEMO_NEW);
   };
 
@@ -43,7 +41,7 @@ const MemoTabBar = () => {
           />
         ))}
       </div>
-      <AddMemoButton onClick={handleAddTab} />
+      <AddMemoButton onClick={handleAddTab} disabled={isCreatingMemo} />
     </div>
   );
 };

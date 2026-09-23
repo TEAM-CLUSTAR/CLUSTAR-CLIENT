@@ -4,29 +4,20 @@ import { useNavigate } from 'react-router';
 
 import { clearMemoTabs, getMemoTabs, setMemoTabs } from './memo-tab-storage';
 
-export const DRAFT_TAB_ID = 'draft';
-
 export interface MemoTabItem {
   tabId: string;
-  memoId: number | null;
+  memoId: number;
   title: string;
 }
 
 interface MemoTabContextValue {
   tabs: MemoTabItem[];
   openMemoTab: (memoId: number, title: string) => void;
-  openDraftTab: () => void;
   closeTab: (tabId: string, isActiveTab: boolean) => void;
   renameTab: (tabId: string, title: string) => void;
 }
 
 const MemoTabContext = createContext<MemoTabContextValue | null>(null);
-
-const DRAFT_TAB: MemoTabItem = {
-  tabId: DRAFT_TAB_ID,
-  memoId: null,
-  title: '',
-};
 
 export const getMemoTabId = (memoId: number) => String(memoId);
 
@@ -59,18 +50,6 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const openDraftTab = () => {
-    setTabs((previousTabs) => {
-      if (previousTabs.some((tab) => tab.tabId === DRAFT_TAB_ID)) {
-        return previousTabs;
-      }
-
-      const nextTabs = [...previousTabs, DRAFT_TAB];
-      setMemoTabs(nextTabs);
-      return nextTabs;
-    });
-  };
-
   const closeTab = (tabId: string, isActiveTab: boolean) => {
     const remainingTabs = tabs.filter((tab) => tab.tabId !== tabId);
 
@@ -80,16 +59,11 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const closedIndex = tabs.findIndex((tab) => tab.tabId === tabId);
-    const nextTab =
-      remainingTabs.length === 0
-        ? DRAFT_TAB
-        : remainingTabs[Math.max(closedIndex - 1, 0)];
+    const nextTab = remainingTabs[Math.max(closedIndex - 1, 0)];
 
-    updateTabs(remainingTabs.length === 0 ? [DRAFT_TAB] : remainingTabs);
+    updateTabs(remainingTabs);
     navigate(
-      nextTab.memoId == null
-        ? PATH.MEMO_NEW
-        : `${PATH.MEMOS}/${nextTab.memoId}`,
+      nextTab === undefined ? PATH.MEMOS : `${PATH.MEMOS}/${nextTab.memoId}`,
       { replace: true },
     );
   };
@@ -107,7 +81,6 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
   const value: MemoTabContextValue = {
     tabs,
     openMemoTab,
-    openDraftTab,
     closeTab,
     renameTab,
   };
