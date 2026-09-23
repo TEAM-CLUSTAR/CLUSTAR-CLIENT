@@ -9,7 +9,7 @@ export const container = style({
   backgroundColor: themeVars.color.white,
   borderRadius: '12px',
   padding: '1.6rem 1.8rem',
-  border: `1px solid ${themeVars.color.grey300}`,
+  border: `1.5px solid ${themeVars.color.grey300}`,
   transition: 'border-color 180ms cubic-bezier(0.4, 0, 0.2, 1)',
   selectors: {
     '&:focus-within': {
@@ -24,6 +24,13 @@ export const memoList = style({
   gap: '0.8rem',
   width: '100%',
   overflowX: 'auto',
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 export const textarea = style({
