@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import type { Ref } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
@@ -14,50 +14,53 @@ interface AiAnswerProps {
   usedMemosCount?: number;
   onRegenerate: () => void;
   onSaveToMemo: () => void;
+  ref?: Ref<HTMLDivElement>;
 }
 
-const AiAnswer = forwardRef<HTMLDivElement, AiAnswerProps>(
-  ({ content, usedMemosCount = 0, onRegenerate, onSaveToMemo }, ref) => (
-    <div ref={ref} className={styles.container}>
-      <div className={styles.header}>
-        <Icon name="ic_star" size={24} color="blue500" />
-        <span className={styles.title}>AI 요약본</span>
+const AiAnswer = ({
+  content,
+  usedMemosCount = 0,
+  onRegenerate,
+  onSaveToMemo,
+  ref,
+}: AiAnswerProps) => (
+  <div ref={ref} className={styles.container}>
+    <div className={styles.header}>
+      <Icon name="ic_star" size={24} color="blue500" />
+      <span className={styles.title}>AI 요약본</span>
 
-        {usedMemosCount > 0 && <UsedMemoBadge count={usedMemosCount} />}
-        <div className={styles.actions}>
-          <div className={styles.actionContainer}>
-            <button
-              className={styles.actionButton}
-              type="button"
-              aria-label="다시 생성"
-              onClick={onRegenerate}
-            >
-              <Icon name="ic_refresh" size={24} color="grey700" />
-            </button>
-            <div className={styles.tooltip({ align: 'center' })}>
-              <Tooltip title="재생성하기" />
-            </div>
+      {usedMemosCount > 0 && <UsedMemoBadge count={usedMemosCount} />}
+      <div className={styles.actions}>
+        <div className={styles.actionContainer}>
+          <button
+            className={styles.actionButton}
+            type="button"
+            aria-label="다시 생성"
+            onClick={onRegenerate}
+          >
+            <Icon name="ic_refresh" size={24} color="grey700" />
+          </button>
+          <div className={styles.tooltip({ align: 'center' })}>
+            <Tooltip title="재생성하기" />
           </div>
-          <div className={styles.actionContainer}>
-            <button
-              className={styles.actionButton}
-              type="button"
-              aria-label="메모로 저장"
-              onClick={onSaveToMemo}
-            >
-              <Icon name="ic_save" size={24} color="grey700" />
-            </button>
-            <div className={styles.tooltip({ align: 'end' })}>
-              <Tooltip title="메모 저장하기" />
-            </div>
+        </div>
+        <div className={styles.actionContainer}>
+          <button
+            className={styles.actionButton}
+            type="button"
+            aria-label="메모로 저장"
+            onClick={onSaveToMemo}
+          >
+            <Icon name="ic_save" size={24} color="grey700" />
+          </button>
+          <div className={styles.tooltip({ align: 'end' })}>
+            <Tooltip title="메모 저장하기" />
           </div>
         </div>
       </div>
-      <MarkdownViewer value={content} className={styles.content} />
     </div>
-  ),
+    <MarkdownViewer value={content} className={styles.content} />
+  </div>
 );
-
-AiAnswer.displayName = 'AiAnswer';
 
 export default AiAnswer;
