@@ -29,17 +29,6 @@ export const chatArea = style({
   },
 });
 
-export const userMessage = style({
-  alignSelf: 'flex-end',
-  maxWidth: '36rem',
-  padding: '1.6rem 1.8rem',
-  borderRadius: '12px 4px 12px 12px',
-  backgroundColor: themeVars.color.grey50,
-  ...themeVars.fontStyles.body_m_16,
-  color: themeVars.color.grey800,
-  whiteSpace: 'pre-wrap',
-});
-
 export const loadingMessage = style({
   display: 'flex',
   alignItems: 'center',
