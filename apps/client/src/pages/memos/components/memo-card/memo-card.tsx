@@ -78,7 +78,7 @@ const MemoCard = ({
           )}
         </div>
         <div className={styles.contentsContainer}>
-          <Title title={title} />
+          <Title title={title || '제목없음'} />
           <p className={styles.content}>{content}</p>
         </div>
       </div>

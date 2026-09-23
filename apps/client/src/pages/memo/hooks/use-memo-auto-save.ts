@@ -36,12 +36,11 @@ interface UseMemoAutoSaveParams {
   savedMemo: MemoType | undefined;
 }
 
-/** 저장이 실제로 일어나지 않았으면 null. (제목·본문이 비어 아직 만들 수 없는 새 메모) */
 type SaveResult = {
   savedMemoId: number;
   lastSavedDate: string;
   savedAttachments: Pick<MemoType, 'images' | 'files'> | null;
-} | null;
+};
 
 const toMemoBody = (memo: MemoType) => ({
   title: memo.title,
@@ -153,10 +152,6 @@ export const useMemoAutoSave = ({
         };
       }
 
-      if (memoToSave.title === '' || memoToSave.content === '') {
-        return null;
-      }
-
       const createdMemo = readSavedMemo(
         await postMemo.mutateAsync(toCreateRequest(memoToSave)),
       );
@@ -173,10 +168,6 @@ export const useMemoAutoSave = ({
       };
     },
     onSuccess: (result) => {
-      if (result === null) {
-        return;
-      }
-
       if (result.savedAttachments !== null) {
         setDraft((previousDraft) =>
           previousDraft === null
@@ -210,6 +201,13 @@ export const useMemoAutoSave = ({
   const scheduleAutoSave = (nextMemo: MemoType) => {
     if (saveTimerRef.current !== null) {
       clearTimeout(saveTimerRef.current);
+    }
+
+    saveTimerRef.current = null;
+    pendingSaveRef.current = null;
+
+    if (nextMemo.title === '' && nextMemo.content === '') {
+      return;
     }
 
     const runScheduledSave = () => {
