@@ -100,7 +100,12 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
   const suggestedMemos = suggestedMemoSection?.memos ?? recommendedMemos;
   const shouldShowSuggestedMemos = suggestedMemos.length > 0;
 
-  const handleSelectSuggestedMemo = (memo: SuggestedMemoType) => {
+  const handleToggleSuggestedMemo = (memo: SuggestedMemoType) => {
+    if (memo.isSelected) {
+      removeMemo(memo.memoId);
+      return;
+    }
+
     addMemo(memo);
     suggestedMemoSection?.onSelectMemo?.(memo);
   };
@@ -141,7 +146,7 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
           {shouldShowSuggestedMemos && (
             <SuggestedMemoList
               memos={suggestedMemos}
-              onSelectMemo={handleSelectSuggestedMemo}
+              onToggleMemo={handleToggleSuggestedMemo}
               onOpenMemo={handleOpenSuggestedMemo}
             />
           )}
