@@ -70,12 +70,13 @@ const MemoDetail = ({
   const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(
     defaultTagPopoverOpen,
   );
+  const [tagInputValue, setTagInputValue] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { title, content, images, files, tagList } = memo;
-  const deletableMemoId = target.status === 'saved' ? target.memoId : null;
 
   const {
     parentTags,
+    hasNoParentTags,
     activeParent,
     setActiveParentId,
     handleToggleTag,
@@ -87,10 +88,6 @@ const MemoDetail = ({
 
     editMemo({ title: nextTitle });
     onTitleChange(nextTitle);
-  };
-
-  const handleAttachClick = () => {
-    fileInputRef.current?.click();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -113,9 +110,10 @@ const MemoDetail = ({
       },
     );
   };
+
   const handleConfirmDelete = () => {
-    if (deletableMemoId !== null) {
-      deleteMemo(deletableMemoId);
+    if (target.status === 'saved') {
+      deleteMemo(target.memoId);
     }
 
     onDeleteMemo();
@@ -134,22 +132,41 @@ const MemoDetail = ({
           <div className={styles.bodyGroup}>
             <div className={styles.contentGroup}>
               {/* 태그 선택 섹션 */}
-              {activeParent && (
+              {tagInputValue.trim() !== '' || hasNoParentTags ? (
                 <TagPopover
-                  mode="browse"
+                  mode="create"
                   selectedTags={tagList}
                   onRemoveTag={handleToggleTag}
                   isOpen={isTagPopoverOpen}
                   onFocus={() => setIsTagPopoverOpen(true)}
                   onEnter={handleCreateTag}
-                  parentTags={parentTags}
-                  selectedParentId={activeParent.tagId}
-                  onSelectParent={setActiveParentId}
-                  tagTree={activeParent}
-                  selectedIds={tagList.map((tag) => tag.tagId)}
-                  onToggleTag={handleToggleTag}
+                  value={tagInputValue}
+                  onChange={setTagInputValue}
+                  newTagName={tagInputValue}
+                  onCreate={() => {
+                    const created = handleCreateTag(tagInputValue);
+                    if (created) setTagInputValue('');
+                  }}
                   onClose={() => setIsTagPopoverOpen(false)}
                 />
+              ) : (
+                activeParent && (
+                  <TagPopover
+                    mode="browse"
+                    selectedTags={tagList}
+                    onRemoveTag={handleToggleTag}
+                    isOpen={isTagPopoverOpen}
+                    onFocus={() => setIsTagPopoverOpen(true)}
+                    onChange={setTagInputValue}
+                    parentTags={parentTags}
+                    selectedParentId={activeParent.tagId}
+                    onSelectParent={setActiveParentId}
+                    tagTree={activeParent}
+                    selectedIds={tagList.map((tag) => tag.tagId)}
+                    onToggleTag={handleToggleTag}
+                    onClose={() => setIsTagPopoverOpen(false)}
+                  />
+                )
               )}
 
               {/* 제목 섹션 */}
@@ -231,7 +248,7 @@ const MemoDetail = ({
             <button
               className={styles.iconButton}
               type="button"
-              onClick={handleAttachClick}
+              onClick={() => fileInputRef.current?.click()}
             >
               <Icon name="ic_plus" size={24} color="grey700" />
             </button>

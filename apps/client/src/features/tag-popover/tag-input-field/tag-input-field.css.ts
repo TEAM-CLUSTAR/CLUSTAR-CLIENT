@@ -30,14 +30,23 @@ export const tagList = style({
   gap: '0.4rem',
   flexWrap: 'nowrap',
   overflowX: 'auto',
+
   flex: 1,
   minWidth: 0,
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 export const input = style({
   ...themeVars.fontStyles.title_m_18,
-  flex: 1,
-  minWidth: 0,
+  fieldSizing: 'content',
+  flex: '1 0 auto',
+  minWidth: '10rem',
   color: themeVars.color.grey800,
   backgroundColor: 'transparent',
   outline: 'none',
