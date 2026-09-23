@@ -85,6 +85,7 @@ export const mainInfoContainer = style({
 export const tagContainer = style({
   display: 'flex',
   gap: '0.8rem',
+  overflow: 'hidden',
 });
 
 export const tagSelectButton = style({

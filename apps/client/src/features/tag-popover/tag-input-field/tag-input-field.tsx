@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useId, useRef } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useId, useRef } from 'react';
 
 import { Icon } from '@cds/icon';
 import { Tag } from '@cds/ui';
@@ -8,6 +8,7 @@ import { TagNode } from '@shared/apis/tag/type';
 import * as styles from './tag-input-field.css';
 
 const MAX_TAG_DEPTH = 3;
+const MAX_TAG_NAME_LENGTH = 10;
 
 export interface TagInputFieldProps {
   selectedTags: TagNode[];
@@ -35,6 +36,14 @@ const TagInputField = ({
     const tagList = tagListRef.current;
     if (tagList) tagList.scrollLeft = isOpen ? tagList.scrollWidth : 0;
   }, [isOpen, value, selectedTags.length]);
+
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const names = target.value.split('/');
+
+    if (names.every((name) => name.length <= MAX_TAG_NAME_LENGTH)) {
+      onChange(target.value);
+    }
+  };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === '/') {
@@ -77,7 +86,7 @@ const TagInputField = ({
           placeholder={selectedTags.length === 0 ? '태그 선택' : ''}
           value={value}
           onFocus={onFocus}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           onBlur={() => onChange('')}
         />
