@@ -11,7 +11,7 @@ export const sidebar = style({
   flexDirection: 'column',
   backgroundColor: themeVars.color.grey50,
   boxShadow: `inset -1px 0 0 ${themeVars.color.grey200}`,
-  padding: '2rem',
+  padding: '2rem 2rem 0 2rem',
   height: '100vh',
   flexShrink: '0',
   transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -148,6 +148,15 @@ export const pannelItem = style({
   width: '100%',
 });
 
+export const mypagePannelItem = style([
+  pannelItem,
+  {
+    height: '8rem',
+    display: 'flex',
+    alignItems: 'center',
+  },
+]);
+
 export const tooltip = style({
   display: 'none',
   position: 'absolute',
@@ -170,4 +179,37 @@ export const tooltip = style({
 export const footerSection = style({
   marginTop: 'auto',
   flexShrink: 0,
+});
+
+export const tagAccordionItem = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.4rem',
+});
+
+export const tagBranchContainer = style({
+  display: 'grid',
+  gridTemplateRows: '0fr',
+  opacity: 0,
+  visibility: 'hidden',
+  transition:
+    'grid-template-rows 0.2s ease, opacity 0.2s ease, visibility 0s 0.2s',
+  selectors: {
+    '&[data-state="open"]': {
+      gridTemplateRows: '1fr',
+      opacity: 1,
+      visibility: 'visible',
+      transitionDelay: '0s',
+    },
+  },
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
+    },
+  },
+});
+
+export const tagBranchInner = style({
+  minHeight: 0,
+  overflow: 'hidden',
 });
