@@ -137,7 +137,6 @@ export const useMemoAutoSave = ({
       });
       queryClient.invalidateQueries({
         queryKey: MEMO_KEY.GET(memoId),
-        refetchType: 'none',
       });
     },
   });
