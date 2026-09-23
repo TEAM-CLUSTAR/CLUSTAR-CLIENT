@@ -2,10 +2,12 @@ import {
   createBrowserRouter,
   type LoaderFunctionArgs,
   redirect,
+  replace,
 } from 'react-router';
 
 import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
+import { postMemo } from '@pages/memo/apis/queries';
 
 import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
@@ -17,6 +19,17 @@ import AuthRoute from './routes/auth-route';
 import DashboardRoute from './routes/dashboard-route';
 import MemoWorkspaceRoute from './routes/memo-workspace-route';
 import RootRoute from './routes/root-route';
+
+const createMemoLoader = async () => {
+  const response = await postMemo({ title: '', content: '' });
+  const memoId = response.data?.memoId;
+
+  if (memoId === undefined) {
+    throw new Error('메모 생성 응답에 memoId가 없어요.');
+  }
+
+  return replace(`${PATH.MEMOS}/${memoId}`);
+};
 
 export const router = createBrowserRouter([
   {
@@ -64,13 +77,9 @@ export const router = createBrowserRouter([
                 children: [
                   {
                     path: PATH.MEMOS,
-                    Component: MemosPage,
-                  },
-                  {
-                    path: PATH.MEMO,
                     children: [
-                      { index: true, loader: () => redirect(PATH.MEMO_NEW) },
-                      { path: 'new', Component: MemoPage },
+                      { index: true, Component: MemosPage },
+                      { path: 'new', loader: createMemoLoader },
                       { path: ':memoId', Component: MemoPage },
                     ],
                   },
