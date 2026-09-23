@@ -52,12 +52,12 @@ const MemosPage = () => {
 
   const handleClickCard = (memoId: number) => {
     const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
-    navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
+    navigate(`${PATH.MEMOS}/${memoId}`, { state: { title } });
   };
 
   const handleSelectTag = (memoId: number) => {
     const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
-    navigate(`${PATH.MEMO}/${memoId}`, {
+    navigate(`${PATH.MEMOS}/${memoId}`, {
       state: { title, openTagPopover: true },
     });
   };
