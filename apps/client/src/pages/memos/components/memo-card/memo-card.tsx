@@ -12,7 +12,7 @@ export type MemoCardInfoType = {
   memoId: number;
   title: string;
   content: string;
-  createdAt: string;
+  updatedAt: string;
   tagList: components['schemas']['TagResponse'][];
   fileCount: number;
   imageCount: number;
@@ -33,7 +33,7 @@ const MemoCard = ({
   memoId,
   title,
   content,
-  createdAt,
+  updatedAt,
   tagList = [],
   fileCount = 0,
   imageCount = 0,
@@ -93,7 +93,7 @@ const MemoCard = ({
             <span>{imageCount}</span>
           </div>
         </div>
-        <time>{formatDate(createdAt)}</time>
+        <time>{formatDate(updatedAt)}</time>
       </div>
     </article>
   );
