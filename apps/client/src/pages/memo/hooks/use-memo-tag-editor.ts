@@ -65,17 +65,7 @@ export const useMemoTagEditor = ({
   const editMemoRef = useRef(editMemo);
   editMemoRef.current = editMemo;
 
-  const { mutateAsync: createTag } = useMutation({
-    ...usePostTag(),
-    onError: (error) => {
-      if (
-        isAxiosError(error) &&
-        error.response?.status === HTTP_STATUS_CODE.BAD_REQUEST
-      ) {
-        setIsTagLimitExceeded(true);
-      }
-    },
-  });
+  const { mutateAsync: createTag } = useMutation(usePostTag());
 
   const addTagToMemo = (tag: TagNode) => {
     editMemo({ tagList: [...tagList, tag] });
@@ -152,8 +142,13 @@ export const useMemoTagEditor = ({
 
       editMemoRef.current({ tagList: [...tagListRef.current, createdChild] });
       setActiveParentId(rootTagId ?? createdChild.tagId);
-    } catch {
-      return;
+    } catch (error) {
+      if (
+        isAxiosError(error) &&
+        error.response?.status === HTTP_STATUS_CODE.BAD_REQUEST
+      ) {
+        setIsTagLimitExceeded(true);
+      }
     } finally {
       pendingPathKeysRef.current.delete(pathKey);
     }
