@@ -24,8 +24,6 @@ export type MemoEditTarget =
   | { status: 'new'; memoId: number | null }
   | { status: 'saved'; memoId: number };
 
-const UNSAVED_DATE_PLACEHOLDER = 'YYYY.MM.DD';
-
 interface MemoDetailProps {
   memoId: number | null;
   onDeleteMemo: () => void;
@@ -210,9 +208,7 @@ const MemoDetail = ({
         {/* footer 섹션 */}
         <div className={styles.footer}>
           <time className={styles.date}>
-            {lastSavedDate === null
-              ? UNSAVED_DATE_PLACEHOLDER
-              : formatFullDate(lastSavedDate)}
+            {formatFullDate(lastSavedDate ?? new Date().toISOString())}
           </time>
           <Divider />
 
