@@ -7,6 +7,7 @@ interface EmptyViewProps {
   buttonText?: string;
   fullHeight?: boolean;
   onButtonClick?: () => void;
+  buttonDisabled?: boolean;
 }
 
 const EmptyView = ({
@@ -16,6 +17,7 @@ const EmptyView = ({
   buttonText,
   fullHeight = false,
   onButtonClick,
+  buttonDisabled = false,
 }: EmptyViewProps) => {
   return (
     <div className={styles.container({ fullHeight })}>
@@ -24,7 +26,12 @@ const EmptyView = ({
       <p className={styles.description}>{description}</p>
 
       {buttonText && onButtonClick && (
-        <button type="button" className={styles.button} onClick={onButtonClick}>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={onButtonClick}
+          disabled={buttonDisabled}
+        >
           {buttonText}
         </button>
       )}
