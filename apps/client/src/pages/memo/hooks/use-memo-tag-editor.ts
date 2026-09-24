@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { isAxiosError } from 'axios';
 
 import { MemoType } from '@pages/memo/types/memo-type';
 
+import { HTTP_STATUS_CODE } from '@shared/apis/status';
 import {
   useFlatTags,
   useGetChildTags,
@@ -49,6 +51,7 @@ export const useMemoTagEditor = ({
   const hasNoParentTags = isParentTagsLoaded && parentTags.length === 0;
   const { data: flatTags = [] } = useFlatTags();
   const [activeParentId, setActiveParentId] = useState<number>();
+  const [isTagLimitExceeded, setIsTagLimitExceeded] = useState(false);
 
   const selectedParent =
     parentTags.find((tag) => tag.tagId === activeParentId) ?? parentTags[0];
@@ -139,8 +142,13 @@ export const useMemoTagEditor = ({
 
       editMemoRef.current({ tagList: [...tagListRef.current, createdChild] });
       setActiveParentId(rootTagId ?? createdChild.tagId);
-    } catch {
-      return;
+    } catch (error) {
+      if (
+        isAxiosError(error) &&
+        error.response?.status === HTTP_STATUS_CODE.BAD_REQUEST
+      ) {
+        setIsTagLimitExceeded(true);
+      }
     } finally {
       pendingPathKeysRef.current.delete(pathKey);
     }
@@ -178,5 +186,7 @@ export const useMemoTagEditor = ({
     setActiveParentId,
     handleToggleTag,
     handleCreateTag,
+    isTagLimitExceeded,
+    setIsTagLimitExceeded,
   };
 };
