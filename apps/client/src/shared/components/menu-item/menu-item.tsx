@@ -8,6 +8,7 @@ interface MenuItemProps extends Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'onClick' | 'disabled'
 > {
+  'data-state'?: 'open' | 'closed';
   iconName: IconName;
   content?: string;
   isSelected?: boolean;
@@ -29,7 +30,17 @@ const MenuItem = ({
     >
       <Icon name={iconName} size={size === 'lg' ? 32 : 24} />
       {content != null && (
-        <span className={styles.text({ size })}>{content}</span>
+        <span className={styles.text({ size, isSelected })}>{content}</span>
+      )}
+      {props['data-state'] !== undefined && (
+        <div className={styles.chevronContainer}>
+          <Icon
+            name="ic_chevron_down"
+            size={20}
+            color="grey500"
+            className={styles.chevron}
+          />
+        </div>
       )}
     </button>
   );

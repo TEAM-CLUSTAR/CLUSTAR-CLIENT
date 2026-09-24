@@ -52,7 +52,7 @@ export const useGetMemo = (memoId: number | null) => {
  * @param body - 메모 작성 요청 데이터
  * @returns 생성된 메모의 memoId, createdAt, updatedAt
  */
-const postMemo = async (
+export const postMemo = async (
   body: PostMemoRequestBody,
 ): Promise<PostMemoResponse> => {
   const response = await api.post<PostMemoResponse>(MEMO_END_POIINT.POST, body);

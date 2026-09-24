@@ -4,7 +4,6 @@ import { useLocation, useParams } from 'react-router';
 import MemoDetail from '@pages/memo/components/memo-detail/memo-detail';
 
 import {
-  DRAFT_TAB_ID,
   getMemoTabId,
   useMemoTabs,
 } from '@shared/components/memo-tab-bar/memo-tab-context';
@@ -19,11 +18,10 @@ type LocationState = {
 const MemoPage = () => {
   const location = useLocation();
   const { memoId: memoIdParam } = useParams();
-  const { tabs, openMemoTab, openDraftTab, closeTab, renameTab } =
-    useMemoTabs();
+  const { tabs, openMemoTab, closeTab, renameTab } = useMemoTabs();
 
-  const memoId = memoIdParam == null ? null : Number(memoIdParam);
-  const activeTabId = memoId == null ? DRAFT_TAB_ID : getMemoTabId(memoId);
+  const memoId = Number(memoIdParam);
+  const activeTabId = getMemoTabId(memoId);
   const ensuredTabIdRef = useRef<string | null>(null);
   useEffect(() => {
     if (ensuredTabIdRef.current === activeTabId) {
@@ -34,14 +32,9 @@ const MemoPage = () => {
     if (tabs.some((tab) => tab.tabId === activeTabId)) {
       return;
     }
-    if (memoId == null) {
-      openDraftTab();
-      return;
-    }
-
     const state = location.state as LocationState | null;
     openMemoTab(memoId, state?.title ?? '');
-  }, [activeTabId, memoId, tabs, location.state, openDraftTab, openMemoTab]);
+  }, [activeTabId, memoId, tabs, location.state, openMemoTab]);
 
   return (
     <div className={styles.pageContainer}>

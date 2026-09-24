@@ -52,7 +52,7 @@ const MemoTab = ({
         onClick={onCloseTab}
         type="button"
         aria-label={`${memoTitle} 탭 닫기`}
-        className={styles.closeTab({ isHovered })}
+        className={styles.closeTab}
       >
         <Icon name="ic_delete" size={24} />
       </button>

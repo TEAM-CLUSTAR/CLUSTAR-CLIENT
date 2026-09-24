@@ -132,6 +132,7 @@ export const addMemo = recipe({
     padding: '0.4rem 0.4rem 0.4rem 0.8rem',
     borderRadius: '8px',
     border: '1px solid transparent',
+    cursor: 'pointer',
     ...themeVars.fontStyles.label_m_12,
   },
   variants: {
@@ -140,7 +141,11 @@ export const addMemo = recipe({
         color: themeVars.color.white,
         backgroundColor: themeVars.color.blue500,
         borderColor: themeVars.color.blue300,
-        cursor: 'default',
+        selectors: {
+          '&:hover': {
+            backgroundColor: themeVars.color.blue700,
+          },
+        },
       },
       false: {
         color: themeVars.color.grey700,

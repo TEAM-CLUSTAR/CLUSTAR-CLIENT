@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAiPanel } from '@features/ai-panel';
 import FilterModal from '@features/filter-modal/filter-modal';
 import { PATH } from '@router/path';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useNavigation, useSearchParams } from 'react-router';
 
 import { useFlatTags } from '@shared/apis/tag/queries';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
@@ -17,11 +17,15 @@ import * as styles from './memos-page.css';
 
 const MemosPage = () => {
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTagIds = searchParams.getAll('tag').map(Number);
   const activeTagIds = selectedTagIds.length ? selectedTagIds : undefined;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { isOpen: isAiPanelOpen, selectedMemos } = useAiPanel();
+  const isCreatingMemo =
+    navigation.state !== 'idle' &&
+    navigation.location?.pathname === PATH.MEMO_NEW;
 
   const { data: flatTags = [] } = useFlatTags();
   const tagsById = new Map(flatTags.map((tag) => [tag.tagId, tag]));
@@ -52,12 +56,12 @@ const MemosPage = () => {
 
   const handleClickCard = (memoId: number) => {
     const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
-    navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
+    navigate(`${PATH.MEMOS}/${memoId}`, { state: { title } });
   };
 
   const handleSelectTag = (memoId: number) => {
     const title = memosList?.find((memo) => memo.memoId === memoId)?.title;
-    navigate(`${PATH.MEMO}/${memoId}`, {
+    navigate(`${PATH.MEMOS}/${memoId}`, {
       state: { title, openTagPopover: true },
     });
   };
@@ -103,6 +107,7 @@ const MemosPage = () => {
             title="작성된 메모가 없습니다."
             description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
             buttonText="메모 작성하러 가기"
+            buttonDisabled={isCreatingMemo}
             onButtonClick={() => navigate(PATH.MEMO_NEW)}
           />
         ) : (

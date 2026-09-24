@@ -1,5 +1,6 @@
 import MemoSearchModal from '@features/memo-search-modal/memo-search-modal';
 import { PATH } from '@router/path';
+import { useNavigation } from 'react-router';
 
 import { IconName } from '@cds/icon';
 import { Tooltip } from '@cds/ui';
@@ -36,7 +37,7 @@ const MENU_ITEMS: MenuEntry[] = [
   {
     id: 'all-memo',
     iconName: 'ic_allmemo',
-    text: '모든 메모',
+    text: '전체 메모',
     path: PATH.MEMOS,
   },
 ];
@@ -48,7 +49,11 @@ const SidebarMenuSection = ({
   isSearchMoalOpen,
   setIsSearchModalOpen,
 }: SidebarMenuSectionProps) => {
+  const navigation = useNavigation();
   const selectedMenuPath = selection.type === 'menu' ? selection.path : null;
+  const isCreatingMemo =
+    navigation.state !== 'idle' &&
+    navigation.location?.pathname === PATH.MEMO_NEW;
 
   return (
     <ul className={styles.pannelList}>
@@ -68,6 +73,7 @@ const SidebarMenuSection = ({
             iconName={iconName}
             content={text}
             isSelected={selectedMenuPath === path}
+            disabled={path === PATH.MEMO_NEW && isCreatingMemo}
             onClick={() => onSelectMenu(path)}
           />
           <div className={styles.tooltip}>

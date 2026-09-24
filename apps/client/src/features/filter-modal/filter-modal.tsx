@@ -47,8 +47,8 @@ const FilterModal = ({
   const activeRoot =
     activeRootTree ?? (selectedRoot && { ...selectedRoot, children: [] });
   const { data: flatTags = [] } = useFlatTags();
-  const selectedTags = flatTags.filter((tag) =>
-    selectedIds.includes(tag.tagId),
+  const selectedTags = selectedIds.flatMap(
+    (id) => flatTags.find((tag) => tag.tagId === id) ?? [],
   );
 
   const handleToggle = (tagId: number) => {

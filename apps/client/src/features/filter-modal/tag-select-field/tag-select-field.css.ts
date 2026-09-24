@@ -36,4 +36,11 @@ export const tagList = style({
   overflowX: 'auto',
   flex: 1,
   minWidth: 0,
+  scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });

@@ -102,11 +102,11 @@ export interface paths {
     };
     /**
      * 메모 전체 조회(대시보드)
-     * @description 메모를 전체 조회합니다.
+     * @description 메모를 최근 열람순으로 전체 조회합니다. 미열람 메모는 최하단에 노출됩니다.
      *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
-     *     - 커서 기반 페이지네이션을 지원합니다.
+     *     - 다음 페이지 조회 시 마지막 카드의 lastViewedAt과 memoId를 각각 cursorLastViewedAt, cursorMemoId로 전달합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
-     *       이미지/파일 개수 정보를 포함합니다.
+     *       이미지/파일 개수, 생성 시각(createdAt), 마지막 수정 시각(updatedAt)을 포함합니다.
      */
     get: operations['getMemos'];
     put?: never;
@@ -174,11 +174,11 @@ export interface paths {
     };
     /**
      * AI가 생성한 메모 전체 조회(대시보드)
-     * @description AI가 생성한 메모를 전체 조회합니다.
+     * @description AI가 생성한 메모를 최근 열람순으로 전체 조회합니다. 미열람 메모는 최하단에 노출됩니다.
      *     - tagIds가 있으면 해당 태그가 포함된 메모만 조회합니다.
-     *     - 커서 기반 페이지네이션을 지원합니다.
+     *     - 다음 페이지 조회 시 마지막 카드의 lastViewedAt과 memoId를 각각 cursorLastViewedAt, cursorMemoId로 전달합니다.
      *     - 각 메모는 대표 이미지 1개(presigned URL)와
-     *       이미지/파일 개수 정보를 포함합니다.
+     *       이미지/파일 개수, 생성 시각(createdAt), 마지막 수정 시각(updatedAt)을 포함합니다.
      */
     get: operations['getAiMemos'];
     put?: never;
@@ -208,8 +208,15 @@ export interface paths {
     get: operations['getChatRooms'];
     put?: never;
     /**
-     * AI 채팅방 생성
+     * AI 채팅방 생성 (새 대화 시작)
      * @description 새로운 AI 채팅방을 생성합니다.
+     *
+     *     기존 활성 채팅방이 있으면 함께 정리합니다.
+     *     - 채팅방: soft delete
+     *     - 대화 컨텍스트(ChatMemory): 삭제
+     *
+     *     패널을 여는 용도로는 호출하지 마세요. 기존 대화가 삭제됩니다.
+     *     패널 진입 시에는 `GET /api/v1/chat-rooms/active`를 사용합니다.
      */
     post: operations['createChatRoom'];
     delete?: never;
@@ -460,7 +467,7 @@ export interface paths {
     };
     /**
      * 부모 태그 최대 10개 조회
-     * @description 사용자의 부모 태그 최대 10개를 생성일 내림차순으로 조회합니다.
+     * @description 사용자의 부모 태그 최대 10개를 생성일 오름차순으로 조회합니다.
      */
     get: operations['getParentTags'];
     put?: never;
@@ -500,7 +507,7 @@ export interface paths {
     };
     /**
      * 구조화뷰 메모 전체 조회
-     * @description 구조화뷰를 위한 전체 메모를 조회합니다.
+     * @description 구조화뷰를 위한 전체 메모를 최근 열람순으로 조회합니다. 한 번도 열람하지 않은 메모는 목록 최하단에 노출됩니다.
      */
     get: operations['getStructureMemo'];
     put?: never;
@@ -564,10 +571,38 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 최근 AI 채팅방 단일 조회
+     * [Deprecated] 최근 AI 채팅방 단일 조회
+     * @deprecated
      * @description 로그인한 사용자의 최근 AI 채팅방을 조회합니다.
+     *
+     *     대화 내용을 함께 반환하는 `GET /api/v1/chat-rooms/active` 사용을 권장합니다.
      */
     get: operations['findLatestChatRoomByUser'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/chat-rooms/active': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 활성 AI 채팅방 및 대화 조회
+     * @description AI 패널 진입 시 사용합니다.
+     *     활성 채팅방과 지금까지의 대화를 함께 반환합니다.
+     *
+     *     - 활성 채팅방이 없으면 새로 생성한 뒤 빈 대화를 반환합니다 (404 없음)
+     *     - `messages`가 비어 있으면 아직 전송한 프롬프트가 없다는 의미입니다
+     *     - `messages`는 대화 순서(오름차순)로 정렬됩니다
+     */
+    get: operations['getActiveConversation'];
     put?: never;
     post?: never;
     delete?: never;
@@ -914,7 +949,7 @@ export interface components {
       chatRoomId: number;
     };
     MemoAiRequest: {
-      userPrompt?: string;
+      userPrompt: string;
       /** @enum {string} */
       option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
       memoIds: number[];
@@ -1170,6 +1205,16 @@ export interface components {
       isNew: boolean;
       /** Format: date-time */
       createdAt: string;
+      /**
+       * Format: date-time
+       * @description 메모 마지막 수정 시각
+       */
+      updatedAt: string;
+      /**
+       * Format: date-time
+       * @description 마지막 열람 시각. 다음 페이지 조회 시 cursorLastViewedAt에 전달합니다.
+       */
+      lastViewedAt?: string | null;
       tagList: components['schemas']['TagResponse'][];
     };
     MemoListDashboardResponse: {
@@ -1387,6 +1432,43 @@ export interface components {
       code: number;
       msg: string;
       data?: components['schemas']['ChatRoomResponse'];
+    };
+    ActiveChatRoomResponse: {
+      /**
+       * Format: int64
+       * @description 활성 채팅방 ID
+       */
+      chatRoomId: number;
+      /** @description 대화 목록. 비어 있으면 아직 전송한 프롬프트가 없다는 의미 */
+      messages: components['schemas']['ChatMessageResponse'][];
+    };
+    ApiResponseActiveChatRoomResponse: {
+      /** Format: int32 */
+      code: number;
+      msg: string;
+      data?: components['schemas']['ActiveChatRoomResponse'];
+    };
+    /** @description 대화 목록. 비어 있으면 아직 전송한 프롬프트가 없다는 의미 */
+    ChatMessageResponse: {
+      /** Format: int64 */
+      messageId: number;
+      /** @description USER | ASSISTANT */
+      role: string;
+      /** @description SUCCESS | FAILED. FAILED는 AI 호출이 실패한 자리로 content가 없다 */
+      status: string;
+      /** @description AI 응답의 제목. USER 메시지와 실패한 응답은 null */
+      title?: string;
+      /** @description 본문. status가 FAILED면 null이며, 표시할 문구는 클라이언트가 정한다 */
+      content?: string;
+      /**
+       * @description 요청에 적용된 옵션. 재시도 시 그대로 사용할 수 있다
+       * @enum {string}
+       */
+      option?: 'MERGE' | 'STRUCTURE' | 'SUMMARY' | 'DEFAULT';
+      /** @description 요청이 참조한 메모 ID 목록. 재시도 시 그대로 사용할 수 있다 */
+      memoIds: number[];
+      /** Format: date-time */
+      createdAt: string;
     };
     ApiResponseListEmbeddingFailureResponse: {
       /** Format: int32 */
@@ -1645,7 +1727,7 @@ export interface operations {
     parameters: {
       query?: {
         tagIds?: number[];
-        cursorCreatedAt?: string;
+        cursorLastViewedAt?: string;
         cursorMemoId?: number;
         size?: number;
       };
@@ -1894,7 +1976,7 @@ export interface operations {
     parameters: {
       query?: {
         tagIds?: number[];
-        cursorCreatedAt?: string;
+        cursorLastViewedAt?: string;
         cursorMemoId?: number;
         size?: number;
       };
@@ -2693,6 +2775,26 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseChatRoomResponse'];
+        };
+      };
+    };
+  };
+  getActiveConversation: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseActiveChatRoomResponse'];
         };
       };
     };

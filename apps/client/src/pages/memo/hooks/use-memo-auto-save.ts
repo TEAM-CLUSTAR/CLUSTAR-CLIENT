@@ -8,11 +8,9 @@ import {
   toMemoDetail,
   useGetMemo as memoDetailQuery,
   usePatchMemo,
-  usePostMemo,
 } from '../apis/queries';
 import { MEMO_KEY } from '../apis/query-key';
-import { PatchMemoRequestBody, PostMemoRequestBody } from '../apis/type';
-import type { MemoEditTarget } from '../components/memo-detail/memo-detail';
+import { PatchMemoRequestBody } from '../apis/type';
 
 const AUTO_SAVE_DELAY_MS = 1000;
 
@@ -32,35 +30,19 @@ const EMPTY_MEMO: MemoType = {
 };
 
 interface UseMemoAutoSaveParams {
-  initialTarget: MemoEditTarget;
+  memoId: number;
   savedMemo: MemoType | undefined;
 }
 
-/** 저장이 실제로 일어나지 않았으면 null. (제목·본문이 비어 아직 만들 수 없는 새 메모) */
 type SaveResult = {
-  savedMemoId: number;
   lastSavedDate: string;
   savedAttachments: Pick<MemoType, 'images' | 'files'> | null;
-} | null;
+};
 
 const toMemoBody = (memo: MemoType) => ({
   title: memo.title,
   content: memo.content,
   tagNames: memo.tagList.map((tag) => tag.name),
-});
-
-const toCreateRequest = (memo: MemoType): PostMemoRequestBody => ({
-  ...toMemoBody(memo),
-  images: memo.images.flatMap((image, index) =>
-    image.status === 'uploaded'
-      ? [{ s3Key: image.s3Key, imageName: image.imageName, priority: index }]
-      : [],
-  ),
-  files: memo.files.flatMap((file, index) =>
-    file.status === 'uploaded'
-      ? [{ s3Key: file.s3Key, fileName: file.fileName, priority: index }]
-      : [],
-  ),
 });
 
 /**
@@ -94,18 +76,13 @@ const readSavedMemo = <TSavedMemo>(response: { data?: TSavedMemo }) => {
 };
 
 export const useMemoAutoSave = ({
-  initialTarget,
+  memoId,
   savedMemo,
 }: UseMemoAutoSaveParams) => {
   const queryClient = useQueryClient();
-  const postMemo = useMutation(usePostMemo());
   const patchMemo = useMutation(usePatchMemo());
 
   const [draft, setDraft] = useState<MemoType | null>(null);
-
-  const initialSavedMemoId = initialTarget.memoId;
-
-  const savedMemoIdRef = useRef(initialSavedMemoId);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<(() => void) | null>(null);
 
@@ -133,50 +110,19 @@ export const useMemoAutoSave = ({
   const saveMemo = useMutation({
     scope: AUTO_SAVE_SCOPE,
     mutationFn: async (memoToSave: MemoType): Promise<SaveResult> => {
-      const currentMemoId = savedMemoIdRef.current;
-
-      if (currentMemoId !== null) {
-        const updatedMemo = readSavedMemo(
-          await patchMemo.mutateAsync({
-            memoId: currentMemoId,
-            body: toUpdateRequest(memoToSave),
-          }),
-        );
-
-        return {
-          savedMemoId: currentMemoId,
-          lastSavedDate: updatedMemo.updatedAt,
-          savedAttachments: await readSavedAttachments(
-            memoToSave,
-            currentMemoId,
-          ),
-        };
-      }
-
-      if (memoToSave.title === '' || memoToSave.content === '') {
-        return null;
-      }
-
-      const createdMemo = readSavedMemo(
-        await postMemo.mutateAsync(toCreateRequest(memoToSave)),
+      const updatedMemo = readSavedMemo(
+        await patchMemo.mutateAsync({
+          memoId,
+          body: toUpdateRequest(memoToSave),
+        }),
       );
 
-      savedMemoIdRef.current = createdMemo.memoId;
-
       return {
-        savedMemoId: createdMemo.memoId,
-        lastSavedDate: createdMemo.createdAt,
-        savedAttachments: await readSavedAttachments(
-          memoToSave,
-          createdMemo.memoId,
-        ),
+        lastSavedDate: updatedMemo.updatedAt,
+        savedAttachments: await readSavedAttachments(memoToSave, memoId),
       };
     },
     onSuccess: (result) => {
-      if (result === null) {
-        return;
-      }
-
       if (result.savedAttachments !== null) {
         setDraft((previousDraft) =>
           previousDraft === null
@@ -190,19 +136,12 @@ export const useMemoAutoSave = ({
         refetchType: 'none',
       });
       queryClient.invalidateQueries({
-        queryKey: MEMO_KEY.GET(result.savedMemoId),
-        refetchType: 'none',
+        queryKey: MEMO_KEY.GET(memoId),
       });
     },
   });
 
   const memo = draft ?? savedMemo ?? EMPTY_MEMO;
-
-  const savedMemoId = saveMemo.data?.savedMemoId ?? initialSavedMemoId;
-  const target: MemoEditTarget =
-    savedMemoId === null
-      ? { status: 'new', memoId: null }
-      : { status: 'saved', memoId: savedMemoId };
 
   const lastSavedDate =
     saveMemo.data?.lastSavedDate ?? savedMemo?.updatedAt ?? null;
@@ -242,7 +181,6 @@ export const useMemoAutoSave = ({
 
   return {
     memo,
-    target,
     lastSavedDate,
     editMemo,
     saveError: saveMemo.error,

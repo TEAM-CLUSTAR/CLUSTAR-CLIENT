@@ -62,7 +62,7 @@ const useMemoSearchModal = ({
   });
 
   const handleOpenChange = (nextOpen: boolean) => {
-    if (nextOpen) {
+    if (!nextOpen) {
       setSearchValue('');
       setSubmittedSearchValue(undefined);
     }

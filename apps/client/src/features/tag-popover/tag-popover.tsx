@@ -7,8 +7,9 @@ import ParentTagList from '@shared/components/parent-tag-list/parent-tag-list';
 import TagCheckTree from '@shared/components/tag-check-tree/tag-check-tree';
 import { TreeNode } from '@shared/utils/build-tree';
 
-import TagInputField from './tag-input-field/tag-input-field';
-import { TagInputFieldProps } from './type';
+import TagInputField, {
+  TagInputFieldProps,
+} from './tag-input-field/tag-input-field';
 
 import * as styles from './tag-popover.css';
 
@@ -40,12 +41,8 @@ const TagPopover = (props: TagPopoverProps) => {
 
   useEffect(() => {
     const container = containerRef.current;
-    if (
-      props.isOpen &&
-      container &&
-      !container.contains(document.activeElement)
-    ) {
-      container.focus();
+    if (props.isOpen && !container?.contains(document.activeElement)) {
+      container?.focus();
     }
   }, [props.isOpen]);
 
@@ -88,6 +85,8 @@ const TagPopover = (props: TagPopoverProps) => {
         isOpen={props.isOpen}
         onFocus={props.onFocus}
         onEnter={props.onEnter}
+        value={props.value}
+        onChange={props.onChange}
       />
 
       {props.isOpen && (
@@ -120,6 +119,7 @@ const TagPopover = (props: TagPopoverProps) => {
               <button
                 type="button"
                 className={styles.createFieldButton}
+                onMouseDown={(event) => event.preventDefault()}
                 onClick={props.onCreate}
               >
                 <Icon name="ic_plus" size={20} color="grey600" />

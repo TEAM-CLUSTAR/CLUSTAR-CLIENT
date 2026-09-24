@@ -9,7 +9,9 @@ export const getMemoTabs = (): MemoTabItem[] => {
   }
 
   try {
-    return JSON.parse(raw) as MemoTabItem[];
+    return (JSON.parse(raw) as MemoTabItem[]).filter(
+      (tab) => tab.memoId != null,
+    );
   } catch {
     return [];
   }

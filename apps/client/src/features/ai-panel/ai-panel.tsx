@@ -100,14 +100,19 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
   const suggestedMemos = suggestedMemoSection?.memos ?? recommendedMemos;
   const shouldShowSuggestedMemos = suggestedMemos.length > 0;
 
-  const handleSelectSuggestedMemo = (memo: SuggestedMemoType) => {
+  const handleToggleSuggestedMemo = (memo: SuggestedMemoType) => {
+    if (memo.isSelected) {
+      removeMemo(memo.memoId);
+      return;
+    }
+
     addMemo(memo);
     suggestedMemoSection?.onSelectMemo?.(memo);
   };
 
   const handleOpenSuggestedMemo = (memo: SuggestedMemoType) => {
     suggestedMemoSection?.onOpenMemo?.(memo.memoId);
-    navigate(`${PATH.MEMO}/${memo.memoId}`, { state: { title: memo.title } });
+    navigate(`${PATH.MEMOS}/${memo.memoId}`, { state: { title: memo.title } });
   };
 
   const handleOpenNewChatConfirmModal = () => {
@@ -141,7 +146,7 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
           {shouldShowSuggestedMemos && (
             <SuggestedMemoList
               memos={suggestedMemos}
-              onSelectMemo={handleSelectSuggestedMemo}
+              onToggleMemo={handleToggleSuggestedMemo}
               onOpenMemo={handleOpenSuggestedMemo}
             />
           )}

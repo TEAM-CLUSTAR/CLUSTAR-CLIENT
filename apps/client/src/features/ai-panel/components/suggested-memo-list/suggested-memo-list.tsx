@@ -8,13 +8,13 @@ import * as styles from './suggested-memo-list.css';
 
 interface SuggestedMemoListProps {
   memos: SuggestedMemoType[];
-  onSelectMemo: (memo: SuggestedMemoType) => void;
+  onToggleMemo: (memo: SuggestedMemoType) => void;
   onOpenMemo?: (memo: SuggestedMemoType) => void;
 }
 
 const SuggestedMemoList = ({
   memos,
-  onSelectMemo,
+  onToggleMemo,
   onOpenMemo,
 }: SuggestedMemoListProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +57,7 @@ const SuggestedMemoList = ({
           <SuggestedMemoItem
             key={memo.memoId}
             memo={memo}
-            onSelectMemo={() => onSelectMemo(memo)}
+            onToggleMemo={() => onToggleMemo(memo)}
             onOpenMemo={() => onOpenMemo?.(memo)}
           />
         ))}
@@ -68,20 +68,20 @@ const SuggestedMemoList = ({
 
 interface SuggestedMemoItemProps {
   memo: SuggestedMemoType;
-  onSelectMemo: () => void;
+  onToggleMemo: () => void;
   onOpenMemo: () => void;
 }
 
 const SuggestedMemoItem = ({
   memo,
-  onSelectMemo,
+  onToggleMemo,
   onOpenMemo,
 }: SuggestedMemoItemProps) => {
   const { title, isSelected } = memo;
 
-  const handleSelectMemo = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleToggleMemo = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onSelectMemo();
+    onToggleMemo();
   };
 
   return (
@@ -98,11 +98,13 @@ const SuggestedMemoItem = ({
       <button
         type="button"
         aria-label={
-          isSelected ? `${title} 추천 메모 추가됨` : `${title} 추천 메모 추가`
+          isSelected
+            ? `${title} 추천 메모 선택 해제`
+            : `${title} 추천 메모 추가`
         }
+        aria-pressed={isSelected}
         className={styles.addMemo({ isSelected })}
-        onClick={handleSelectMemo}
-        disabled={isSelected}
+        onClick={handleToggleMemo}
       >
         <span>{isSelected ? '추가됨' : '추가하기'}</span>
         {isSelected ? (
