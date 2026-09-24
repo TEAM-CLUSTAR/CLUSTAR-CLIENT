@@ -149,8 +149,13 @@ export const iconButton = style({
   border: 'none',
   cursor: 'pointer',
 
-  ':hover': {
-    backgroundColor: themeVars.color.grey100,
+  selectors: {
+    '&:hover:not(:disabled)': {
+      backgroundColor: themeVars.color.grey100,
+    },
+    '&:disabled': {
+      cursor: 'not-allowed',
+    },
   },
 });
 

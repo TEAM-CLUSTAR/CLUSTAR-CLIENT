@@ -17,7 +17,7 @@ const getCardInfo = (memo: MemoCardResponse): MemoCardInfoType => ({
   memoId: memo.memoId,
   title: memo.title,
   content: memo.content,
-  createdAt: memo.createdAt,
+  updatedAt: memo.updatedAt,
   tagList: memo.tagList,
   fileCount: memo.fileCount,
   imageCount: memo.imageCount,
