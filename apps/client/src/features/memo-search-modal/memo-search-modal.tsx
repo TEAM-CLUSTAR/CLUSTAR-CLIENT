@@ -57,8 +57,8 @@ const MemoSearchModal = ({ open, onOpenChange }: MemoSearchModalProps) => {
     : getRecentSectionTitle(recentSource);
   const emptyState = isSearchResult ? EMPTY_STATE.search : EMPTY_STATE.recent;
 
-  const handleClickMemo = (memoId: number) => {
-    navigate(`${PATH.MEMO}/${memoId}`);
+  const handleClickMemo = (memoId: number, title: string) => {
+    navigate(`${PATH.MEMO}/${memoId}`, { state: { title } });
     handleOpenChange(false);
   };
 
