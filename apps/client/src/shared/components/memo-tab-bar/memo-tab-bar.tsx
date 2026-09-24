@@ -22,7 +22,7 @@ const MemoTabBar = () => {
         : getMemoTabId(Number(memoIdParam));
 
   const handleSelectTab = (memoId: number | null) => {
-    navigate(memoId == null ? PATH.MEMO_NEW : `${PATH.MEMO}/${memoId}`);
+    navigate(memoId == null ? PATH.MEMO_NEW : `${PATH.MEMOS}/${memoId}`);
   };
 
   const handleAddTab = () => {

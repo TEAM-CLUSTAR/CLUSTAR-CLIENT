@@ -87,7 +87,9 @@ export const MemoTabProvider = ({ children }: { children: ReactNode }) => {
 
     updateTabs(remainingTabs.length === 0 ? [DRAFT_TAB] : remainingTabs);
     navigate(
-      nextTab.memoId == null ? PATH.MEMO_NEW : `${PATH.MEMO}/${nextTab.memoId}`,
+      nextTab.memoId == null
+        ? PATH.MEMO_NEW
+        : `${PATH.MEMOS}/${nextTab.memoId}`,
       { replace: true },
     );
   };

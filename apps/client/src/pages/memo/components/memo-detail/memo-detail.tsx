@@ -21,12 +21,8 @@ import TagLimitModal from '../tag-limit-modal/tag-limit-modal';
 
 import * as styles from './memo-detail.css';
 
-export type MemoEditTarget =
-  | { status: 'new'; memoId: number | null }
-  | { status: 'saved'; memoId: number };
-
 interface MemoDetailProps {
-  memoId: number | null;
+  memoId: number;
   onDeleteMemo: () => void;
   onTitleChange: (title: string) => void;
   defaultTagPopoverOpen?: boolean;
@@ -41,18 +37,13 @@ const MemoDetail = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
-  const initialTarget: MemoEditTarget =
-    memoId === null
-      ? { status: 'new', memoId: null }
-      : { status: 'saved', memoId };
-
   const { data: memoData } = useQuery({
     ...useGetMemo(memoId),
     select: toMemoDetail,
   });
 
-  const { memo, target, lastSavedDate, editMemo } = useMemoAutoSave({
-    initialTarget,
+  const { memo, lastSavedDate, editMemo } = useMemoAutoSave({
+    memoId,
     savedMemo: memoData,
   });
 
@@ -72,7 +63,6 @@ const MemoDetail = ({
   const [tagInputValue, setTagInputValue] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { title, content, images, files, tagList } = memo;
-
   const {
     parentTags,
     hasNoParentTags,
@@ -113,16 +103,13 @@ const MemoDetail = ({
   };
 
   const handleConfirmDelete = () => {
-    if (target.status === 'saved') {
-      deleteMemo(target.memoId);
-    }
-
+    deleteMemo(memoId);
     onDeleteMemo();
   };
 
   // 기존 메모를 다 받아오기 전에 편집하지 못하도록 가드.
   // TODO: 디자인이 나오면 스켈레톤으로 교체.
-  if (memoId !== null && memoData === undefined) {
+  if (memoData === undefined) {
     return <div className={styles.root} aria-busy="true" />;
   }
 
@@ -266,7 +253,6 @@ const MemoDetail = ({
             <button
               className={styles.iconButton}
               type="button"
-              disabled={target.status !== 'saved'}
               onClick={() => setIsDeleteModalOpen(true)}
             >
               <Icon name="ic_trash" size={24} color="grey700" />

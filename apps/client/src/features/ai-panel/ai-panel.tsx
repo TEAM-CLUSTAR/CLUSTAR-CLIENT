@@ -112,7 +112,7 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
 
   const handleOpenSuggestedMemo = (memo: SuggestedMemoType) => {
     suggestedMemoSection?.onOpenMemo?.(memo.memoId);
-    navigate(`${PATH.MEMO}/${memo.memoId}`, { state: { title: memo.title } });
+    navigate(`${PATH.MEMOS}/${memo.memoId}`, { state: { title: memo.title } });
   };
 
   const handleOpenNewChatConfirmModal = () => {
