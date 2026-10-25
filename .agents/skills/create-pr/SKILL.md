@@ -3,8 +3,8 @@ name: create-pr
 description: >-
   현재 브랜치의 커밋과 diff를 분석해 프로젝트 템플릿에 맞는 한국어 PR 제목과
   본문을 작성하고 gh CLI로 PR을 생성하거나 업데이트한다.
-  "PR 만들어줘", "PR 작성해줘", "PR 설명 작성", "PR description 써줘",
-  "PR 올려줘", "PR 수정해줘", "create-pr" 요청에 사용한다.
+  PR을 새로 만들거나 올릴 때, PR 제목·본문(설명)의 초안을 쓸 때,
+  기존 PR의 제목·본문·base를 수정할 때 사용한다.
 ---
 
 # PR 작성 자동화
@@ -13,7 +13,7 @@ description: >-
 
 ## Step 1. 요청 범위와 대상 확인
 
-저장소의 지침을 읽고 실행 환경을 확인한다. PR 제목을 작성·수정할 때는 `.github/labeler.yml`을 읽는다. 본문을 새로 쓰거나 전체를 수정할 때, 또는 부분 수정이라도 Issue 인용 목록·선택 섹션처럼 템플릿 형식을 따라야 하는 영역을 작성할 때는 `.github/PULL_REQUEST_TEMPLATE.md`를 읽는다. 기존 문구 일부만 수정할 때는 요청 범위와 무관한 파일을 읽지 않는다.
+저장소의 지침, `.github/labeler.yml`, `.github/PULL_REQUEST_TEMPLATE.md`를 읽고 실행 환경을 확인한다.
 
 ```sh
 git rev-parse --git-dir
