@@ -12,7 +12,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run --passWithNoTests",
-    "generate:types": "dotenv -- sh scripts/generate-types.sh"
+    "generate:types": "dotenv -- sh scripts/generate-types.sh",
+    "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
     "@cds/icon": "workspace:*",
@@ -42,6 +43,7 @@
     "@vanilla-extract/recipes": "catalog:vanilla-extract-core",
     "@vanilla-extract/sprinkles": "catalog:vanilla-extract-utils",
     "@vanilla-extract/vite-plugin": "catalog:vanilla-extract-utils",
+    "@vite-pwa/assets-generator": "^2.0.0",
     "@vitejs/plugin-react-swc": "catalog:vite-plugins",
     "@vitest/ui": "catalog:test-core",
     "eslint": "catalog:eslint-core",

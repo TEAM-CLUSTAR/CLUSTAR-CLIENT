@@ -34,7 +34,7 @@ jobs:
 
       - name: Push changes to forked-repo
         run: |
-          git push --force-with-lease forked-repo main
+          git push forked-repo main
 
       - name: Clean up
         if: always()
