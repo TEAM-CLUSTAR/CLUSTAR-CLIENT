@@ -1,0 +1,16 @@
+{
+  "reviewerCount": 1,
+  "lookbackDays": 60,
+  "reviewers": [
+    {
+      "login": "jogpfls",
+      "weight": 1,
+      "enabled": true
+    },
+    {
+      "login": "twossu",
+      "weight": 1,
+      "enabled": true
+    }
+  ]
+}

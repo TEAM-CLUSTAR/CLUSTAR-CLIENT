@@ -29,7 +29,7 @@ jobs:
             const author = isPR 
               ? context.payload.pull_request.user.login 
               : context.payload.issue.user.login;
-            
+
             const number = isPR
               ? context.payload.pull_request.number
               : context.payload.issue.number;
@@ -37,8 +37,6 @@ jobs:
             const userLabels = {
               "twossu": "🦦 최윤하",
               "jogpfls": "🐧 조혜린",
-              "jyeon03": "🐈‍⬛ 백지연",
-              "jm8468": "🦄 임서준",
             };
 
             const labelToAdd = userLabels[author];
