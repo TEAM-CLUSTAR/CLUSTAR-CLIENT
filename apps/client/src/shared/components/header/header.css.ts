@@ -5,7 +5,7 @@ import { color, spacing, typography } from '@cds/token/v2';
 export const header = style({
   display: 'flex',
   gap: spacing[8],
-  padding: `${spacing[20]} ${spacing[24]}`,
+  padding: `${spacing[20]} 0`,
 });
 
 export const titleGroup = style({
