@@ -13,7 +13,7 @@ import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
 import { getAccessToken } from '@shared/utils/token-storage';
 
-import { LoginPage, MemoPage, MemosPage } from './lazy';
+import { LoginPage, MemoPage, MemosPage, TrashPage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
 import AuthRoute from './routes/auth-route';
@@ -87,6 +87,10 @@ export const router = createBrowserRouter([
                       { path: 'new', loader: createMemoLoader },
                       { path: ':memoId', Component: MemoPage },
                     ],
+                  },
+                  {
+                    path: PATH.TRASH,
+                    Component: TrashPage,
                   },
                 ],
               },
