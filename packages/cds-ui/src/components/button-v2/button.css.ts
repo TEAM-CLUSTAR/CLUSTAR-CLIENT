@@ -51,7 +51,6 @@ export const button = recipe({
       },
       secondary: {
         backgroundColor: 'transparent',
-        // Figma stroke가 INSIDE + 레이아웃 포함이라 border-box border와 같아요
         border: `1px solid ${color.border.default}`,
         color: color.text.primary,
         selectors: {
