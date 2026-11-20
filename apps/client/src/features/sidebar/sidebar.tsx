@@ -114,6 +114,19 @@ const Sidebar = () => {
       {/* footer section */}
       <section className={styles.footerSection}>
         <ul className={styles.pannelList}>
+          <li className={styles.pannelItem}>
+            <MenuItem
+              iconName="ic_trash"
+              content="휴지통"
+              isSelected={
+                selection.type === 'menu' && selection.path === PATH.TRASH
+              }
+              onClick={() => handleSelectMenu(PATH.TRASH)}
+            />
+            <div className={styles.tooltip}>
+              <Tooltip title="휴지통" />
+            </div>
+          </li>
           <li className={styles.mypagePannelItem}>
             <MenuItem
               iconName="ic_profile"
