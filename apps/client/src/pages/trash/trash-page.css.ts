@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
+import { color, radius, spacing, typography } from '@cds/token/v2';
 import { themeVars } from '@cds/ui';
 
 const HEADER_CONTAINER = 'header';
@@ -37,4 +38,27 @@ export const headerContainer = style({
       maxWidth: HEADER_MAX_WIDTH,
     },
   },
+});
+
+export const notice = style({
+  display: 'flex',
+  flex: 1,
+  alignItems: 'center',
+  gap: spacing[8],
+  padding: spacing[12],
+  marginBottom: spacing[8],
+  borderRadius: radius.md,
+  backgroundColor: color.bg.brand_subtle,
+});
+
+export const noticeText = style({
+  ...typography.label_md,
+  color: color.text.primary,
+});
+
+export const scrollArea = style({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  scrollbarGutter: 'stable',
 });
