@@ -3,7 +3,7 @@ import TagPopover from '@features/tag-popover/tag-popover';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Icon } from '@cds/icon';
-import { Tooltip } from '@cds/ui';
+import { toast, Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
@@ -253,7 +253,12 @@ const MemoDetail = ({
             <button
               className={styles.iconButton}
               type="button"
-              onClick={() => setIsDeleteModalOpen(true)}
+              // TODO: 토스트 테스트용 브랜치 머지 전 제거
+              onClick={() =>
+                toast.success('메모를 휴지통으로 옮겼어요', {
+                  action: { text: '실행 취소', onClick: () => {} },
+                })
+              }
             >
               <Icon name="ic_trash" size={24} color="grey700" />
             </button>

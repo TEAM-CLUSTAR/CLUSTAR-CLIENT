@@ -21,7 +21,7 @@ interface ToastProps {
 
 const Toast = ({ type = 'info', message, action }: ToastProps) => {
   return (
-    <div className={styles.toast} role="status">
+    <div className={styles.toast}>
       <Icon name={TOAST_ICON[type]} size={20} color="white" />
       <p>{message}</p>
       {action && (
