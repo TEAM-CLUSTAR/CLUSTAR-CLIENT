@@ -5,6 +5,7 @@ import { Sidebar, SidebarProvider } from '@features/sidebar';
 import { FloatingButton } from '@cds/ui';
 
 import { MemoTabProvider } from '@shared/components/memo-tab-bar/memo-tab-context';
+import { ToastProvider } from '@shared/components/toast/toast-context';
 
 import * as styles from './dashboard-layout.css';
 
@@ -42,7 +43,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <SidebarProvider>
       <MemoTabProvider>
         <AiPanelProvider>
-          <DashboardLayoutContent>{children}</DashboardLayoutContent>
+          <ToastProvider>
+            <DashboardLayoutContent>{children}</DashboardLayoutContent>
+          </ToastProvider>
         </AiPanelProvider>
       </MemoTabProvider>
     </SidebarProvider>
