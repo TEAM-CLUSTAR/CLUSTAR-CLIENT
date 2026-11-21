@@ -7,6 +7,7 @@ export const PATH = {
   MEMO_NEW: '/memos/new',
   MEMO_DETAIL: '/memos/:memoId',
   STRUCTURE: '/structure',
+  TRASH: '/trash',
 } as const;
 
 export type Routes = (typeof PATH)[keyof typeof PATH];

@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { spacing } from '@cds/token/v2';
+
 const MEMO_LIST_CONTAINER = 'memoList';
 const LIST_MIN_WIDTH = '800px';
 
@@ -17,6 +19,7 @@ export const memoListGrid = style({
   gridTemplateColumns: columns(2),
   justifyContent: 'safe center',
   gap: '2rem',
+  paddingBlock: spacing[8],
   width: '100%',
   minWidth: LIST_MIN_WIDTH,
   maxWidth: LIST_MIN_WIDTH,
