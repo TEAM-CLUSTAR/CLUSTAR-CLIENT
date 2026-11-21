@@ -6,7 +6,6 @@ export const container = style({
   display: 'flex',
   flexWrap: 'wrap',
   gap: '0.8rem',
-  padding: '0 2.4rem 2rem',
 });
 
 export const chip = style({

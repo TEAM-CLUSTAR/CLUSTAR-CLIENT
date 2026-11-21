@@ -4,13 +4,15 @@ import FilterModal from '@features/filter-modal/filter-modal';
 import { PATH } from '@router/path';
 import { useNavigate, useNavigation, useSearchParams } from 'react-router';
 
+import { Icon } from '@cds/icon';
+import { ButtonV2 } from '@cds/ui';
+
 import { useFlatTags } from '@shared/apis/tag/queries';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
 import EmptyView from '@shared/components/empty-view/empty-view';
 import Header from '@shared/components/header/header';
 
 import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
-import FilterButton from './components/filter-button/filter-button';
 import FilterChipList from './components/filter-chip-list/filter-chip-list';
 import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
@@ -84,10 +86,17 @@ const MemosPage = () => {
           <div className={styles.headerSection}>
             <div className={styles.headerContainer}>
               <Header title="전체 메모" count={totalCount ?? 0}>
-                <FilterButton
-                  count={selectedTagIds.length}
+                <ButtonV2
+                  size="sm"
+                  variant="secondary"
+                  icon={<Icon name="ic_filter" size={16} color="grey800" />}
                   onClick={() => setIsFilterOpen(true)}
-                />
+                  aria-pressed={isFilterActive}
+                >
+                  {isFilterActive
+                    ? `필터링 ${selectedTagIds.length}`
+                    : '필터링'}
+                </ButtonV2>
               </Header>
               <FilterChipList
                 chips={filterChips}
