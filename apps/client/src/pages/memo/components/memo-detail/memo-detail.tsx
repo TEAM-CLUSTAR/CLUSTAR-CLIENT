@@ -15,9 +15,9 @@ import { MEMO_KEY } from '../../apis/query-key';
 import { useMemoAttachments } from '../../hooks/use-memo-attachments';
 import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
-import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
 import TagLimitModal from '../tag-limit-modal/tag-limit-modal';
+import TrashMemoModal from '../trash-memo-modal/trash-memo-modal';
 
 import * as styles from './memo-detail.css';
 
@@ -266,7 +266,7 @@ const MemoDetail = ({
         </div>
       </div>
 
-      <DeleteMemoModal
+      <TrashMemoModal
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
         onDeleted={handleConfirmDelete}
