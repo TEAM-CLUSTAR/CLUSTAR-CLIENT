@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAiPanel } from '@features/ai-panel';
 import FilterModal from '@features/filter-modal/filter-modal';
+import ListPageLayout from '@layouts/list-page-layout/list-page-layout';
 import { PATH } from '@router/path';
 import { useNavigate, useNavigation, useSearchParams } from 'react-router';
 
@@ -16,8 +17,6 @@ import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
 import FilterChipList from './components/filter-chip-list/filter-chip-list';
 import MemoCardList from './components/memo-card-list/memo-card-list';
 import { useInfiniteScroll } from './hooks/use-infinite-scroll';
-
-import * as styles from './memos-page.css';
 
 const MemosPage = () => {
   const navigate = useNavigate();
@@ -77,33 +76,26 @@ const MemosPage = () => {
   });
 
   const isFilterActive = selectedTagIds.length > 0;
-  const showHeaderSection = isFilterActive || totalCount !== 0;
 
   return (
-    <div className={styles.container}>
-      {showHeaderSection && (
+    <ListPageLayout
+      header={
         <>
-          <div className={styles.headerSection}>
-            <div className={styles.headerContainer}>
-              <Header title="전체 메모" count={totalCount ?? 0}>
-                <ButtonV2
-                  size="sm"
-                  variant="secondary"
-                  icon={<Icon name="ic_filter" size={16} color="grey800" />}
-                  onClick={() => setIsFilterOpen(true)}
-                  aria-pressed={isFilterActive}
-                >
-                  {isFilterActive
-                    ? `필터링 ${selectedTagIds.length}`
-                    : '필터링'}
-                </ButtonV2>
-              </Header>
-              <FilterChipList
-                chips={filterChips}
-                onRemoveFilter={handleRemoveFilter}
-              />
-            </div>
-          </div>
+          <Header title="전체 메모" count={totalCount ?? 0}>
+            <ButtonV2
+              size="sm"
+              variant="secondary"
+              icon={<Icon name="ic_filter" size={16} color="grey800" />}
+              onClick={() => setIsFilterOpen(true)}
+              aria-pressed={isFilterActive}
+            >
+              {isFilterActive ? `필터링 ${selectedTagIds.length}` : '필터링'}
+            </ButtonV2>
+          </Header>
+          <FilterChipList
+            chips={filterChips}
+            onRemoveFilter={handleRemoveFilter}
+          />
           <FilterModal
             open={isFilterOpen}
             selectedTagIds={selectedTagIds}
@@ -111,32 +103,30 @@ const MemosPage = () => {
             onApply={handleApplyFilter}
           />
         </>
-      )}
-
-      <div className={styles.scrollArea}>
-        {totalCount === 0 ? (
-          <EmptyView
-            imgSrc={emptyMemoImage}
-            title="작성된 메모가 없습니다."
-            description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
-            buttonText="메모 작성하러 가기"
-            buttonDisabled={isCreatingMemo}
-            onButtonClick={() => navigate(PATH.MEMO_NEW)}
+      }
+    >
+      {totalCount === 0 ? (
+        <EmptyView
+          imgSrc={emptyMemoImage}
+          title="작성된 메모가 없습니다."
+          description="새 메모 창에 들어가서 새로운 메모를 생성해보세요."
+          buttonText="메모 작성하러 가기"
+          buttonDisabled={isCreatingMemo}
+          onButtonClick={() => navigate(PATH.MEMO_NEW)}
+        />
+      ) : (
+        <>
+          <MemoCardList
+            cards={memosList ?? []}
+            selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
+            isDraggable={isAiPanelOpen}
+            onClickCard={handleClickCard}
+            onSelectTag={handleSelectTag}
           />
-        ) : (
-          <>
-            <MemoCardList
-              cards={memosList ?? []}
-              selectedMemoIds={selectedMemos.map((memo) => memo.memoId)}
-              isDraggable={isAiPanelOpen}
-              onClickCard={handleClickCard}
-              onSelectTag={handleSelectTag}
-            />
-            <div ref={loadMoreRef} />
-          </>
-        )}
-      </div>
-    </div>
+          <div ref={loadMoreRef} />
+        </>
+      )}
+    </ListPageLayout>
   );
 };
 
