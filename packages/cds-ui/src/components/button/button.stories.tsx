@@ -10,132 +10,65 @@ const meta: Meta<typeof Button> = {
   parameters: {
     layout: 'padded',
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: '100%', maxWidth: '100%' }}>
-        <Story />
-      </div>
-    ),
-  ],
   tags: ['autodocs'],
   argTypes: {
-    children: { description: '버튼 내부 내용', control: 'text' },
+    children: { description: '버튼 라벨', control: 'text' },
     size: {
       description: '버튼 사이즈',
       control: 'select',
-      options: ['sm', 'md', 'lg', 'xl'],
+      options: ['sm', 'md'],
     },
     variant: {
       description: '버튼 스타일',
       control: 'select',
-      options: ['solid', 'outlined'],
+      options: ['primary', 'secondary', 'ghost', 'danger'],
     },
-    disabled: {
-      description: '비활성화 상태 (sm 사이즈만 사용)',
-      control: 'boolean',
-    },
+    disabled: { description: '비활성화 상태', control: 'boolean' },
     onClick: { action: 'clicked' },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Button>;
 
-export const Small: Story = {
+export const Default: Story = {
   args: {
+    children: '버튼',
     size: 'sm',
-    children: <Icon name="ic_send" />,
+    variant: 'primary',
   },
 };
 
-export const MediumSolid: Story = {
+export const WithIcon: Story = {
   args: {
+    children: '버튼',
     size: 'md',
-    variant: 'solid',
-    children: '메모로 저장하기',
+    variant: 'primary',
+    icon: <Icon name="ic_plus" size={20} color="white" />,
   },
 };
 
-export const MediumOutlined: Story = {
-  args: {
-    size: 'md',
-    variant: 'outlined',
-    children: '재생성하기',
-  },
-};
+const VARIANTS = ['primary', 'secondary', 'ghost', 'danger'] as const;
+const SIZES = ['sm', 'md'] as const;
 
-export const LargeSolid: Story = {
-  args: {
-    size: 'lg',
-    variant: 'solid',
-    children: '저장하기',
-  },
-};
-
-export const LargeOutlined: Story = {
-  args: {
-    size: 'lg',
-    variant: 'outlined',
-    children: '취소',
-  },
-};
-
-export const ExtraLarge: Story = {
-  args: {
-    size: 'xl',
-    children: 'AI 생성 하기',
-  },
-};
-
-export const SmallDisabled: Story = {
-  args: {
-    size: 'sm',
-    children: <Icon name="ic_send" />,
-    disabled: true,
-  },
-};
-
-export const AllSizes: Story = {
+export const AllVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <div>
-        <h3>Small</h3>
-        <Button
-          size="sm"
-          children={<Icon name="ic_send" />}
-          onClick={() => {}}
-        />
-      </div>
-      <div>
-        <h3>Medium</h3>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Button size="md" variant="solid" onClick={() => {}}>
-            메모로 저장하기
-          </Button>
-          <Button size="md" variant="outlined" onClick={() => {}}>
-            재생성하기
-          </Button>
-        </div>
-      </div>
-      <div>
-        <h3>Large</h3>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Button size="lg" onClick={() => {}}>
-            저장하기
-          </Button>
-          <Button size="lg" variant="outlined" onClick={() => {}}>
-            취소하기
-          </Button>
-        </div>
-      </div>
-      <div>
-        <h3>Extra Large</h3>
-        <div style={{ width: '100%', maxWidth: '40rem' }}>
-          <Button size="xl" onClick={() => {}}>
-            AI 생성 하기
-          </Button>
-        </div>
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+      {VARIANTS.map((variant) =>
+        SIZES.map((size) => (
+          <div
+            key={`${variant}-${size}`}
+            style={{ display: 'flex', gap: '1.6rem' }}
+          >
+            <Button variant={variant} size={size}>
+              버튼
+            </Button>
+            <Button variant={variant} size={size} disabled>
+              버튼
+            </Button>
+          </div>
+        )),
+      )}
     </div>
   ),
 };
