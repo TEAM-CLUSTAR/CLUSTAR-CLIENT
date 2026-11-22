@@ -1,26 +1,45 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { color, radius, spacing, typography } from '@cds/token/v2';
 
 export const container = style({
+  ...typography.label_lg,
+
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: '1.6rem',
 
   width: '100%',
-  height: '4.8rem',
-  borderRadius: '12px',
+  minWidth: '7.2rem',
+  height: '4rem',
 
-  backgroundColor: themeVars.color.white,
-  border: `1px solid ${themeVars.color.grey300}`,
-  ...themeVars.fontStyles.title_m_18,
-  color: themeVars.color.grey800,
+  gap: spacing[6],
+  padding: `0 ${spacing[12]}`,
+  border: `1px solid ${color.border.default}`,
+  borderRadius: radius.md,
+
+  backgroundColor: color.bg.canvas,
+  color: color.text.primary,
+
   transition: 'background-color 0.2s ease',
 
   ':hover': {
-    backgroundColor: themeVars.color.grey200,
+    backgroundColor: color.bg.hover,
   },
 });
 
-export const googleLogo = style({ width: '2.2rem', height: '2.2rem' });
+export const googleLogo = style({
+  display: 'block',
+  width: '2rem',
+  height: '2rem',
+});
+
+export const label = style({
+  flex: 1,
+  textAlign: 'center',
+});
+
+export const spacer = style({
+  flexShrink: 0,
+  width: '1px',
+  height: '1px',
+});

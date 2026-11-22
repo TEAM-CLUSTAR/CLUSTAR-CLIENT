@@ -4,6 +4,7 @@ interface LoginButtonProps {
   onClick: () => void;
 }
 
+// @TODO: 추후 공통 버튼 컴포넌트로 교체
 const LoginButton = ({ onClick }: LoginButtonProps) => {
   return (
     <button type="button" className={styles.container} onClick={onClick}>
@@ -15,7 +16,8 @@ const LoginButton = ({ onClick }: LoginButtonProps) => {
           className={styles.googleLogo}
         />
       </picture>
-      Google로 시작하기
+      <span className={styles.label}>Google로 계속하기</span>
+      <span className={styles.spacer} aria-hidden />
     </button>
   );
 };
