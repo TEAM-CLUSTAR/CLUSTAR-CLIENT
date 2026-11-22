@@ -6,7 +6,7 @@ import { PATH } from '@router/path';
 import { useNavigate, useNavigation, useSearchParams } from 'react-router';
 
 import { Icon } from '@cds/icon';
-import { ButtonV2 } from '@cds/ui';
+import { Button } from '@cds/ui';
 
 import { useFlatTags } from '@shared/apis/tag/queries';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
@@ -82,15 +82,15 @@ const MemosPage = () => {
       header={
         <>
           <Header title="전체 메모" count={totalCount ?? 0}>
-            <ButtonV2
+            <Button
               size="sm"
               variant="secondary"
-              icon={<Icon name="ic_filter" size={16} color="grey800" />}
+              icon={<Icon name="ic_filter" size={16} color="primary" />}
               onClick={() => setIsFilterOpen(true)}
               aria-pressed={isFilterActive}
             >
               {isFilterActive ? `필터링 ${selectedTagIds.length}` : '필터링'}
-            </ButtonV2>
+            </Button>
           </Header>
           <FilterChipList
             chips={filterChips}

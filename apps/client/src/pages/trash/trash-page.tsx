@@ -1,7 +1,7 @@
 import ListPageLayout from '@layouts/list-page-layout/list-page-layout';
 
 import { Icon } from '@cds/icon';
-import { ButtonV2 } from '@cds/ui';
+import { Button } from '@cds/ui';
 
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
 import EmptyView from '@shared/components/empty-view/empty-view';
@@ -15,16 +15,16 @@ const TrashPage = () => {
       header={
         <>
           <Header title="휴지통" count={0}>
-            <ButtonV2
+            <Button
               size="sm"
               variant="ghost"
-              icon={<Icon name="ic_trash" size={16} color="grey800" />}
+              icon={<Icon name="ic_trash" size={16} color="primary" />}
             >
               휴지통 비우기
-            </ButtonV2>
+            </Button>
           </Header>
           <div className={styles.notice}>
-            <Icon name="ic_info" size={16} color="blue500" />
+            <Icon name="ic_info" size={16} color="brand" />
             <p className={styles.noticeText}>
               휴지통의 메모는 30일이 지나면 영구 삭제돼요.
             </p>
