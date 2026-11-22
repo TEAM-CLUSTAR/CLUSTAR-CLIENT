@@ -3,10 +3,12 @@ import TagPopover from '@features/tag-popover/tag-popover';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Icon } from '@cds/icon';
-import { Tooltip } from '@cds/ui';
+import { toast, Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
+import { useRestoreMemo } from '@shared/apis/trash/queries';
+import { TRASH_KEY } from '@shared/apis/trash/query-key';
 import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
@@ -48,11 +50,26 @@ const MemoDetail = ({
 
   const { attachFiles } = useMemoAttachments();
 
+  const { mutate: restoreMemo } = useMutation({
+    ...useRestoreMemo(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: MEMOS_KEY.ALL });
+      queryClient.invalidateQueries({ queryKey: TRASH_KEY.ALL });
+    },
+  });
+
   const { mutate: deleteMemo } = useMutation({
     ...useDeleteMemo(),
     onSuccess: (_, deletedMemoId) => {
       queryClient.invalidateQueries({ queryKey: MEMOS_KEY.ALL });
+      queryClient.invalidateQueries({ queryKey: TRASH_KEY.ALL });
       queryClient.removeQueries({ queryKey: MEMO_KEY.GET(deletedMemoId) });
+      toast.info('메모를 휴지통으로 옮겼어요', {
+        action: {
+          text: '실행 취소',
+          onClick: () => restoreMemo(deletedMemoId),
+        },
+      });
     },
   });
 
