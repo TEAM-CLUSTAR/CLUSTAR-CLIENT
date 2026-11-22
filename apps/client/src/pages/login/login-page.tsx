@@ -1,11 +1,13 @@
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
 import LoginButton from '@pages/login/components/login-button/login-button';
 
+import { appConfig } from '@shared/configs/app-config';
+
 import * as styles from './login-page.css';
 
 const LoginPage = () => {
   const handleGoogleLogin = () => {
-    const loginUrl = `${import.meta.env.VITE_API_BASE_URL}${LOGIN_END_POINT.LOGIN}`;
+    const loginUrl = `${appConfig.api.baseUrl}${LOGIN_END_POINT.LOGIN}`;
     window.location.href = loginUrl;
   };
 
