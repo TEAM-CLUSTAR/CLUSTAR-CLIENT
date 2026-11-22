@@ -1,44 +1,57 @@
+import { Button } from '@cds/ui';
+
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
-import LoginButton from '@pages/login/components/login-button/login-button';
+
+import { appConfig } from '@shared/configs/app-config';
+
+import Footer from './components/footer/footer';
+import Illustration from './components/illustration/illustration';
 
 import * as styles from './login-page.css';
 
 const LoginPage = () => {
   const handleGoogleLogin = () => {
-    const loginUrl = `${import.meta.env.VITE_API_BASE_URL}${LOGIN_END_POINT.LOGIN}`;
+    const loginUrl = `${appConfig.api.baseUrl}${LOGIN_END_POINT.LOGIN}`;
     window.location.href = loginUrl;
   };
 
   return (
-    <>
-      <div className={styles.content}>
-        <p className={styles.welcome}>반가워요.</p>
-        <p className={styles.description}>
-          흩어진 메모를 빛나는 결과물로, CLUSTAR
-        </p>
-
-        <picture>
-          <source srcSet="/login_file.webp" type="image/webp" />
-          <img
-            src="/login_file.png"
-            alt="login file image"
-            className={styles.loginfile}
-          />
-        </picture>
-
-        <div className={styles.loginSection}>
-          <p className={styles.login}>로그인/회원가입</p>
-          <LoginButton onClick={handleGoogleLogin} />
-          <p className={styles.loginDescription}>
-            계속 진행하면 <a className={styles.point}>이용약관</a> 및
-            <a className={styles.point}> 개인정보처리방침</a>
-            을 이해하고
-            <br />
-            동의하는 것으로 간주됩니다.
-          </p>
-        </div>
-      </div>
-    </>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <Illustration>
+          <section className={styles.loginSection}>
+            <div className={styles.titleDescriptionContainer}>
+              <h1 className={styles.title}>CLUSTAR에 로그인</h1>
+              <p className={styles.description}>
+                흩어진 메모를 모아 빛나는 결과물로
+              </p>
+            </div>
+            <Button
+              onClick={handleGoogleLogin}
+              variant="secondary"
+              size="md"
+              fullWidth
+              icon={
+                <img
+                  src="/google_logo.png"
+                  alt="Google Logo"
+                  className={styles.googleLogo}
+                />
+              }
+            >
+              Google로 계속하기
+            </Button>
+            <p className={styles.infoText}>
+              계속 진행하면 <span className={styles.infoLink}>이용약관</span> 및{' '}
+              <span className={styles.infoLink}>개인정보처리방침</span>을
+              <br />
+              이해하고 동의하는 것으로 간주됩니다.
+            </p>
+          </section>
+        </Illustration>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

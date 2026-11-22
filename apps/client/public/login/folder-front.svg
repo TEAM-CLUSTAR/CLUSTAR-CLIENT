@@ -1,0 +1,26 @@
+<svg width="462" height="272" viewBox="0 0 462 272" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g filter="url(#filter0_d_217_53953)">
+<use xlink:href="#stroke0_217_53953" fill="url(#paint0_linear_217_53953)"/>
+<mask id="stroke1_217_53953" fill="white">
+<use xlink:href="#stroke0_217_53953"/>
+</mask>
+<path d="M173.613 7.89478C185.676 7.89478 195.456 17.6737 195.456 29.7366H408.223C423.301 29.7366 435.525 41.9605 435.525 57.0393V199.013C435.525 214.092 423.301 226.316 408.223 226.316H53.6182C38.5393 226.316 26.3154 214.092 26.3154 199.013V29.7366C26.3156 17.6738 36.0944 7.89494 48.1572 7.89478H173.613Z" stroke-width="2.63158" stroke="white" stroke-opacity="0.4" mask="url(#stroke1_217_53953)"/>
+</g>
+<defs>
+<filter id="filter0_d_217_53953" x="-0.000360489" y="3.8147e-05" width="461.842" height="271.052" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feMorphology radius="10.5263" operator="erode" in="SourceAlpha" result="effect1_dropShadow_217_53953"/>
+<feOffset dy="18.4211"/>
+<feGaussianBlur stdDeviation="18.4211"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.180392 0 0 0 0 0.223529 0 0 0 0 0.768627 0 0 0 0.24 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_217_53953"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_217_53953" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_217_53953" x1="230.92" y1="7.89478" x2="230.92" y2="226.316" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7F91FF"/>
+<stop offset="1" stop-color="#5163F5"/>
+</linearGradient>
+<path id="stroke0_217_53953" d="M173.613 7.89478C185.676 7.89478 195.456 17.6737 195.456 29.7366H408.223C423.301 29.7366 435.525 41.9605 435.525 57.0393V199.013C435.525 214.092 423.301 226.316 408.223 226.316H53.6182C38.5393 226.316 26.3154 214.092 26.3154 199.013V29.7366C26.3156 17.6738 36.0944 7.89494 48.1572 7.89478H173.613Z"/>
+</defs>
+</svg>

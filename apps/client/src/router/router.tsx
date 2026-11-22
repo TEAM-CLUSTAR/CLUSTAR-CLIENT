@@ -5,7 +5,6 @@ import {
   replace,
 } from 'react-router';
 
-import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { postMemo } from '@pages/memo/apis/queries';
 
@@ -16,14 +15,13 @@ import { getAccessToken } from '@shared/utils/token-storage';
 import { LoginPage, MemoPage, MemosPage } from './lazy';
 import { PATH } from './path';
 import { RouteGuard } from './route-guard';
-import AuthRoute from './routes/auth-route';
 import DashboardRoute from './routes/dashboard-route';
 import MemoWorkspaceRoute from './routes/memo-workspace-route';
 import RootRoute from './routes/root-route';
 
 const createMemoLoader = async () => {
   if (getAccessToken() === null) {
-    return redirect(PATH.LANDING);
+    return redirect(PATH.LOGIN);
   }
 
   const response = await postMemo({ title: '', content: '' });
@@ -46,17 +44,8 @@ export const router = createBrowserRouter([
         element: <RouteGuard mode="public" />,
         children: [
           {
-            Component: AuthRoute,
-            children: [
-              {
-                path: PATH.LANDING,
-                Component: LandingPage,
-              },
-              {
-                path: PATH.LOGIN,
-                Component: LoginPage,
-              },
-            ],
+            path: PATH.LOGIN,
+            Component: LoginPage,
           },
           {
             path: PATH.LOGIN_CALLBACK,
