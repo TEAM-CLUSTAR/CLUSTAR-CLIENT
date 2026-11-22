@@ -1,4 +1,4 @@
-export const color = {
+export const primitiveColor = {
   // brand/neutral Colors
   brand_neutral_0: '#FFFFFF',
   brand_neutral_5: '#F7F7F8',
