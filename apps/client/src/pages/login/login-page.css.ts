@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { color, radius, spacing, typography } from '@cds/token/v2';
+import { color, radius, shadow, spacing, typography } from '@cds/token/v2';
 
 export const container = style({
   position: 'relative',
@@ -44,6 +44,7 @@ export const loginSection = style({
   backgroundColor: color.bg.elevated,
   border: `0.1316rem solid ${color.border.subtle}`,
   borderRadius: radius.xl,
+  boxShadow: shadow.drag,
 });
 
 export const titleDescriptionContainer = style({
