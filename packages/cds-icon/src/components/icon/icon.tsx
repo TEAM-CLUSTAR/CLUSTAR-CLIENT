@@ -1,10 +1,11 @@
 import { SVGProps } from 'react';
 
-import { color as colorToken } from '@cds/token';
+import { color as colorToken } from '@cds/token/v2';
 
 import { IconName } from '../../icon-list';
 
-type IconColor = keyof typeof colorToken;
+type IconColor = keyof typeof colorToken.icon;
+
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
   size?: number;
@@ -37,7 +38,7 @@ export const Icon = ({
       // TODO: style은 사용하지 않고 cn을 이용해 className override
       style={{
         flexShrink: 0,
-        color: color ? colorToken[color] : colorToken.grey700,
+        color: color ? colorToken.icon[color] : colorToken.icon.primary,
       }}
       className={className}
       aria-hidden={ariaHidden ?? true}
