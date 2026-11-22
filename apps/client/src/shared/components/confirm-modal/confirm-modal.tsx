@@ -1,13 +1,13 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { Icon } from '@cds/icon';
-import { Button, Modal } from '@cds/ui';
+import { Button, Checkbox, Modal } from '@cds/ui';
 
 import * as styles from './confirm-modal.css';
 
 interface ConfirmModalProps {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange?: (open: boolean) => void;
   title: string;
   description: string;
   hasClose?: boolean;
@@ -15,6 +15,7 @@ interface ConfirmModalProps {
   hasSecondary?: boolean;
   confirmLabel?: string;
   confirmIcon?: ReactNode;
+  confirmCheckLabel?: string;
   onConfirm?: () => void;
 }
 
@@ -28,8 +29,19 @@ const ConfirmModal = ({
   hasSecondary = false,
   confirmLabel = '확인',
   confirmIcon,
+  confirmCheckLabel,
   onConfirm,
 }: ConfirmModalProps) => {
+  const [isChecked, setIsChecked] = useState(false);
+  const [prevOpen, setPrevOpen] = useState(open);
+
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) setIsChecked(false);
+  }
+
+  const isConfirmDisabled = confirmCheckLabel !== undefined && !isChecked;
+
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <Modal.Content>
@@ -51,6 +63,17 @@ const ConfirmModal = ({
             </div>
             <p className={styles.description}>{description}</p>
           </div>
+          {confirmCheckLabel !== undefined && (
+            <label className={styles.confirmCheck}>
+              <Checkbox
+                checked={isChecked}
+                onChange={(e) => setIsChecked(e.target.checked)}
+              />
+              <span className={styles.confirmCheckLabel}>
+                {confirmCheckLabel}
+              </span>
+            </label>
+          )}
           <div className={styles.buttonContainer}>
             {hasSecondary && (
               <Modal.Close>
@@ -64,6 +87,7 @@ const ConfirmModal = ({
                 size="md"
                 variant={type === 'danger' ? 'danger' : 'primary'}
                 icon={confirmIcon}
+                disabled={isConfirmDisabled}
                 onClick={onConfirm}
               >
                 {confirmLabel}

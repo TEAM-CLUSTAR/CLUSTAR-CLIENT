@@ -58,3 +58,15 @@ export const buttonContainer = style({
   justifyContent: 'flex-end',
   gap: spacing[8],
 });
+
+export const confirmCheck = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[8],
+  cursor: 'pointer',
+});
+
+export const confirmCheckLabel = style({
+  ...typography.label_md,
+  color: color.text.primary,
+});
