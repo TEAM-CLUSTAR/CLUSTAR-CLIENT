@@ -16,6 +16,7 @@ export const iconNames = [
   'ic_cardview_off',
   'ic_cardview_on',
   'ic_check',
+  'ic_check_regular',
   'ic_checkbox_off',
   'ic_checkbox_on',
   'ic_chevron_down',
