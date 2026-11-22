@@ -1,25 +1,22 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { color } from '@cds/token/v2';
 
-export const headerContainer = style({
-  backgroundColor: themeVars.color.blue25,
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '3rem 12rem',
-  borderBottom: `1px solid ${themeVars.color.grey300}`,
-  width: '100%',
-});
+export const background = style({
+  position: 'relative',
+  minHeight: '100vh',
+  overflow: 'hidden',
+  backgroundColor: color.bg.subtle,
 
-export const headerContent = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '1.1rem',
-});
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    opacity: 0.6,
 
-export const loginLink = style({
-  color: themeVars.color.blue500,
-  ...themeVars.fontStyles.title_sb_20,
+    backgroundImage: `radial-gradient(circle, ${color.border.default} 0.2075rem, transparent 0.2075rem)`,
+    backgroundSize: '4.15rem 4.15rem',
+    backgroundPosition: '1.6575rem -0.4675rem',
+    pointerEvents: 'none',
+  },
 });
