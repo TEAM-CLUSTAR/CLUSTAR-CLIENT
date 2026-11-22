@@ -12,11 +12,11 @@ import { useFlatTags } from '@shared/apis/tag/queries';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
 import EmptyView from '@shared/components/empty-view/empty-view';
 import Header from '@shared/components/header/header';
+import { useInfiniteScroll } from '@shared/hooks/use-infinite-scroll';
 
 import { useGetMemos, useGetMemoTotalCount } from './apis/queries';
 import FilterChipList from './components/filter-chip-list/filter-chip-list';
 import MemoCardList from './components/memo-card-list/memo-card-list';
-import { useInfiniteScroll } from './hooks/use-infinite-scroll';
 
 const MemosPage = () => {
   const navigate = useNavigate();
