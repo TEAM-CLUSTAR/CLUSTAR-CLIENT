@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import ListPageLayout from '@layouts/list-page-layout/list-page-layout';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Icon } from '@cds/icon';
 import { Button } from '@cds/ui';
 
-import { useGetTrashMemos } from '@shared/apis/trash/queries';
+import { useEmptyTrash, useGetTrashMemos } from '@shared/apis/trash/queries';
+import { TRASH_KEY } from '@shared/apis/trash/query-key';
 import emptyMemoImage from '@shared/assets/images/empty-state/empty-memo.svg';
+import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 import EmptyView from '@shared/components/empty-view/empty-view';
 import Header from '@shared/components/header/header';
 import MemoCard from '@shared/components/memo-card/memo-card';
@@ -14,10 +18,20 @@ import { useInfiniteScroll } from '@shared/hooks/use-infinite-scroll';
 import * as styles from './trash-page.css';
 
 const TrashPage = () => {
+  const queryClient = useQueryClient();
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false);
+
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useGetTrashMemos();
   const memos = data?.memos ?? [];
   const totalCount = data?.totalCount;
+
+  const { mutate: emptyTrash } = useMutation({
+    ...useEmptyTrash(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRASH_KEY.ALL });
+    },
+  });
 
   const loadMoreRef = useInfiniteScroll({
     hasNextPage,
@@ -34,6 +48,8 @@ const TrashPage = () => {
               size="sm"
               variant="ghost"
               icon={<Icon name="ic_trash" size={16} color="primary" />}
+              disabled={!totalCount}
+              onClick={() => setIsEmptyModalOpen(true)}
             >
               휴지통 비우기
             </Button>
@@ -44,6 +60,16 @@ const TrashPage = () => {
               휴지통의 메모는 30일이 지나면 영구 삭제돼요.
             </p>
           </div>
+          <ConfirmModal
+            open={isEmptyModalOpen}
+            onOpenChange={setIsEmptyModalOpen}
+            title="휴지통을 비울까요?"
+            description="휴지통에서 사라지고 되돌릴 수 없어요."
+            type="danger"
+            hasSecondary
+            confirmLabel="휴지통 비우기"
+            onConfirm={() => emptyTrash()}
+          />
         </>
       }
     >
