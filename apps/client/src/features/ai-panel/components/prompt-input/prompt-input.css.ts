@@ -55,3 +55,24 @@ export const footer = style({
   justifyContent: 'space-between',
   alignItems: 'center',
 });
+
+// 버튼 리디자인 이전 공통 Button sm 스타일을 그대로 옮긴 임시 전송 버튼
+export const sendButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '3.2rem',
+  height: '3.2rem',
+  borderRadius: '8px',
+  backgroundColor: themeVars.color.blue500,
+  transition: 'background-color 0.2s ease',
+  selectors: {
+    '&:hover:not(:disabled)': {
+      backgroundColor: themeVars.color.blue700,
+    },
+    '&:disabled': {
+      backgroundColor: themeVars.color.grey400,
+      cursor: 'not-allowed',
+    },
+  },
+});
