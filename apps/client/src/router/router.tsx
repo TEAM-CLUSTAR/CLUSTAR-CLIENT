@@ -5,7 +5,6 @@ import {
   replace,
 } from 'react-router';
 
-import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { postMemo } from '@pages/memo/apis/queries';
 
@@ -23,7 +22,7 @@ import RootRoute from './routes/root-route';
 
 const createMemoLoader = async () => {
   if (getAccessToken() === null) {
-    return redirect(PATH.LANDING);
+    return redirect(PATH.LOGIN);
   }
 
   const response = await postMemo({ title: '', content: '' });
@@ -48,10 +47,6 @@ export const router = createBrowserRouter([
           {
             Component: AuthRoute,
             children: [
-              {
-                path: PATH.LANDING,
-                Component: LandingPage,
-              },
               {
                 path: PATH.LOGIN,
                 Component: LoginPage,
