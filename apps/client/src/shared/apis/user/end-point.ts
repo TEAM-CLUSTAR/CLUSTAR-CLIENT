@@ -1,3 +1,5 @@
 export const USER_END_POINT = {
-  GET_USER_INFO: '/api/v1/user',
+  LOGIN: 'oauth/google',
+  GET_USER: 'api/v1/user',
+  LOGOUT_USER: 'logout',
 };
