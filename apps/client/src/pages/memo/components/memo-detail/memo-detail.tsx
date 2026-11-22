@@ -7,6 +7,7 @@ import { Tooltip } from '@cds/ui';
 
 import { MEMOS_KEY } from '@pages/memos/apis/query-key';
 
+import ConfirmModal from '@shared/components/confirm-modal/confirm-modal';
 import { MarkdownEditor } from '@shared/markdown-editor';
 import { formatFullDate } from '@shared/utils/format-date';
 
@@ -15,9 +16,7 @@ import { MEMO_KEY } from '../../apis/query-key';
 import { useMemoAttachments } from '../../hooks/use-memo-attachments';
 import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
-import DeleteMemoModal from '../delete-memo-modal/delete-memo-modal';
 import File from '../file/file';
-import TagLimitModal from '../tag-limit-modal/tag-limit-modal';
 
 import * as styles from './memo-detail.css';
 
@@ -220,11 +219,11 @@ const MemoDetail = ({
           <Divider />
 
           <div className={styles.count}>
-            <Icon name="ic_file" size={28} color="grey700" />
+            <Icon name="ic_file" size={28} color="primary" />
             <span>{files.length}</span>
           </div>
           <div className={styles.count}>
-            <Icon name="ic_img" size={28} color="grey700" />
+            <Icon name="ic_img" size={28} color="primary" />
             <span>{images.length}</span>
           </div>
 
@@ -236,7 +235,7 @@ const MemoDetail = ({
               type="button"
               onClick={() => fileInputRef.current?.click()}
             >
-              <Icon name="ic_plus" size={24} color="grey700" />
+              <Icon name="ic_plus" size={24} color="primary" />
             </button>
           </HoverTooltip>
           <input
@@ -255,21 +254,30 @@ const MemoDetail = ({
               type="button"
               onClick={() => setIsDeleteModalOpen(true)}
             >
-              <Icon name="ic_trash" size={24} color="grey700" />
+              <Icon name="ic_trash" size={24} color="primary" />
             </button>
           </HoverTooltip>
         </div>
       </div>
 
-      <DeleteMemoModal
+      <ConfirmModal
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
-        onDeleted={handleConfirmDelete}
+        title="메모를 휴지통으로 옮길까요?"
+        description="휴지통에서 언제든 다시 복원할 수 있어요."
+        confirmLabel="휴지통으로 이동"
+        confirmIcon={<Icon name="ic_trash" size={20} color="inverse" />}
+        hasSecondary
+        type="danger"
+        onConfirm={handleConfirmDelete}
       />
 
-      <TagLimitModal
+      <ConfirmModal
         open={isTagLimitExceeded}
         onOpenChange={setIsTagLimitExceeded}
+        title="태그를 생성할 수 없습니다."
+        description="태그는 최대 10개까지 추가할 수 있습니다."
+        hasClose
       />
     </>
   );

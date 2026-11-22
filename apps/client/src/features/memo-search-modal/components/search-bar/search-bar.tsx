@@ -51,7 +51,7 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
       />
       {hasSearchValue && (
         <button type="button" aria-label="검색어 지우기" onClick={handleClear}>
-          <Icon name="ic_delete" color="grey700" size={24} />
+          <Icon name="ic_delete" color="primary" size={24} />
         </button>
       )}
     </div>

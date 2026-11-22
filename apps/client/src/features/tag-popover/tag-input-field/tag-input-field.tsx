@@ -64,7 +64,7 @@ const TagInputField = ({
 
   return (
     <label className={styles.field({ isActive: isOpen })} htmlFor={inputId}>
-      <Icon name="ic_tag" size={32} color={isOpen ? 'blue500' : 'grey600'} />
+      <Icon name="ic_tag" size={32} color={isOpen ? 'brand' : 'secondary'} />
       <div ref={tagListRef} className={styles.tagList}>
         {selectedTags.map(({ tagId, name, color }) =>
           isOpen ? (

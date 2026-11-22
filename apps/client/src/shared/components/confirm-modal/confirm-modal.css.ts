@@ -1,38 +1,60 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { color, radius, spacing, typography } from '@cds/token/v2';
 
-export const modalContainer = style({
-  width: '40rem',
-  height: '22.8rem',
+export const container = style({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '16px',
-  padding: '5.6rem 4.4rem 4.3rem 4.4rem',
+  gap: spacing[24],
+  width: '36rem',
+  padding: spacing[24],
+  borderRadius: radius.xl,
+  backgroundColor: color.bg.elevated,
+  boxShadow: `0 0.8rem 3.2rem 0 ${color.shadow.color}`,
+  boxSizing: 'border-box',
 });
 
 export const textContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.8rem',
+  gap: spacing[4],
+});
+
+export const titleRow = style({
+  display: 'flex',
   alignItems: 'center',
+  gap: spacing[8],
 });
 
-export const modalTitle = style({
-  ...themeVars.fontStyles.title_m_20,
+export const title = style({
+  ...typography.title_lg,
+  flex: 1,
+  minWidth: 0,
+  color: color.text.primary,
+  wordBreak: 'break-word',
 });
 
-export const modalContent = style({
-  ...themeVars.fontStyles.title_m_18,
-  color: themeVars.color.grey600,
+export const closeButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '2.4rem',
+  height: '2.4rem',
+  borderRadius: radius.sm,
+  selectors: {
+    '&:hover': { backgroundColor: color.bg.hover },
+  },
+});
+
+export const description = style({
+  ...typography.body_md,
+  color: color.text.secondary,
+  wordBreak: 'break-word',
 });
 
 export const buttonContainer = style({
   display: 'flex',
-  justifyContent: 'space-between',
-  gap: '1.2rem',
-  marginTop: '3.2rem',
-  width: '100%',
+  justifyContent: 'flex-end',
+  gap: spacing[8],
 });

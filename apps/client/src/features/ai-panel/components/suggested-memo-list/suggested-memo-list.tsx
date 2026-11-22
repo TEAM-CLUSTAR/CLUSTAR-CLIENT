@@ -19,7 +19,7 @@ const SuggestedMemoList = ({
 }: SuggestedMemoListProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const iconColor = isOpen ? 'blue500' : 'grey700';
+  const iconColor = isOpen ? 'brand' : 'primary';
 
   useEffect(() => {
     if (!isOpen) return;
@@ -92,7 +92,7 @@ const SuggestedMemoItem = ({
         aria-label={`${title} 메모 열기`}
         onClick={onOpenMemo}
       >
-        <Icon name="ic_memo" size={24} color="grey700" />
+        <Icon name="ic_memo" size={24} color="primary" />
         <span className={styles.memo}>{title}</span>
       </button>
       <button
@@ -108,9 +108,9 @@ const SuggestedMemoItem = ({
       >
         <span>{isSelected ? '추가됨' : '추가하기'}</span>
         {isSelected ? (
-          <Icon name="ic_check" size={16} color="white" />
+          <Icon name="ic_check" size={16} color="inverse" />
         ) : (
-          <Icon name="ic_plus" size={16} color="grey700" />
+          <Icon name="ic_plus" size={16} color="primary" />
         )}
       </button>
     </li>

@@ -37,7 +37,7 @@ const MenuItem = ({
           <Icon
             name="ic_chevron_down"
             size={20}
-            color="grey500"
+            color="secondary"
             className={styles.chevron}
           />
         </div>
