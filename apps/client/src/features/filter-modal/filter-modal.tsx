@@ -105,11 +105,11 @@ const FilterModal = ({
 
               <div className={styles.footer}>
                 <Modal.Close>
-                  <Button size="md" variant="outlined">
+                  <Button size="md" variant="secondary">
                     취소
                   </Button>
                 </Modal.Close>
-                <Button size="md" variant="solid" onClick={handleApply}>
+                <Button size="md" variant="primary" onClick={handleApply}>
                   적용하기
                 </Button>
               </div>
