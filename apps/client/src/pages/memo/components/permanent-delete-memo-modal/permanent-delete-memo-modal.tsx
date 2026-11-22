@@ -1,5 +1,4 @@
-import { Icon } from '@cds/icon';
-import { ButtonV2, Modal } from '@cds/ui';
+import { Button, Modal } from '@cds/ui';
 
 import * as styles from './permanent-delete-memo-modal.css';
 
@@ -28,19 +27,14 @@ const PermanentDeleteMemoModal = ({
           </div>
           <div className={styles.buttonContainer}>
             <Modal.Close>
-              <ButtonV2 size="md" variant="secondary">
+              <Button size="lg" variant="outlined">
                 취소
-              </ButtonV2>
+              </Button>
             </Modal.Close>
             <Modal.Close>
-              <ButtonV2
-                size="md"
-                variant="danger"
-                icon={<Icon name="ic_trash" size={20} color="white" />}
-                onClick={onDeleted}
-              >
+              <Button size="lg" onClick={onDeleted}>
                 영구 삭제
-              </ButtonV2>
+              </Button>
             </Modal.Close>
           </div>
         </div>
