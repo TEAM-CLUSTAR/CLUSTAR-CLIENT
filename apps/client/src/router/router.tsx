@@ -13,7 +13,7 @@ import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
 
 import { logoutAction } from './actions/logout-action';
-import { LoginPage, MemoPage, MemosPage } from './lazy';
+import { LoginPage, MemoPage, MemosPage, TrashPage } from './lazy';
 import { privateLoader, publicLoader } from './loaders/auth-loaders';
 import { PATH } from './path';
 import DashboardRoute from './routes/dashboard-route';
@@ -84,6 +84,10 @@ export const router = createBrowserRouter([
                       { path: 'new', loader: createMemoLoader },
                       { path: ':memoId', Component: MemoPage },
                     ],
+                  },
+                  {
+                    path: PATH.TRASH,
+                    Component: TrashPage,
                   },
                 ],
               },
