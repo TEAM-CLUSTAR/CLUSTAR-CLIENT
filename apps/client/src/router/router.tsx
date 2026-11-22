@@ -8,19 +8,21 @@ import {
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { postMemo } from '@pages/memo/apis/queries';
 
+import { getSession } from '@shared/auth/session';
 import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
-import { getAccessToken } from '@shared/utils/token-storage';
 
+import { logoutAction } from './actions/logout-action';
 import { LoginPage, MemoPage, MemosPage } from './lazy';
+import { privateLoader, publicLoader } from './loaders/auth-loaders';
 import { PATH } from './path';
-import { RouteGuard } from './route-guard';
 import DashboardRoute from './routes/dashboard-route';
 import MemoWorkspaceRoute from './routes/memo-workspace-route';
+import PrivateRoute from './routes/private-route';
 import RootRoute from './routes/root-route';
 
 const createMemoLoader = async () => {
-  if (getAccessToken() === null) {
+  if (getSession().status !== 'authenticated') {
     return redirect(PATH.LOGIN);
   }
 
@@ -41,7 +43,7 @@ export const router = createBrowserRouter([
     ErrorBoundary: ErrorFallback,
     children: [
       {
-        element: <RouteGuard mode="public" />,
+        loader: publicLoader,
         children: [
           {
             path: PATH.LOGIN,
@@ -54,7 +56,13 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <RouteGuard mode="private" />,
+        path: PATH.LOGOUT,
+        action: logoutAction,
+        loader: () => redirect(PATH.ROOT),
+      },
+      {
+        loader: privateLoader,
+        Component: PrivateRoute,
         children: [
           {
             Component: DashboardRoute,

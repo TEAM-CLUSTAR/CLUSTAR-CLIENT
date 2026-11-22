@@ -1,6 +1,7 @@
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-import { getAccessToken, removeAccessToken } from '@shared/utils/token-storage';
+import { handleUnauthorized } from '@shared/auth/session';
+import { getAccessToken } from '@shared/utils/token-storage';
 
 /**
  * 요청 전에 토큰을 확인하고 헤더에 추가하는 인터셉터
@@ -22,7 +23,7 @@ export const handleCheckAndSetToken = (
  */
 export const handleUnauthorizedResponse = (error: AxiosError) => {
   if (error.response?.status === 401) {
-    removeAccessToken();
+    handleUnauthorized();
   }
 
   return Promise.reject(error);

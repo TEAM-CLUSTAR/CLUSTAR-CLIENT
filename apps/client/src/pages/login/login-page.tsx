@@ -1,7 +1,6 @@
 import { Button } from '@cds/ui';
 
-import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
-
+import { USER_END_POINT } from '@shared/apis/user/end-point';
 import { appConfig } from '@shared/configs/app-config';
 
 import Footer from './components/footer/footer';
@@ -11,7 +10,7 @@ import * as styles from './login-page.css';
 
 const LoginPage = () => {
   const handleGoogleLogin = () => {
-    const loginUrl = `${appConfig.api.baseUrl}${LOGIN_END_POINT.LOGIN}`;
+    const loginUrl = `${appConfig.api.baseUrl}${USER_END_POINT.LOGIN}`;
     window.location.href = loginUrl;
   };
 

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { LoadingPage } from '@pages/loading';
 import { exchangeGoogleCode } from '@pages/login-callback/apis/exchange-google-code';
 
-import { setAccessToken } from '@shared/utils/token-storage';
+import { startSession } from '@shared/auth/session';
 
 type LocationState = {
   from?: { pathname: string };
@@ -48,7 +48,7 @@ const LoginCallback = () => {
           throw new Error('AccessToken을 찾을 수 없습니다.');
         }
 
-        setAccessToken(response.accessToken);
+        startSession(response.accessToken);
 
         const from = state?.from?.pathname || PATH.ROOT;
         navigate(from, { replace: true });

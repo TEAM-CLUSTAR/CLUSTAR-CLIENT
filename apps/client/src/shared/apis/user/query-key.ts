@@ -1,4 +1,4 @@
 export const USER_KEY = {
   ALL: ['user'],
-  GET_USER_INFO: () => [...USER_KEY.ALL, 'info'],
+  GET_USER: () => [...USER_KEY.ALL, 'get_user'],
 };
