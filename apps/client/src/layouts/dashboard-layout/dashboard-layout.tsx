@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import { AiPanel, AiPanelProvider, useAiPanel } from '@features/ai-panel';
 import { Sidebar, SidebarProvider } from '@features/sidebar';
+import { useLocation } from 'react-router';
 
-import { FloatingButton } from '@cds/ui';
+import { FloatingButton, ToastContainer } from '@cds/ui';
 
 import { MemoTabProvider } from '@shared/components/memo-tab-bar/memo-tab-context';
 
@@ -38,11 +39,14 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  const location = useLocation();
+
   return (
     <SidebarProvider>
       <MemoTabProvider>
         <AiPanelProvider>
           <DashboardLayoutContent>{children}</DashboardLayoutContent>
+          <ToastContainer resetKey={location.key} />
         </AiPanelProvider>
       </MemoTabProvider>
     </SidebarProvider>
