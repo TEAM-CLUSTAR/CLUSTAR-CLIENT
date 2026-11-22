@@ -17,7 +17,6 @@ import { useMemoAttachments } from '../../hooks/use-memo-attachments';
 import { useMemoAutoSave } from '../../hooks/use-memo-auto-save';
 import { useMemoTagEditor } from '../../hooks/use-memo-tag-editor';
 import File from '../file/file';
-import TagLimitModal from '../tag-limit-modal/tag-limit-modal';
 
 import * as styles from './memo-detail.css';
 
@@ -273,9 +272,12 @@ const MemoDetail = ({
         onConfirm={handleConfirmDelete}
       />
 
-      <TagLimitModal
+      <ConfirmModal
         open={isTagLimitExceeded}
         onOpenChange={setIsTagLimitExceeded}
+        title="태그를 생성할 수 없습니다."
+        description="태그는 최대 10개까지 추가할 수 있습니다."
+        hasClose
       />
     </>
   );
