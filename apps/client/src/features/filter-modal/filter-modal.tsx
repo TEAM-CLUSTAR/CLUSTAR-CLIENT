@@ -71,7 +71,7 @@ const FilterModal = ({
           <p className={styles.headerTitle}>태그 필터링</p>
           <Modal.Close>
             <button type="button" aria-label="닫기">
-              <Icon name="ic_delete" size={24} color="grey700" />
+              <Icon name="ic_delete" size={24} color="primary" />
             </button>
           </Modal.Close>
         </div>

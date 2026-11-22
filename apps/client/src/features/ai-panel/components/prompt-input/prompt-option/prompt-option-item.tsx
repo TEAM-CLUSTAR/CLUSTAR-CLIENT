@@ -23,7 +23,7 @@ const PromptOptionItem = ({
       <Icon
         name={iconName}
         size={32}
-        color={isSelected ? 'grey800' : 'grey500'}
+        color={isSelected ? 'primary' : 'disabled'}
       />
     </button>
   );

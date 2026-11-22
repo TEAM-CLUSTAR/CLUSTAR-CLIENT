@@ -46,7 +46,7 @@ const TagCheckTreeItem = ({
             <Icon
               name="ic_chevron_down"
               size={20}
-              color={isExpanded ? 'grey600' : 'grey500'}
+              color={isExpanded ? 'secondary' : 'disabled'}
               className={styles.chevronButton({ isExpanded })}
             />
           </button>
@@ -61,7 +61,7 @@ const TagCheckTreeItem = ({
           <Icon
             name={isChecked ? 'ic_checkbox_on' : 'ic_checkbox_off'}
             size={24}
-            color="grey400"
+            color="secondary"
             className={styles.checkboxBox}
           />
           <span className={styles.tagName}>{tag.name}</span>

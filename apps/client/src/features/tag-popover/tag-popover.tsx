@@ -122,7 +122,7 @@ const TagPopover = (props: TagPopoverProps) => {
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={props.onCreate}
               >
-                <Icon name="ic_plus" size={20} color="grey600" />
+                <Icon name="ic_plus" size={20} color="secondary" />
                 <span className={styles.createText}>
                   {props.newTagName || '새로운 태그명'}
                 </span>

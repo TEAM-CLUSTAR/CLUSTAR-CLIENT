@@ -27,7 +27,7 @@ const NewChatConfirmModal = ({
               className={styles.closeButton}
               aria-label="모달 닫기"
             >
-              <Icon name="ic_delete" size={24} color="grey700" />
+              <Icon name="ic_delete" size={24} color="primary" />
             </button>
           </Modal.Close>
 

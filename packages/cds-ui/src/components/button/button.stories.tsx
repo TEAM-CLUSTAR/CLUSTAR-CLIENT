@@ -44,7 +44,7 @@ export const WithIcon: Story = {
     children: '버튼',
     size: 'md',
     variant: 'primary',
-    icon: <Icon name="ic_plus" size={20} color="white" />,
+    icon: <Icon name="ic_plus" size={20} color="inverse" />,
   },
 };
 

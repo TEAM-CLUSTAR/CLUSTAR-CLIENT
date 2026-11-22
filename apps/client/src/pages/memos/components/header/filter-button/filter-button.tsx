@@ -15,11 +15,7 @@ const FilterButton = ({ isActive, onClick }: FilterButtonProps) => {
       onClick={onClick}
       aria-pressed={isActive}
     >
-      <Icon
-        name="ic_filter"
-        size={28}
-        color={isActive ? 'blue500' : 'grey700'}
-      />
+      <Icon name="ic_filter" size={28} color={isActive ? 'brand' : 'primary'} />
       <span className={styles.label({ isActive })}>필터링</span>
     </button>
   );

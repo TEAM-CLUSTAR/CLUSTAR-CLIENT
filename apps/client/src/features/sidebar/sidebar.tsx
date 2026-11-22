@@ -75,7 +75,7 @@ const Sidebar = () => {
           onClick={toggleSidebar}
           aria-label="사이드바 접기"
         >
-          <Icon name="ic_folding" size={32} color="grey600" />
+          <Icon name="ic_folding" size={32} color="secondary" />
         </button>
       </header>
 
