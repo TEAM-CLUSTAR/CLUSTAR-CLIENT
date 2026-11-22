@@ -1,6 +1,13 @@
 import { style } from '@vanilla-extract/css';
 
-import { color, radius, spacing, typography, zIndex } from '@cds/token/v2';
+import {
+  color,
+  radius,
+  shadow,
+  spacing,
+  typography,
+  zIndex,
+} from '@cds/token/v2';
 
 export const toast = style({
   position: 'fixed',
@@ -14,7 +21,7 @@ export const toast = style({
   padding: `${spacing[12]} ${spacing[16]}`,
   borderRadius: radius.md,
   backgroundColor: color.bg.inverse,
-  filter: `drop-shadow(0 0.4rem 0.8rem ${color.shadow.color})`,
+  boxShadow: shadow.floating,
   ...typography.label_md,
   color: color.text.inverse,
 });
