@@ -26,7 +26,7 @@ const AiAnswer = ({
 }: AiAnswerProps) => (
   <div ref={ref} className={styles.container}>
     <div className={styles.header}>
-      <Icon name="ic_star" size={24} color="blue500" />
+      <Icon name="ic_star" size={24} color="brand" />
       <span className={styles.title}>AI 요약본</span>
 
       {usedMemosCount > 0 && <UsedMemoBadge count={usedMemosCount} />}
@@ -38,7 +38,7 @@ const AiAnswer = ({
             aria-label="다시 생성"
             onClick={onRegenerate}
           >
-            <Icon name="ic_refresh" size={24} color="grey700" />
+            <Icon name="ic_refresh" size={24} color="primary" />
           </button>
           <div className={styles.tooltip({ align: 'center' })}>
             <Tooltip title="재생성하기" />
@@ -51,7 +51,7 @@ const AiAnswer = ({
             aria-label="메모로 저장"
             onClick={onSaveToMemo}
           >
-            <Icon name="ic_save" size={24} color="grey700" />
+            <Icon name="ic_save" size={24} color="primary" />
           </button>
           <div className={styles.tooltip({ align: 'end' })}>
             <Tooltip title="메모 저장하기" />

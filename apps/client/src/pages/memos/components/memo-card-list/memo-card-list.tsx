@@ -3,13 +3,12 @@ import { SelectedMemoType } from '@features/ai-panel/types/ai-panel.types';
 
 import MemoCard, {
   MemoCardInfoType,
-} from '@pages/memos/components/memo-card/memo-card';
-
+} from '@shared/components/memo-card/memo-card';
+import MemoCardGrid from '@shared/components/memo-card-grid/memo-card-grid';
 import { MEMO_DRAG_DATA_FORMAT } from '@shared/constants/memo-drag-data';
 import { components } from '@shared/types/schema';
 
-import * as styles from './memo-card-list.css';
-import { cardContainer } from '@pages/memos/components/memo-card/memo-card.css';
+import { cardContainer } from '@shared/components/memo-card/memo-card.css';
 
 type MemoCardResponse = components['schemas']['MemoDashboardResponse'];
 
@@ -95,23 +94,21 @@ const MemoCardList = ({
   };
 
   return (
-    <div className={styles.memoListContainer}>
-      <div className={styles.memoListGrid}>
-        {cards.map((card) => (
-          <MemoCard
-            key={card.memoId}
-            {...getCardInfo(card)}
-            isSelected={selectedMemoIds.includes(card.memoId)}
-            isDragging={draggingId === card.memoId}
-            draggable={isDraggable}
-            onDragStart={handleDragStart(card)}
-            onDragEnd={handleDragEnd}
-            onClick={() => onClickCard(card.memoId)}
-            onSelectTag={onSelectTag}
-          />
-        ))}
-      </div>
-    </div>
+    <MemoCardGrid>
+      {cards.map((card) => (
+        <MemoCard
+          key={card.memoId}
+          {...getCardInfo(card)}
+          isSelected={selectedMemoIds.includes(card.memoId)}
+          isDragging={draggingId === card.memoId}
+          draggable={isDraggable}
+          onDragStart={handleDragStart(card)}
+          onDragEnd={handleDragEnd}
+          onClick={() => onClickCard(card.memoId)}
+          onSelectTag={onSelectTag}
+        />
+      ))}
+    </MemoCardGrid>
   );
 };
 

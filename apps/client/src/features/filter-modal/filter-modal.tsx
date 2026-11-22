@@ -71,7 +71,7 @@ const FilterModal = ({
           <p className={styles.headerTitle}>태그 필터링</p>
           <Modal.Close>
             <button type="button" aria-label="닫기">
-              <Icon name="ic_delete" size={24} color="grey700" />
+              <Icon name="ic_delete" size={24} color="primary" />
             </button>
           </Modal.Close>
         </div>
@@ -105,11 +105,11 @@ const FilterModal = ({
 
               <div className={styles.footer}>
                 <Modal.Close>
-                  <Button size="md" variant="outlined">
+                  <Button size="md" variant="secondary">
                     취소
                   </Button>
                 </Modal.Close>
-                <Button size="md" variant="solid" onClick={handleApply}>
+                <Button size="md" variant="primary" onClick={handleApply}>
                   적용하기
                 </Button>
               </div>

@@ -1,71 +1,83 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeVars } from '@cds/ui';
+import { color, radius, shadow, spacing, typography } from '@cds/token/v2';
 
-export const content = style({
+export const container = style({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   alignItems: 'center',
-  height: 'calc(100vh - 10.3rem)',
-  backgroundColor: themeVars.color.blue25,
-});
-
-export const welcome = style({
-  paddingBottom: '0.8rem',
-
-  ...themeVars.fontStyles.display_sb_36,
-  color: themeVars.color.grey900,
-});
-
-export const description = style({
-  paddingBottom: '4.8rem',
-
-  ...themeVars.fontStyles.title_sb_20,
-  color: themeVars.color.grey700,
-});
-
-export const loginfile = style({
-  width: '52rem',
-  height: '35.6rem',
-});
-
-export const loginSection = style({
-  width: '39.2rem',
-});
-
-export const login = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1.1rem',
-  width: '100%',
-  padding: '2.7rem 0 2.8rem 0',
-  ...themeVars.fontStyles.body_m_14,
-  color: themeVars.color.grey500,
+  minHeight: '100vh',
+  overflow: 'hidden',
+  backgroundColor: color.bg.subtle,
 
   '::before': {
     content: '""',
-    flex: 1,
-    height: '1px',
-    backgroundColor: themeVars.color.grey300,
-  },
+    position: 'absolute',
+    inset: 0,
+    opacity: 0.6,
 
-  '::after': {
-    content: '""',
-    flex: 1,
-    height: '1px',
-    backgroundColor: themeVars.color.grey300,
+    backgroundImage: `radial-gradient(circle, ${color.border.default} 0.2075rem, transparent 0.2075rem)`,
+    backgroundSize: '4.15rem 4.15rem',
+    backgroundPosition: '1.6575rem -0.4675rem',
+    pointerEvents: 'none',
   },
 });
 
-export const loginDescription = style({
-  paddingTop: '3.6rem',
-  ...themeVars.fontStyles.body_m_14,
-  color: themeVars.color.grey600,
+export const main = style({
+  position: 'relative',
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+});
+
+export const loginSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: spacing[24],
+  width: '34rem',
+  padding: `${spacing[32]} ${spacing[24]} ${spacing[64]}`,
+  overflow: 'hidden',
+  backgroundColor: color.bg.elevated,
+  border: `0.1316rem solid ${color.border.subtle}`,
+  borderRadius: radius.xl,
+  boxShadow: shadow.drag,
+});
+
+export const titleDescriptionContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: spacing[2],
+  whiteSpace: 'nowrap',
+});
+
+export const title = style({
+  ...typography.title_lg,
+  color: color.text.primary,
+});
+
+export const description = style({
+  ...typography.body_md,
+  color: color.text.secondary,
+});
+
+export const infoText = style({
+  ...typography.label_sm,
   textAlign: 'center',
+  color: color.text.secondary,
 });
 
-export const point = style({
+export const infoLink = style({
   textDecoration: 'underline',
-  color: themeVars.color.grey700,
+  textUnderlinePosition: 'from-font',
+});
+
+export const googleLogo = style({
+  display: 'block',
+  width: '2rem',
+  height: '2rem',
 });

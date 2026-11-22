@@ -374,8 +374,10 @@ export interface paths {
     put?: never;
     post?: never;
     /**
-     * 메모 삭제
-     * @description 특정 메모를 삭제합니다.
+     * 메모 삭제(휴지통으로 이동)
+     * @description 메모를 휴지통으로 옮깁니다. 태그와 첨부는 그대로 보관되며 복원할 수 있습니다.
+     *     휴지통에서 30일이 지나면 영구 삭제됩니다.
+     *     삭제 직후 '실행 취소'는 복원 API(PATCH /trash/{memoId}/restore)를 사용합니다.
      */
     delete: operations['deleteMemo'];
     options?: never;
@@ -396,6 +398,27 @@ export interface paths {
     patch: operations['updateMemo'];
     trace?: never;
   };
+  '/api/v1/memo/trash/{memoId}/restore': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 메모 복원
+     * @description 휴지통에 있는 메모를 복원합니다. 태그와 첨부도 함께 복원됩니다.
+     *     메모 삭제 직후의 '실행 취소'도 이 API를 사용합니다.
+     */
+    patch: operations['restoreMemo'];
+    trace?: never;
+  };
   '/oauth/google': {
     parameters: {
       query?: never;
@@ -405,8 +428,7 @@ export interface paths {
     };
     /**
      * 구글 소셜로그인 API
-     * @description 구글로 로그인 요청을 전송합니다.
-     *     그후 아래 API에 인가코드를 넣어 요청합니다.
+     * @description 로그인을 시작한 프론트엔드 오리진을 선택한 뒤 구글로 리다이렉트합니다.
      */
     get: operations['redirectToGoogleAuth'];
     put?: never;
@@ -426,8 +448,8 @@ export interface paths {
     };
     /**
      * 구글 인증서버 토큰 검증 API
-     * @description 구글 콜백에서 받은 인가코드로 로그인 처리를 한 뒤
-     *     프론트엔드의 콜백 URL로 code만 전달해 리다이렉트합니다.
+     * @description 구글 콜백의 state를 확인해 로그인 시작 시 선택한 프론트엔드로 code를 전달합니다.
+     *     프론트엔드가 code를 다시 요청하면 로그인 처리를 진행합니다.
      */
     get: operations['callback'];
     put?: never;
@@ -498,6 +520,58 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/memo/trash': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 휴지통 목록 조회
+     * @description 휴지통에 있는 메모를 휴지통으로 옮긴 최신순으로 조회합니다.
+     *     - totalCount는 휴지통 전체 메모 수입니다(사이드바 개수 표시용).
+     *     - 다음 페이지 조회 시 마지막 카드의 deletedAt과 memoId를 각각 cursorDeletedAt, cursorMemoId로 전달합니다.
+     *     - size는 1~100 (기본 20). 범위를 벗어나면 400입니다.
+     */
+    get: operations['getTrashMemos'];
+    put?: never;
+    post?: never;
+    /**
+     * 휴지통 비우기
+     * @description 휴지통에 있는 내 메모를 모두 영구 삭제합니다. 되돌릴 수 없습니다.
+     */
+    delete: operations['emptyTrash'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/memo/trash/{memoId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 휴지통 메모 상세 조회
+     * @description 휴지통에 있는 메모를 미리보기용으로 상세 조회합니다. 응답 형식은 메모 상세 조회와 같습니다.
+     *     열람 기록(최근 열람)은 남기지 않습니다.
+     */
+    get: operations['getTrashMemoDetail'];
+    put?: never;
+    post?: never;
+    /**
+     * 메모 영구 삭제
+     * @description 휴지통에 있는 메모를 영구 삭제합니다. 태그·첨부·S3 파일까지 지워지며 되돌릴 수 없습니다.
+     */
+    delete: operations['deleteTrashMemoPermanently'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/memo/structure': {
     parameters: {
       query?: never;
@@ -527,9 +601,10 @@ export interface paths {
     };
     /**
      * 메모 검색
-     * @description 키워드가 제목/태그/본문에 포함된 모든 메모를 반환합니다.
-     *     정렬: 필드 우선순위(제목 > 태그 > 본문) + 필드 내 온전한 키워드 매칭 우선, 동점은 최신순.
-     *     (의미 기반 검색은 기획 결정으로 비활성화되었습니다.)
+     * @description 키워드(텍스트) 검색과 자연어(의미) 검색을 함께 수행합니다.
+     *     1) 텍스트: 키워드가 제목/태그/본문에 포함된 모든 메모 (searchType=TEXT).
+     *        정렬: 필드 우선순위(제목 > 태그 > 본문) + 필드 내 온전한 키워드 매칭 우선, 동점은 최신순.
+     *     2) 의미: 텍스트 결과와 중복되지 않는 의미상 유사 메모를 유사도 순으로 최대 N개 뒤에 덧붙임 (searchType=SEMANTIC).
      */
     get: operations['searchMemos'];
     put?: never;
@@ -623,26 +698,6 @@ export interface paths {
      * @description 재시도가 필요한(is_resolved=false) 임베딩 실패 기록을 조회합니다.
      */
     get: operations['getEmbeddingFailures'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/access': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 테스트용 액세스 토큰 발급기
-     * @description 자체 로그인이 없기 때문에 액세스 토큰이 필요한 경우에 해당 메서드를 이용하여 토큰을 발급 받아주세요
-     */
-    get: operations['createAccess'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1319,13 +1374,80 @@ export interface components {
        */
       isAiGenerated: boolean;
       /**
-       * @description AI 생성 시 참고한 메모 제목 목록
+       * @description AI 생성 시 참고한 메모 제목 목록 (영구 삭제된 원본은 제외). 칩 표시는 sourceMemos 사용 권장
        * @example [
        *       "UX 리서치 정리",
        *       "시험 대비 요약"
        *     ]
        */
       sourceMemoTitleList: string[];
+      /**
+       * @description AI 생성 시 참고한 메모 목록 (생성 시 선택한 순서). AI 메모가 아니면 빈 리스트.
+       *     - ACTIVE: 정상 메모 → 클릭 시 메모 상세로 이동
+       *     - TRASHED: 휴지통에 있음 → 흐리게 표시, 클릭 시 휴지통 메모 상세(GET /trash/{memoId})로 이동
+       *     - DELETED: 영구 삭제됨 → 흐리게 표시, 클릭해도 이동 없음 (title은 AI 메모 생성 시점의 제목)
+       */
+      sourceMemos: components['schemas']['SourceMemoInfo'][];
+    };
+    /** @description AI 생성 시 참고한 메모 */
+    SourceMemoInfo: {
+      /**
+       * Format: int64
+       * @description 원본 메모 ID
+       * @example 12
+       */
+      memoId: number;
+      /**
+       * @description 원본 메모 제목 (정상·휴지통은 현재 제목, 영구 삭제는 AI 메모 생성 시점 제목)
+       * @example 6차 세미나
+       */
+      title: string;
+      /**
+       * @description 원본 메모 상태
+       * @example ACTIVE
+       * @enum {string}
+       */
+      status: 'ACTIVE' | 'TRASHED' | 'DELETED';
+    };
+    ApiResponseMemoTrashListResponse: {
+      /** Format: int32 */
+      code: number;
+      msg: string;
+      data?: components['schemas']['MemoTrashListResponse'];
+    };
+    MemoTrashListResponse: {
+      /**
+       * Format: int64
+       * @description 휴지통에 있는 메모 총 개수
+       */
+      totalCount: number;
+      memos: components['schemas']['TrashMemoResponse'][];
+    };
+    TrashMemoResponse: {
+      /** Format: int64 */
+      memoId: number;
+      title: string;
+      content: string;
+      /** @description 대표 이미지 (presigned URL) */
+      representativeImageUrl: string | null;
+      /** Format: int32 */
+      imageCount: number;
+      /** Format: int32 */
+      fileCount: number;
+      isAiGenerated: boolean;
+      /** Format: date-time */
+      createdAt: string;
+      /**
+       * Format: date-time
+       * @description 메모 마지막 수정 시각
+       */
+      updatedAt: string;
+      /**
+       * Format: date-time
+       * @description 휴지통으로 옮긴 시각. 다음 페이지 조회 시 cursorDeletedAt에 전달합니다.
+       */
+      deletedAt: string;
+      tagList: components['schemas']['TagResponse'][];
     };
     ApiResponseMemoStructureListResponse: {
       /** Format: int32 */
@@ -1375,7 +1497,7 @@ export interface components {
       /** Format: date-time */
       lastViewedAt?: string | null;
       /** @enum {string} */
-      searchType: 'TEXT';
+      searchType: 'TEXT' | 'SEMANTIC';
     };
     MemoSearchResponse: {
       results: components['schemas']['MemoSearchItemResponse'][];
@@ -2497,6 +2619,84 @@ export interface operations {
       };
     };
   };
+  restoreMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   redirectToGoogleAuth: {
     parameters: {
       query?: never;
@@ -2565,10 +2765,9 @@ export interface operations {
   };
   callback: {
     parameters: {
-      query: {
-        params: {
-          [key: string]: string;
-        };
+      query?: {
+        code?: string;
+        state?: string;
       };
       header?: never;
       path?: never;
@@ -2697,6 +2896,254 @@ export interface operations {
       };
     };
   };
+  getTrashMemos: {
+    parameters: {
+      query?: {
+        cursorDeletedAt?: string;
+        cursorMemoId?: number;
+        size?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoTrashListResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  emptyTrash: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseVoid'];
+        };
+      };
+    };
+  };
+  getTrashMemoDetail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseMemoDetailResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  deleteTrashMemoPermanently: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        memoId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['ApiResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getStructureMemo: {
     parameters: {
       query?: never;
@@ -2815,26 +3262,6 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['ApiResponseListEmbeddingFailureResponse'];
-        };
-      };
-    };
-  };
-  createAccess: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['ApiResponseString'];
         };
       };
     };

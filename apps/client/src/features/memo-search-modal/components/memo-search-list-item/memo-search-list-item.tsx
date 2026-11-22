@@ -35,7 +35,7 @@ const MemoSearchListItem = ({ memo, onClickMemo }: MemoSearchListItemProps) => {
               <Icon
                 name="ic_memo"
                 size={24}
-                color="grey700"
+                color="primary"
                 className={styles.memoIcon}
               />
               <strong className={styles.title}>{title}</strong>

@@ -3,29 +3,29 @@ enable:
   prs: true
 
 labels:
-  "✨ Feat":
+  '✨ Feat':
     include: ['\bFeat\b', '\bFEAT\b', '\bfeat\b']
 
-  "🌱 Init":
+  '🌱 Init':
     include: ['\bInit\b', '\bINIT\b', '\binit\b']
 
-  "🐛 Fix":
+  '🐛 Fix':
     include: ['\bFix\b', '\bfix\b', '\bFIX\b', '\bBug\b', '\bbug\b', '\bBUG\b']
 
-  "📄 Docs":
+  '📄 Docs':
     include: ['\bDocs\b', '\bDOCS\b', '\bdocs\b']
 
-  "🔨 Refactor":
+  '🔨 Refactor':
     include: ['\bRefactor\b', '\bREFACTOR\b', '\brefactor\b']
 
-  "🚀 Perf":
+  '🚀 Perf':
     include: ['\bPerf\b', '\bPERF\b', '\bperf\b']
 
-  "🚑 HOTFIX":
+  '🚑 HOTFIX':
     include: ['\bHOTFIX\b', '\bHotfix\b', '\bhotfix\b', '\bHotFix\b']
 
-  "🧪 Test":
+  '🧪 Test':
     include: ['\bTEST\b', '\bTest\b', '\btest\b']
 
-  "🧹 Chore":
+  '🧹 Chore':
     include: ['\bCHORE\b', '\bChore\b', '\bchore\b']

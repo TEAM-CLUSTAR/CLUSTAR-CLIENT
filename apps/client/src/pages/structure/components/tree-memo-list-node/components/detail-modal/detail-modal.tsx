@@ -97,7 +97,7 @@ const DetailModal = ({
           {onAiCreateClick && (
             <Modal.Close>
               <div className={styles.createAiMemoButton}>
-                <Button size="xl" onClick={handleClick}>
+                <Button size="md" variant="primary" onClick={handleClick}>
                   AI로 정리하기
                 </Button>
               </div>

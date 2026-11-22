@@ -13,7 +13,6 @@ import { useAiPanel } from './ai-panel-context';
 import AiPanelHeader from './components/ai-panel-header/ai-panel-header';
 import AiPanelChat from './components/chat/ai-panel-chat/ai-panel-chat';
 import MemoDropOverlay from './components/memo-drop-overlay/memo-drop-overlay';
-import NewChatConfirmModal from './components/new-chat-confirm-modal/new-chat-confirm-modal';
 import PromptInput from './components/prompt-input/prompt-input';
 import SuggestedMemoList from './components/suggested-memo-list/suggested-memo-list';
 import { useAiPanelChat } from './hooks/use-ai-panel-chat';
@@ -176,12 +175,16 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
       <ConfirmModal
         open={isSaveConfirmModalOpen}
         onOpenChange={setIsSaveConfirmModalOpen}
-        hasCancel={false}
+        title="메모 저장 완료"
+        description="성공적으로 저장되었습니다."
       />
 
-      <NewChatConfirmModal
+      <ConfirmModal
         open={isNewChatConfirmModalOpen}
         onOpenChange={setIsNewChatConfirmModalOpen}
+        title="새 대화창을 생성하시겠습니까?"
+        description="이전 대화 내용은 모두 삭제됩니다."
+        hasSecondary
         onConfirm={handleConfirmCreateNewChat}
       />
     </aside>

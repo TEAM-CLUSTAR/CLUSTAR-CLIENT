@@ -16,7 +16,7 @@ const AddMemoButton = ({ onClick, disabled }: AddMemoButtonProps) => {
       aria-label="새 메모 탭 열기"
       className={styles.button}
     >
-      <Icon name="ic_plus" size={24} color={'grey700'} />
+      <Icon name="ic_plus" size={24} color={'primary'} />
     </button>
   );
 };

@@ -18,7 +18,7 @@ const File = ({ file }: FileProps) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Icon name="ic_file" size={24} color="grey700" />
+      <Icon name="ic_file" size={24} color="primary" />
       <span className={styles.fileName}>{fileName}</span>
       <span className={styles.fileSize}>{fileSize}</span>
     </a>

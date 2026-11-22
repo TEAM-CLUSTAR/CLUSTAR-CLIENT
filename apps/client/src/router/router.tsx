@@ -5,25 +5,25 @@ import {
   replace,
 } from 'react-router';
 
-import { LandingPage } from '@pages/landing';
 import LoginCallbackPage from '@pages/login-callback/login-callback-page';
 import { postMemo } from '@pages/memo/apis/queries';
 
+import { getSession } from '@shared/auth/session';
 import ErrorFallback from '@shared/components/error-fallback/error-fallback';
 import NotFound from '@shared/components/not-found/not-found';
-import { getAccessToken } from '@shared/utils/token-storage';
 
-import { LoginPage, MemoPage, MemosPage } from './lazy';
+import { logoutAction } from './actions/logout-action';
+import { LoginPage, MemoPage, MemosPage, TrashPage } from './lazy';
+import { privateLoader, publicLoader } from './loaders/auth-loaders';
 import { PATH } from './path';
-import { RouteGuard } from './route-guard';
-import AuthRoute from './routes/auth-route';
 import DashboardRoute from './routes/dashboard-route';
 import MemoWorkspaceRoute from './routes/memo-workspace-route';
+import PrivateRoute from './routes/private-route';
 import RootRoute from './routes/root-route';
 
 const createMemoLoader = async () => {
-  if (getAccessToken() === null) {
-    return redirect(PATH.LANDING);
+  if (getSession().status !== 'authenticated') {
+    return redirect(PATH.LOGIN);
   }
 
   const response = await postMemo({ title: '', content: '' });
@@ -43,20 +43,11 @@ export const router = createBrowserRouter([
     ErrorBoundary: ErrorFallback,
     children: [
       {
-        element: <RouteGuard mode="public" />,
+        loader: publicLoader,
         children: [
           {
-            Component: AuthRoute,
-            children: [
-              {
-                path: PATH.LANDING,
-                Component: LandingPage,
-              },
-              {
-                path: PATH.LOGIN,
-                Component: LoginPage,
-              },
-            ],
+            path: PATH.LOGIN,
+            Component: LoginPage,
           },
           {
             path: PATH.LOGIN_CALLBACK,
@@ -65,7 +56,13 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <RouteGuard mode="private" />,
+        path: PATH.LOGOUT,
+        action: logoutAction,
+        loader: () => redirect(PATH.ROOT),
+      },
+      {
+        loader: privateLoader,
+        Component: PrivateRoute,
         children: [
           {
             Component: DashboardRoute,
@@ -87,6 +84,10 @@ export const router = createBrowserRouter([
                       { path: 'new', loader: createMemoLoader },
                       { path: ':memoId', Component: MemoPage },
                     ],
+                  },
+                  {
+                    path: PATH.TRASH,
+                    Component: TrashPage,
                   },
                 ],
               },

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAiPanel } from '@features/ai-panel';
+import MypageModal from '@features/mypage-modal/mypage-modal';
 import { PATH } from '@router/path';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
@@ -20,6 +21,7 @@ import * as styles from './sidebar.css';
 const Sidebar = () => {
   const { isExpanded, toggleSidebar, expand } = useSidebar();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isMyModalOpen, setIsModalOpen] = useState(false);
   const { isOpen } = useAiPanel();
   const isNarrowLayout = useMediaQuery(`(max-width: ${DESKTOP_MEDIA_QUERY})`);
   const { pathname } = useLocation();
@@ -52,6 +54,11 @@ const Sidebar = () => {
     navigate(`${PATH.MEMOS}?tag=${tagId}`);
   };
 
+  const handleClickMy = () => {
+    expand();
+    setIsModalOpen(true);
+  };
+
   return (
     <nav className={styles.sidebar} data-expanded={isSidebarExpanded}>
       {/* header */}
@@ -75,7 +82,7 @@ const Sidebar = () => {
           onClick={toggleSidebar}
           aria-label="사이드바 접기"
         >
-          <Icon name="ic_folding" size={32} color="grey600" />
+          <Icon name="ic_folding" size={32} color="secondary" />
         </button>
       </header>
 
@@ -107,14 +114,33 @@ const Sidebar = () => {
       {/* footer section */}
       <section className={styles.footerSection}>
         <ul className={styles.pannelList}>
+          <li className={styles.pannelItem}>
+            <MenuItem
+              iconName="ic_trash"
+              content="휴지통"
+              isSelected={
+                selection.type === 'menu' && selection.path === PATH.TRASH
+              }
+              onClick={() => handleSelectMenu(PATH.TRASH)}
+            />
+            <div className={styles.tooltip}>
+              <Tooltip title="휴지통" />
+            </div>
+          </li>
           <li className={styles.mypagePannelItem}>
-            <MenuItem iconName="ic_profile" content="마이페이지" disabled />
+            <MenuItem
+              iconName="ic_profile"
+              content="마이페이지"
+              onClick={handleClickMy}
+            />
             <div className={styles.tooltip}>
               <Tooltip title="마이페이지" />
             </div>
           </li>
         </ul>
       </section>
+
+      <MypageModal open={isMyModalOpen} onOpenChange={setIsModalOpen} />
     </nav>
   );
 };
