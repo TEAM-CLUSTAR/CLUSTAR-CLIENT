@@ -31,8 +31,8 @@ export const modalContent = style({
 
 export const buttonContainer = style({
   display: 'flex',
-  justifyContent: 'space-between',
-  gap: '1.2rem',
+  justifyContent: 'flex-end',
+  gap: '0.8rem',
   marginTop: '3.2rem',
   width: '100%',
 });

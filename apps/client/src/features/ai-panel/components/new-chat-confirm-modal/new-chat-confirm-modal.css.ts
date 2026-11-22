@@ -47,10 +47,7 @@ export const description = style({
 
 export const buttonContainer = style({
   display: 'flex',
-  gap: '1.2rem',
+  justifyContent: 'flex-end',
+  gap: '0.8rem',
   marginTop: '2.4rem',
-});
-
-export const buttonWrapper = style({
-  width: '12.4rem',
 });

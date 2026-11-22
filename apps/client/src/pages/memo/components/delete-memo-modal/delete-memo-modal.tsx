@@ -20,7 +20,7 @@ const DeleteMemoModal = ({
         <div className={styles.container}>
           <Modal.Close>
             <button className={styles.closeButton}>
-              <Icon name="ic_delete" size={24} color="grey400" />
+              <Icon name="ic_delete" size={24} color="secondary" />
             </button>
           </Modal.Close>
 
@@ -32,12 +32,12 @@ const DeleteMemoModal = ({
           </div>
           <div className={styles.buttonContainer}>
             <Modal.Close>
-              <Button size="lg" variant="outlined">
+              <Button size="md" variant="secondary">
                 취소
               </Button>
             </Modal.Close>
             <Modal.Close>
-              <Button size="lg" onClick={onDeleted}>
+              <Button size="md" variant="danger" onClick={onDeleted}>
                 삭제
               </Button>
             </Modal.Close>

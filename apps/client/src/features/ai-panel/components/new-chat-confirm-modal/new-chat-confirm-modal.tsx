@@ -27,7 +27,7 @@ const NewChatConfirmModal = ({
               className={styles.closeButton}
               aria-label="모달 닫기"
             >
-              <Icon name="ic_delete" size={24} color="grey700" />
+              <Icon name="ic_delete" size={24} color="primary" />
             </button>
           </Modal.Close>
 
@@ -39,20 +39,16 @@ const NewChatConfirmModal = ({
           </div>
 
           <div className={styles.buttonContainer}>
-            <div className={styles.buttonWrapper}>
-              <Modal.Close>
-                <Button size="lg" variant="outlined">
-                  취소
-                </Button>
-              </Modal.Close>
-            </div>
-            <div className={styles.buttonWrapper}>
-              <Modal.Close>
-                <Button size="lg" onClick={onConfirm}>
-                  확인
-                </Button>
-              </Modal.Close>
-            </div>
+            <Modal.Close>
+              <Button size="md" variant="secondary">
+                취소
+              </Button>
+            </Modal.Close>
+            <Modal.Close>
+              <Button size="md" variant="primary" onClick={onConfirm}>
+                확인
+              </Button>
+            </Modal.Close>
           </div>
         </div>
       </Modal.Content>

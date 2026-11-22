@@ -15,7 +15,7 @@ const TagLimitModal = ({ open, onOpenChange }: TagLimitModalProps) => {
         <div className={styles.container}>
           <Modal.Close>
             <button className={styles.closeButton}>
-              <Icon name="ic_delete" size={24} color="grey400" />
+              <Icon name="ic_delete" size={24} color="secondary" />
             </button>
           </Modal.Close>
 
@@ -26,7 +26,9 @@ const TagLimitModal = ({ open, onOpenChange }: TagLimitModalProps) => {
             </span>
           </div>
           <Modal.Close>
-            <Button size="lg">확인</Button>
+            <Button size="md" variant="primary">
+              확인
+            </Button>
           </Modal.Close>
         </div>
       </Modal.Content>

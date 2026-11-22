@@ -17,7 +17,7 @@ const AiPanelHeader = ({
   return (
     <header className={styles.header}>
       <div className={styles.titleGroup}>
-        <Icon name="ic_ai" size={32} color="grey800" />
+        <Icon name="ic_ai" size={32} color="primary" />
         <h2 id={titleId} className={styles.title}>
           AI 생성하기
         </h2>
@@ -30,7 +30,7 @@ const AiPanelHeader = ({
             aria-label="새 대화창"
             onClick={onCreateNewChat}
           >
-            <Icon name="ic_plus" size={24} color="grey600" />
+            <Icon name="ic_plus" size={24} color="secondary" />
           </button>
           <div className={styles.tooltip({ align: 'center' })}>
             <Tooltip title="새 대화창" />
@@ -43,7 +43,7 @@ const AiPanelHeader = ({
             aria-label="AI 패널 닫기"
             onClick={onClose}
           >
-            <Icon name="ic_close" size={24} color="grey600" />
+            <Icon name="ic_close" size={24} color="secondary" />
           </button>
           <div className={styles.tooltip({ align: 'end' })}>
             <Tooltip title="AI 패널 닫기" />
