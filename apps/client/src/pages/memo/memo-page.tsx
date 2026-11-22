@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { PATH } from '@router/path';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import MemoDetail from '@pages/memo/components/memo-detail/memo-detail';
 
@@ -17,6 +18,7 @@ type LocationState = {
 
 const MemoPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { memoId: memoIdParam } = useParams();
   const { tabs, openMemoTab, closeTab, renameTab } = useMemoTabs();
 
@@ -41,7 +43,10 @@ const MemoPage = () => {
       <MemoDetail
         key={activeTabId}
         memoId={memoId}
-        onDeleteMemo={() => closeTab(activeTabId, true)}
+        onDeleteMemo={() => {
+          closeTab(activeTabId, false);
+          navigate(PATH.MEMOS, { replace: true });
+        }}
         onTitleChange={(title) => renameTab(activeTabId, title)}
         defaultTagPopoverOpen={
           (location.state as LocationState | null)?.openTagPopover ?? false
