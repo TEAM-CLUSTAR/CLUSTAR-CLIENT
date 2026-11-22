@@ -25,6 +25,7 @@ const TrashPage = () => {
     useGetTrashMemos();
   const memos = data?.memos ?? [];
   const totalCount = data?.totalCount;
+  const hasMemos = !!totalCount;
 
   const { mutate: emptyTrash } = useMutation({
     ...useEmptyTrash(),
@@ -44,22 +45,25 @@ const TrashPage = () => {
       header={
         <>
           <Header title="휴지통" count={totalCount ?? 0}>
-            <Button
-              size="sm"
-              variant="ghost"
-              icon={<Icon name="ic_trash" size={16} color="primary" />}
-              disabled={!totalCount}
-              onClick={() => setIsEmptyModalOpen(true)}
-            >
-              휴지통 비우기
-            </Button>
+            {hasMemos && (
+              <Button
+                size="sm"
+                variant="ghost"
+                icon={<Icon name="ic_trash" size={16} color="primary" />}
+                onClick={() => setIsEmptyModalOpen(true)}
+              >
+                휴지통 비우기
+              </Button>
+            )}
           </Header>
-          <div className={styles.notice}>
-            <Icon name="ic_info" size={16} color="brand" />
-            <p className={styles.noticeText}>
-              휴지통의 메모는 30일이 지나면 영구 삭제돼요.
-            </p>
-          </div>
+          {hasMemos && (
+            <div className={styles.notice}>
+              <Icon name="ic_info" size={16} color="brand" />
+              <p className={styles.noticeText}>
+                휴지통의 메모는 30일이 지나면 영구 삭제돼요.
+              </p>
+            </div>
+          )}
           <ConfirmModal
             open={isEmptyModalOpen}
             onOpenChange={setIsEmptyModalOpen}
