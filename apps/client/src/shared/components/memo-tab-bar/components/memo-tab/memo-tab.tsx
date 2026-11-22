@@ -21,10 +21,10 @@ const MemoTab = ({
   const [isHovered, setIsHovered] = useState(false);
   const isHoverActive = isHovered && !isSelected;
   const iconColor = isHoverActive
-    ? 'grey600'
+    ? 'secondary'
     : isSelected
-      ? 'blue500'
-      : 'grey500';
+      ? 'brand'
+      : 'disabled';
 
   return (
     <div

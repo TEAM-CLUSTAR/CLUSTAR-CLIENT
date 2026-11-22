@@ -41,7 +41,7 @@ const UserMessage = ({ content }: UserMessageProps) => {
           {isExpanded ? '간략히 보기' : '전체보기'}
           <Icon
             name={isExpanded ? 'ic_chevron_up' : 'ic_chevron_down'}
-            color="grey500"
+            color="disabled"
             size={20}
           />
         </button>

@@ -220,11 +220,11 @@ const MemoDetail = ({
           <Divider />
 
           <div className={styles.count}>
-            <Icon name="ic_file" size={28} color="grey700" />
+            <Icon name="ic_file" size={28} color="primary" />
             <span>{files.length}</span>
           </div>
           <div className={styles.count}>
-            <Icon name="ic_img" size={28} color="grey700" />
+            <Icon name="ic_img" size={28} color="primary" />
             <span>{images.length}</span>
           </div>
 
@@ -236,7 +236,7 @@ const MemoDetail = ({
               type="button"
               onClick={() => fileInputRef.current?.click()}
             >
-              <Icon name="ic_plus" size={24} color="grey700" />
+              <Icon name="ic_plus" size={24} color="primary" />
             </button>
           </HoverTooltip>
           <input
@@ -255,7 +255,7 @@ const MemoDetail = ({
               type="button"
               onClick={() => setIsDeleteModalOpen(true)}
             >
-              <Icon name="ic_trash" size={24} color="grey700" />
+              <Icon name="ic_trash" size={24} color="primary" />
             </button>
           </HoverTooltip>
         </div>

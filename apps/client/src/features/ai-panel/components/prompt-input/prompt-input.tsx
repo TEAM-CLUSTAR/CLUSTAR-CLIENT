@@ -92,7 +92,7 @@ const PromptInput = ({
           disabled={!canSend}
           aria-label="전송"
         >
-          <Icon name="ic_send" size={32} color="white" />
+          <Icon name="ic_send" size={32} color="inverse" />
         </Button>
       </div>
     </div>

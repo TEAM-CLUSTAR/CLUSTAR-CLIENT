@@ -20,7 +20,7 @@ const DeleteMemoModal = ({
         <div className={styles.container}>
           <Modal.Close>
             <button className={styles.closeButton}>
-              <Icon name="ic_delete" size={24} color="grey400" />
+              <Icon name="ic_delete" size={24} color="disabled" />
             </button>
           </Modal.Close>
 
