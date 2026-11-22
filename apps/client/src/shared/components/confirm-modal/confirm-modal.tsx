@@ -1,51 +1,72 @@
+import type { ReactNode } from 'react';
+
+import { Icon } from '@cds/icon';
 import { Button, Modal } from '@cds/ui';
 
 import * as styles from './confirm-modal.css';
 
-// TODO: 이 모달과 관련된 작업 진행 시 이 컴포넌트를 삭제
-
 interface ConfirmModalProps {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  hasClose?: boolean;
+  type?: 'default' | 'danger';
+  hasSecondary?: boolean;
+  confirmLabel?: string;
+  confirmIcon?: ReactNode;
   onConfirm?: () => void;
-  hasCancel: boolean;
 }
 
 const ConfirmModal = ({
   open,
   onOpenChange,
+  title,
+  description,
+  hasClose = false,
+  type = 'default',
+  hasSecondary = false,
+  confirmLabel = '확인',
+  confirmIcon,
   onConfirm,
-  hasCancel,
 }: ConfirmModalProps) => {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <Modal.Content>
-        <div className={styles.modalContainer}>
+        <div className={styles.container}>
           <div className={styles.textContainer}>
-            <span className={styles.modalTitle}>
-              {hasCancel ? '메모 입력을 취소하시겠습니까?' : '메모 저장 완료'}
-            </span>
-            <span className={styles.modalContent}>
-              {hasCancel
-                ? '입력한 내용이 삭제됩니다.'
-                : '성공적으로 저장되었습니다.'}
-            </span>
+            <div className={styles.titleRow}>
+              <p className={styles.title}>{title}</p>
+              {hasClose && (
+                <Modal.Close>
+                  <button
+                    type="button"
+                    className={styles.closeButton}
+                    aria-label="닫기"
+                  >
+                    <Icon name="ic_delete" size={16} color="secondary" />
+                  </button>
+                </Modal.Close>
+              )}
+            </div>
+            <p className={styles.description}>{description}</p>
           </div>
           <div className={styles.buttonContainer}>
-            {hasCancel && (
+            {hasSecondary && (
               <Modal.Close>
-                <Button
-                  size="md"
-                  variant="secondary"
-                  onClick={() => onOpenChange?.(false)}
-                >
+                <Button size="md" variant="secondary">
                   취소
                 </Button>
               </Modal.Close>
             )}
             <Modal.Close>
-              <Button size="md" variant="primary" onClick={onConfirm}>
-                확인
+              <Button
+                size="md"
+                variant={type === 'danger' ? 'danger' : 'primary'}
+                icon={confirmIcon}
+                onClick={onConfirm}
+              >
+                {confirmLabel}
               </Button>
             </Modal.Close>
           </div>

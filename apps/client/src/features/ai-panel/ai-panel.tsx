@@ -176,7 +176,8 @@ const AiPanel = ({ suggestedMemoSection }: AiPanelProps) => {
       <ConfirmModal
         open={isSaveConfirmModalOpen}
         onOpenChange={setIsSaveConfirmModalOpen}
-        hasCancel={false}
+        title="메모 저장 완료"
+        description="성공적으로 저장되었습니다."
       />
 
       <NewChatConfirmModal
