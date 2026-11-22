@@ -1,4 +1,5 @@
 export { default as Button } from './button/button';
+export { default as Checkbox } from './checkbox/checkbox';
 export { default as File } from './file/file';
 export { default as FloatingButton } from './floating-button/floating-button';
 export { default as ImageContainer } from './image-container/image-container';
