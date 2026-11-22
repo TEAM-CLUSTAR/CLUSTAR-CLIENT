@@ -1,5 +1,6 @@
+import { Button } from '@cds/ui';
+
 import { LOGIN_END_POINT } from '@pages/login/apis/end-point';
-import LoginButton from '@pages/login/components/login-button/login-button';
 
 import { appConfig } from '@shared/configs/app-config';
 
@@ -55,7 +56,21 @@ const LoginPage = () => {
                 흩어진 메모를 모아 빛나는 결과물로
               </p>
             </div>
-            <LoginButton onClick={handleGoogleLogin} />
+            <Button
+              onClick={handleGoogleLogin}
+              variant="secondary"
+              size="md"
+              fullWidth
+              icon={
+                <img
+                  src="/google_logo.png"
+                  alt="Google Logo"
+                  className={styles.googleLogo}
+                />
+              }
+            >
+              Google로 계속하기
+            </Button>
             <p className={styles.infoText}>
               계속 진행하면 <span className={styles.infoLink}>이용약관</span> 및{' '}
               <span className={styles.infoLink}>개인정보처리방침</span>을

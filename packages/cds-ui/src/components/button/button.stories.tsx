@@ -23,6 +23,10 @@ const meta: Meta<typeof Button> = {
       control: 'select',
       options: ['primary', 'secondary', 'ghost', 'danger'],
     },
+    fullWidth: {
+      description: '부모 너비를 꽉 채움 (Figma Fill container)',
+      control: 'boolean',
+    },
     disabled: { description: '비활성화 상태', control: 'boolean' },
     onClick: { action: 'clicked' },
   },
@@ -46,6 +50,22 @@ export const WithIcon: Story = {
     variant: 'primary',
     icon: <Icon name="ic_plus" size={20} color="inverse" />,
   },
+};
+
+export const FullWidth: Story = {
+  args: {
+    children: '버튼',
+    size: 'md',
+    variant: 'secondary',
+    fullWidth: true,
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '32rem' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const VARIANTS = ['primary', 'secondary', 'ghost', 'danger'] as const;

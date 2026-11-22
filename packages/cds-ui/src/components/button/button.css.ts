@@ -78,5 +78,10 @@ export const button = recipe({
         },
       },
     },
+
+    // Figma 오토 레이아웃의 Fill container
+    fullWidth: {
+      true: { width: '100%' },
+    },
   },
 });

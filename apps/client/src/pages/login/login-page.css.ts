@@ -170,3 +170,9 @@ export const infoLink = style({
   textDecorationSkipInk: 'none',
   textUnderlinePosition: 'from-font',
 });
+
+export const googleLogo = style({
+  display: 'block',
+  width: '2rem',
+  height: '2rem',
+});
