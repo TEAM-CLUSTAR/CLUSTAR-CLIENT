@@ -5,7 +5,6 @@ import {
 } from '@features/ai-panel/types/ai-panel.types';
 
 import { Icon } from '@cds/icon';
-import { Button } from '@cds/ui';
 
 import PromptOption from './prompt-option/prompt-option';
 import SelectedMemo from './selected-memo/selected-memo';
@@ -86,14 +85,15 @@ const PromptInput = ({
           onOptionSelect={onOptionSelect}
           disabled={disabled}
         />
-        <Button
+        <button
+          type="button"
+          className={styles.sendButton}
           onClick={handleSend}
-          size="sm"
           disabled={!canSend}
           aria-label="전송"
         >
           <Icon name="ic_send" size={32} color="inverse" />
-        </Button>
+        </button>
       </div>
     </div>
   );

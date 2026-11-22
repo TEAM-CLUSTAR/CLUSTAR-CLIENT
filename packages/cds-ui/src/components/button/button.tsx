@@ -1,34 +1,30 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 import * as styles from './button.css';
 
-export type ButtonSizeType = 'sm' | 'md' | 'lg' | 'xl';
-export type ButtonVariantType = 'solid' | 'outlined';
-export type ButtonTextSizeType = 'sm' | 'lg';
-export interface ButtonProps {
-  children?: ReactNode;
-  onClick?: () => void;
-  size: ButtonSizeType;
+export type ButtonSizeType = 'sm' | 'md';
+export type ButtonVariantType = 'primary' | 'secondary' | 'ghost' | 'danger';
+
+export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+  size?: ButtonSizeType;
   variant?: ButtonVariantType;
-  disabled?: boolean;
-  textSize?: ButtonTextSizeType;
+  icon?: ReactNode;
 }
 
 const Button = ({
+  size = 'sm',
+  variant = 'primary',
+  icon,
   children,
-  onClick,
-  size,
-  variant = 'solid',
-  disabled = false,
-  textSize,
+  ...props
 }: ButtonProps) => {
   return (
     <button
       type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={styles.button({ size, variant, disabled, textSize })}
+      className={styles.button({ size, variant })}
+      {...props}
     >
+      {icon}
       {children}
     </button>
   );
