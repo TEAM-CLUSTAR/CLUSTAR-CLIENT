@@ -25,7 +25,7 @@ const FilterChipList = ({ chips, onRemoveFilter }: FilterChipListProps) => {
             onClick={() => onRemoveFilter(id)}
             aria-label={`${tagName} 필터 삭제`}
           >
-            <Icon name="ic_delete" size={24} color="disabled" />
+            <Icon name="ic_delete" size={24} color="secondary" />
           </button>
         </div>
       ))}

@@ -61,7 +61,7 @@ const TagCheckTreeItem = ({
           <Icon
             name={isChecked ? 'ic_checkbox_on' : 'ic_checkbox_off'}
             size={24}
-            color="disabled"
+            color="secondary"
             className={styles.checkboxBox}
           />
           <span className={styles.tagName}>{tag.name}</span>

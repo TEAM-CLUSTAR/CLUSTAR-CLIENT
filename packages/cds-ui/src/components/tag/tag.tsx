@@ -71,7 +71,7 @@ const Tag = ({ size, text, ...rest }: TagProps) => {
           }}
           aria-label="태그 삭제"
         >
-          <Icon name="ic_delete" size={20} color="disabled" />
+          <Icon name="ic_delete" size={20} color="secondary" />
         </button>
       )}
     </div>

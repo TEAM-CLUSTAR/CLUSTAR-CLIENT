@@ -63,7 +63,7 @@ const MemoCard = ({
                 onSelectTag?.(memoId);
               }}
             >
-              <Icon name="ic_plus" size={16} color="disabled" />
+              <Icon name="ic_plus" size={16} color="secondary" />
               <span className={styles.tagSelectButtonText}>태그 선택</span>
             </button>
           ) : (
@@ -85,11 +85,11 @@ const MemoCard = ({
       <div className={styles.subInfoContainer}>
         <div className={styles.countContainer}>
           <div className={styles.count}>
-            <Icon name="ic_file" size={28} color="disabled" />
+            <Icon name="ic_file" size={28} color="secondary" />
             <span>{fileCount}</span>
           </div>
           <div className={styles.count}>
-            <Icon name="ic_img" size={28} color="disabled" />
+            <Icon name="ic_img" size={28} color="secondary" />
             <span>{imageCount}</span>
           </div>
         </div>

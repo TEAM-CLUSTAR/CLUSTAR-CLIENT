@@ -51,7 +51,7 @@ const AiPanelChat = ({
 
       {isAnswerLoading && (
         <div className={styles.loadingMessage}>
-          <Icon name="ic_ai" size={24} color="disabled" />
+          <Icon name="ic_ai" size={24} color="secondary" />
           <span>
             {answerGeneratingMemoCount}개의 메모를 바탕으로 결과물을
             생성중이에요...
