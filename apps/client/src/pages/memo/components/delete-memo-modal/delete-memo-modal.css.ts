@@ -42,7 +42,7 @@ export const description = style({
 
 export const buttonContainer = style({
   display: 'flex',
-  justifyContent: 'center',
-  gap: '1.2rem',
+  justifyContent: 'flex-end',
+  gap: '0.8rem',
   width: '100%',
 });

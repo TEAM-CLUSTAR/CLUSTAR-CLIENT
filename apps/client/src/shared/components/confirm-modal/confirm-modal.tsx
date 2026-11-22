@@ -35,16 +35,16 @@ const ConfirmModal = ({
             {hasCancel && (
               <Modal.Close>
                 <Button
-                  size="lg"
+                  size="md"
+                  variant="secondary"
                   onClick={() => onOpenChange?.(false)}
-                  variant="outlined"
                 >
                   취소
                 </Button>
               </Modal.Close>
             )}
             <Modal.Close>
-              <Button size="lg" onClick={onConfirm}>
+              <Button size="md" variant="primary" onClick={onConfirm}>
                 확인
               </Button>
             </Modal.Close>
