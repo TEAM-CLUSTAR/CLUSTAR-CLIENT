@@ -116,5 +116,9 @@ export const color = {
     default_bg: primitiveColor.brand_neutral_10,
     default_text: primitiveColor.brand_neutral_70,
     default_dot: primitiveColor.brand_neutral_50,
+
+    // tag/system-subtle
+    system_subtle_border: primitiveColor.brand_neutral_20,
+    system_subtle_text: primitiveColor.brand_neutral_60,
   },
 } as const;

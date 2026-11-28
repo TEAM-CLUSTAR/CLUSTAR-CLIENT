@@ -1,6 +1,30 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
+import { TagColorType } from '../../constants/tag-color-match';
 import Tag from './tag';
+
+const COLORS: TagColorType[] = [
+  'grey',
+  'rose',
+  'orange',
+  'amber',
+  'lime',
+  'green',
+  'teal',
+  'cyan',
+  'sky',
+  'violet',
+  'magenta',
+  'none',
+];
+
+const VARIANTS = [
+  { size: 'sm', removable: false },
+  { size: 'sm', removable: true },
+  { size: 'md', removable: false },
+  { size: 'md', removable: true },
+] as const;
 
 const meta = {
   title: 'Components/Tag',
@@ -9,111 +33,83 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    text: '태그',
+    color: 'violet',
+    size: 'sm',
+  },
   argTypes: {
-    size: {
-      description: '태그 사이즈',
-      control: 'select',
-      options: ['sm', 'lg'],
-    },
-    variant: {
-      description:
-        '태그 스타일 (fill: 팔레트 색 채움, outlined: AI 배지 - 파란 테두리, sm/lg 둘 다 가능하나 삭제 불가)',
-      control: 'select',
-      options: ['fill', 'outlined'],
-    },
+    text: { description: '태그 이름', control: 'text' },
     color: {
       description:
-        '태그 색상 (팔레트 색상명). fill 변형에서만 사용, 팔레트에 없는 값은 기본 스타일로 표시됨',
+        '태그 색상. grey(AI 결과물 형식)·none(미분류)은 시스템 표시 전용',
       control: 'select',
-      options: [
-        undefined,
-        'pink',
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'cyan',
-        'light-blue',
-        'blue',
-        'purple',
-        'magenta',
-      ],
+      options: COLORS,
     },
-    text: { description: '태그 텍스트', control: 'text' },
-    action: {
-      description: '삭제 아이콘 노출 여부',
-      control: 'select',
-      options: ['none', 'remove'],
+    size: {
+      description: '태그 사이즈 (sm: 최대 너비 120, md: 최대 너비 160)',
+      control: 'radio',
+      options: ['sm', 'md'],
     },
-    onRemove: { action: 'removed' },
+    onRemove: {
+      description:
+        '넘기면 삭제 버튼과 hover 상태가 생김. 태그 편집 화면에서만 사용',
+    },
   },
 } satisfies Meta<typeof Tag>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Large: Story = {
-  args: {
-    size: 'lg',
-    color: 'blue',
-    text: '클러스타',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'sm',
-    color: 'green',
-    text: '클러스타',
-  },
-};
+export const Default: Story = {};
 
 export const Removable: Story = {
   args: {
-    size: 'lg',
-    color: 'purple',
-    text: '클러스타',
-    action: 'remove',
-    onRemove: () => {},
+    size: 'md',
+    onRemove: fn(),
   },
 };
 
-export const Outlined: Story = {
+export const LongText: Story = {
   args: {
-    size: 'lg',
-    variant: 'outlined',
-    text: 'AI 결과물',
+    text: '프로덕트 디자인 리서치 인사이트',
+    color: 'grey',
+    onRemove: fn(),
   },
 };
 
-export const OutlinedSmall: Story = {
-  args: {
-    size: 'sm',
-    variant: 'outlined',
-    text: 'AI 결과물',
-  },
-};
-
-export const AllColors = {
+export const SystemColors: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.8rem' }}>
-      {(
-        [
-          'pink',
-          'red',
-          'orange',
-          'yellow',
-          'green',
-          'cyan',
-          'light-blue',
-          'blue',
-          'purple',
-          'magenta',
-        ] as const
-      ).map((color) => (
-        <Tag key={color} size="lg" color={color} text={color} />
-      ))}
-      <Tag variant="outlined" size="lg" text="AI 결과물" />
+    <div style={{ display: 'flex', gap: '0.8rem' }}>
+      <Tag color="grey" text="요약본" />
+      <Tag color="grey" text="정리본" />
+      <Tag color="grey" text="구조화" />
+      <Tag color="none" text="미분류" />
+    </div>
+  ),
+};
+
+export const AllColors: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${VARIANTS.length}, auto)`,
+        gap: '1.2rem 2.4rem',
+        alignItems: 'center',
+      }}
+    >
+      {COLORS.flatMap((color) =>
+        VARIANTS.map(({ size, removable }) => (
+          <Tag
+            key={`${color}-${size}-${removable}`}
+            text={color}
+            color={color}
+            size={size}
+            onRemove={removable ? fn() : undefined}
+          />
+        )),
+      )}
     </div>
   ),
 };

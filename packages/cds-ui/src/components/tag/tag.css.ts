@@ -1,68 +1,49 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { themeVars } from '../../styles';
+import { color, radius, spacing, typography } from '@cds/token/v2';
 
 export const container = recipe({
   base: {
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
-    gap: '0.4rem',
-    borderRadius: '4px',
-    width: 'fit-content',
     flexShrink: 0,
+    gap: spacing[2],
+    padding: `0 ${spacing[4]}`,
+    borderRadius: radius.sm,
+    outline: '1px solid transparent',
+    outlineOffset: '-1px',
     userSelect: 'none',
   },
   variants: {
-    removable: {
-      false: {
-        padding: '0 0.8rem',
-      },
-      true: {
-        border: `1px solid ${themeVars.color.grey300}`,
-        padding: '0 0.4rem 0 0.8rem',
-      },
-    },
-    outlined: {
-      true: {
-        border: '1px solid transparent',
-        background: `
-          linear-gradient(${themeVars.color.blue50}, ${themeVars.color.blue50}) padding-box,
-          ${themeVars.color.gradient02} border-box
-        `,
-        color: themeVars.color.blue500,
-      },
-    },
     size: {
-      lg: {
-        ...themeVars.fontStyles.body_m_14,
-        height: '2.4rem',
-      },
-      sm: {
-        ...themeVars.fontStyles.label_m_12,
-        height: '1.8rem',
+      sm: { height: '2rem', maxWidth: '12rem', ...typography.label_sm },
+      md: { height: '2.4rem', maxWidth: '16rem', ...typography.label_md },
+    },
+    removable: {
+      true: {
+        paddingLeft: '0.7rem',
+        selectors: {
+          '&:hover': {
+            backgroundImage: `linear-gradient(${color.bg.hover}, ${color.bg.hover})`,
+          },
+        },
       },
     },
   },
 });
 
-export const indicator = recipe({
+export const text = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const removeIcon = recipe({
   variants: {
-    outlined: {
-      true: {
-        backgroundColor: themeVars.color.blue500,
-      },
-    },
     size: {
-      lg: {
-        width: '0.8rem',
-        height: '0.8rem',
-        borderRadius: '2px',
-      },
-      sm: {
-        width: '0.6rem',
-        height: '0.6rem',
-        borderRadius: '1px',
-      },
+      sm: { width: '1.2rem', height: '1.2rem' },
+      md: { width: '1.4rem', height: '1.4rem' },
     },
   },
 });
