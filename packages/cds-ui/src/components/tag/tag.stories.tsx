@@ -97,6 +97,7 @@ export const AllColors: Story = {
         gridTemplateColumns: `repeat(${VARIANTS.length}, auto)`,
         gap: '1.2rem 2.4rem',
         alignItems: 'center',
+        justifyItems: 'start',
       }}
     >
       {COLORS.flatMap((color) =>
