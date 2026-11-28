@@ -13,7 +13,7 @@ interface GroupedTag {
   memos: StructureMemoTypes[];
 }
 
-const NO_TAG = '태그없음';
+const NO_TAG = '미분류';
 const DISCOUNT = {
   IS_NO_TAG: 2,
   IS_TAG: 1,

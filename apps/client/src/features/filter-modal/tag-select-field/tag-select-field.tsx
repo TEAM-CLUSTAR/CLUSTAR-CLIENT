@@ -19,10 +19,9 @@ const TagSelectField = ({ selectedTags, onRemoveTag }: TagSelectFieldProps) => {
           {selectedTags.map(({ tagId, name, color }) => (
             <Tag
               key={tagId}
-              size="lg"
+              size="md"
               color={color}
               text={name}
-              action="remove"
               onRemove={() => onRemoveTag(tagId)}
             />
           ))}
