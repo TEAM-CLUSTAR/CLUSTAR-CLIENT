@@ -51,9 +51,7 @@ const MemoCard = ({
     >
       <div className={styles.mainInfoContainer}>
         <div className={styles.tagContainer}>
-          {isAiGenerated && (
-            <Tag size="lg" variant="outlined" text="AI 결과물" />
-          )}
+          {isAiGenerated && <Tag size="md" color="grey" text="AI 결과물" />}
           {tagList.length === 0 ? (
             <button
               type="button"
@@ -70,7 +68,7 @@ const MemoCard = ({
             tagList.map((tag) => (
               <Tag
                 key={tag.tagId}
-                size="lg"
+                size="md"
                 color={tag.color ?? ''}
                 text={tag.name ?? ''}
               />

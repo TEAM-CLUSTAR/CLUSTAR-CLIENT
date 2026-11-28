@@ -1,67 +1,25 @@
 import { Icon } from '@cds/icon';
 
-import { TAG_COLOR_MATCH, TagColorType } from '../../constants/tag-color-match';
+import { getTagColor } from '../../constants/tag-color-match';
 
 import * as styles from './tag.css';
 
-type TagBaseProps = {
+export interface TagProps {
   text: string;
-};
+  color?: string;
+  size?: 'sm' | 'md';
+  onRemove?: () => void;
+}
 
-type NoneActionProps = {
-  action?: 'none';
-  onRemove?: never;
-};
-
-type RemoveActionProps = {
-  action: 'remove';
-  onRemove: () => void;
-};
-
-type SmallFillTagProps = NoneActionProps & {
-  size: 'sm';
-  variant?: 'fill';
-  color: string;
-};
-
-type LargeFillTagProps = {
-  size: 'lg';
-  variant?: 'fill';
-  color: string;
-} & (NoneActionProps | RemoveActionProps);
-
-type OutlinedTagProps = NoneActionProps & {
-  size: 'sm' | 'lg';
-  variant: 'outlined';
-  color?: never;
-};
-
-type TagProps = TagBaseProps &
-  (SmallFillTagProps | LargeFillTagProps | OutlinedTagProps);
-
-const Tag = ({ size, text, ...rest }: TagProps) => {
-  const isOutlined = rest.variant === 'outlined';
-  const colorStyle =
-    !isOutlined && rest.color
-      ? TAG_COLOR_MATCH[rest.color as TagColorType]
-      : undefined;
-  const onRemove = rest.action === 'remove' ? rest.onRemove : undefined;
-  const removable = !!onRemove;
+const Tag = ({ text, color = 'grey', size = 'sm', onRemove }: TagProps) => {
+  const { backgroundColor, textColor, borderColor } = getTagColor(color);
 
   return (
     <div
-      className={styles.container({ size, removable, outlined: isOutlined })}
-      style={{
-        backgroundColor: colorStyle?.backgroundColor,
-        color: colorStyle?.textColor,
-      }}
+      className={styles.container({ size, removable: !!onRemove })}
+      style={{ backgroundColor, color: textColor, outlineColor: borderColor }}
     >
-      <div
-        className={styles.indicator({ size, outlined: isOutlined })}
-        style={{ backgroundColor: colorStyle?.textColor }}
-        aria-hidden="true"
-      />
-      <p>{text}</p>
+      <p className={styles.text}>{text}</p>
       {onRemove && (
         <button
           type="button"
@@ -71,7 +29,11 @@ const Tag = ({ size, text, ...rest }: TagProps) => {
           }}
           aria-label="태그 삭제"
         >
-          <Icon name="ic_delete" size={20} color="secondary" />
+          <Icon
+            name="ic_remove"
+            className={styles.removeIcon({ size })}
+            style={{ color: 'inherit' }}
+          />
         </button>
       )}
     </div>

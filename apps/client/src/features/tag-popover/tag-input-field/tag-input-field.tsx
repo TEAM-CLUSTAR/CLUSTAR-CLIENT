@@ -70,14 +70,13 @@ const TagInputField = ({
           isOpen ? (
             <Tag
               key={tagId}
-              size="lg"
+              size="md"
               color={color}
               text={name}
-              action="remove"
               onRemove={() => onRemoveTag(tagId)}
             />
           ) : (
-            <Tag key={tagId} size="lg" color={color} text={name} />
+            <Tag key={tagId} size="md" color={color} text={name} />
           ),
         )}
         <input

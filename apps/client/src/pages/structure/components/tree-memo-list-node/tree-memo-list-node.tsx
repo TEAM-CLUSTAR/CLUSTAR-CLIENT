@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { Node, NodeProps } from '@xyflow/react';
 import { Handle, Position } from '@xyflow/react';
 
-import { NO_TAG_COLOR, TAG_COLOR_MATCH, type TagColorType } from '@cds/ui';
+import { getTagColor } from '@cds/ui';
 
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
@@ -24,8 +24,7 @@ const TreeMemoListNode = ({
   isConnectable,
 }: NodeProps<TreeMemoListNodeDataTypes>) => {
   const { tagName, tagColor, memos } = data;
-  const { backgroundColor, textColor } =
-    TAG_COLOR_MATCH[tagColor as TagColorType] ?? NO_TAG_COLOR;
+  const { backgroundColor, textColor } = getTagColor(tagColor);
 
   return (
     <div>

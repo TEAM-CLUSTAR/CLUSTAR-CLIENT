@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { NO_TAG_COLOR, TAG_COLOR_MATCH, type TagColorType } from '@cds/ui';
+import { getTagColor } from '@cds/ui';
 
 import { StructureMemoTypes } from '@shared/types/memo-info-type';
 
@@ -33,8 +33,7 @@ const TreeMemo = ({ memo }: TreeMemoProps) => {
     memoId,
     enabled: isModalOpen,
   });
-  const { textColor } =
-    TAG_COLOR_MATCH[tagList[0]?.color as TagColorType] ?? NO_TAG_COLOR;
+  const { textColor } = getTagColor(tagList[0]?.color);
 
   const handleModalOpenChange = (open: boolean) => {
     setIsModalOpen(open);
